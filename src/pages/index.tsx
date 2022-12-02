@@ -1,12 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
-import { Container, Header, Main, Footer, Cards } from "@components";
-import { ThemeContext } from "styled-components";
+import { Container, Header, Main, Footer, Cards } from "@components"; 
+import { useTheme } from "next-themes";
 
-
-const Home: React.FC = () => {
-  const theme = useContext(ThemeContext);
-  console.log(theme.colors.background);
+const Home: React.FC = () => { 
+  const {setTheme, systemTheme, theme} = useTheme();
+  useEffect(()=>{
+    // setTheme('light');
+  },[]);
+  
   return (
     <Container>
       <Header />

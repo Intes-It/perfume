@@ -41,7 +41,7 @@ export const Main: React.FC = () => {
           marginTop: 25,
         }}
       >
-        <h1 className="text-4xl mb-2">Building a side project?</h1>
+        <h1 className="text-4xl mb-2 dark:text-gray-300">Building a side project?</h1>
         <p>
           Meet the headless, React-based solution to build sleek <b>CRUD</b>{" "}
           applications. With{" "}

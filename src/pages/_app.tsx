@@ -1,31 +1,29 @@
 import React, { useEffect } from "react";
 import { AppProps } from "next/app";
-import "tailwindcss/tailwind.css";
-import { StyledThemeProvider } from "@definitions/styled-components";
+import "tailwindcss/tailwind.css"; 
 import { QueryClient, QueryClientProvider, type DehydratedState } from "react-query";
 import { Hydrate } from "react-query/hydration";
 import { Provider } from "react-redux";
 import store from "@redux/store"; 
 import LoadingIndicator from "@components/loading-indicator";
+import Layout from "@components/layout"; 
+import { ThemeProvider } from "next-themes";
 
 function MyApp({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedState }>): JSX.Element {
-  const queryClient = new QueryClient();
-  useEffect(
-    ()=>{
-      console.log("fetching:%o",queryClient.isFetching())
-    },[queryClient.isFetching()]
-  )
+  const queryClient = new QueryClient(); 
   return (
-    <StyledThemeProvider>
+    <ThemeProvider attribute="class">
       <QueryClientProvider client={queryClient}>
         <LoadingIndicator/>
         <Hydrate state={pageProps.dehydratedState}> 
           <Provider store={store}>
-            <Component {...pageProps} />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
           </Provider>
         </Hydrate>
       </QueryClientProvider>
-    </StyledThemeProvider>
+    </ThemeProvider>
   );
 }
 

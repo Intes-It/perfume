@@ -4,9 +4,18 @@
   "plugins": ["@typescript-eslint"],
   "overrides": [
     {
-      "files": ["*.js"],
+      "files": ["**/*.ts?(x)"],
       "rules": {
-        "@typescript-eslint/no-var-requires": "off"
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/ban-types": [
+          "error",
+          {
+            "extendDefaults": true,
+            "types": {
+              "{}": false
+            }
+          }
+        ]
       }
     }
   ],
