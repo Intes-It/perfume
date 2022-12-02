@@ -19,7 +19,7 @@ export const useTheme = () => {
   return { theme: theme === "light" ? light : dark, toggle, themeName: theme };
 };
 
-export const StyledThemeProvider: React.FC = ({ children }) => {
+export const StyledThemeProvider = ({ children }:{children:React.ReactNode}) => {
   const [theme, setTheme] = React.useState("light");
 
   const toggle = () => {
@@ -34,7 +34,7 @@ export const StyledThemeProvider: React.FC = ({ children }) => {
   );
 
   return (
-    <ThemeContext.Provider value={values}>
+    <ThemeContext.Provider value={values as any}>
       <ThemeProvider theme={theme === "light" ? light : dark}>
         {children}
       </ThemeProvider>
