@@ -1,9 +1,10 @@
 import * as React from "react";
 import { ReactNode } from "react";
 
-import NavBar from "./navbar";
+import Navbar from "./navbar";
 import Header from "./header";
 import Footer from "./footer";
+import Title from "./title";
 
 interface Props {
   children?: ReactNode;
@@ -12,12 +13,13 @@ interface Props {
 
 const Layout = ({ children }: Props) => {
   return (
-    <>
+    <div>
       <Header />
-      <NavBar />
+      <Navbar />
+      <Title />
       {children}
       <Footer />
-    </>
+    </div>
   );
 };
 

@@ -1,9 +1,9 @@
 import * as React from "react";
 
-const LogoSection = ({ ...rest }) => {
+const LogoSection = ({...props}) => {
   return (
-    <div {...rest}>
-      <img className="mx-auto h-28" src="/images/logo.png" alt="logo" />
+    <div>
+      <img {...props} src="/images/logo.png" alt="logo" />
     </div>
   );
 };

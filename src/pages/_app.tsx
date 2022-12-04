@@ -8,17 +8,19 @@ import store from "@redux/store";
 import LoadingIndicator from "@components/loading-indicator";
 import Layout from "@components/layout"; 
 import { ThemeProvider } from "next-themes";
+import GlobalStyle from "@styles/globalStyles";
 
 function MyApp({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedState }>): JSX.Element {
   const queryClient = new QueryClient(); 
   return (
     <ThemeProvider attribute="class">
       <QueryClientProvider client={queryClient}>
+        <GlobalStyle/>
         <LoadingIndicator/>
         <Hydrate state={pageProps.dehydratedState}> 
           <Provider store={store}>
             <Layout>
-              <Component {...pageProps} />
+              <Component {...pageProps}/>
             </Layout>
           </Provider>
         </Hydrate>
