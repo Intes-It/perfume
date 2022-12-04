@@ -1,7 +1,7 @@
 import { Container } from "@components/container";
 import * as React from "react";
 
-const Contact = () => {
+const Blog = () => {
   return (
     <Container>
       <div>
@@ -23,4 +23,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default Blog;

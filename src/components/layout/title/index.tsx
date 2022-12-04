@@ -15,7 +15,7 @@ const Title = () => {
   return (
     <div>
       {title && (
-        <div className="h-28 grid content-center text-center bg-yellow-100">
+        <div className="h-28 grid content-center text-center bg-[#eff7cf]">
           <h1 className="text-4xl mb-2">{title}</h1>
         </div>
       )}
