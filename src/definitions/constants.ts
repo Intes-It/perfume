@@ -15,6 +15,14 @@ export const Routes = {
     title: "Journal",
     route: "/blog",
   },
+  favorite:{
+    title: "Produits Favoris",
+    route: "/favorite",
+  },
+  myAccount: {
+    title: "Mon Compte",
+    route: "/my-account",
+  },
   productCategories: {
     cosmetics: {
       title: "Cosmétiques",
@@ -43,6 +51,8 @@ export const VisibleTitleRoutes = [
   Routes.about,
   Routes.blog,
   Routes.faq,
+  Routes.favorite,
+  Routes.myAccount,
   Routes.productCategories.cosmetics,
   Routes.productCategories.accessories,
   Routes.productCategories.limitedEdition,

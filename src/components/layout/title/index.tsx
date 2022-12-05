@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import * as React from "react";
 import { useMemo } from "react";
-import { VisibleTitleRoutes } from "src/constance";
+import { VisibleTitleRoutes } from "@definitions/constants";
 
 const Title = () => {
   const router = useRouter();

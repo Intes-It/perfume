@@ -4,7 +4,7 @@ import { Transition } from "@headlessui/react";
 import { Link } from "react-scroll";
 import Image from "next/image";
 import Logo from "../public/streamlineLogo.png";
-import { NavbarItems } from "src/constance";
+import { NavbarItems } from "@definitions/constants";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +18,7 @@ function Navbar() {
                 <nav className="flex  justify-center -mb-px text-xs text-gray-500 font-bold">
                   {NavbarItems?.map((item) => (
                     <NextLink href={item?.route} key={item?.title} passHref>
-                      <a className="p-5 py-3 text-lg font-light no-underline border-b-2 border-transparent hover:border-black ">
+                      <a className="p-5 py-3 text-base font-light no-underline border-b-2 border-transparent hover:border-black ">
                         {item?.title?.toUpperCase()}
                       </a>
                     </NextLink> 
