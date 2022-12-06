@@ -1,31 +1,51 @@
 import React, { useEffect } from "react";
 import { AppProps } from "next/app";
-import "tailwindcss/tailwind.css"; 
-import { QueryClient, QueryClientProvider, type DehydratedState } from "react-query";
+import {
+  QueryClient,
+  QueryClientProvider,
+  type DehydratedState,
+} from "react-query";
+import store from "@redux/store";
+import "tailwindcss/tailwind.css";
 import { Hydrate } from "react-query/hydration";
 import { Provider } from "react-redux";
-import store from "@redux/store"; 
 import LoadingIndicator from "@components/loading-indicator";
-import Layout from "@components/layout"; 
+import Layout from "@components/layout";
 import { ThemeProvider } from "next-themes";
 import GlobalStyle from "@styles/globalStyles";
+import Head from "next/head";
+import { config } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
 
-function MyApp({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedState }>): JSX.Element {
-  const queryClient = new QueryClient(); 
+config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
+
+function MyApp({
+  Component,
+  pageProps,
+}: AppProps<{ dehydratedState: DehydratedState }>): JSX.Element {
+  const queryClient = new QueryClient();
+  
   return (
-    <ThemeProvider attribute="class">
-      <QueryClientProvider client={queryClient}>
-        <GlobalStyle/>
-        <LoadingIndicator/>
-        <Hydrate state={pageProps.dehydratedState}> 
-          <Provider store={store}>
-            <Layout>
-              <Component {...pageProps}/>
-            </Layout>
-          </Provider>
-        </Hydrate>
-      </QueryClientProvider>
-    </ThemeProvider>
+    <div>
+      <Head>
+        <meta charSet="utf8" />
+        <link rel="icon" href="/images/logo.png" />
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </Head>
+      <ThemeProvider attribute="class">
+        <QueryClientProvider client={queryClient}>
+          <GlobalStyle />
+          <LoadingIndicator />
+          <Hydrate state={pageProps.dehydratedState}>
+            <Provider store={store}>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </Provider>
+          </Hydrate>
+        </QueryClientProvider>
+      </ThemeProvider>
+    </div>
   );
 }
 
