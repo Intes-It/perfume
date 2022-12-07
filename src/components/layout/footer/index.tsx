@@ -1,7 +1,7 @@
 import { GithubIcon, TwitterIcon, YoutubeIcon } from "@components/icons";
 import * as React from "react";
 import { FooterRoutes } from "@definitions/constants";
-import LogoSection from "../header/logo_section";
+import LogoSection from "../header/logo-section";
 
 const Footer = () => {
   return (

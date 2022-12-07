@@ -13,9 +13,9 @@ function Navbar() {
       <nav className=" w-full z-10">
         <div className="w-full">
           <div className="flex items-center p-1 w-full">
-            <div className="flex items-center  mx-20  justify-between w-full">
+            <div className="flex items-center  justify-between w-full">
               <div className="hidden md:block mx-auto">
-                <nav className="flex  justify-center -mb-px text-xs text-gray-500 font-bold">
+                <nav className="flex justify-center -mb-px text-xs text-gray-500 font-bold">
                   {NavbarItems?.map((item) => (
                     <NextLink href={item?.route} key={item?.title} passHref>
                       <a className="p-5 py-3 text-base font-light no-underline border-b-2 border-transparent hover:border-black ">
@@ -26,50 +26,7 @@ function Navbar() {
                 </nav>
               </div>
             </div>
-            <div className="mr-10 flex md:hidden ">
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                type="button"
-                className="bg-blue-600 inline-flex items-center justify-center p-2 rounded-md text-white  hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-blue-800 focus:ring-white"
-                aria-controls="mobile-menu"
-                aria-expanded="false"
-              >
-                <span className="sr-only">Open main menu</span>
-                {!isOpen ? (
-                  <svg
-                    className="block h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    className="block h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                )}
-              </button>
-            </div>
+            
           </div>
         </div>
 

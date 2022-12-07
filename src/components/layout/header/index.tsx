@@ -1,6 +1,6 @@
 import * as React from "react";
-import LeftSection from "./left_section";
-import LogoSection from "./logo_section";
+import LeftSection from "./left-section";
+import LogoSection from "./logo-section";
 import RightSection from "./right-section";
 
 const Header = () => {

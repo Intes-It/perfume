@@ -1,13 +1,14 @@
-import { CartIcon } from "@components/icons";
 import NextLink from "next/link";
 import * as React from "react";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CartPopover = () => {
   return (
     <div>
-      <NextLink href='#'>
+      <NextLink href="#">
         <a>
-          <CartIcon className="h-8 w-8" />
+          <FontAwesomeIcon icon={faCartShopping} fontSize={"1.5rem"} />
         </a>
       </NextLink>
     </div>
