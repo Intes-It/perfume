@@ -3,10 +3,20 @@ module.exports = {
   purge: ["./src/**/*.tsx"],
   darkMode: "class", // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        wiggle: {
+          '0%': { transform: 'translatex(-120%)'},
+        }
+       },
+       animation: {
+        wiggle: 'wiggle 2s',
+       }
+    },
   },
   variants: {
-    extend: {},
+    extend: {
+    },
   },
   plugins: [],
 };
