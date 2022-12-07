@@ -9,16 +9,16 @@ const LeftSection = () => {
       <div className="flex mr-auto ml-2">
         <div className="hidden md:block">
           <nav className="flex ml-6 space-x-4">
-            <a href="/dashboard" className="px-3 py-2 hover:underline">
+            <a href="/blog" className="px-3 py-2 text-gray-500 hover:underline">
               Journal
             </a>
-            <a href="/team" className="px-3 py-2 hover:underline">
+            <a href="/faqs" className="px-3 py-2 text-gray-500 hover:underline">
               FAQ
             </a>
           </nav>
         </div>
-        <MobileMenu className="mr-6"/>
-        <SearchPopover className="md:hidden" />  
+        <MobileMenu className="mr-6" />
+        <SearchPopover className="md:hidden" />
       </div>
     </div>
   );

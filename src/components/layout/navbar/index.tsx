@@ -9,7 +9,7 @@ import { NavbarItems } from "@definitions/constants";
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="bg-white sticky top-0">
+    <div className="bg-white sticky top-0 z-50">
       <nav className=" w-full z-10">
         <div className="w-full">
           <div className="flex items-center p-1 w-full">
