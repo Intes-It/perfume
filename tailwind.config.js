@@ -1,6 +1,12 @@
+/**
+ * @type {import('@types/tailwindcss/tailwind-config').TailwindConfig}
+ */
 module.exports = {
-  mode: 'jit',
-  purge: ["./src/**/*.tsx"],
+  mode: "jit",
+  content: [
+    "./src/**/*.tsx", 
+    "./public/**/*.html",
+    "./node_modules/tw-elements/dist/js/**/*.js"],
   darkMode: "class", // or 'media' or 'class'
   theme: {
     extend: {
@@ -20,8 +26,7 @@ module.exports = {
     },
   },
   variants: {
-    extend: {
-    },
+    extend: {},
   },
-  plugins: [],
+  plugins: [require('tw-elements/dist/plugin')],
 };

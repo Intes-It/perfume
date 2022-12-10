@@ -31,6 +31,7 @@ function MyApp({
         <meta charSet="utf8" />
         <link rel="icon" href="/images/logo.png" />
         <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
       </Head>
       <ThemeProvider attribute="class">
         <QueryClientProvider client={queryClient}>

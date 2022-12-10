@@ -9,12 +9,12 @@ import { NavbarItems } from "@definitions/constants";
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="bg-white sticky top-0 z-50">
+    <div className="bg-white hidden md:block  sticky top-0 z-50">
       <nav className=" w-full z-10">
         <div className="w-full">
           <div className="flex items-center p-1 w-full">
             <div className="flex items-center  justify-between w-full">
-              <div className="hidden md:block mx-auto">
+              <div className="mx-auto">
                 <nav className="flex justify-center -mb-px text-xs text-gray-500 font-bold">
                   {NavbarItems?.map((item) => (
                     <NextLink href={item?.route} key={item?.title} passHref>
