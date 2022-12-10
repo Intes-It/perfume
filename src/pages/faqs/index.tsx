@@ -68,24 +68,21 @@ const TextList = [
 const FAQ = () => {
   return (
     <Container>
-      <div className=" mt-16 container max-w-4xl px-6 py-10 mx-auto text-justify text-16px text-[#603813] leading-8">
+      <div  className=" mt-16 container max-w-4xl px-6 py-10 mx-auto text-justify text-[16px] mobile:text-[14px] text-[#603813] leading-8">
         {TextList?.map((text) => (
           <details
-            className="-mt-px border w-full hover:cursor-pointer "
+            className="-mt-px border w-full hover:cursor-pointer"
             key={text.question}
           >
-            <summary className="p-5 flex items-center  font-semibold  hover:text-soft-red ">
+            <summary className="p-5 mobile:p-2 flex items-center  font-semibold  hover:text-soft-red ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 mr-1"
-                fill="none"
+                className="open w-6 h-6 mr-1 "
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
                 <path 
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  stroke-width="2.5"
                   d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                 />
               </svg>
@@ -105,6 +102,7 @@ const FAQ = () => {
           </details>
         ))}
       </div>
+      
     </Container>
   );
 };

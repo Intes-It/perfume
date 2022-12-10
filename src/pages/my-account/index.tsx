@@ -10,10 +10,10 @@ const MyAccount = () => {
           <h3 className="my-4 text-[26px]  text-[#26222f]">Connexion</h3>
           <form
             action="#"
-            className="flex flex-col space-y-5 border rounded-md p-6"
+            className="flex flex-col space-y-5 border rounded-md p-6 text-[14.4px] font-semibold text-[#603813]"
           >
             <div className="flex flex-col space-y-1">
-              <label className="text-[14.4px] font-semibold text-[#603813] ">
+              <label>
                 Identifiant ou e-mail{" "}
                 <span className="text-red-500 text-[20px] ">*</span>
               </label>
@@ -21,27 +21,25 @@ const MyAccount = () => {
                 required
                 type="id"
                 id="id"
-                className="px-4 py-2 border border-gray-300"
+                className="px-4 py-3 border border-gray-300 text-black"
               />
             </div>
             <div className="flex flex-col space-y-1">
-              <div className="flex items-center justify-between">
-                <label className="text-[14.4px] font-semibold text-[#603813]">
-                  Mot de passe{" "}
-                  <span className="text-red-500 text-[20px] ">*</span>
-                </label>
-              </div>
+              <label>
+                Mot de passe{" "}
+                <span className="text-red-500 text-[20px] ">*</span>
+              </label>
               <input
                 required
                 type="password"
                 id="password"
-                className="px-4 py-2 border border-gray-300"
+                className="px-4 py-3 border border-gray-300 text-black"
               />
             </div>
             <div className="flex justify-between">
               <div className="flex items-center space-x-2">
                 <input type="checkbox" id="remember" className="w-4 h-4 " />
-                <label className="text-[14.4px] font-semibold text-[#603813]">
+                <label>
                   Se souvenir de moi
                 </label>
               </div>
@@ -71,47 +69,45 @@ const MyAccount = () => {
           <h3 className="my-4 text-[26px]  text-[#26222f]">S’enregistrer</h3>
           <form
             action="#"
-            className="flex flex-col space-y-5 border rounded-md p-6"
+            className="flex flex-col space-y-5 border rounded-md p-6 text-[14.4px] font-semibold text-[#603813] "
           >
             <div className="flex flex-col space-y-1">
-              <label className="text-[14.4px] font-semibold text-[#603813] ">
+              <label>
                 Identifiant <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
                 required
                 type="id"
                 id="id"
-                className="px-4 py-2 border border-gray-300"
+                className="px-4 py-3 border border-gray-300 text-black"
               />
             </div>
             <div className="flex flex-col space-y-1">
-              <label className="text-[14.4px] font-semibold text-[#603813] ">
+              <label>
                 E-mail <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
                 required
                 type="email"
                 id="email"
-                className="px-4 py-2 border border-gray-300"
+                className="px-4 py-3 border border-gray-300 text-black"
               />
             </div>
             <div className="flex flex-col space-y-1">
-              <div className="flex items-center justify-between">
-                <label className="text-[14.4px] font-semibold text-[#603813]">
-                  Mot de passe{" "}
-                  <span className="text-red-500 text-[20px] ">*</span>
-                </label>
-              </div>
+              <label>
+                Mot de passe{" "}
+                <span className="text-red-500 text-[20px] ">*</span>
+              </label>
               <input
                 required
                 type="password"
                 id="password"
-                className="px-4 py-2 border border-gray-300"
+                className="px-4 py-3 border border-gray-300 text-black"
               />
             </div>
             <div className="flex items-center space-x-2">
               <input type="checkbox" id="remember" className="w-4 h-4 " />
-              <label className="text-[14.4px] font-semibold text-[#603813]">
+              <label>
                 Subscribe to our newsletter
               </label>
             </div>
@@ -119,7 +115,7 @@ const MyAccount = () => {
               sitekey="6Lc2xVYjAAAAAIuk6-oEbePPkK0caIt1JrnPIOOp"
               // onChange={onChange}
             />
-            <p className="text-[16px] text-[#603813]">
+            <p className="text-[16px] text-[#603813] font-normal">
               Vos données personnelles seront utilisées pour vous accompagner au
               cours de votre visite du site web, gérer l’accès à votre compte,
               et pour d’autres raisons décrites dans notre politique de

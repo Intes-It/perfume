@@ -11,6 +11,11 @@ module.exports = {
        },
        animation: {
         wiggle: 'wiggle 2s',
+       },
+       screens: {
+        'tablet': {'min': '740px', 'max': '1023px'},
+        'md':'740px',
+        'mobile':{'max': '739px'},
        }
     },
   },
