@@ -4,15 +4,10 @@ import * as React from "react";
 const Blog = () => {
   return (
     <Container>
-      <div className="flex justify-between mx-3 mt-20 text-[12px] text-[#6a5950]">
-        <div className="w-3/10 shadow-lg rounded-sm relative hover:shadow-2xl ">
+      <div className="flex flex-col tablet:flex-row lg:flex-row tablet:flex-wrap justify-between mx-3 mt-20 text-[12px] text-[#6a5950]">
+        <div className="tablet:w-[45vw] lg:w-[30vw] shadow-lg rounded-sm mb-5 relative hover:shadow-2xl ">
           <a href="/blog/blog1">
             <img
-              style={{
-                width: '30vw',
-                height: '30vw',
-                borderRadius: '3px 3px 0 0',
-              }}
               src={'/images/blog.webp'}
               alt=""
             />
@@ -31,8 +26,8 @@ const Blog = () => {
             <li>Aucun commentaire</li>
           </div>
         </div>
-        <div className=""></div>
-        <div className=""></div>
+        {/* <div className=""></div>
+        <div className=""></div> */}
       </div>
     </Container>
   );
