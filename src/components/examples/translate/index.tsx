@@ -16,7 +16,7 @@ const { locales } = i18nConfig;
 export const NextTranslateExample: React.FC<{ defaultNamespace: string }> = ({
   defaultNamespace,
 }) => {
-  const { t, lang } = useTranslation(defaultNamespace);
+  const { t } = useTranslation(defaultNamespace);
 
   return (
     <div>

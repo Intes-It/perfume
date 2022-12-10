@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { AppProps } from "next/app";
 import {
   QueryClient,
@@ -14,8 +14,8 @@ import Layout from "@components/layout";
 import { ThemeProvider } from "next-themes";
 import GlobalStyle from "@styles/globalStyles";
 import Head from "next/head";
-import { config } from '@fortawesome/fontawesome-svg-core';
-import '@fortawesome/fontawesome-svg-core/styles.css';
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 
 config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 
@@ -24,7 +24,7 @@ function MyApp({
   pageProps,
 }: AppProps<{ dehydratedState: DehydratedState }>): JSX.Element {
   const queryClient = new QueryClient();
-  
+
   return (
     <div>
       <Head>

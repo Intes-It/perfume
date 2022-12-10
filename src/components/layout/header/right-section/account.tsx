@@ -1,4 +1,3 @@
-import { UserIcon } from "@components/icons";
 import NextLink from "next/link";
 import * as React from "react";
 import { Routes } from "@definitions/constants";

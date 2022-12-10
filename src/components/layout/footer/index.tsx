@@ -17,7 +17,10 @@ const Footer = () => {
         </div>
         <div className="mx-10 grid col-span-3  md:grid-cols-3 lg:grid-cols-3">
           {FooterRoutes?.map((category) => (
-            <div className="text-center md:text-left" key={category.categoryName}>
+            <div
+              className="text-center md:text-left"
+              key={category.categoryName}
+            >
               <div className="mx-10 text-lg font-bold tracking-wide">
                 {category?.categoryName}
               </div>
@@ -28,7 +31,7 @@ const Footer = () => {
                   transition duration-500 hover:scale-110
                   border-b-2 border-transparent hover:border-white"
                     href={item?.route}
-                    key={item?.title}
+                    key={index}
                   >
                     {item?.title}
                   </a>

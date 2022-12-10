@@ -1,4 +1,3 @@
-import Link from "next/link";
 import * as React from "react";
 import SearchPopover from "../seach-popover";
 import MobileMenu from "./mobile-menu";
