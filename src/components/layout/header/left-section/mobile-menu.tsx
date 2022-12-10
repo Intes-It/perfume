@@ -3,9 +3,12 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { NavbarItems } from "@definitions/constants";
+import { useRouter } from "next/router";
 
 const MobileMenu = ({ ...props }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+
   return (
     <div>
       <div {...props}>
@@ -16,7 +19,7 @@ const MobileMenu = ({ ...props }) => {
             data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasExample"
             aria-controls="offcanvasExample"
-            className="inline-flex items-center justify-center rounded-md text-black  focus:outline-none focus:ring-2 focus:ring-offset-2   focus:ring-white"
+            className="inline-flex items-center justify-center rounded-md  focus:outline-none focus:ring-2 focus:ring-offset-2   focus:ring-white"
           >
             <FontAwesomeIcon icon={faBars} fontSize={"1.5rem"} />
           </button>
@@ -38,16 +41,19 @@ const MobileMenu = ({ ...props }) => {
                 </div>
                 <div className="offcanvas-body flex-grow overflow-y-auto mt-6">
                   <ul className="text-base z-50  py-2 list-none text-left rounded-lg mt-1 m-0 bg-clip-padding border-none">
-                    {NavbarItems?.map((item, index) => (
-                      <li key={index}>
-                        <a
-                          className="dropdown-item text-base font-light tracking-wide py-3 px-6 block w-full whitespace-nowrap bg-transparent hover:bg-yellow-900"
-                          href={item?.route}
-                        >
-                          {item?.title?.toUpperCase()}
-                        </a>
-                      </li>
-                    ))}
+                    {NavbarItems?.map((item, index) => {
+                      const active = router.asPath === item?.route;
+                      return (
+                        <li key={index}>
+                          <a
+                            className={`dropdown-item text-base font-light tracking-wide py-3 px-6 block w-full whitespace-nowrap bg-transparent ${active ? 'bg-yellow-900':''} hover:bg-yellow-900`}
+                            href={item?.route}
+                          >
+                            {item?.title?.toUpperCase()}
+                          </a>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               </div>

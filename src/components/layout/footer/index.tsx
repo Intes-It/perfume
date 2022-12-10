@@ -27,7 +27,7 @@ const Footer = () => {
               <div className="grid">
                 {category?.items?.map((item, index) => (
                   <a
-                    className="mx-10 text-base font-Light tracking-wide mt-2 
+                    className="mx-10 text-base font-light tracking-wide mt-2 
                   transition duration-500 hover:scale-110
                   border-b-2 border-transparent hover:border-white"
                     href={item?.route}

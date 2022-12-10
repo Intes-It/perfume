@@ -1,7 +1,10 @@
 import { Container } from "@components/container";
+import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as React from "react";
+import { useState } from "react";
 
-const TextList = [
+const InitTextList = [
   {
     question: "Où sont conçus et fabriqués vos cosmétiques solides ?",
     answer: [
@@ -57,7 +60,7 @@ const TextList = [
     ],
   },
   {
-    highlight:"le délai de rétractation légal est de 14 jours",
+    highlight: "le délai de rétractation légal est de 14 jours",
     question: "Que faire en cas de problème avec la commande ?",
     answer: [
       "Votre satisfaction étant notre priorité, nous vous offrons la possibilité de nous retourner votre commande en cas de problème avec celle-ci (erreur, produit abîmé, insatisfaction…). Attention, le retour de votre colis doit être effectué dans les 10 jours suivant sa réception et les frais de renvois seront à votre charge.",
@@ -66,43 +69,65 @@ const TextList = [
 ];
 
 const FAQ = () => {
+  const [state, setState] = useState({
+    textList: InitTextList,
+  });
+
+  const { textList } = state;
+
+  const handleClickItem = (item: any) => {
+    textList.map((row: any) => {
+      if (row !== item) row.isExpansion = false;
+    });
+    item.isExpansion = !item.isExpansion;
+
+    setState((pre) => ({ ...pre })); 
+  };
+
   return (
     <Container>
-      <div  className=" mt-16 container max-w-4xl px-6 py-10 mx-auto text-justify text-[16px] mobile:text-[14px] text-[#603813] leading-8">
-        {TextList?.map((text) => (
+      <div className=" mt-16 container max-w-4xl px-6 py-10 mx-auto text-justify text-[16px] mobile:text-[14px] text-[#603813] leading-8">
+        {textList?.map((item: any) => (
           <details
+            open={item?.isExpansion}
+            onClick={(e) => {
+              e.preventDefault();
+              handleClickItem(item);
+            }}
             className="-mt-px border w-full hover:cursor-pointer"
-            key={text.question}
+            key={item?.question}
           >
-            <summary className="p-5 mobile:p-2 flex items-center  font-semibold  hover:text-soft-red ">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="open w-6 h-6 mr-1 "
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path 
-                  strokeWidth="2.5"
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+            <summary className="p-5 mobile:p-2 flex items-center  font-semibold  hover:text-soft-red anim">
+              {item?.isExpansion ? (
+                <FontAwesomeIcon
+                  className="px-2.5 py-2 rounded-[50%]"
+                  icon={faMinus}
                 />
-              </svg>
-              {text?.question}
+              ) : (
+                <FontAwesomeIcon
+                  className="px-2.5 py-2 rounded-[50%]"
+                  icon={faPlus}
+                />
+              )}
+
+              {item?.question}
             </summary>
             <div className="border-t p-4 ">
-              {text?.highlight && (
+              {item?.highlight && (
                 <p>
                   {" "}
-                  {text?.answer[0]} <strong>{text.highlight}</strong>
-                  {text?.answer[1]}{" "}
+                  {item?.answer[0]} <strong>{item?.highlight}</strong>
+                  {item?.answer[1]}{" "}
                 </p>
               )}
-              {!text?.highlight &&
-                text?.answer?.map((answer, index) => <p key={index}> {answer}</p>)}
+              {!item?.highlight &&
+                item?.answer?.map((answer: any, index: any) => (
+                  <p key={index}> {answer}</p>
+                ))}
             </div>
           </details>
         ))}
       </div>
-      
     </Container>
   );
 };
