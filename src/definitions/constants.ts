@@ -15,7 +15,7 @@ export const Routes = {
     title: "Journal",
     route: "/blog",
   },
-  favorite:{
+  favorite: {
     title: "Produits Favoris",
     route: "/favorite",
   },
@@ -27,6 +27,50 @@ export const Routes = {
     cosmetics: {
       title: "Cosmétiques",
       route: "/product-categories/cosmetics",
+      children: {
+        solidDeodorant: {
+          title: "Déodorant Solide",
+          route: "/product-categories/cosmetics/solid-deodorant",
+          children: {
+            featherDeodorant: {
+              title: "Déodorant Plume",
+              route:
+                "/product-categories/cosmetics/solid-deodorant/feather-deodorant",
+            },
+          },
+        },
+        solidFaceCleanser: {
+          title: "Nettoyant Visage Solide",
+          route: "/product-categories/cosmetics/solid-face-cleanser",
+          children: {
+            cocoonCleanser: {
+              title: "Démaquillant Cocoon",
+              route:
+                "/product-categories/cosmetics/solid-face-cleanser/cocoon-cleanser",
+            },
+            cocoonCleansingPearls: {
+              title: "Perles Démaquillantes Cocoon",
+              route:
+                "/product-categories/cosmetics/solid-face-cleanser/cocoon-cleansing-pearls",
+            },
+          },
+        },
+        solidBalm: {
+          title: "Baume Solide",
+          route: "/product-categories/cosmetics/solid-balm",
+          children: {
+            preciousCare: {
+              title: "Soin Précieux",
+              route: "/product-categories/cosmetics/solid-balm/precious-care",
+            },
+            preciousCarePearls: {
+              title: "Perles De Soin Précieux",
+              route:
+                "/product-categories/cosmetics/solid-balm/precious-care-pearls",
+            },
+          },
+        },
+      },
     },
     accessories: {
       title: "Accessoires",

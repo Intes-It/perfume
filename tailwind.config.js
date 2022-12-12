@@ -15,9 +15,13 @@ module.exports = {
         wiggle: {
           "0%": { transform: "translatex(-120%)" },
         },
+        bottomToTop:{
+          "0%" : { transform: "translatey(0.5rem)", opacity:0 },
+        }
       },
       animation: {
         wiggle: "wiggle 2s",
+        bottomToTop: "bottomToTop 0.3s"
       },
       screens: {
         tablet: { min: "740px", max: "1023px" },
