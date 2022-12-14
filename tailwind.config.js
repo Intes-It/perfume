@@ -17,11 +17,17 @@ module.exports = {
         },
         bottomToTop:{
           "0%" : { transform: "translatey(0.5rem)", opacity:0 },
+        },
+        crescendo:{
+          '0%': { transform: 'scale(0)'},
+          '100%': { transform: 'scale(1)'},
         }
       },
       animation: {
         wiggle: "wiggle 2s",
-        bottomToTop: "bottomToTop 0.3s"
+        bottomToTop: "bottomToTop 0.3s",
+        crescendo: 'crescendo .5s alternate ease-in'
+
       },
       screens: {
         tablet: { min: "740px", max: "1023px" },
