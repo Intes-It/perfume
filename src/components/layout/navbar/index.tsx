@@ -4,7 +4,7 @@ import { NavbarItems } from "@definitions/constants";
 
 function Navbar() {
   return (
-    <div className="bg-white hidden md:block  sticky top-0 z-50">
+    <div className="bg-white sticky top-0 z-40  hidden md:block">
       <nav className=" w-full z-10">
         <div className="w-full">
           <div className="flex items-center w-full">
