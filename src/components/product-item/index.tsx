@@ -18,13 +18,12 @@ const ProductItem: React.FC<ProductProps> = ({
   return (
     <div className=" relative flex flex-col items-center text-[16px] ">
       <FontAwesomeIcon
-        className="absolute top-[5%] right-[4%] "
+        className="absolute top-[5%] right-[4%] mobile:top-[2%] mobile:right-[0%]"
         icon={faHeart}
         onClick={favorites}
       />
-      {/* <Image src={image} layout='fill' alt="image" /> */}
       <img
-        className="w-[22vw]"
+        className="w-[22vw] tablet:w-[32vw] mobile:w-[45vw]"
         src={image}
         alt=""
       />
@@ -41,7 +40,7 @@ const ProductItem: React.FC<ProductProps> = ({
         <div>
           <button
             type="submit"
-            className=" p-3 text-[14.4px] font-semibold text-[#262238]  bg-[#ACD051] rounded-md shadow hover:bg-black hover:text-white"
+            className=" p-3 text-[14.4px] font-semibold text-[#262238]  bg-[#ACD051] rounded-md shadow hover:bg-[#603813] hover:text-white"
           >
             Choix des options
           </button>
