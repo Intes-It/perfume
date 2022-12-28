@@ -11,7 +11,7 @@ interface Props {
   // any props that come into the component
 }
 
-const Layout = ({ children }: Props) => {
+export const Layout = ({ children }: Props) => {
   return (
     <div>
       <Header />
@@ -22,5 +22,4 @@ const Layout = ({ children }: Props) => {
     </div>
   );
 };
-
-export default Layout;
+ 

@@ -1,20 +1,16 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useWindowSize } from "react-use";
+import React, { useEffect, useState } from "react"; 
 import { Container } from "@components";
 
-import { homeSlideInfo, productItem } from "src/utils/fakeData";
-import ProductItem from "@components/product-item";
+import { homeSlideInfo, productItem } from "src/utils/fakeData"; 
+import { BestSales } from "@components/best-sales";
 
-const Home: React.FC = () => {
-  const { width, height } = useWindowSize();
-  const [state, setState] = useState({
+const Home: React.FC = () => { 
+  const [state] = useState({
     homeSlideData: homeSlideInfo,
     bestSellingProducts: productItem,
   });
 
   const { homeSlideData, bestSellingProducts } = state;
-
-  const stepProductSlide = useMemo(() => (width > 740 ? 4 : 1), [width]);
 
   useEffect(() => {
     // setTheme('light');
@@ -114,78 +110,7 @@ const Home: React.FC = () => {
           </span>
         </div>
 
-        <div
-          id="bestSallingProductSlide"
-          className="carousel carousel-dark slide relative overflow-hidden my-3"
-          data-bs-ride="carousel"
-        >
-          <div className="carousel-inner relative w-full overflow-hidden mx-auto">
-            {bestSellingProducts?.map((product, index) => {
-              return (
-                index % stepProductSlide == 0 && (
-                  <div
-                    key={index}
-                    className={`carousel-item ${
-                      index === 0 ? "active" : ""
-                    } relative float-left w-full`}
-                  >
-                    <div
-                      className={`grid md:grid-cols-4 grid-cols-1 text-center space-x-4 mx-8`}
-                    >
-                      {bestSellingProducts
-                        ?.slice(index, index + stepProductSlide)
-                        ?.map((item, index2) => {
-                          return (
-                            <div key={index2} className="border border-gray">
-                              <ProductItem
-                                favorites={() => console.log(index2)}
-                                title={item.title}
-                                price={item.price}
-                                image={item.image}
-                              />
-                            </div>
-                          );
-                        })}
-                    </div>
-                  </div>
-                )
-              );
-            })}
-            {/* <div className="carousel-item active relative float-left w-full">
-              <div className="bg-red-300 h-20"></div>
-            </div>
-            <div className="carousel-item relative float-left w-full">
-              <div className="bg-blue-300 h-20"></div>
-            </div>
-            <div className="carousel-item relative float-left w-full">
-              <div className="bg-green-300 h-20"></div>
-            </div> */}
-          </div>
-          <button
-            className="carousel-control-prev absolute top-0 bottom-0 left-[calc(-7.5vw_+_1rem)] flex items-center justify-center p-0 text-center border-0 hover:outline-none hover:no-underline focus:outline-none focus:no-underline"
-            type="button"
-            data-bs-target="#bestSallingProductSlide"
-            data-bs-slide="prev"
-          >
-            <span
-              className="carousel-control-prev-icon inline-block bg-no-repeat"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Previous</span>
-          </button>
-          <button
-            className="carousel-control-next absolute top-0 bottom-0 right-[calc(-7.5vw_+_1rem)] flex items-center justify-center p-0 text-center border-0 hover:outline-none hover:no-underline focus:outline-none focus:no-underline"
-            type="button"
-            data-bs-target="#bestSallingProductSlide"
-            data-bs-slide="next"
-          >
-            <span
-              className="carousel-control-next-icon inline-block bg-no-repeat"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Next</span>
-          </button>
-        </div>
+        <BestSales products={bestSellingProducts} />
       </div>
     </Container>
   );

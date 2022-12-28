@@ -40,8 +40,11 @@
       "@interfaces/*": [
         "src/interfaces/*"
       ],
-      "@interfaces": [
-        "src/interfaces"
+      "@types": [
+        "src/types"
+      ],
+      "@utils/*": [
+        "src/utils/*"
       ],
       "@styles/*": [
         "src/styles/*"

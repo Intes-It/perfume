@@ -75,6 +75,45 @@ export const Routes = {
     accessories: {
       title: "Accessoires",
       route: "/product-categories/accessories",
+      children: {
+        cleansingSquares: {
+          title: "Carrés Démaquillants",
+          route: "/product-categories/accessories/cleansing-squares",
+          children: {
+            bambooCleansingSquare100: {
+              title: "Carré Démaquillant 100% Bambou",
+              route:
+                "/product-categories/accessories/cleansing-squares/bamboo-cleansing-square-100",
+            },
+            organicCottonBambooCleansingSquare: {
+              title: "Carré Démaquillant Coton Bio/Bambou",
+              route:
+                "/product-categories/accessories/cleansing-squares/organic-cotton-bamboo-cleansing-square",
+            },
+          },
+        },
+        ecoDesignedPouches: {
+          title: "Pochettes Éco-Conçues",
+          route: "/product-categories/accessories/eco-designed-pouches",
+          children: {          
+            solidDeodorantPouch: {
+              title: "Pochette Déodorant Solide",
+              route:
+                "/product-categories/accessories/eco-designed-pouches/solid-deodorant-pouch",
+            },
+            cocoonMakeupRemoverPouch: {
+              title: "Pochette Démaquillant Cocoon",
+              route:
+                "/product-categories/accessories/eco-designed-pouches/cocoon-makeup-remover-pouch",
+            },
+            preciousCarePouch: {
+              title: "Pochette Soin Précieux",
+              route:
+                "/product-categories/accessories/eco-designed-pouches/precious-care-pouch",
+            },
+          },
+        },
+      },
     },
     limitedEdition: {
       title: "Édition Limitée",
@@ -98,7 +137,12 @@ export const VisibleTitleRoutes = [
   Routes.favorite,
   Routes.myAccount,
   Routes.productCategories.cosmetics,
+  Routes.productCategories.cosmetics.children.solidBalm,
+  Routes.productCategories.cosmetics.children.solidDeodorant,
+  Routes.productCategories.cosmetics.children.solidFaceCleanser,
   Routes.productCategories.accessories,
+  Routes.productCategories.accessories.children.cleansingSquares,
+  Routes.productCategories.accessories.children.ecoDesignedPouches,
   Routes.productCategories.limitedEdition,
   Routes.boxes,
   Routes.contact,

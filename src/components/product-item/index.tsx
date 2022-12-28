@@ -1,13 +1,12 @@
 import * as React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import Image from "next/image";
+import { faStar } from "@fortawesome/free-solid-svg-icons"; 
 type ProductProps = {
   favorites: () => void;
-  image: string;
-  title: string;
-  price: string;
+  image?: string;
+  title?: string;
+  price?: string;
 };
 const ProductItem: React.FC<ProductProps> = ({
   favorites,
@@ -27,7 +26,7 @@ const ProductItem: React.FC<ProductProps> = ({
         src={image}
         alt=""
       />
-      <h5 className="text-[#603813]">{title}</h5>
+      <h5 className="text-[#603813] text-center">{title}</h5>
       <div className="flex flex-col mt-9 items-center space-y-2">
         <div>
           <FontAwesomeIcon className="text-yellow-400" icon={faStar} />

@@ -1,5 +1,8 @@
-export const productItem = [
+import { Product } from "@types";
+
+export const productItem: Product[] = [
   {
+    id: "1",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/demaquillant-cocoon-1.jpg",
     title: "Démaquillant Cocoon",
@@ -8,6 +11,7 @@ export const productItem = [
     rating: "3",
   },
   {
+    id: "1",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/deodorant-plume.jpg",
     title: "Déodorant Plume",
@@ -16,6 +20,7 @@ export const productItem = [
     rating: "3,6",
   },
   {
+    id: "1",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/perles-de-soin-2.jpg",
     title: "Perles de soin",
@@ -24,6 +29,7 @@ export const productItem = [
     rating: "4",
   },
   {
+    id: "1",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/perles-demaquillantes-1.jpg",
     title: "Perles démaquillantes",
@@ -32,6 +38,7 @@ export const productItem = [
     rating: "5",
   },
   {
+    id: "1",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/soin-precieux.jpg",
     title: "Soin Précieux",
@@ -40,6 +47,7 @@ export const productItem = [
     rating: "4,8",
   },
   {
+    id: "1",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/soin-precieux.jpg",
     title: "Soin Précieux",
@@ -48,6 +56,7 @@ export const productItem = [
     rating: "4,8",
   },
   {
+    id: "1",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/soin-precieux.jpg",
     title: "Soin Précieux",
@@ -56,6 +65,7 @@ export const productItem = [
     rating: "4,8",
   },
   {
+    id: "1",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/soin-precieux.jpg",
     title: "Soin Précieux",
@@ -82,6 +92,86 @@ export const colourOptions = [
   { value: "forest", label: "Forest" },
   { value: "slate", label: "Slate" },
   { value: "silver", label: "Silver" },
+];
+
+export const totalProducts: Product[] = [
+  {
+    id: "1",
+    group: "cosmetics",
+    subGroup: "solid-deodorant",
+    image:
+      "https://naturefeerique.fr/wp-content/uploads/2022/03/deodorant-plume.jpg",
+    title: "Déodorant Plume",
+    price: "14,50",
+    vote: "100",
+    rating: "5",
+  },
+  {
+    id: "2",
+    group: "cosmetics",
+    subGroup: "solid-face-cleanser",
+    image:
+      "https://naturefeerique.fr/wp-content/uploads/2022/03/demaquillant-cocoon-1.jpg",
+    title: "Démaquillant Cocoon",
+    price: "15,50",
+    vote: "100",
+    rating: "5",
+  },
+  {
+    id: "3",
+    group: "cosmetics",
+    subGroup: "solid-face-cleanser",
+    image:
+      "https://naturefeerique.fr/wp-content/uploads/2022/03/perles-demaquillantes-1.jpg",
+    title: "Perles démaquillantes",
+    price: "9,50",
+    vote: "100",
+    rating: "5",
+  },
+  {
+    id: "4",
+    group: "cosmetics",
+    subGroup: "solid-balm",
+    image:
+      "https://naturefeerique.fr/wp-content/uploads/2022/03/perles-de-soin-2.jpg",
+    title: "Perles de soin",
+    price: "10,90",
+    vote: "100",
+    rating: "5",
+  },
+  {
+    id: "5",
+    group: "cosmetics",
+    subGroup: "solid-balm",
+    image:
+      "https://naturefeerique.fr/wp-content/uploads/2022/03/soin-precieux.jpg",
+    title: "Soin Précieux",
+    price: "17,90",
+    vote: "100",
+    rating: "5",
+  },
+  {
+    id: "6",
+    group: "accessories",
+    subGroup: "cleansing-squares",
+    image:
+      "https://naturefeerique.fr/wp-content/uploads/2022/02/carre-demaquillant-coton-biobambou.webp",
+    title: "Carré démaquillant Coton Bio/bambou",
+    price: "2,5",
+    vote: "100",
+    rating: "5",
+  },
+  {
+    id: "7",
+    group: "accessories",
+    subGroup: "cleansing-squares",
+    image:
+      "https://naturefeerique.fr/wp-content/uploads/2022/02/carre-demaquillant-coton-bio-lot-de-2.webp",
+    title: "Carré démaquillant Coton bio/bambou Lot de 2",
+    price: "4,5",
+    vote: "100",
+    rating: "5",
+  },
 ];
 
 export const homeSlideInfo = [

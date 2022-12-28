@@ -7,13 +7,14 @@ import {
 } from "react-query";
 import store from "@redux/store";
 import "tailwindcss/tailwind.css";
+import { ThemeProvider } from "next-themes";
 import { Hydrate } from "react-query/hydration";
 import { Provider } from "react-redux";
-import LoadingIndicator from "@components/loading-indicator";
-import Layout from "@components/layout";
-import { ThemeProvider } from "next-themes";
-import GlobalStyle from "@styles/globalStyles";
 import Head from "next/head";
+
+import LoadingIndicator from "@components/loading-indicator";
+import { Layout } from "@components";
+import GlobalStyle from "@styles/globalStyles";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 

@@ -97,7 +97,7 @@ const Consmetics = () => {
             <DropdownCheckbox
               title="Catégories"
               selections={productItem?.reduce(
-                (a: string[], item) => a.concat(item.title),
+                (a: string[], item) => a.concat(item.title || ""),
                 []
               )}
             />
