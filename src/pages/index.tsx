@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react"; 
+import React, { useEffect, useState } from "react";
 import { Container } from "@components";
+import NextLink from "next/link";
 
-import { homeSlideInfo, productItem } from "src/utils/fakeData"; 
+import { homeSlideInfo, productItem } from "src/utils/fakeData";
 import { BestSales } from "@components/best-sales";
+import { OurUniverse } from "@definitions/constants";
 
-const Home: React.FC = () => { 
+const Home: React.FC = () => {
   const [state] = useState({
     homeSlideData: homeSlideInfo,
     bestSellingProducts: productItem,
@@ -109,8 +111,52 @@ const Home: React.FC = () => {
             NOS MEILLEURES VENTES
           </span>
         </div>
-
         <BestSales products={bestSellingProducts} />
+      </div>
+
+      {/* Our Universe */}
+      <div>
+        <div className="w-full grid my-10">
+          <span className="text-center text-[32px] font-semibold tracking-wide text-[#383e42]">
+            AU CŒUR DE NOTRE UNIVERS
+          </span>
+        </div>
+        <div className="grid grid-cols-2 gap-5 text-center">
+          {OurUniverse?.map((item: any, index: number) => {
+            return (
+              <div className="relative" key={index}>
+                <img
+                  className="h-[31vw] block w-full object-cover"
+                  src={item?.image}
+                  alt={item?.title}
+                />
+                <div className="absolute top-0 left-0 bg-black opacity-30 w-full h-full" />
+                <div className="absolute z-0 top-1/2 left-1/2 -translate-y-2/4 -translate-x-2/4 w-[100%] text-center">
+                  <div className="md:my-20 my-1">
+                    <span className="text-xl md:text-[38.8px] text-white">
+                      {(item?.title as string)?.toUpperCase()}
+                    </span>
+                  </div>
+                  <NextLink href={item?.route} key={item?.title} passHref>
+                    <button className="rounded-md px-5 py-2 hover:bg-white text-lg  border-white border bg-transparent hover:text-black text-white">
+                      EXPLORER
+                    </button>
+                  </NextLink>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div>
+        <div className="w-full grid my-12">
+          <span className="text-center text-[32px] font-semibold tracking-wide text-[#383e42]">
+            L’ART DE VOUS SÉDUIRE
+          </span>
+
+           
+        </div>
       </div>
     </Container>
   );

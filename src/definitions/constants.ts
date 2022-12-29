@@ -14,6 +14,7 @@ export const Routes = {
   blog: {
     title: "Journal",
     route: "/blog",
+    image: "https://mldn3w3pos1n.i.optimole.com/cb:453S~5a2d9/w:auto/h:auto/q:mauto/id:b2ad038a933778cbbc61fbc58eedfcef/https://naturefeerique.fr/journal-nes.png",
   },
   favorite: {
     title: "Produits Favoris",
@@ -27,6 +28,7 @@ export const Routes = {
     cosmetics: {
       title: "Cosmétiques",
       route: "/product-categories/cosmetics",
+      image: "http://naturefeerique.fr/wp-content/uploads/2022/03/Photo-Categorie-cosmetiques-1-scaled-2.webp",
       children: {
         solidDeodorant: {
           title: "Déodorant Solide",
@@ -75,6 +77,7 @@ export const Routes = {
     accessories: {
       title: "Accessoires",
       route: "/product-categories/accessories",
+      image: "http://naturefeerique.fr/wp-content/uploads/2022/03/Photo-categorie-Accessoires-scaled-1.jpg",
       children: {
         cleansingSquares: {
           title: "Carrés Démaquillants",
@@ -95,7 +98,7 @@ export const Routes = {
         ecoDesignedPouches: {
           title: "Pochettes Éco-Conçues",
           route: "/product-categories/accessories/eco-designed-pouches",
-          children: {          
+          children: {
             solidDeodorantPouch: {
               title: "Pochette Déodorant Solide",
               route:
@@ -118,6 +121,7 @@ export const Routes = {
     limitedEdition: {
       title: "Édition Limitée",
       route: "/product-categories/limited-edition",
+      image: "https://mldn3w3pos1n.i.optimole.com/cb:453S~5a2d9/w:auto/h:auto/q:mauto/id:bc473c5bdb3bd5a52d20679306c31fd7/https://naturefeerique.fr/Presentation-Gamme-Amour1-scaled.jpg",
     },
   },
   boxes: {
@@ -158,6 +162,13 @@ export const NavbarItems = [
   Routes.contact,
 ] as const;
 
+export const OurUniverse = [
+  Routes.productCategories.cosmetics,
+  Routes.productCategories.accessories,
+  Routes.productCategories.limitedEdition,
+  Routes.blog,
+] as const;
+
 export const FooterRoutes = [
   {
     categoryName: "Information",
@@ -165,11 +176,6 @@ export const FooterRoutes = [
   },
   {
     categoryName: "Notre Univers",
-    items: [
-      Routes.productCategories.cosmetics,
-      Routes.productCategories.accessories,
-      Routes.productCategories.limitedEdition,
-      Routes.blog,
-    ],
+    items: OurUniverse,
   },
 ] as const;
