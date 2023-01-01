@@ -1,19 +1,35 @@
 import * as React from "react";
+import NextLink from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { faStar } from "@fortawesome/free-solid-svg-icons"; 
+import { faStar as solidFaStar } from "@fortawesome/free-solid-svg-icons";
+
+import { faStar as regularFaStar } from "@fortawesome/free-regular-svg-icons";
+import { useMemo } from "react";
+
 type ProductProps = {
   favorites: () => void;
   image?: string;
   title?: string;
   price?: string;
+  id?: string;
+  rating?: number;
 };
+
 const ProductItem: React.FC<ProductProps> = ({
   favorites,
   image,
   title,
   price,
+  id,
+  rating,
 }) => {
+  const ratingStar = useMemo(() => {
+    const array = [0, 0, 0, 0, 0];
+    if (!rating) return array;
+    return array.map((item, index) => (index < rating ? 1 : 0));
+  }, [rating]);
+
   return (
     <div className=" relative flex flex-col items-center text-[16px] ">
       <FontAwesomeIcon
@@ -21,19 +37,31 @@ const ProductItem: React.FC<ProductProps> = ({
         icon={faHeart}
         onClick={favorites}
       />
-      <img
-        className="w-[22vw] tablet:w-[32vw] mobile:w-[45vw]"
-        src={image}
-        alt=""
-      />
+      <NextLink href={`/product/${id}`}>
+        <img
+          className="w-[22vw] tablet:w-[32vw] mobile:w-[45vw] cursor-pointer"
+          src={image}
+          alt="{title}"
+        />
+      </NextLink>
       <h5 className="text-[#603813] text-center">{title}</h5>
-      <div className="flex flex-col mt-9 items-center space-y-2">
+      <div className="flex flex-col mt-5 items-center space-y-2">
         <div>
-          <FontAwesomeIcon className="text-yellow-400" icon={faStar} />
-          <FontAwesomeIcon className="text-yellow-400" icon={faStar} />
-          <FontAwesomeIcon className="text-yellow-400" icon={faStar} />
-          <FontAwesomeIcon className="text-yellow-400" icon={faStar} />
-          <FontAwesomeIcon className="text-yellow-400" icon={faStar} />
+          {ratingStar?.map((star, index) =>
+            star === 1 ? (
+              <FontAwesomeIcon
+                key={index}
+                className="text-yellow-400"
+                icon={solidFaStar}
+              />
+            ) : (
+              <FontAwesomeIcon
+                key={index}
+                className="text-[#22222222]"
+                icon={regularFaStar}
+              />
+            )
+          )}
         </div>
         <p className="font-semibold">{price}€</p>
         <div>

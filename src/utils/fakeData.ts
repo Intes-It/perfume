@@ -2,76 +2,76 @@ import { Product } from "@types";
 
 export const productItem: Product[] = [
   {
-    id: "1",
+    id: "demaquillant-cocoon",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/demaquillant-cocoon-1.jpg",
     title: "Démaquillant Cocoon",
     price: "15,15",
     vote: "100",
-    rating: "3",
+    rating: 3,
   },
   {
-    id: "1",
+    id: "deodorant-plume",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/deodorant-plume.jpg",
     title: "Déodorant Plume",
     price: "14,5",
     vote: "150",
-    rating: "3,6",
+    rating: 3.6,
   },
   {
-    id: "1",
+    id: "perles-de-soin",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/perles-de-soin-2.jpg",
     title: "Perles de soin",
     price: "10,90",
     vote: "300",
-    rating: "4",
+    rating: 4.6,
   },
   {
-    id: "1",
+    id: "perles-demaquillantes",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/perles-demaquillantes-1.jpg",
     title: "Perles démaquillantes",
     price: "9,50",
     vote: "180",
-    rating: "5",
+    rating: 4,
   },
   {
-    id: "1",
+    id: "soin-precieux",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/soin-precieux.jpg",
     title: "Soin Précieux",
     price: "17,90",
     vote: "200",
-    rating: "4,8",
+    rating: 5,
   },
   {
-    id: "1",
+    id: "soin-precieux",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/soin-precieux.jpg",
     title: "Soin Précieux",
     price: "17,90",
     vote: "200",
-    rating: "4,8",
+    rating: 4,
   },
   {
-    id: "1",
+    id: "soin-precieux",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/soin-precieux.jpg",
     title: "Soin Précieux",
     price: "17,90",
     vote: "200",
-    rating: "4,8",
+    rating: 4.8,
   },
   {
-    id: "1",
+    id: "soin-precieux",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/soin-precieux.jpg",
     title: "Soin Précieux",
     price: "17,90",
     vote: "200",
-    rating: "4,8",
+    rating: 4.5,
   },
 ];
 export const productPrice = ["0€ — 10€", "11€ — 20€", "21€ — 50€"];
@@ -96,7 +96,7 @@ export const colourOptions = [
 
 export const totalProducts: Product[] = [
   {
-    id: "1",
+    id: "deodorant-plume",
     group: "cosmetics",
     subGroup: "solid-deodorant",
     image:
@@ -104,10 +104,10 @@ export const totalProducts: Product[] = [
     title: "Déodorant Plume",
     price: "14,50",
     vote: "100",
-    rating: "5",
+    rating: 5,
   },
   {
-    id: "2",
+    id: "demaquillant-cocoon",
     group: "cosmetics",
     subGroup: "solid-face-cleanser",
     image:
@@ -115,10 +115,10 @@ export const totalProducts: Product[] = [
     title: "Démaquillant Cocoon",
     price: "15,50",
     vote: "100",
-    rating: "5",
+    rating: 4,
   },
   {
-    id: "3",
+    id: "perles-demaquillantes",
     group: "cosmetics",
     subGroup: "solid-face-cleanser",
     image:
@@ -126,10 +126,10 @@ export const totalProducts: Product[] = [
     title: "Perles démaquillantes",
     price: "9,50",
     vote: "100",
-    rating: "5",
+    rating: 3,
   },
   {
-    id: "4",
+    id: "perles-de-soin",
     group: "cosmetics",
     subGroup: "solid-balm",
     image:
@@ -137,10 +137,10 @@ export const totalProducts: Product[] = [
     title: "Perles de soin",
     price: "10,90",
     vote: "100",
-    rating: "5",
+    rating: 2,
   },
   {
-    id: "5",
+    id: "soin-precieux",
     group: "cosmetics",
     subGroup: "solid-balm",
     image:
@@ -148,10 +148,10 @@ export const totalProducts: Product[] = [
     title: "Soin Précieux",
     price: "17,90",
     vote: "100",
-    rating: "5",
+    rating: 5,
   },
   {
-    id: "6",
+    id: "carre-demaquillant-coton-biobambou",
     group: "accessories",
     subGroup: "cleansing-squares",
     image:
@@ -159,10 +159,10 @@ export const totalProducts: Product[] = [
     title: "Carré démaquillant Coton Bio/bambou",
     price: "2,5",
     vote: "100",
-    rating: "5",
+    rating: 3,
   },
   {
-    id: "7",
+    id: "carre-demaquillant-coton-bio-lot-de",
     group: "accessories",
     subGroup: "cleansing-squares",
     image:
@@ -170,7 +170,11 @@ export const totalProducts: Product[] = [
     title: "Carré démaquillant Coton bio/bambou Lot de 2",
     price: "4,5",
     vote: "100",
-    rating: "5",
+    rating: 4,
+    shortDescription:
+      "Le carré démaquillant est un accessoire zéro déchet indispensable.",
+    description:
+      "Le Carré démaquillant coton bio/bambou est idéal pour nettoyer le visage en douceur.  Sa face micro-polaire ultra douce en viscose de bambou permet un nettoyage en douceur. Le tissu micro-éponge viscose de bambou a des propriétés naturelles antibactériennes, il est donc parfaitement adapté pour les peaux sensibles des enfants et des adultes.",
   },
 ];
 

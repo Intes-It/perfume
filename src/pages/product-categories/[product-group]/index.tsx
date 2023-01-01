@@ -66,6 +66,8 @@ const ProductGroup = () => {
                 title={item?.title}
                 price={item?.price}
                 image={item?.image}
+                id={item?.id}
+                rating={item?.rating}
               />
             </div>
           ))}

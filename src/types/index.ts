@@ -6,5 +6,7 @@ export interface Product {
   title?: string | undefined;
   price?: string | undefined;
   vote?: string | number | undefined;
-  rating?: string | number | undefined;
+  rating?: number | undefined;
+  shortDescription?: string | undefined;
+  description?: string | undefined;
 }
