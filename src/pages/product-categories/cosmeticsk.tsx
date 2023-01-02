@@ -64,7 +64,7 @@ const Consmetics = () => {
       case (value = "Notes Moyennes"):
         setData(
           defaultData?.sort(function (a: any, b: any) {
-            return parseInt(b?.rating) - parseInt(a?.rating);
+            return parseInt(b?.score) - parseInt(a?.score);
           })
         );
         console?.log(data);

@@ -42,7 +42,7 @@ export const BestSales: React.FC<BestSalesProps> = ({ products }) => {
                             price={item?.price}
                             image={item?.image}
                             id={item?.id}
-                            rating={item?.rating}
+                            score={item?.score}
                           />
                         </div>
                       );

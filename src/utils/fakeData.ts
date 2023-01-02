@@ -2,76 +2,76 @@ import { Product } from "@types";
 
 export const productItem: Product[] = [
   {
-    id: "demaquillant-cocoon",
-    image:
-      "https://naturefeerique.fr/wp-content/uploads/2022/03/demaquillant-cocoon-1.jpg",
-    title: "Démaquillant Cocoon",
-    price: "15,15",
-    vote: "100",
-    rating: 3,
-  },
-  {
     id: "deodorant-plume",
+    group: "cosmetics",
+    subGroup: "solid-deodorant",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/deodorant-plume.jpg",
     title: "Déodorant Plume",
-    price: "14,5",
-    vote: "150",
-    rating: 3.6,
+    price: "14,50",
+    vote: "100",
+    score: 5,
+    numberOfReviewers: 10
   },
   {
-    id: "perles-de-soin",
+    id: "demaquillant-cocoon",
+    group: "cosmetics",
+    subGroup: "solid-face-cleanser",
     image:
-      "https://naturefeerique.fr/wp-content/uploads/2022/03/perles-de-soin-2.jpg",
-    title: "Perles de soin",
-    price: "10,90",
-    vote: "300",
-    rating: 4.6,
+      "https://naturefeerique.fr/wp-content/uploads/2022/03/demaquillant-cocoon-1.jpg",
+    title: "Démaquillant Cocoon",
+    price: "15,50",
+    vote: "100",
+    score: 4,
+    numberOfReviewers: 10
   },
   {
     id: "perles-demaquillantes",
+    group: "cosmetics",
+    subGroup: "solid-face-cleanser",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/perles-demaquillantes-1.jpg",
     title: "Perles démaquillantes",
     price: "9,50",
-    vote: "180",
-    rating: 4,
+    vote: "100",
+    score: 3,
+    numberOfReviewers: 10
+  },
+  {
+    id: "perles-de-soin",
+    group: "cosmetics",
+    subGroup: "solid-balm",
+    image:
+      "https://naturefeerique.fr/wp-content/uploads/2022/03/perles-de-soin-2.jpg",
+    title: "Perles de soin",
+    price: "10,90",
+    vote: "100",
+    score: 2,
+    numberOfReviewers: 10
   },
   {
     id: "soin-precieux",
+    group: "cosmetics",
+    subGroup: "solid-balm",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/soin-precieux.jpg",
     title: "Soin Précieux",
     price: "17,90",
-    vote: "200",
-    rating: 5,
+    vote: "100",
+    score: 5,
+    numberOfReviewers: 10
   },
   {
-    id: "soin-precieux",
+    id: "carre-demaquillant-coton-biobambou",
+    group: "accessories",
+    subGroup: "cleansing-squares",
     image:
-      "https://naturefeerique.fr/wp-content/uploads/2022/03/soin-precieux.jpg",
-    title: "Soin Précieux",
-    price: "17,90",
-    vote: "200",
-    rating: 4,
-  },
-  {
-    id: "soin-precieux",
-    image:
-      "https://naturefeerique.fr/wp-content/uploads/2022/03/soin-precieux.jpg",
-    title: "Soin Précieux",
-    price: "17,90",
-    vote: "200",
-    rating: 4.8,
-  },
-  {
-    id: "soin-precieux",
-    image:
-      "https://naturefeerique.fr/wp-content/uploads/2022/03/soin-precieux.jpg",
-    title: "Soin Précieux",
-    price: "17,90",
-    vote: "200",
-    rating: 4.5,
+      "https://naturefeerique.fr/wp-content/uploads/2022/02/carre-demaquillant-coton-biobambou.webp",
+    title: "Carré démaquillant Coton Bio/bambou",
+    price: "2,5",
+    vote: "100",
+    score: 3,
+    numberOfReviewers: 10
   },
 ];
 export const productPrice = ["0€ — 10€", "11€ — 20€", "21€ — 50€"];
@@ -104,7 +104,12 @@ export const totalProducts: Product[] = [
     title: "Déodorant Plume",
     price: "14,50",
     vote: "100",
-    rating: 5,
+    score: 5,
+    numberOfReviewers: 10,
+    shortDescription:
+      "Le carré démaquillant est un accessoire zéro déchet indispensable.",
+    description:
+      "Le Carré démaquillant coton bio/bambou est idéal pour nettoyer le visage en douceur.  Sa face micro-polaire ultra douce en viscose de bambou permet un nettoyage en douceur. Le tissu micro-éponge viscose de bambou a des propriétés naturelles antibactériennes, il est donc parfaitement adapté pour les peaux sensibles des enfants et des adultes.",
   },
   {
     id: "demaquillant-cocoon",
@@ -115,7 +120,12 @@ export const totalProducts: Product[] = [
     title: "Démaquillant Cocoon",
     price: "15,50",
     vote: "100",
-    rating: 4,
+    score: 4,
+    numberOfReviewers: 10,
+    shortDescription:
+      "Le carré démaquillant est un accessoire zéro déchet indispensable.",
+    description:
+      "Le Carré démaquillant coton bio/bambou est idéal pour nettoyer le visage en douceur.  Sa face micro-polaire ultra douce en viscose de bambou permet un nettoyage en douceur. Le tissu micro-éponge viscose de bambou a des propriétés naturelles antibactériennes, il est donc parfaitement adapté pour les peaux sensibles des enfants et des adultes.",
   },
   {
     id: "perles-demaquillantes",
@@ -126,7 +136,12 @@ export const totalProducts: Product[] = [
     title: "Perles démaquillantes",
     price: "9,50",
     vote: "100",
-    rating: 3,
+    score: 3,
+    numberOfReviewers: 10,
+    shortDescription:
+      "Le carré démaquillant est un accessoire zéro déchet indispensable.",
+    description:
+      "Le Carré démaquillant coton bio/bambou est idéal pour nettoyer le visage en douceur.  Sa face micro-polaire ultra douce en viscose de bambou permet un nettoyage en douceur. Le tissu micro-éponge viscose de bambou a des propriétés naturelles antibactériennes, il est donc parfaitement adapté pour les peaux sensibles des enfants et des adultes.",
   },
   {
     id: "perles-de-soin",
@@ -137,7 +152,12 @@ export const totalProducts: Product[] = [
     title: "Perles de soin",
     price: "10,90",
     vote: "100",
-    rating: 2,
+    score: 2,
+    numberOfReviewers: 10,
+    shortDescription:
+      "Le carré démaquillant est un accessoire zéro déchet indispensable.",
+    description:
+      "Le Carré démaquillant coton bio/bambou est idéal pour nettoyer le visage en douceur.  Sa face micro-polaire ultra douce en viscose de bambou permet un nettoyage en douceur. Le tissu micro-éponge viscose de bambou a des propriétés naturelles antibactériennes, il est donc parfaitement adapté pour les peaux sensibles des enfants et des adultes.",
   },
   {
     id: "soin-precieux",
@@ -148,7 +168,12 @@ export const totalProducts: Product[] = [
     title: "Soin Précieux",
     price: "17,90",
     vote: "100",
-    rating: 5,
+    score: 5,
+    numberOfReviewers: 10,
+    shortDescription:
+      "Le carré démaquillant est un accessoire zéro déchet indispensable.",
+    description:
+      "Le Carré démaquillant coton bio/bambou est idéal pour nettoyer le visage en douceur.  Sa face micro-polaire ultra douce en viscose de bambou permet un nettoyage en douceur. Le tissu micro-éponge viscose de bambou a des propriétés naturelles antibactériennes, il est donc parfaitement adapté pour les peaux sensibles des enfants et des adultes.",
   },
   {
     id: "carre-demaquillant-coton-biobambou",
@@ -159,7 +184,12 @@ export const totalProducts: Product[] = [
     title: "Carré démaquillant Coton Bio/bambou",
     price: "2,5",
     vote: "100",
-    rating: 3,
+    score: 3,
+    numberOfReviewers: 10,
+    shortDescription:
+      "Le carré démaquillant est un accessoire zéro déchet indispensable.",
+    description:
+      "Le Carré démaquillant coton bio/bambou est idéal pour nettoyer le visage en douceur.  Sa face micro-polaire ultra douce en viscose de bambou permet un nettoyage en douceur. Le tissu micro-éponge viscose de bambou a des propriétés naturelles antibactériennes, il est donc parfaitement adapté pour les peaux sensibles des enfants et des adultes.",
   },
   {
     id: "carre-demaquillant-coton-bio-lot-de",
@@ -170,7 +200,8 @@ export const totalProducts: Product[] = [
     title: "Carré démaquillant Coton bio/bambou Lot de 2",
     price: "4,5",
     vote: "100",
-    rating: 4,
+    score: 4,
+    numberOfReviewers: 10,
     shortDescription:
       "Le carré démaquillant est un accessoire zéro déchet indispensable.",
     description:

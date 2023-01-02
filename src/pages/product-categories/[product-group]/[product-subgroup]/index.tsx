@@ -6,8 +6,7 @@ import { Product } from "@types";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import {
-  productFilter,
-  productItem,
+  productFilter, 
   productPrice,
   totalProducts,
 } from "@utils/fakeData";
@@ -45,7 +44,7 @@ const ProductGroup = () => {
           <div className="flex  space-x-5 mobile:justify-between mobile:mt-5 ">
             <DropdownCheckbox
               title="Catégories"
-              selections={productItem?.reduce(
+              selections={products?.reduce(
                 (a: string[], item) => a.concat(item?.title || ""),
                 []
               )}
@@ -69,7 +68,7 @@ const ProductGroup = () => {
                 price={item?.price}
                 image={item?.image}
                 id={item?.id}
-                rating={item?.rating}
+                score={item?.score}
               />
             </div>
           ))}
