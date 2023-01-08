@@ -4,15 +4,40 @@ import NextLink from "next/link";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { faStar as solidFaStar } from "@fortawesome/free-solid-svg-icons";
-import { faStar as regularFaStar } from "@fortawesome/free-regular-svg-icons";
-
 import { Container } from "@components/container";
-import ProductItem from "@components/product-item";
-
-import { totalProducts } from "@utils/fakeData";
+import { BestSales } from "@components/best-sales";
 import Rating from "@components/rating/rating";
+
+import { productItem, totalProducts } from "@utils/fakeData";
+
 import { VisibleTitleRoutes } from "@definitions/constants";
+
+const DescriptionTabs = [{
+  id: "tab-descriptions-tab",
+  header:"Description",
+  href:"#tab-descriptions"
+},
+{
+  id:"tab-features-tab",
+  header:"Caractéristiques",
+  href:"#tab-features"
+},
+{
+  id:"tab-utilisation-tab",
+  header:"Utilisation",
+  href:"#tab-utilisation"
+},
+{
+  id:"tab-composition-tab",
+  header:"Composition",
+  href:"#tab-composition"
+},
+{
+  id:"tab-reviews-tab",
+  header:"Avis",
+  href:"#tab-reviews"
+}
+];
 
 const ProductDetail: React.FC = () => {
   const router = useRouter();
@@ -72,8 +97,8 @@ const ProductDetail: React.FC = () => {
           <div className="flex">
             {breadCrumb?.map((item, index) => {
               return (
-                <div className="flex">
-                  <NextLink href={item?.route} key={index}>
+                <div className="flex" key={index}>
+                  <NextLink href={item?.route}>
                     <span className="cursor-pointer text-[#603813] hover:text-[#777777]">
                       {item?.name}
                     </span>
@@ -119,6 +144,81 @@ const ProductDetail: React.FC = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* description tabs */}
+      <div className="mx-16">
+        <ul
+          className="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0 mb-4"
+          id="tabs-tab"
+          role="tablist"
+        >
+          {DescriptionTabs?.map((item, index) => (
+            <li className="nav-item" role="presentation" key={index}>
+              <a
+                href={item?.href}
+                className={`nav-link block leading-tight font-semibold border-t-[3px]  border-transparent 
+                px-6 py-3 my-2 ${index===0 ? "active" : ""} selection:border-black`}
+                id={item?.id}
+                data-bs-toggle="pill"
+                data-bs-target={item?.href}
+                role="tab" 
+                aria-selected="true"
+              >
+                {item?.header}
+              </a>
+            </li>
+          ))}  
+        </ul>
+        <div className="tab-content" id="tabs-tabContent">
+          <div
+            className="tab-pane fade show active"
+            id="tab-descriptions"
+            role="tabpanel"
+            aria-labelledby="tab-descriptions-tab"
+          >
+            Tab 1 content
+          </div>
+          <div
+            className="tab-pane fade"
+            id="tab-features"
+            role="tabpanel"
+            aria-labelledby="tab-features-tab"
+          >
+            Tab 2 content
+          </div>
+          <div
+            className="tab-pane fade"
+            id="tab-utilisation"
+            role="tabpanel"
+            aria-labelledby="tab-utilisation-tab"
+          >
+            Tab 3 content
+          </div>
+          <div
+            className="tab-pane fade"
+            id="tab-composition"
+            role="tabpanel"
+            aria-labelledby="tab-composition-tab"
+          >
+            Tab 4 content
+          </div>
+          <div
+            className="tab-pane fade"
+            id="tab-reviews"
+            role="tabpanel"
+            aria-labelledby="tab-reviews-tab"
+          >
+            Tab 5 content
+          </div>
+        </div>
+      </div>
+
+      {/* susggestions */}
+
+      <div className="mx-10 my-10">
+        <span className="mx-8 text-[26px] font-light my-2">Suggestions</span>
+        <BestSales products={productItem} />
       </div>
     </Container>
   );

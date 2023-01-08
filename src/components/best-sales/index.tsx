@@ -6,9 +6,13 @@ import { Product } from "@types";
 
 type BestSalesProps = {
   products: Product[];
+  showButton?: boolean;
 };
 
-export const BestSales: React.FC<BestSalesProps> = ({ products }) => {
+export const BestSales: React.FC<BestSalesProps> = ({
+  products,
+  showButton = false,
+}) => {
   const { width } = useWindowSize();
   const stepProductSlide = useMemo(() => (width > 740 ? 4 : 1), [width]);
 
@@ -35,7 +39,7 @@ export const BestSales: React.FC<BestSalesProps> = ({ products }) => {
                     ?.slice(index, index + stepProductSlide)
                     ?.map((item: Product, index2: number) => {
                       return (
-                        <div key={index2} className="border border-gray">
+                        <div key={index2} className="border border-gray duration-300 hover:shadow-2xl">
                           <ProductItem
                             favorites={() => console.log(index2)}
                             title={item?.title}
@@ -43,6 +47,7 @@ export const BestSales: React.FC<BestSalesProps> = ({ products }) => {
                             image={item?.image}
                             id={item?.id}
                             score={item?.score}
+                            showButton={showButton}
                           />
                         </div>
                       );

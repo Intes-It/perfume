@@ -111,7 +111,7 @@ const Home: React.FC = () => {
             NOS MEILLEURES VENTES
           </span>
         </div>
-        <BestSales products={bestSellingProducts} />
+        <BestSales products={bestSellingProducts} showButton={true} />
       </div>
 
       {/* Our Universe */}
@@ -154,8 +154,6 @@ const Home: React.FC = () => {
           <span className="text-center text-[32px] font-semibold tracking-wide text-[#383e42]">
             L’ART DE VOUS SÉDUIRE
           </span>
-
-           
         </div>
       </div>
     </Container>

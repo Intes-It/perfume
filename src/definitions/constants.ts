@@ -37,7 +37,7 @@ export const Routes = {
             featherDeodorant: {
               title: "Déodorant Plume",
               route:
-                "/product-categories/cosmetics/solid-deodorant/feather-deodorant",
+                "/product/deodorant-plume",
             },
           },
         },
@@ -48,12 +48,12 @@ export const Routes = {
             cocoonCleanser: {
               title: "Démaquillant Cocoon",
               route:
-                "/product-categories/cosmetics/solid-face-cleanser/cocoon-cleanser",
+                "/product/demaquillant-cocoon",
             },
             cocoonCleansingPearls: {
               title: "Perles Démaquillantes Cocoon",
               route:
-                "/product-categories/cosmetics/solid-face-cleanser/cocoon-cleansing-pearls",
+                "/product/perles-demaquillantes",
             },
           },
         },
@@ -63,12 +63,12 @@ export const Routes = {
           children: {
             preciousCare: {
               title: "Soin Précieux",
-              route: "/product-categories/cosmetics/solid-balm/precious-care",
+              route: "/product/soin-precieux",
             },
             preciousCarePearls: {
               title: "Perles De Soin Précieux",
               route:
-                "/product-categories/cosmetics/solid-balm/precious-care-pearls",
+                "/product/perles-de-soin",
             },
           },
         },
@@ -86,12 +86,12 @@ export const Routes = {
             bambooCleansingSquare100: {
               title: "Carré Démaquillant 100% Bambou",
               route:
-                "/product-categories/accessories/cleansing-squares/bamboo-cleansing-square-100",
+                "/product/carre-demaquillant-coton-bio-lot-de",
             },
             organicCottonBambooCleansingSquare: {
               title: "Carré Démaquillant Coton Bio/Bambou",
               route:
-                "/product-categories/accessories/cleansing-squares/organic-cotton-bamboo-cleansing-square",
+                "/product/carre-demaquillant-coton-biobambou",
             },
           },
         },
@@ -102,17 +102,17 @@ export const Routes = {
             solidDeodorantPouch: {
               title: "Pochette Déodorant Solide",
               route:
-                "/product-categories/accessories/eco-designed-pouches/solid-deodorant-pouch",
+                "/product/solid-deodorant-pouch",
             },
             cocoonMakeupRemoverPouch: {
               title: "Pochette Démaquillant Cocoon",
               route:
-                "/product-categories/accessories/eco-designed-pouches/cocoon-makeup-remover-pouch",
+                "/product/cocoon-makeup-remover-pouch",
             },
             preciousCarePouch: {
               title: "Pochette Soin Précieux",
               route:
-                "/product-categories/accessories/eco-designed-pouches/precious-care-pouch",
+                "/product/precious-care-pouch",
             },
           },
         },

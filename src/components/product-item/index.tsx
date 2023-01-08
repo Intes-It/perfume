@@ -12,6 +12,7 @@ type ProductProps = {
   price?: string;
   id?: string;
   score?: number;
+  showButton?: boolean;
 };
 
 const ProductItem: React.FC<ProductProps> = ({
@@ -21,11 +22,10 @@ const ProductItem: React.FC<ProductProps> = ({
   price,
   id,
   score,
+  showButton = true,
 }) => {
-  
-
   return (
-    <div className=" relative flex flex-col items-center text-[16px] ">
+    <div className=" relative flex flex-col items-center text-[16px] mb-2">
       <FontAwesomeIcon
         className="absolute top-[5%] right-[4%] mobile:top-[2%] mobile:right-[0%]"
         icon={faHeart}
@@ -40,15 +40,17 @@ const ProductItem: React.FC<ProductProps> = ({
       </NextLink>
       <h5 className="text-[#603813] text-center">{title}</h5>
       <div className="flex flex-col mt-5 items-center space-y-2">
-        <Rating score={score || 0}/>
+        <Rating score={score || 0} />
         <p className="font-semibold">{price}€</p>
         <div>
-          <button
-            type="submit"
-            className=" p-3 text-[14.4px] font-semibold text-[#262238]  bg-[#ACD051] rounded-md shadow hover:bg-[#603813] hover:text-white"
-          >
-            Choix des options
-          </button>
+          {showButton && (
+            <button
+              type="submit"
+              className=" p-3 text-[14.4px] font-semibold text-[#262238]  bg-[#ACD051] rounded-md shadow hover:bg-[#603813] hover:text-white"
+            >
+              Choix des options
+            </button>
+          )}
         </div>
       </div>
     </div>
