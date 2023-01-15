@@ -2,9 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Container } from "@components";
 import NextLink from "next/link";
 
-import { homeSlideInfo, productItem } from "src/utils/fakeData";
 import { BestSales } from "@components/best-sales";
 import { OurUniverse } from "@definitions/constants";
+import {
+  homeSlideInfo,
+  productItem,
+  BriefTextCreatrice,
+  BriefTextNature,
+  featuredComments,
+} from "src/utils/fakeData";
+import { FeaturedComments } from "@components/featured-comment";
 
 const Home: React.FC = () => {
   const [state] = useState({
@@ -149,12 +156,69 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      <div>
+      {/* about*/}
+      <div className="flex flex-col justify-between items-center text-[19.2px] text-[#383E42] mobile:text-[16px]">
+        <div className="flex flex-row mobile:flex-col justify-between text-justify bg-[#F9F4EE] lg:mt-[100px] mt-[50px]">
+          <div className="animate-wiggle mobile:w-[100vw] w-1/2">
+            <img src={"/images/about-nature.webp"} alt="" />
+          </div>
+          <div className="mobile:mx-5 mx-10 mobile:w-[100vw] w-1/2">
+            <div className="text-center text-[44.8px] mobile:text-[25.6px] font-bold text-[#383E42]">
+              <h2>A propos de </h2>
+              <h2> Nature Féerique</h2>
+            </div>
+            <div>
+              {BriefTextNature?.map((nature, index) => (
+                <h2 key={index}>{nature}</h2>
+              ))}
+            </div>
+            <div className="text-center my-2">
+              <a href="/about/#apropos">
+                <button className="rounded-md bg-[#603813] hover:bg-[#383e42] text-white font-thin p-2 mobile:text-[2vw]">
+                  En Savoir Plus
+                </button> 
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-row mobile:flex-col-reverse justify-between text-justify bg-[#F7F7F7]  mobile:mt-4">
+          <div className="mobile:mx-5 mx-10 mobile:w-[100vw] w-1/2">
+            <div className="text-center text-[44.8px] mobile:text-[25.6px] font-bold text-[#383E42]">
+              <h2>Rencontre</h2>
+              <h2> Avec la créatrice</h2>
+            </div>
+            <div>
+              {BriefTextCreatrice?.map((creatrice, index) => (
+                <h2 key={index}>{creatrice}</h2>
+              ))}
+              <div className="flex justify-center my-10 mobile:my-5">
+                <h3>EMILIE</h3>
+                <img className="" src={"/images/about-mini-logo.webp"} alt="" />
+              </div>
+            </div>
+            <div className="text-center my-2">
+              <a href="/about/#RALC">
+                <button className="rounded-md hover:bg-[#603813] bg-[#383e42] text-white font-thin p-2 mobile:text-[2vw]">
+                  En Savoir Plus
+                </button>
+              </a>
+            </div>
+          </div>
+          <img
+            className="mobile:w-[100vw] w-1/2"
+            src={"/images/about-creatrice.webp"}
+            alt=""
+          />
+        </div>
+      </div>
+
+      <div className="px-10">
         <div className="w-full grid my-12">
           <span className="text-center text-[32px] font-semibold tracking-wide text-[#383e42]">
             L’ART DE VOUS SÉDUIRE
           </span>
         </div>
+        <FeaturedComments comments={featuredComments}/>
       </div>
     </Container>
   );

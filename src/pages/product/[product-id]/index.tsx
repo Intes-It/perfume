@@ -177,7 +177,9 @@ const ProductDetail: React.FC = () => {
             role="tabpanel"
             aria-labelledby="tab-descriptions-tab"
           >
-            Tab 1 content
+            <span className="text-[#603813] whitespace-pre-line">
+              {product?.description}
+            </span>
           </div>
           <div
             className="tab-pane fade"
@@ -185,7 +187,7 @@ const ProductDetail: React.FC = () => {
             role="tabpanel"
             aria-labelledby="tab-features-tab"
           >
-            Tab 2 content
+            No Data
           </div>
           <div
             className="tab-pane fade"
@@ -193,7 +195,7 @@ const ProductDetail: React.FC = () => {
             role="tabpanel"
             aria-labelledby="tab-utilisation-tab"
           >
-            Tab 3 content
+            No Data
           </div>
           <div
             className="tab-pane fade"
@@ -201,7 +203,7 @@ const ProductDetail: React.FC = () => {
             role="tabpanel"
             aria-labelledby="tab-composition-tab"
           >
-            Tab 4 content
+            No Data
           </div>
           <div
             className="tab-pane fade"

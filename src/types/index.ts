@@ -11,3 +11,9 @@ export interface Product {
   description?: string | undefined;
   numberOfReviewers?: number | undefined;
 }
+
+export interface MemberComment{
+  id: string;
+  text?: string;
+  member?: string;
+}
