@@ -207,6 +207,39 @@ export const totalProducts: Product[] = [
     description:
       "Le Carré démaquillant coton bio/bambou est idéal pour nettoyer le visage en douceur.  Sa face micro-polaire ultra douce en viscose de bambou permet un nettoyage en douceur. Le tissu micro-éponge viscose de bambou a des propriétés naturelles antibactériennes, il est donc parfaitement adapté pour les peaux sensibles des enfants et des adultes.",
   },
+
+  {
+    id: "precious-lip-hand-balm",
+    group: "limited-edition",
+    subGroup: "glamor-range",
+    image:
+      "http://naturefeerique.fr/wp-content/uploads/2022/02/Baume-Precieux12-site-scaled.jpg",
+    title: "Baume Précieux Mains & Lèvres",
+    price: "9,50",
+    vote: "100",
+    score: 5,
+    numberOfReviewers: 3,
+    shortDescription:
+      "Le carré démaquillant est un accessoire zéro déchet indispensable.",
+    description:
+      "Le Carré démaquillant coton bio/bambou est idéal pour nettoyer le visage en douceur.  Sa face micro-polaire ultra douce en viscose de bambou permet un nettoyage en douceur. Le tissu micro-éponge viscose de bambou a des propriétés naturelles antibactériennes, il est donc parfaitement adapté pour les peaux sensibles des enfants et des adultes.",
+  },
+  {
+    id: "nomadic-precious-heart",
+    group: "limited-edition",
+    subGroup: "glamor-range",
+    image:
+      "http://naturefeerique.fr/wp-content/uploads/2022/02/Coeur-Precieux-20-site-scaled.jpg",
+    title: "Cœur Précieux nomade",
+    price: "13,50",
+    vote: "100",
+    score: 5,
+    numberOfReviewers: 3,
+    shortDescription:
+      "Le carré démaquillant est un accessoire zéro déchet indispensable.",
+    description:
+      "Le Carré démaquillant coton bio/bambou est idéal pour nettoyer le visage en douceur.  Sa face micro-polaire ultra douce en viscose de bambou permet un nettoyage en douceur. Le tissu micro-éponge viscose de bambou a des propriétés naturelles antibactériennes, il est donc parfaitement adapté pour les peaux sensibles des enfants et des adultes.",
+  },
 ];
 
 export const featuredComments: MemberComment[] = [

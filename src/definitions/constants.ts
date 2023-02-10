@@ -14,7 +14,8 @@ export const Routes = {
   blog: {
     title: "Journal",
     route: "/blog",
-    image: "https://mldn3w3pos1n.i.optimole.com/cb:453S~5a2d9/w:auto/h:auto/q:mauto/id:b2ad038a933778cbbc61fbc58eedfcef/https://naturefeerique.fr/journal-nes.png",
+    image:
+      "https://mldn3w3pos1n.i.optimole.com/cb:453S~5a2d9/w:auto/h:auto/q:mauto/id:b2ad038a933778cbbc61fbc58eedfcef/https://naturefeerique.fr/journal-nes.png",
   },
   favorite: {
     title: "Produits Favoris",
@@ -28,7 +29,8 @@ export const Routes = {
     cosmetics: {
       title: "Cosmétiques",
       route: "/product-categories/cosmetics",
-      image: "http://naturefeerique.fr/wp-content/uploads/2022/03/Photo-Categorie-cosmetiques-1-scaled-2.webp",
+      image:
+        "http://naturefeerique.fr/wp-content/uploads/2022/03/Photo-Categorie-cosmetiques-1-scaled-2.webp",
       children: {
         solidDeodorant: {
           title: "Déodorant Solide",
@@ -36,8 +38,7 @@ export const Routes = {
           children: {
             featherDeodorant: {
               title: "Déodorant Plume",
-              route:
-                "/product/deodorant-plume",
+              route: "/product/deodorant-plume",
             },
           },
         },
@@ -47,13 +48,11 @@ export const Routes = {
           children: {
             cocoonCleanser: {
               title: "Démaquillant Cocoon",
-              route:
-                "/product/demaquillant-cocoon",
+              route: "/product/demaquillant-cocoon",
             },
             cocoonCleansingPearls: {
               title: "Perles Démaquillantes Cocoon",
-              route:
-                "/product/perles-demaquillantes",
+              route: "/product/perles-demaquillantes",
             },
           },
         },
@@ -67,8 +66,7 @@ export const Routes = {
             },
             preciousCarePearls: {
               title: "Perles De Soin Précieux",
-              route:
-                "/product/perles-de-soin",
+              route: "/product/perles-de-soin",
             },
           },
         },
@@ -77,7 +75,8 @@ export const Routes = {
     accessories: {
       title: "Accessoires",
       route: "/product-categories/accessories",
-      image: "http://naturefeerique.fr/wp-content/uploads/2022/03/Photo-categorie-Accessoires-scaled-1.jpg",
+      image:
+        "http://naturefeerique.fr/wp-content/uploads/2022/03/Photo-categorie-Accessoires-scaled-1.jpg",
       children: {
         cleansingSquares: {
           title: "Carrés Démaquillants",
@@ -85,13 +84,11 @@ export const Routes = {
           children: {
             bambooCleansingSquare100: {
               title: "Carré Démaquillant 100% Bambou",
-              route:
-                "/product/carre-demaquillant-coton-bio-lot-de",
+              route: "/product/carre-demaquillant-coton-bio-lot-de",
             },
             organicCottonBambooCleansingSquare: {
               title: "Carré Démaquillant Coton Bio/Bambou",
-              route:
-                "/product/carre-demaquillant-coton-biobambou",
+              route: "/product/carre-demaquillant-coton-biobambou",
             },
           },
         },
@@ -101,18 +98,15 @@ export const Routes = {
           children: {
             solidDeodorantPouch: {
               title: "Pochette Déodorant Solide",
-              route:
-                "/product/solid-deodorant-pouch",
+              route: "/product/solid-deodorant-pouch",
             },
             cocoonMakeupRemoverPouch: {
               title: "Pochette Démaquillant Cocoon",
-              route:
-                "/product/cocoon-makeup-remover-pouch",
+              route: "/product/cocoon-makeup-remover-pouch",
             },
             preciousCarePouch: {
               title: "Pochette Soin Précieux",
-              route:
-                "/product/precious-care-pouch",
+              route: "/product/precious-care-pouch",
             },
           },
         },
@@ -121,7 +115,24 @@ export const Routes = {
     limitedEdition: {
       title: "Édition Limitée",
       route: "/product-categories/limited-edition",
-      image: "https://mldn3w3pos1n.i.optimole.com/cb:453S~5a2d9/w:auto/h:auto/q:mauto/id:bc473c5bdb3bd5a52d20679306c31fd7/https://naturefeerique.fr/Presentation-Gamme-Amour1-scaled.jpg",
+      image:
+        "https://mldn3w3pos1n.i.optimole.com/cb:453S~5a2d9/w:auto/h:auto/q:mauto/id:bc473c5bdb3bd5a52d20679306c31fd7/https://naturefeerique.fr/Presentation-Gamme-Amour1-scaled.jpg",
+      children: {
+        glamorRange: {
+          title: "Gamme Glamour",
+          route: "/product-categories/limited-edition/glamor-range",
+          children: {
+            preciousLipHandBalm: {
+              title: "Baume Précieux Mains & Lèvres",
+              route: "/product/precious-lip-hand-balm",
+            },
+            nomadicPreciousHeart: {
+              title: "Cœur Précieux nomade",
+              route: "/product/nomadic-precious-heart",
+            },
+          },
+        },  
+      },
     },
   },
   boxes: {
@@ -148,6 +159,7 @@ export const VisibleTitleRoutes = [
   Routes.productCategories.accessories.children.cleansingSquares,
   Routes.productCategories.accessories.children.ecoDesignedPouches,
   Routes.productCategories.limitedEdition,
+  Routes.productCategories.limitedEdition.children.glamorRange,
   Routes.boxes,
   Routes.contact,
 ] as const;
