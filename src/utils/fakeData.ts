@@ -240,6 +240,39 @@ export const totalProducts: Product[] = [
     description:
       "Le Carré démaquillant coton bio/bambou est idéal pour nettoyer le visage en douceur.  Sa face micro-polaire ultra douce en viscose de bambou permet un nettoyage en douceur. Le tissu micro-éponge viscose de bambou a des propriétés naturelles antibactériennes, il est donc parfaitement adapté pour les peaux sensibles des enfants et des adultes.",
   },
+
+  {
+    id: "cleansing-beauty-kit",
+    group: "boxes",
+    subGroup: "our-wellness-formulas",
+    image:
+      "https://naturefeerique.fr/wp-content/uploads/2022/03/Kit-beaute-demaquillage-scaled-1.jpg",
+    title: "Kit Beauté Démaquillage",
+    price: "24,50",
+    vote: "100",
+    score: 4,
+    numberOfReviewers: 7,
+    shortDescription:
+      "Une trousse beauté avec 30 Perles démaquillantes et 2 carrés démaquillants",
+    description:
+      "Ce kit contient le nécessaire pour un démaquillage : 30 Perles Démaquillantes dans leur écrin en liège + 2 carrés démaquillants réutilisables dans une jolie trousse.",
+  },
+  {
+    id: "nomadic-beauty-kit",
+    group: "boxes",
+    subGroup: "our-wellness-formulas",
+    image:
+      "https://naturefeerique.fr/wp-content/uploads/2022/03/Kit-beaute-nomade-scaled-1.jpg",
+    title: "Kit Beauté Nomade",
+    price: "31,50",
+    vote: "100",
+    score: 5,
+    numberOfReviewers: 7,
+    shortDescription:
+      "Une trousse beauté avec 30 Perles démaquillantes, 2 carrés démaquillants et un Déodorant Plume",
+    description:
+      "Ce kit contient une jolie trousse de transport avec les produits indispensables pour partir en week-end : 30 Perles Démaquillantes dans leur boîte nomade + 2 carrés démaquillants réutilisables et un Déodorant plume dans sa boîte nomade.",
+  }, 
 ];
 
 export const featuredComments: MemberComment[] = [

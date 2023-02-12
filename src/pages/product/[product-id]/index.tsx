@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import NextLink from "next/link";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,40 +11,60 @@ import Rating from "@components/rating/rating";
 import { productItem, totalProducts } from "@utils/fakeData";
 
 import { VisibleTitleRoutes } from "@definitions/constants";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { Product } from "@types";
+import ImageModal from "@components/image-modal";
 
-const DescriptionTabs = [{
-  id: "tab-descriptions-tab",
-  header:"Description",
-  href:"#tab-descriptions"
-},
-{
-  id:"tab-features-tab",
-  header:"Caractéristiques",
-  href:"#tab-features"
-},
-{
-  id:"tab-utilisation-tab",
-  header:"Utilisation",
-  href:"#tab-utilisation"
-},
-{
-  id:"tab-composition-tab",
-  header:"Composition",
-  href:"#tab-composition"
-},
-{
-  id:"tab-reviews-tab",
-  header:"Avis",
-  href:"#tab-reviews"
-}
+const DescriptionTabs = [
+  {
+    id: "tab-descriptions-tab",
+    header: "Description",
+    href: "#tab-descriptions",
+  },
+  {
+    id: "tab-features-tab",
+    header: "Caractéristiques",
+    href: "#tab-features",
+  },
+  {
+    id: "tab-utilisation-tab",
+    header: "Utilisation",
+    href: "#tab-utilisation",
+  },
+  {
+    id: "tab-composition-tab",
+    header: "Composition",
+    href: "#tab-composition",
+  },
+  {
+    id: "tab-reviews-tab",
+    header: "Avis",
+    href: "#tab-reviews",
+  },
 ];
 
-const ProductDetail: React.FC = () => {
-  const router = useRouter();
-  const product = useMemo(() => {
-    const productId = router.query["product-id"];
-    return totalProducts?.find((item) => item?.id === productId) || null;
-  }, [router.query]);
+export const getServerSideProps: GetServerSideProps<{
+  product: Product;
+}> = async (context: any) => {
+  const productId = context.query["product-id"];
+  const product = totalProducts?.find((item) => item?.id === productId) || null;
+  if (product)
+    return {
+      props: {
+        product,
+      },
+    };
+  return {
+    notFound: true,
+  };
+};
+
+const ProductDetail: React.FC<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ product }) => {
+  const [state, setState] = useState({ isShowImageModal: false });
+
+  const { isShowImageModal } = state;
 
   const breadCrumb = useMemo(() => {
     let res = [{ name: "Accueil", route: "/" }];
@@ -69,7 +89,7 @@ const ProductDetail: React.FC = () => {
   }, [product]);
 
   const setShowModal = (isOpen: boolean) => {
-    console.log(isOpen);
+    setState((pre) => ({ ...pre, isShowImageModal: isOpen }));
   };
 
   return (
@@ -78,7 +98,7 @@ const ProductDetail: React.FC = () => {
         {/* product image */}
         <div className="overflow-clip relative">
           <img
-            className="hover:scale-140 transition duration-100 w-full md:h-[40vw] object-cover"
+            className="hover:scale-125 transition duration-100 w-full object-cover"
             src={product?.image}
             alt={product?.title}
           />
@@ -158,17 +178,19 @@ const ProductDetail: React.FC = () => {
               <a
                 href={item?.href}
                 className={`nav-link block leading-tight font-semibold border-t-[3px]  border-transparent 
-                px-6 py-3 my-2 ${index===0 ? "active" : ""} selection:border-black`}
+                px-6 py-3 my-2 ${
+                  index === 0 ? "active" : ""
+                } selection:border-black`}
                 id={item?.id}
                 data-bs-toggle="pill"
                 data-bs-target={item?.href}
-                role="tab" 
+                role="tab"
                 aria-selected="true"
               >
                 {item?.header}
               </a>
             </li>
-          ))}  
+          ))}
         </ul>
         <div className="tab-content" id="tabs-tabContent">
           <div
@@ -222,6 +244,11 @@ const ProductDetail: React.FC = () => {
         <span className="mx-8 text-[26px] font-light my-2">Suggestions</span>
         <BestSales products={productItem} />
       </div>
+      <ImageModal
+        imgUrl={product?.image || ""}
+        isShowModel={isShowImageModal}
+        onClose={() => setShowModal(false)}
+      />
     </Container>
   );
 };

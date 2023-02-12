@@ -131,13 +131,43 @@ export const Routes = {
               route: "/product/nomadic-precious-heart",
             },
           },
-        },  
+        },
       },
     },
   },
   boxes: {
     title: "Coffrets",
     route: "#",
+    image:
+      "https://mldn3w3pos1n.i.optimole.com/cb:453S~5a2d9/w:auto/h:auto/q:mauto/id:bc473c5bdb3bd5a52d20679306c31fd7/https://naturefeerique.fr/Presentation-Gamme-Amour1-scaled.jpg",
+    children: {
+      ourWellnessFormulas: {
+        title: "NOS FORMULES BIEN-ÊTRE",
+        route: "/product-categories/boxes/our-wellness-formulas",
+        children: {
+          cleansingBeautyKit: {
+            title: "Kit Beauté Démaquillage",
+            route: "/product/cleansing-beauty-kit",
+          },
+          nomadicBeautyKit: {
+            title: "Kit Beauté Nomade",
+            route: "/product/nomadic-beauty-kit",
+          },
+          beautyCareKit: {
+            title: "Kit Beauté Soin",
+            route: "/product/beauty-care-kit",
+          },
+          discoveryKit : {
+            title: "Kit Découverte (Bientôt Disponible)",
+            route: "#",
+          },
+          customizableBeautyCase : {
+            title: "Trousse Beauté Personnalisable (Bientôt Disponible)",
+            route: "#",
+          },
+        },
+      },
+    },
   },
   contact: {
     title: "Contact",
@@ -161,6 +191,7 @@ export const VisibleTitleRoutes = [
   Routes.productCategories.limitedEdition,
   Routes.productCategories.limitedEdition.children.glamorRange,
   Routes.boxes,
+  Routes.boxes.children.ourWellnessFormulas,
   Routes.contact,
 ] as const;
 
