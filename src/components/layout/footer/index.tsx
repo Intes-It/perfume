@@ -1,4 +1,4 @@
-import { GithubIcon, TwitterIcon, YoutubeIcon } from "@components/icons";
+import {  TwitterIcon, FacebookIcon,InstagramIcon } from "@components/icons";
 import * as React from "react";
 import { FooterRoutes } from "@definitions/constants";
 import LogoSection from "../header/logo-section";
@@ -10,9 +10,9 @@ const Footer = () => {
         <div className="mx-auto mb-5">
           <LogoSection className="mx-auto h-32" />
           <div className="flex justify-center gap-4">
-            <GithubIcon className="h-5 w-5" />
+            <FacebookIcon className="h-5 w-5" />
             <TwitterIcon className="h-5 w-5" />
-            <YoutubeIcon className="h-5 w-5" />
+            <InstagramIcon className="h-5 w-5" />
           </div>
         </div>
         <div className="mx-10 grid col-span-3  md:grid-cols-3 lg:grid-cols-3">
