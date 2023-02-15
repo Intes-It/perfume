@@ -24,6 +24,12 @@ export const Routes = {
   myAccount: {
     title: "Mon Compte",
     route: "/my-account",
+    children:{
+     forgotPassword:{
+      title:'Mon Compte',
+      route:'/my-account/forgot-password'
+     }
+    }
   },
   productCategories: {
     cosmetics: {
