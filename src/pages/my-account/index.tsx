@@ -1,8 +1,10 @@
 import { Container } from "@components/container";
 import * as React from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-
+import Link from "next/link";
+import { Routes } from "@definitions/constants";
 const MyAccount = () => {
+  const [check,setCheck]=React.useState<boolean>(true)
   return (
     <Container>
       <div className="flex justify-around items-center flex-col mt-10 md:flex-row md:items-start">
@@ -38,17 +40,13 @@ const MyAccount = () => {
             </div>
             <div className="flex justify-between">
               <div className="flex items-center space-x-2">
-                <input type="checkbox" id="remember" className="w-4 h-4 " />
-                <label>
-                  Se souvenir de moi
-                </label>
+                <input
+                  type="checkbox"
+                  id="remember"
+                  className="w-4 h-4 "
+                />
+                <label>Se souvenir de moi</label>
               </div>
-              <a
-                href="#"
-                className="text-sm  text-blue-600 hover:underline focus:text-blue-800"
-              >
-                Mot de passe perdu ?
-              </a>
             </div>
             <ReCAPTCHA
               sitekey="6Lc2xVYjAAAAAIuk6-oEbePPkK0caIt1JrnPIOOp"
@@ -62,6 +60,9 @@ const MyAccount = () => {
                 Identification
               </button>
             </div>
+            <Link href={Routes.myAccount.children.forgotPassword.route}>
+              <a className="text-base  text-brow-300">Mot de passe perdu ?</a>
+            </Link>
           </form>
         </div>
 
@@ -106,10 +107,8 @@ const MyAccount = () => {
               />
             </div>
             <div className="flex items-center space-x-2">
-              <input type="checkbox" id="remember" className="w-4 h-4 " />
-              <label>
-                Subscribe to our newsletter
-              </label>
+              <input type="checkbox" id="remember" className="w-4 h-4 " checked={check} onChange={()=>setCheck(!check)} />
+              <label>Subscribe to our newsletter</label>
             </div>
             <ReCAPTCHA
               sitekey="6Lc2xVYjAAAAAIuk6-oEbePPkK0caIt1JrnPIOOp"

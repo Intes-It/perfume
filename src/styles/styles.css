@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Objektiv';
+    src: url('../../public/fonts/Trial_objektiv-1/ObjektivMk2_Trial_Lt.ttf');
+    
+}
+html,body{
+    font-family: 'Objektiv',sans-serif;
+  
+}
+.top-badge{
+    top:-6px;
+    right:-5px
+}

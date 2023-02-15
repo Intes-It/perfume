@@ -12,8 +12,17 @@ export interface Product {
   numberOfReviewers?: number | undefined;
 }
 
-export interface MemberComment{
+export interface MemberComment {
   id: string;
   text?: string;
   member?: string;
+}
+export interface cartProps {
+  id: number;
+  image: string;
+  quantity?: number;
+  price: number;
+  totalPrice: number;
+  detail: string;
+  title: string;
 }

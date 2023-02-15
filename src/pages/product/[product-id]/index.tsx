@@ -75,7 +75,6 @@ const ProductDetail: React.FC<
         item?.route?.includes(groupRoute)
       );
 
-      console.log(groupRoute);
       if (group) res = [...res, { name: group?.title, route: group?.route }];
     }
     if (subGroupRoute) {
@@ -151,7 +150,9 @@ const ProductDetail: React.FC<
           <div className="flex items-center gap-3">
             <input
               type="number"
-              className="border border-gray outline-none p-1 text-center w-14 h-14"
+              className="border border-gray outline-none p-1 text-center w-14 h-10"
+              min={1}
+              placeholder={'1'}
             />
             <span className="text-center">OU</span>
             <div className="flex gap-3">
