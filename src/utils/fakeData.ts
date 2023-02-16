@@ -12,6 +12,7 @@ export const productItem: Product[] = [
     vote: "100",
     score: 5,
     numberOfReviewers: 10,
+    check:false
   },
   {
     id: "demaquillant-cocoon",
@@ -24,6 +25,7 @@ export const productItem: Product[] = [
     vote: "100",
     score: 4,
     numberOfReviewers: 10,
+    check:false
   },
   {
     id: "perles-demaquillantes",
@@ -36,6 +38,7 @@ export const productItem: Product[] = [
     vote: "100",
     score: 3,
     numberOfReviewers: 10,
+    check:false
   },
   {
     id: "perles-de-soin",
@@ -48,6 +51,7 @@ export const productItem: Product[] = [
     vote: "100",
     score: 2,
     numberOfReviewers: 10,
+    check:false
   },
   {
     id: "soin-precieux",
@@ -60,6 +64,7 @@ export const productItem: Product[] = [
     vote: "100",
     score: 5,
     numberOfReviewers: 10,
+    check:false
   },
   {
     id: "carre-demaquillant-coton-biobambou",
@@ -72,6 +77,7 @@ export const productItem: Product[] = [
     vote: "100",
     score: 3,
     numberOfReviewers: 10,
+    check:false
   },
 ];
 export const productPrice = ["0€ — 10€", "11€ — 20€", "21€ — 50€"];
@@ -84,6 +90,15 @@ export const productFilter = [
   "Notes Moyennes",
   "Nombres D'avis",
 ];
+
+// export const productFilter = [
+//   {product:"Trier Par...",check:false},
+//   {product:"Alphabétique (A à Z)",check:false},
+//   {product:"Alphabétique (Z à A)",check:false},
+//   {product:"Prix Croissant",check:false},
+//   {product:"Notes Moyennes",check:false},
+//   {product:"Nombres D'avis",check:false},
+// ];
 
 export const colourOptions = [
   { value: "orange", label: "Orange" },
@@ -105,6 +120,7 @@ export const totalProducts: Product[] = [
     price: "14,50",
     vote: "100",
     score: 5,
+    check:false,
     numberOfReviewers: 10,
     shortDescription:
       "Le carré démaquillant est un accessoire zéro déchet indispensable.",
@@ -121,6 +137,7 @@ export const totalProducts: Product[] = [
     price: "15,50",
     vote: "100",
     score: 4,
+    check:false,
     numberOfReviewers: 10,
     shortDescription:
       "Le carré démaquillant est un accessoire zéro déchet indispensable.",
@@ -137,6 +154,7 @@ export const totalProducts: Product[] = [
     price: "9,50",
     vote: "100",
     score: 3,
+    check:false,
     numberOfReviewers: 10,
     shortDescription:
       "Le carré démaquillant est un accessoire zéro déchet indispensable.",
@@ -150,9 +168,10 @@ export const totalProducts: Product[] = [
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/perles-de-soin-2.jpg",
     title: "Perles de soin",
-    price: "10,90",
+    price: "11,90",
     vote: "100",
     score: 2,
+    check:false,
     numberOfReviewers: 10,
     shortDescription:
       "Le carré démaquillant est un accessoire zéro déchet indispensable.",
@@ -169,6 +188,7 @@ export const totalProducts: Product[] = [
     price: "17,90",
     vote: "100",
     score: 5,
+    check:false,
     numberOfReviewers: 10,
     shortDescription:
       "Le carré démaquillant est un accessoire zéro déchet indispensable.",
