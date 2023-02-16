@@ -66,7 +66,8 @@
       ],
       "@i18n": [
         "./i18n.json"
-      ],"@hooks/*": [
+      ],
+      "@hooks/*": [
         "src/hooks/*"
       ]
     },

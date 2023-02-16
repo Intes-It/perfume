@@ -19,7 +19,7 @@ const ProductGroup = () => {
   });
   const server_link = process.env.NEXT_PUBLIC_API_URL;
   const { product } = useProduct();
-  console.log(product);
+ 
 
   const { products, copy, price, categories, selection } = state;
 
