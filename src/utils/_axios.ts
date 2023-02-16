@@ -1,9 +1,9 @@
 import axios from "axios";
 const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+    baseURL: process.env.BASE_URL,
 });
 
-instance.defaults.xsrfHeaderName = "X-CSRFToken";
-instance.defaults.xsrfCookieName = "csrftoken";
+instance.defaults.xsrfHeaderName = 'X-CSRFToken';
+instance.defaults.xsrfCookieName = 'csrftoken';
 
 export { instance };
