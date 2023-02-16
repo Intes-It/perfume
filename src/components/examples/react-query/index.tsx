@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "react-query";
 
 /**
- * This component is generated as an example for useQuery hook
+ * This component is generated as an example for useQuery hooks
  *
  * To learn more about React Query and data fetching,
  * please visit https://react-query.tanstack.com/

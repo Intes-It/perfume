@@ -66,6 +66,8 @@
       ],
       "@i18n": [
         "./i18n.json"
+      ],"@hooks/*": [
+        "src/hooks/*"
       ]
     },
     "incremental": true

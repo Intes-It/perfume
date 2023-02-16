@@ -5,20 +5,17 @@ import ProductItem from "@components/product-item";
 import { Product } from "@types";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import {
-  productFilter, 
-  productPrice,
-  totalProducts,
-} from "@utils/fakeData";
+import { productFilter, productPrice, totalProducts } from "@utils/fakeData";
+import useProduct from "@hooks/useProduct";
 
 const ProductGroup = () => {
   const router = useRouter();
   const [state, setState] = useState({
     products: [] as Product[] | undefined,
   });
-
-  const { products } = state;
-
+  const server_link = process.env.NEXT_PUBLIC_API_URL;
+  const { product } = useProduct();
+  console.log(product);
   useEffect(() => {
     const productGroup = router.query["product-group"];
     const products = totalProducts?.filter(
@@ -42,8 +39,8 @@ const ProductGroup = () => {
           <div className="flex  space-x-5 mobile:justify-between mobile:mt-5 ">
             <DropdownCheckbox
               title="Catégories"
-              selections={products?.reduce(
-                (a: string[], item) => a.concat(item?.title || ""),
+              selections={product?.reduce(
+                (a: string[], item: any) => a.concat(item?.name || ""),
                 []
               )}
             />
@@ -58,13 +55,13 @@ const ProductGroup = () => {
           </div>
         </div>
         <div className="grid grid-cols-4 grid-flow-row gap-10 tablet:grid-cols-3 mobile:grid-cols-2">
-          {products?.map((item: Product, index: number) => (
+          {product?.map((item: Product, index: number) => (
             <div key={index}>
               <ProductItem
                 favorites={() => console.log(index)}
-                title={item?.title}
-                price={item?.price}
-                image={item?.image}
+                title={item?.name}
+                price={`${item?.price},00`}
+                image={`${server_link}${item?.image}`}
                 id={item?.id}
                 score={item?.score}
               />

@@ -4,8 +4,9 @@ node_modules
 .next
 # environment variables
 .env
-.env.*
+.env
 !.env.example
 yarn.lock
 pnpm-lock.yaml
 package-lock.json
+.DS_Store

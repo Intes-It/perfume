@@ -2,7 +2,7 @@ import React from "react";
 import useSWR, { mutate } from "swr";
 
 /**
- * This component is generated as an example for useSWR hook
+ * This component is generated as an example for useSWR hooks
  *
  * To learn more about SWR and data fetching,
  * please visit https://swr.vercel.app/

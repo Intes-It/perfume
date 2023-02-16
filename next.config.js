@@ -1,4 +1,16 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const withPlugins = require("next-compose-plugins");
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
+  rewrites: async () => {
+    return [
+      {
+        source: "/api/:path*",
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/api/:path*`,
+      },
+    ];
+  },
+  output: "standalone",
+};
 
-module.exports = withPlugins([], {});
+module.exports = nextConfig;

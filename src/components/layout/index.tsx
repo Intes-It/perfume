@@ -32,7 +32,7 @@ export const Layout = ({ children }: Props) => {
   return (
     <div>
       <Head>
-        <title>{title}-Nature féerique</title>
+        <title>{title ? `${title}-` : ""}Nature féerique</title>
       </Head>
       <Header />
       <Navbar />

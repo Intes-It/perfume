@@ -10,9 +10,8 @@ export const EnvExample = () => {
       <div>NEXT_PUBLIC_DEVELOPMENT_ENV_VARIABLE</div>
       <div>{process.env.NEXT_PUBLIC_DEVELOPMENT_ENV_VARIABLE}</div>
       <div>NEXT_PUBLIC_PRODUCTION_ENV_VARIABLE</div>
-      <div>
-        {process.env.NEXT_PUBLIC_PRODUCTION_ENV_VARIABLE ?? "undefined"}
-      </div>
+      <div>{process.env.NEXT_PUBLIC_API_URL ?? "undefined"}</div>
+      sjdsakldd
     </div>
   );
 };
