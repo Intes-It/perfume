@@ -41,7 +41,9 @@ function MyApp({
           <Hydrate state={pageProps.dehydratedState}>
             <Provider store={store}>
               <Layout>
+             
                 <Component {...pageProps} />
+             
               </Layout>
             </Provider>
           </Hydrate>

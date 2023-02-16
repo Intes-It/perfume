@@ -10,7 +10,6 @@ export interface Product {
   shortDescription?: string | undefined;
   description?: string | undefined;
   numberOfReviewers?: number | undefined;
-  name: string;
   check?: boolean;
   name: string;
 }

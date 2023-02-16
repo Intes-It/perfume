@@ -42,4 +42,3 @@ export const Layout = ({ children }: Props) => {
     </div>
   );
 };
- 

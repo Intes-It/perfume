@@ -151,11 +151,8 @@ const ProductGroup = () => {
             />
           </div>
           <div className="mobile:float-right">
-            {" "}
-            <DropdownSelect
-              selections={productFilter}
-              onChange={handleChange}
-            />
+            {' '}
+            <DropdownSelect selections={productFilter} onChange={handleChange} />
           </div>
         </div>
         <div className="grid grid-cols-4 grid-flow-row gap-10 tablet:grid-cols-3 mobile:grid-cols-2">
