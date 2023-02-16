@@ -11,7 +11,7 @@ import { ThemeProvider } from "next-themes";
 import { Hydrate } from "react-query/hydration";
 import { Provider } from "react-redux";
 import Head from "next/head";
-import "@styles/styles.css";
+import '@styles/styles.css'
 import LoadingIndicator from "@components/loading-indicator";
 import { Layout } from "@components";
 import GlobalStyle from "@styles/globalStyles";
