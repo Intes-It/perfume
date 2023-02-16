@@ -48,8 +48,11 @@ const ProductGroup = () => {
                 (a: string[], item) => a.concat(item?.title || ""),
                 []
               )}
+              onChange={handleChange}
+
             />
-            <DropdownCheckbox title="Prix" selections={productPrice} />
+              
+            <DropdownCheckbox title="Prix" selections={productPrice} onChange={handleChange} />
           </div>
           <div className="mobile:float-right">
             {" "}

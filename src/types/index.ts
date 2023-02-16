@@ -11,7 +11,7 @@ export interface Product {
   description?: string | undefined;
   numberOfReviewers?: number | undefined;
   check?: boolean;
-  name: string;
+  name?: string;
 }
 
 export interface MemberComment {
