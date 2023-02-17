@@ -3,6 +3,7 @@ import { useWindowSize } from "react-use";
 
 import ProductItem from "@components/product-item";
 import { Product } from "@types";
+import { formatCurrency } from "@utils/formatNumber";
 
 type BestSalesProps = {
   products: Product[];
@@ -15,7 +16,7 @@ export const BestSales: React.FC<BestSalesProps> = ({
 }) => {
   const { width } = useWindowSize();
   const stepProductSlide = useMemo(() => (width > 740 ? 4 : 1), [width]);
-
+  const server_link = process.env.NEXT_PUBLIC_API_URL;
   return (
     <div
       id="bestSallingProductSlide"
@@ -39,14 +40,17 @@ export const BestSales: React.FC<BestSalesProps> = ({
                     ?.slice(index, index + stepProductSlide)
                     ?.map((item: Product, index2: number) => {
                       return (
-                        <div key={index2} className="border border-gray duration-300 hover:shadow-2xl">
+                        <div
+                          key={index2}
+                          className="border border-gray duration-300 hover:shadow-2xl"
+                        >
                           <ProductItem
                             favorites={() => console.log(index2)}
-                            title={item?.title}
-                            price={item?.price}
-                            image={item?.image}
+                            title={item?.name}
+                            price={formatCurrency(String(item.price))}
+                            image={`${server_link}${item?.image}`}
                             id={item?.id}
-                            score={item?.score}
+                            score={4}
                             showButton={showButton}
                           />
                         </div>

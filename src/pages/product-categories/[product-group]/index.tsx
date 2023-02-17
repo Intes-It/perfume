@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { productFilter, productPrice, totalProducts } from "@utils/fakeData";
 import useProduct from "@hooks/useProduct";
+import { formatCurrency } from "@utils/formatNumber";
 
 const ProductGroup = () => {
   const router = useRouter();
@@ -19,7 +20,6 @@ const ProductGroup = () => {
   });
   const server_link = process.env.NEXT_PUBLIC_API_URL;
   const { product } = useProduct();
-
 
   const { products, copy, price, categories, selection } = state;
 
@@ -52,26 +52,29 @@ const ProductGroup = () => {
         </p> */}
         <div className="w-[100%] flex justify-between mobile:flex-wrap-reverse">
           <div className="flex  space-x-5 mobile:justify-between mobile:mt-5 ">
-            <DropdownCheckbox
-              title="Catégories"
-              // selections={product?.reduce(
-              //   (a: string[], item: any) => a.concat(item?.name || ""),
-              //   []
-              // )}
-              // selections={products?.reduce((a: any[], item) => a.concat(item?.title || ''), [])}
-              selections={selection}
-              onChange={sortByCategory}
-              products={copy}
-            />
-            <DropdownCheckbox
-              title="Prix"
-              onChange={getPrice}
-              selections={productPrice}
-            />
+            {/*<DropdownCheckbox*/}
+            {/*  title="Catégories"*/}
+            {/*  // selections={product?.reduce(*/}
+            {/*  //   (a: string[], item: any) => a.concat(item?.name || ""),*/}
+            {/*  //   []*/}
+            {/*  // )}*/}
+            {/*  // selections={products?.reduce((a: any[], item) => a.concat(item?.title || ''), [])}*/}
+            {/*  selections={selection}*/}
+            {/*  onChange={sortByCategory}*/}
+            {/*  products={copy}*/}
+            {/*/>*/}
+            {/*<DropdownCheckbox*/}
+            {/*  title="Prix"*/}
+            {/*  onChange={getPrice}*/}
+            {/*  selections={productPrice}*/}
+            {/*/>*/}
           </div>
           <div className="mobile:float-right">
-            {' '}
-            <DropdownSelect selections={productFilter} onChange={handleChange} />
+            {" "}
+            <DropdownSelect
+              selections={productFilter}
+              onChange={handleChange}
+            />
           </div>
         </div>
         <div className="grid grid-cols-4 grid-flow-row gap-10 tablet:grid-cols-3 mobile:grid-cols-2">
@@ -80,7 +83,7 @@ const ProductGroup = () => {
               <ProductItem
                 favorites={() => console.log(index)}
                 title={item?.name}
-                price={`${item?.price},00`}
+                price={formatCurrency(String(item.price))}
                 image={`${server_link}${item?.image}`}
                 id={item?.id}
                 score={item?.score}
