@@ -9,3 +9,6 @@ export const POST = async (url: string, data: Record<string, unknown>) => {
 export const PUT = async (url: string, data: Record<string, unknown>) => {
   return await instance.put(url, data);
 };
+export const DELETE=async(url:string)=>{
+  return await instance.delete(url)
+}
