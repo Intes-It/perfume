@@ -10,7 +10,7 @@ import "tailwindcss/tailwind.css";
 import { Hydrate } from "react-query/hydration";
 import { Provider } from "react-redux";
 import Head from "next/head";
-import "@styles/styles.css";
+import '@styles/styles.css'
 import LoadingIndicator from "@components/loading-indicator";
 import { Layout } from "@components";
 import GlobalStyle from "@styles/globalStyles";
@@ -33,7 +33,7 @@ function MyApp({
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
       </Head>
-      <>
+      <div>
         <QueryClientProvider client={queryClient}>
           <GlobalStyle />
           <LoadingIndicator />
@@ -45,7 +45,7 @@ function MyApp({
             </Provider>
           </Hydrate>
         </QueryClientProvider>
-      </>
+      </div>
     </div>
   );
 }
