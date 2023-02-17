@@ -163,11 +163,11 @@ export const Routes = {
             title: "Kit Beauté Soin",
             route: "/product/beauty-care-kit",
           },
-          discoveryKit : {
+          discoveryKit: {
             title: "Kit Découverte (Bientôt Disponible)",
             route: "#",
           },
-          customizableBeautyCase : {
+          customizableBeautyCase: {
             title: "Trousse Beauté Personnalisable (Bientôt Disponible)",
             route: "#",
           },
@@ -206,8 +206,8 @@ export const NavbarItems = [
   Routes.about,
   Routes.productCategories.cosmetics,
   Routes.productCategories.accessories,
-  Routes.productCategories.limitedEdition,
   Routes.boxes,
+  Routes.productCategories.limitedEdition,
   Routes.contact,
 ] as const;
 

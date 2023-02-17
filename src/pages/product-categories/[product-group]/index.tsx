@@ -19,7 +19,7 @@ const ProductGroup = () => {
   });
   const server_link = process.env.NEXT_PUBLIC_API_URL;
   const { product } = useProduct();
- 
+
 
   const { products, copy, price, categories, selection } = state;
 
@@ -41,87 +41,6 @@ const ProductGroup = () => {
 
   const handleChange = (value: any) => {
     console.log(value);
-  };
-
-  const getPrice = (value: any) => {
-    if (value === price) {
-      const copy = products?.filter((row) => {
-        return row?.title?.toLowerCase().includes(categories.toLowerCase());
-      });
-      const price = "";
-      setState((pre) => ({ ...pre, copy, categories, price }));
-    } else {
-      const copy = products?.filter((o: any) => {
-        if (value === "0€ — 10€") {
-          return (
-            parseInt(o.price) <= 10 &&
-            o?.title?.toLowerCase().includes(categories.toLowerCase())
-          );
-        } else if (value === "11€ — 20€") {
-          return (
-            parseInt(o.price) <= 20 &&
-            parseInt(o.price) >= 11 &&
-            o?.title?.toLowerCase().includes(categories.toLowerCase())
-          );
-        } else if (value === "21€ — 50€") {
-          return (
-            parseInt(o.price) <= 50 &&
-            parseInt(o.price) >= 21 &&
-            o?.title?.toLowerCase().includes(categories.toLowerCase())
-          );
-        }
-      });
-      const price = value;
-      setState((pre) => ({ ...pre, copy, categories, price }));
-    }
-  };
-  const sortByCategory = (value: any) => {
-    console.log(value);
-    if (value === categories) {
-      if (!price) {
-        const copy = products?.filter((o: any) => {
-          if (value === "0€ — 10€") {
-            return parseInt(o.price) <= 10;
-          } else if (value === "11€ — 20€") {
-            return parseInt(o.price) <= 20 && parseInt(o.price) >= 11;
-          } else if (value === "21€ — 50€") {
-            return parseInt(o.price) <= 50 && parseInt(o.price) >= 21;
-          }
-        });
-        const categories = "";
-        setState((pre) => ({ ...pre, copy, categories }));
-      } else {
-        const categories = "";
-        const copy = products;
-        setState((pre) => ({ ...pre, copy, categories }));
-      }
-    } else {
-      const copy = products?.filter((row: any) => {
-        if (price) {
-          if (price === "0€ — 10€") {
-            return row?.title
-              ?.toLowerCase()
-              .includes(value.toLowerCase() && parseInt(row.price) <= 10);
-          } else if (price === "11€ — 20€") {
-            return (
-              parseInt(row.price) <= 20 &&
-              parseInt(row.price) >= 11 &&
-              row?.title?.toLowerCase().includes(value.toLowerCase())
-            );
-          } else if (price === "21€ — 50€") {
-            return (
-              parseInt(row.price) <= 50 &&
-              parseInt(row.price) >= 21 &&
-              row?.title?.toLowerCase().includes(value.toLowerCase())
-            );
-          }
-        } else {
-          return row?.title?.toLowerCase().includes(value.toLowerCase());
-        }
-      });
-      const categories = value;
-      setState((pre) => ({ ...pre, copy, categories }));
-    }
   };
 
   return (
