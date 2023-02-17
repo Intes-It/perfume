@@ -5,7 +5,7 @@ import ProductItem from "@components/product-item";
 import { Product } from "@types";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { productFilter, productPrice, totalProducts } from "@utils/fakeData";
+import { productFilter,  totalProducts } from "@utils/fakeData";
 import useProduct from "@hooks/useProduct";
 import { formatCurrency } from "@utils/formatNumber";
 
@@ -46,31 +46,17 @@ const ProductGroup = () => {
   return (
     <Container>
       <div className="flex flex-col items-center space-y-10 mx-5 my-5 ">
-        {/* <p className="text-[17px] text-[#383E42] text-center">
-          Des cosmétiques naturels solides fabriqués artisanalement en Provence
-          avec des ingrédients majoritairement locaux.
-        </p> */}
         <div className="w-[100%] flex justify-between mobile:flex-wrap-reverse">
           <div className="flex  space-x-5 mobile:justify-between mobile:mt-5 ">
-            {/*<DropdownCheckbox*/}
-            {/*  title="Catégories"*/}
-            {/*  // selections={product?.reduce(*/}
-            {/*  //   (a: string[], item: any) => a.concat(item?.name || ""),*/}
-            {/*  //   []*/}
-            {/*  // )}*/}
-            {/*  // selections={products?.reduce((a: any[], item) => a.concat(item?.title || ''), [])}*/}
-            {/*  selections={selection}*/}
-            {/*  onChange={sortByCategory}*/}
-            {/*  products={copy}*/}
-            {/*/>*/}
-            {/*<DropdownCheckbox*/}
-            {/*  title="Prix"*/}
-            {/*  onChange={getPrice}*/}
-            {/*  selections={productPrice}*/}
-            {/*/>*/}
+            {/* <DropdownCheckbox
+            title="Catégories"
+            selections={selection}
+              onChange={sortByCategory}
+              products={copy}
+
+            /> */}
           </div>
           <div className="mobile:float-right">
-            {" "}
             <DropdownSelect
               selections={productFilter}
               onChange={handleChange}

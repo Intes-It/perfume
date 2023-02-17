@@ -7,7 +7,6 @@ import {
 } from "react-query";
 import store from "@redux/store";
 import "tailwindcss/tailwind.css";
-import { ThemeProvider } from "next-themes";
 import { Hydrate } from "react-query/hydration";
 import { Provider } from "react-redux";
 import Head from "next/head";
@@ -30,11 +29,11 @@ function MyApp({
     <div>
       <Head>
         <meta charSet="utf8" />
-        <link rel="icon" href="/images/logo.png" />
+        <link rel="icon" href="/images/icon.png" />
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
       </Head>
-      <ThemeProvider attribute="class">
+      <>
         <QueryClientProvider client={queryClient}>
           <GlobalStyle />
           <LoadingIndicator />
@@ -46,7 +45,7 @@ function MyApp({
             </Provider>
           </Hydrate>
         </QueryClientProvider>
-      </ThemeProvider>
+      </>
     </div>
   );
 }
