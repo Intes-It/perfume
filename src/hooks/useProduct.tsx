@@ -1,4 +1,3 @@
-import React from "react";
 import { useQuery } from "react-query";
 import { api } from "@utils/apiRoute";
 import { GET } from "@utils/fetch";
