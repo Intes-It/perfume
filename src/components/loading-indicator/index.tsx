@@ -12,7 +12,6 @@ const DivStyled = styled.div`
   z-index: 9998;
   background-color: rgba(0, 0, 0, 0.4);
 `;
-
 const LoadingIndicator = () => {
   const isFetching = useIsFetching();
   return isFetching ? (

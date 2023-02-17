@@ -6,25 +6,23 @@ import { BestSales } from "@components/best-sales";
 import { OurUniverse } from "@definitions/constants";
 import {
   homeSlideInfo,
-  productItem,
   BriefTextCreatrice,
   BriefTextNature,
   featuredComments,
 } from "src/utils/fakeData";
 import { FeaturedComments } from "@components/featured-comment";
-
+import useProduct from "@hooks/useProduct";
 const Home: React.FC = () => {
   const [state] = useState({
     homeSlideData: homeSlideInfo,
-    bestSellingProducts: productItem,
   });
 
-  const { homeSlideData, bestSellingProducts } = state;
+  const { homeSlideData } = state;
 
   useEffect(() => {
     // setTheme('light');
   }, []);
-
+  const { product } = useProduct();
   return (
     <Container>
       <div
@@ -118,7 +116,7 @@ const Home: React.FC = () => {
             NOS MEILLEURES VENTES
           </span>
         </div>
-        <BestSales products={bestSellingProducts} showButton={true} />
+        <BestSales products={product} showButton={true} />
       </div>
 
       {/* Our Universe */}
@@ -176,7 +174,7 @@ const Home: React.FC = () => {
               <a href="/about/#apropos">
                 <button className="rounded-md bg-[#603813] hover:bg-[#383e42] text-white font-thin p-2 mobile:text-[2vw]">
                   En Savoir Plus
-                </button> 
+                </button>
               </a>
             </div>
           </div>
@@ -218,7 +216,7 @@ const Home: React.FC = () => {
             L’ART DE VOUS SÉDUIRE
           </span>
         </div>
-        <FeaturedComments comments={featuredComments}/>
+        <FeaturedComments comments={featuredComments} />
       </div>
     </Container>
   );
