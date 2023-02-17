@@ -10,59 +10,71 @@ function Navbar() {
           <div className="flex items-center w-full">
             <div className="block items-center  justify-between w-full">
               <div className="mx-auto">
-                <nav className="flex justify-center -mb-px text-xs text-gray-500 font-bold mb-6">
-                  {NavbarItems?.map((item: any, pIndex: number) => (
-                    <div
-                      key={pIndex}
-                      className="group p-5 px-7 py-3 text-base font-light no-underline border-b-2 border-transparent hover:border-black transition hover:duration-75 hover:ease-in-out "
-                    >
-                      <div>
-                        <NextLink href={item?.route} key={item?.title} passHref>
-                          <a className={"text-sm"}>
-                            {item?.title?.toUpperCase()}
-                          </a>
-                        </NextLink>
-                        <div className="grid grid-flow-col w-full left-0 mt-[0.85rem] overflow-hidden bg-[#603813] absolute invisible  group-hover:animate-bottomToTop group-hover:visible">
-                          {item?.children
-                            ? Object.values(item?.children)?.map(
-                                (subItem: any, index: number) => (
-                                  <div
-                                    key={index}
-                                    className="m-3 text-white font-[600] tracking-wide "
-                                  >
+                <nav>
+                  <ul className="flex justify-center mb-6 text-xs text-gray-500 font-bold">
+                    {NavbarItems?.map((item: any, pIndex: number) => (
+                      <li
+                        key={pIndex}
+                        className="group p-5 px-7 py-3 text-base font-light no-underline border-b-2 border-transparent hover:border-black transition hover:duration-75 hover:ease-in-out"
+                      >
+                        <div>
+                          <NextLink
+                            href={item?.route}
+                            key={item?.title}
+                            passHref
+                          >
+                            <a className={"text-sm"}>
+                              {item?.title?.toUpperCase()}
+                            </a>
+                          </NextLink>
+                          <div className="grid grid-flow-col w-full left-0 mt-[0.85rem] overflow-hidden bg-[#603813] absolute invisible  group-hover:animate-bottomToTop group-hover:visible">
+                            {item?.children
+                              ? Object.values(item?.children)?.map(
+                                  (subItem: any, index: number) => (
                                     <div
-                                      className="transition duration-500
-                                          border-b-2 border-transparent hover:border-white"
+                                      key={index}
+                                      className="m-3 text-white font-[600] tracking-wide mx-auto"
                                     >
-                                      <a href={subItem?.route}>
-                                        {subItem?.title?.toUpperCase()}
-                                      </a>
-                                    </div>
-                                    <div className="text-base font-extralight tracking-wide">
-                                      {subItem?.children
-                                        ? Object.values(subItem?.children)?.map(
-                                            (sSubItem: any, sIndex: number) => (
-                                              <div
-                                                key={sIndex}
-                                                className="my-1 transition duration-500
+                                      <div
+                                        className="transition duration-500
+                                          border-b-2 border-transparent hover:border-white"
+                                      >
+                                        <a href={subItem?.route}>
+                                          {subItem?.title?.toUpperCase()}
+                                        </a>
+                                      </div>
+                                      <div className="text-base font-extralight tracking-wide">
+                                        {subItem?.children
+                                          ? Object.values(
+                                              subItem?.children
+                                            )?.map(
+                                              (
+                                                sSubItem: any,
+                                                sIndex: number
+                                              ) => (
+                                                <div
+                                                  key={sIndex}
+                                                  className="my-1 transition duration-500
                                                     border-b-2 border-transparent hover:border-white"
-                                              >
-                                                <a href={sSubItem?.route}>
-                                                  {sSubItem?.title}
-                                                </a>
-                                              </div>
+                                                >
+                                                  <a href={sSubItem?.route}>
+                                                    {sSubItem?.title}
+                                                  </a>
+                                                  <br />
+                                                </div>
+                                              )
                                             )
-                                          )
-                                        : null}
+                                          : null}
+                                      </div>
                                     </div>
-                                  </div>
+                                  )
                                 )
-                              )
-                            : null}
+                              : null}
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  ))}
+                      </li>
+                    ))}
+                  </ul>
                 </nav>
               </div>
             </div>

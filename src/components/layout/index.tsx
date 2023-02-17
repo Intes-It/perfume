@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ReactNode, useMemo } from "react";
+import { ReactNode,useMemo } from "react";
 
 import Navbar from "./navbar";
 import Header from "./header";
@@ -32,7 +32,11 @@ export const Layout = ({ children }: Props) => {
   return (
     <div>
       <Head>
-        <title>{title ? `${title}-` : ""}Nature féerique</title>
+        <title>
+          {title
+            ? `${title}- Nature féerique`
+            : "Nature Féerique - Créateur de cosmétiques naturels solides"}
+        </title>
       </Head>
       <Header />
       <Navbar />

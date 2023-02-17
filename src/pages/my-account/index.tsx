@@ -1,12 +1,8 @@
 import { Container } from '@components/container';
 import * as React from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
-import Link from 'next/link';
-import { Routes } from '@definitions/constants';
-import { useForm } from 'react-hook-form';
-import { POST } from '@utils/fetch';
-import { api } from '@utils/apiRoute';
-import Register from '@components/login';
+
+
+import Register from '@components/register';
 import Login from '@components/login';
 
 const MyAccount = () => {
