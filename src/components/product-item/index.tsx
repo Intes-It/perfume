@@ -1,9 +1,11 @@
-import * as React from "react";
-import NextLink from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import * as React from 'react';
+import NextLink from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
 
-import Rating from "@components/rating/rating";
+import Rating from '@components/rating/rating';
+import { DELETE, POST } from '@utils/fetch';
+import { api } from '@utils/apiRoute';
 
 type ProductProps = {
   favorites: () => void;
@@ -24,12 +26,24 @@ const ProductItem: React.FC<ProductProps> = ({
   score,
   showButton = true,
 }) => {
+  //add check field
+  const addFavoriteProduct = () => {
+    const postData = { product_id: id };
+    POST(api.favourite, postData);
+    console.log(id);
+  };
+
+  const removeFavoriteProduct = () => {
+    const postData = { product_id: id };
+    DELETE(api.favourite, postData);
+  };
+
   return (
     <div className=" relative flex flex-col items-center text-[16px] mb-2">
       <FontAwesomeIcon
         className="absolute top-[5%] right-[4%] mobile:top-[2%] mobile:right-[0%]"
         icon={faHeart}
-        onClick={favorites}
+        onClick={addFavoriteProduct}
       />
       <NextLink href={`/product/${id}`}>
         <img
@@ -46,8 +60,7 @@ const ProductItem: React.FC<ProductProps> = ({
           {showButton && (
             <button
               type="submit"
-              className=" p-3 text-[14.4px] font-semibold text-[#262238]  bg-[#ACD051] rounded-md shadow hover:bg-[#603813] hover:text-white"
-            >
+              className=" p-3 text-[14.4px] font-semibold text-[#262238]  bg-[#ACD051] rounded-md shadow hover:bg-[#603813] hover:text-white">
               Choix des options
             </button>
           )}
