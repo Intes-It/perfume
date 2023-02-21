@@ -1,4 +1,3 @@
-
 /**
  * @type {import('@types/tailwindcss/tailwind-config').TailwindConfig}
  */
@@ -9,7 +8,7 @@ module.exports = {
     "./public/**/*.html",
     "./node_modules/tw-elements/dist/js/**/*.js",
   ],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: "media", // or 'media' or 'class'
   theme: {
     extend: {
       keyframes: {
@@ -37,7 +36,6 @@ module.exports = {
       transitionProperty: {
         height: "height",
       },
-      
     },
   },
   variants: {

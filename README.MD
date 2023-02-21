@@ -37,4 +37,4 @@ copy svg image to `/public/icons` and run command:
 
 ## Deploy
 
-https://naturefeerique.vercel.app
+https://naturefeerique-blue.vercel.app

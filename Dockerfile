@@ -1,15 +1,41 @@
-FROM node:12-alpine
+FROM node:18-alpine AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 
-WORKDIR /opt/app
+# Rebuild the source code only when needed
+FROM node:16-alpine AS builder
+
+WORKDIR /app
+
+COPY --from=deps /app/node_modules ./node_modules
+
+COPY . .
+
+RUN yarn build
+
+# Production image, copy all the files and run next
+FROM node:16-alpine AS runner
+WORKDIR /app
 
 ENV NODE_ENV production
 
-COPY package*.json ./
+RUN addgroup --system --gid 1001 bloggroup
+RUN adduser --system --uid 1001 bloguser
 
-RUN npm ci 
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./package.json
 
-COPY . /opt/app
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=bloguser:bloggroup /app/.next/standalone ./
+COPY --from=builder --chown=bloguser:bloggroup /app/.next/static ./.next/static
 
-RUN npm install --dev && npm run build
+USER bloguser
 
-CMD [ "npm", "start" ]
+EXPOSE 3000
+
+ENV PORT 3000
+
+CMD ["node", "server.js"]
