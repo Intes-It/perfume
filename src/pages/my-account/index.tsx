@@ -1,27 +1,27 @@
 import { Container } from '@components/container';
-import * as React from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
-import Link from 'next/link';
-import { Routes } from '@definitions/constants';
-import { useForm } from 'react-hook-form';
-import { POST } from '@utils/fetch';
-import { api } from '@utils/apiRoute';
-import Register from '@components/login';
+import { useState, useEffect } from 'react';
+import Register from '@components/register';
 import Login from '@components/login';
+import useUser from '@hooks/useUser';
 
 const MyAccount = () => {
+  const { user, authenticate, isAuthenticated } = useUser();
+  const onLogin = (data: any) => {
+    authenticate(data);
+    console.log(isAuthenticated);
+  };
 
   return (
     <Container>
       <div className="flex justify-around items-center flex-col mt-10 md:flex-row md:items-start">
         <div className="w-[95vw] mb-20 md:w-[45vw]">
           <h3 className="my-4 text-[26px]  text-[#26222f]">Connexion</h3>
-          <Login />
+          {isAuthenticated ? <div>Profile</div> : <Login submit={onLogin} />}
         </div>
 
         <div className="w-[95vw] mb-20 md:w-[45vw]">
           <h3 className="my-4 text-[26px]  text-[#26222f]">S’enregistrer</h3>
-          <Register />
+          {isAuthenticated ? <div>Profile</div> : <Register />}
         </div>
       </div>
     </Container>

@@ -1,21 +1,21 @@
-import { Container } from "@components/container";
-import DropdownCheckbox from "@components/dropdown-checkbox";
-import DropdownSelect from "@components/dropdown-select";
-import ProductItem from "@components/product-item";
-import { Product } from "@types";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { productFilter, productPrice, totalProducts } from "@utils/fakeData";
-import useProduct from "@hooks/useProduct";
-import { formatCurrency } from "@utils/formatNumber";
+import { Container } from '@components/container';
+import DropdownCheckbox from '@components/dropdown-checkbox';
+import DropdownSelect from '@components/dropdown-select';
+import ProductItem from '@components/product-item';
+import { Product } from '@types';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { productFilter, productPrice, totalProducts } from '@utils/fakeData';
+import useProduct from '@hooks/useProduct';
+import { formatCurrency } from '@utils/formatNumber';
 
 const ProductGroup = () => {
   const router = useRouter();
   const [state, setState] = useState({
     products: [] as Product[] | undefined,
     copy: [] as Product[] | undefined,
-    categories: "",
-    price: "",
+    categories: '',
+    price: '',
     selection: [] as string[],
   });
   const server_link = process.env.NEXT_PUBLIC_API_URL;
@@ -24,17 +24,10 @@ const ProductGroup = () => {
   const { products, copy, price, categories, selection } = state;
 
   useEffect(() => {
-    const productGroup = router.query["product-group"];
-    const products = totalProducts?.filter(
-      (product: Product) => productGroup === product?.group
-    );
-    const copy = totalProducts?.filter(
-      (product: Product) => productGroup === product?.group
-    );
-    const selection = products?.reduce(
-      (a: any[], item) => a.concat(item?.title || ""),
-      []
-    );
+    const productGroup = router.query['product-group'];
+    const products = totalProducts?.filter((product: Product) => productGroup === product?.group);
+    const copy = totalProducts?.filter((product: Product) => productGroup === product?.group);
+    const selection = products?.reduce((a: any[], item) => a.concat(item?.title || ''), []);
     console.log(selection);
     setState((pre) => ({ ...pre, products, copy, selection }));
   }, [router.query]);
@@ -70,18 +63,15 @@ const ProductGroup = () => {
             {/*/>*/}
           </div>
           <div className="mobile:float-right">
-            {" "}
-            <DropdownSelect
-              selections={productFilter}
-              onChange={handleChange}
-            />
+            {' '}
+            <DropdownSelect selections={productFilter} onChange={handleChange} />
           </div>
         </div>
         <div className="grid grid-cols-4 grid-flow-row gap-10 tablet:grid-cols-3 mobile:grid-cols-2">
           {product?.map((item: Product, index: number) => (
             <div key={index}>
               <ProductItem
-                favorites={() => console.log(index)}
+                favorites={() => console.log(item.id)}
                 title={item?.name}
                 price={formatCurrency(String(item.price))}
                 image={`${server_link}${item?.image}`}
