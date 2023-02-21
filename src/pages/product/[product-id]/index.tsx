@@ -6,14 +6,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { Container } from "@components/container";
 import { BestSales } from "@components/best-sales";
-import Rating from "@components/rating/rating";
-
-import { productItem, totalProducts } from "@utils/fakeData";
+import Rating from "@components/rating/rating"; 
 
 import { VisibleTitleRoutes } from "@definitions/constants";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { Product } from "@types";
+// import { Product } from "@types";
 import ImageModal from "@components/image-modal";
+import { useProductDetail, useBestSallingProducts } from "@hooks/useProduct";
 
 const DescriptionTabs = [
   {
@@ -44,14 +43,13 @@ const DescriptionTabs = [
 ];
 
 export const getServerSideProps: GetServerSideProps<{
-  product: Product;
+  productId: string;
 }> = async (context: any) => {
-  const productId = context.query["product-id"];
-  const product = totalProducts?.find((item) => item?.id === productId) || null;
-  if (product)
+  const productId = context.query["product-id"]; 
+  if (productId)
     return {
       props: {
-        product,
+        productId,
       },
     };
   return {
@@ -61,11 +59,18 @@ export const getServerSideProps: GetServerSideProps<{
 
 const ProductDetail: React.FC<
   InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ product }) => {
+> = ({ productId }) => {
+
+// const ProductDetail: React.FC = () => {
   const [state, setState] = useState({ isShowImageModal: false });
 
   const { isShowImageModal } = state;
+ 
+  const {product} = useProductDetail({id: productId});
+  const {products} = useBestSallingProducts();
 
+  const server_link = process.env.NEXT_PUBLIC_API_URL;
+  
   const breadCrumb = useMemo(() => {
     let res = [{ name: "Accueil", route: "/" }];
     const groupRoute = product?.group;
@@ -98,8 +103,8 @@ const ProductDetail: React.FC<
         <div className="overflow-clip relative">
           <img
             className="hover:scale-125 transition duration-100 w-full object-cover"
-            src={product?.image}
-            alt={product?.title}
+            src={`${server_link}${product?.image}`}
+            alt={product?.name}
           />
           <button className="absolute right-0 top-0 bg-white rounded-full w-[2.2rem] h-[2.2rem]">
             <FontAwesomeIcon
@@ -128,14 +133,14 @@ const ProductDetail: React.FC<
             })}
           </div>
           <div>
-            <span className="text-[#383e42] text-[30px]">{product?.title}</span>
+            <span className="text-[#383e42] text-[30px]">{product?.name}</span>
           </div>
           <div className="my-3">
             <span className="text-[#603913]">{product?.shortDescription}</span>
           </div>
           <div className="flex gap-2 my-2">
             <Rating score={product?.score || 0} />
-            <span>{`(${product?.numberOfReviewers || 0} avis client)`}</span>
+            <span>{`(${product?.evaluate || 0} avis client)`}</span>
           </div>
           <div className="my-2">
             <span className="text-[#383e42] text-[24px] font-semibold">{`${product?.price} €`}</span>
@@ -243,7 +248,7 @@ const ProductDetail: React.FC<
 
       <div className="mx-10 my-10">
         <span className="mx-8 text-[26px] font-light my-2">Suggestions</span>
-        <BestSales products={productItem} />
+        <BestSales products={products} />
       </div>
       <ImageModal
         imgUrl={product?.image || ""}

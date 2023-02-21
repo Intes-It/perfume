@@ -6,7 +6,7 @@ import { Product } from "@types";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { productFilter,  totalProducts } from "@utils/fakeData";
-import useProduct from "@hooks/useProduct";
+import {useProducts} from "@hooks/useProduct";
 import { formatCurrency } from "@utils/formatNumber";
 
 const ProductGroup = () => {
@@ -19,9 +19,9 @@ const ProductGroup = () => {
     selection: [] as string[],
   });
   const server_link = process.env.NEXT_PUBLIC_API_URL;
-  const { product } = useProduct();
+  const { products } = useProducts();
 
-  const { products, copy, price, categories, selection } = state;
+  // const { products, copy, price, categories, selection } = state;
 
   useEffect(() => {
     const productGroup = router.query["product-group"];
@@ -64,7 +64,7 @@ const ProductGroup = () => {
           </div>
         </div>
         <div className="grid grid-cols-4 grid-flow-row gap-10 tablet:grid-cols-3 mobile:grid-cols-2">
-          {product?.map((item: Product, index: number) => (
+          {products?.map((item: Product, index: number) => (
             <div key={index}>
               <ProductItem
                 favorites={() => console.log(index)}

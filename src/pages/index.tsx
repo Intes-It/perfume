@@ -11,7 +11,7 @@ import {
   featuredComments,
 } from "src/utils/fakeData";
 import { FeaturedComments } from "@components/featured-comment";
-import useProduct from "@hooks/useProduct";
+import {useBestSallingProducts} from "@hooks/useProduct";
 const Home: React.FC = () => {
   const [state] = useState({
     homeSlideData: homeSlideInfo,
@@ -21,8 +21,10 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     // setTheme('light');
-  }, []);
-  const { product } = useProduct();
+  }, []); 
+
+  const { products } = useBestSallingProducts();
+
   return (
     <Container>
       <div
@@ -116,7 +118,7 @@ const Home: React.FC = () => {
             NOS MEILLEURES VENTES
           </span>
         </div>
-        <BestSales products={product} showButton={true} />
+        <BestSales products={products} showButton={true} />
       </div>
 
       {/* Our Universe */}
