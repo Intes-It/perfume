@@ -1,5 +1,6 @@
 import { api } from '@utils/apiRoute';
 import { GET, POST } from '@utils/fetch';
+import { instance } from '@utils/_axios';
 import React, { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import useSWR, { mutate } from 'swr';
@@ -11,6 +12,7 @@ const useUser = () => {
     revalidateOnReconnect: false,
     shouldRetryOnError: true,
   });
+  // const user = useQuery('use-user', getProfile);
 
   //fetch data
   async function getProfile() {
@@ -29,7 +31,7 @@ const useUser = () => {
     setIsAuthenticating(true);
     login(data)
       .then(() => mutate('use-user'))
-      .catch(() => console.log('error'))
+      .catch(() => console.log(user))
       .finally(() => setIsAuthenticating(false));
   };
 
