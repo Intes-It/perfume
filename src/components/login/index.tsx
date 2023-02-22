@@ -5,16 +5,17 @@ import { Routes } from '@definitions/constants';
 import { useForm } from 'react-hook-form';
 import { POST } from '@utils/fetch';
 import { api } from '@utils/apiRoute';
+import useUser from '@hooks/useUser';
 
-const Login = () => {
+type LoginProps = {
+  submit: (value: any) => void;
+};
+
+const Login: React.FC<LoginProps> = ({ submit }) => {
   const { register, handleSubmit } = useForm();
-  const onLogin = (data: any) => {
-    console.log(data);
-    POST(api.login,data);
-  };
   return (
     <form
-      onSubmit={handleSubmit(onLogin)}
+      onSubmit={handleSubmit(submit)}
       className="flex flex-col space-y-5 border rounded-md p-6 text-[14.4px] font-semibold text-[#603813]">
       <div className="flex flex-col space-y-1">
         <label>
@@ -42,7 +43,7 @@ const Login = () => {
       </div>
       <div className="flex justify-between">
         <div className="flex items-center space-x-2">
-          <input  type="checkbox" id="remember" className="w-4 h-4 " />
+          <input type="checkbox" id="remember" className="w-4 h-4 " />
           <label>Se souvenir de moi</label>
         </div>
       </div>

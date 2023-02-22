@@ -14,8 +14,8 @@ const ProductGroup = () => {
   const [state, setState] = useState({
     products: [] as Product[] | undefined,
     copy: [] as Product[] | undefined,
-    categories: "",
-    price: "",
+    categories: '',
+    price: '',
     selection: [] as string[],
   });
   const server_link = process.env.NEXT_PUBLIC_API_URL;
@@ -24,17 +24,10 @@ const ProductGroup = () => {
   // const { products, copy, price, categories, selection } = state;
 
   useEffect(() => {
-    const productGroup = router.query["product-group"];
-    const products = totalProducts?.filter(
-      (product: Product) => productGroup === product?.group
-    );
-    const copy = totalProducts?.filter(
-      (product: Product) => productGroup === product?.group
-    );
-    const selection = products?.reduce(
-      (a: any[], item) => a.concat(item?.title || ""),
-      []
-    );
+    const productGroup = router.query['product-group'];
+    const products = totalProducts?.filter((product: Product) => productGroup === product?.group);
+    const copy = totalProducts?.filter((product: Product) => productGroup === product?.group);
+    const selection = products?.reduce((a: any[], item) => a.concat(item?.title || ''), []);
     console.log(selection);
     setState((pre) => ({ ...pre, products, copy, selection }));
   }, [router.query]);
@@ -67,7 +60,7 @@ const ProductGroup = () => {
           {products?.map((item: Product, index: number) => (
             <div key={index}>
               <ProductItem
-                favorites={() => console.log(index)}
+                favorites={() => console.log(item.id)}
                 title={item?.name}
                 price={formatCurrency(String(item.price))}
                 image={`${server_link}${item?.image}`}
