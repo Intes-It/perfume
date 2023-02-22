@@ -41,5 +41,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require("tw-elements/dist/plugin")],
+  plugins: [require("tw-elements/dist/plugin","daysyui")],
 };
