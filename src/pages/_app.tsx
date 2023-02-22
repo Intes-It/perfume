@@ -25,12 +25,12 @@ function MyApp({
   pageProps,
 }: AppProps<{ dehydratedState: DehydratedState }>): JSX.Element {
   const queryClient = new QueryClient();
-  React.useEffect(() => {
-    const use = async () => {
-      (await import('tw-elements/dist/plugin')).default;
-    };
-    use();
-  }, [])
+  // React.useEffect(() => {
+  //   const use = async () => {
+  //     (await import('tw-elements/dist/plugin')).default;
+  //   };
+  //   use();
+  // }, [])
   return (
     <>
       <Head>
