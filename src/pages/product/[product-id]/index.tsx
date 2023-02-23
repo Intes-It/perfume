@@ -3,10 +3,10 @@ import React, { useMemo, useState } from "react";
 import NextLink from "next/link";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { formatCurrency } from "@utils/formatNumber";
 import { Container } from "@components/container";
 import { BestSales } from "@components/best-sales";
-import Rating from "@components/rating/rating"; 
+import Rating from "@components/rating/rating";
 
 import { VisibleTitleRoutes } from "@definitions/constants";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
@@ -45,7 +45,7 @@ const DescriptionTabs = [
 export const getServerSideProps: GetServerSideProps<{
   productId: string;
 }> = async (context: any) => {
-  const productId = context.query["product-id"]; 
+  const productId = context.query["product-id"];
   if (productId)
     return {
       props: {
@@ -60,17 +60,16 @@ export const getServerSideProps: GetServerSideProps<{
 const ProductDetail: React.FC<
   InferGetServerSidePropsType<typeof getServerSideProps>
 > = ({ productId }) => {
-
-// const ProductDetail: React.FC = () => {
+  // const ProductDetail: React.FC = () => {
   const [state, setState] = useState({ isShowImageModal: false });
 
   const { isShowImageModal } = state;
- 
-  const {product} = useProductDetail({id: productId});
-  const {products} = useBestSallingProducts();
+
+  const { product } = useProductDetail({ id: productId });
+  const { products } = useBestSallingProducts();
 
   const server_link = process.env.NEXT_PUBLIC_API_URL;
-  
+
   const breadCrumb = useMemo(() => {
     let res = [{ name: "Accueil", route: "/" }];
     const groupRoute = product?.group;
@@ -143,7 +142,8 @@ const ProductDetail: React.FC<
             <span>{`(${product?.evaluate || 0} avis client)`}</span>
           </div>
           <div className="my-2">
-            <span className="text-[#383e42] text-[24px] font-semibold">{`${product?.price} €`}</span>
+            <span className="text-[#383e42] text-[24px] font-semibold">{`${
+              formatCurrency(String(product?.price))} €`}</span>
           </div>
           {/* sub product */}
           <div className="my-3">
@@ -157,7 +157,7 @@ const ProductDetail: React.FC<
               type="number"
               className="border border-gray outline-none p-1 text-center w-14 h-10"
               min={1}
-              placeholder={'1'}
+              placeholder={"1"}
             />
             <span className="text-center">OU</span>
             <div className="flex gap-3">
