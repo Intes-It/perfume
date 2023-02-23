@@ -14,6 +14,11 @@ export interface Product {
   name?: string;
 }
 
+export interface ExProduct {
+  product: Product;
+  quantity: number;
+}
+
 export interface MemberComment {
   id: string;
   text?: string;

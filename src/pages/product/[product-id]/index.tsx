@@ -11,6 +11,10 @@ import Rating from "@components/rating/rating";
 import { VisibleTitleRoutes } from "@definitions/constants";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 // import { Product } from "@types";
+
+import { addProduct, removeProduct } from "@redux/slices/cart";
+import { useSelector, useDispatch } from "react-redux";
+
 import ImageModal from "@components/image-modal";
 import { useProductDetail, useBestSallingProducts } from "@hooks/useProduct";
 
@@ -60,15 +64,20 @@ export const getServerSideProps: GetServerSideProps<{
 const ProductDetail: React.FC<
   InferGetServerSidePropsType<typeof getServerSideProps>
 > = ({ productId }) => {
-  // const ProductDetail: React.FC = () => {
-  const [state, setState] = useState({ isShowImageModal: false });
+  // redux
+  const dispatch = useDispatch();
 
-  const { isShowImageModal } = state;
+  const [state, setState] = useState({
+    isShowImageModal: false,
+    quantity: 1,
+  });
+
+  const { isShowImageModal, quantity } = state;
 
   const { product } = useProductDetail({ id: productId });
   const { products } = useBestSallingProducts();
 
-  const server_link = 'http://34.163.185.96';
+  const server_link = process.env.NEXT_PUBLIC_API_URL;
 
   const breadCrumb = useMemo(() => {
     let res = [{ name: "Accueil", route: "/" }];
@@ -93,6 +102,11 @@ const ProductDetail: React.FC<
 
   const setShowModal = (isOpen: boolean) => {
     setState((pre) => ({ ...pre, isShowImageModal: isOpen }));
+  };
+
+  const handleAddProduct = () => {
+    dispatch(addProduct({product, quantity})); 
+    console.log(quantity)
   };
 
   return (
@@ -142,8 +156,9 @@ const ProductDetail: React.FC<
             <span>{`(${product?.evaluate || 0} avis client)`}</span>
           </div>
           <div className="my-2">
-            <span className="text-[#383e42] text-[24px] font-semibold">{`${
-              formatCurrency(String(product?.price))} €`}</span>
+            <span className="text-[#383e42] text-[24px] font-semibold">{`${formatCurrency(
+              String(product?.price)
+            )} €`}</span>
           </div>
           {/* sub product */}
           <div className="my-3">
@@ -154,6 +169,10 @@ const ProductDetail: React.FC<
           {/* add product to cart */}
           <div className="flex items-center gap-3">
             <input
+              value={quantity}
+              onChange={(e: any) => {
+                setState((pre) => ({ ...pre, quantity: Number.parseInt(e.target.value) }));
+              }}
               type="number"
               className="border border-gray outline-none p-1 text-center w-14 h-10"
               min={1}
@@ -164,7 +183,10 @@ const ProductDetail: React.FC<
               <button className="ml-3 rounded-md p-5 bg-[#acd051] hover:bg-black text-white font-semibold">
                 AJOUTER AU PANIER
               </button>
-              <button className="rounded-md bg-[#603813] p-5  hover:bg-black text-white font-semibold">
+              <button
+                className="rounded-md bg-[#603813] p-5  hover:bg-black text-white font-semibold"
+                onClick={handleAddProduct}
+              >
                 ACHETER
               </button>
             </div>
@@ -251,7 +273,7 @@ const ProductDetail: React.FC<
         <BestSales products={products} />
       </div>
       <ImageModal
-        imgUrl={product?.image || ""}
+        imgUrl={`${server_link}${product?.image || ""}`}
         isShowModel={isShowImageModal}
         onClose={() => setShowModal(false)}
       />
