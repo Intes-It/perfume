@@ -10,3 +10,4 @@ pnpm-lock.yaml
 package-lock.json
 .DS_Store
 tes.js
+yarn-error.log
