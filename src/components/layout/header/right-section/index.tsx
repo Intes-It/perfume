@@ -6,9 +6,9 @@ import Favourite from "./favourite";
 const RightSection = () => {
   return (
     <div className="grid md:gap-4 gap-2 content-center">
-      <div className="flex md:mr-6 ml-auto">
+      <div className="flex md:mr-20 ml-auto">
         <SearchPopover className="hidden md:block mx-4" />
-        <div className="md:mx-4 mx-2">
+        <div className="md:mx-4 mx-2 ">
           <Account />
         </div>
         <div className="md:mx-4 mx-2 hidden md:block ">

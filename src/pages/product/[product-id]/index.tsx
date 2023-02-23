@@ -68,7 +68,7 @@ const ProductDetail: React.FC<
   const { product } = useProductDetail({ id: productId });
   const { products } = useBestSallingProducts();
 
-  const server_link = process.env.NEXT_PUBLIC_API_URL;
+  const server_link = 'http://34.163.185.96';
 
   const breadCrumb = useMemo(() => {
     let res = [{ name: "Accueil", route: "/" }];

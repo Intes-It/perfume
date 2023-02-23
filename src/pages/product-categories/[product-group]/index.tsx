@@ -18,7 +18,7 @@ const ProductGroup = () => {
     price: '',
     selection: [] as string[],
   });
-  const server_link = process.env.NEXT_PUBLIC_API_URL;
+  const server_link = 'http://34.163.185.96';
   const { products } = useProducts();
 
   // const { products, copy, price, categories, selection } = state;
