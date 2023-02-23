@@ -1,9 +1,8 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 
-import counter from "@redux/slices/counter";
-import user from "@redux/slices/user";
-
-import { store } from "./store";
+import counter from '@redux/slices/counter';
+import user from '@redux/slices/user';
+import { store } from './store';
 
 const rootReducer = combineReducers({ counter, user });
 

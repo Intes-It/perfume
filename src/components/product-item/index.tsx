@@ -1,4 +1,3 @@
-import * as React from 'react';
 import NextLink from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
@@ -6,6 +5,17 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import Rating from '@components/rating/rating';
 import { DELETE, POST } from '@utils/fetch';
 import { api } from '@utils/apiRoute';
+import useFavorite from '@hooks/useFavoriteProduct';
+import { useEffect, useState } from 'react';
+import { faHeartbeat } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  addFavoriteItem,
+  fetchFavoriteList,
+  removeFavoriteItem,
+  setList,
+} from '@redux/slices/favorite';
+import { instance } from '@utils/_axios';
 
 type ProductProps = {
   favorites: () => void;
@@ -26,24 +36,48 @@ const ProductItem: React.FC<ProductProps> = ({
   score,
   showButton = true,
 }) => {
-  //add check field
+  const [state, setState] = useState({
+    favoriteList: [] as any,
+  });
+  const dispatch = useDispatch();
+  const { favorite } = useFavorite();
+  const list = useSelector((state: any) => state.favorite.list);
+
   const addFavoriteProduct = () => {
     const postData = { product_id: id };
-    POST(api.favourite, postData);
-    console.log(id);
+    console.log('add');
+    POST(api.favouriteAdd, postData);
+    dispatch(addFavoriteItem(id));
+    console.log(list);
   };
 
   const removeFavoriteProduct = () => {
-    const postData = { product_id: id };
-    DELETE(api.favourite, postData);
+    console.log('delete');
+    const postData = favorite.filter((item: any) => {
+      return item.product === id;
+    });
+    if (postData.length !== 0) instance.delete(`${api.favouriteDelete}/${postData[0].id}`)
+
+    const favoriteList = list
+      .filter((item: any) => {
+        return item !== id;
+      })
+
+    dispatch(removeFavoriteItem(favoriteList));
   };
+
+  useEffect(() => {
+    const favoriteList = favorite?.reduce((a: any[], item: any) => a.concat(item?.product), []);
+    dispatch(setList(favoriteList));
+    console.log(favoriteList);
+  }, [favorite]);
 
   return (
     <div className=" relative flex flex-col items-center text-[16px] mb-2">
       <FontAwesomeIcon
         className="absolute top-[5%] right-[4%] mobile:top-[2%] mobile:right-[0%]"
-        icon={faHeart}
-        onClick={addFavoriteProduct}
+        icon={list?.includes(id) ? faHeartbeat : faHeart}
+        onClick={list?.includes(id) ? removeFavoriteProduct : addFavoriteProduct}
       />
       <NextLink href={`/product/${id}`}>
         <img
