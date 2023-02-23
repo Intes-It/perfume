@@ -5,7 +5,7 @@ import { useQuery } from 'react-query';
 
 const useFavorite = () => {
   async function getFavoriteProduct() {
-    const res = await GET(api.favourite);
+    const res = await GET(api.favouriteList);
     return res.data;
   }
   const { data } = useQuery('get-favorite', getFavoriteProduct);

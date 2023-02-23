@@ -1,22 +1,18 @@
-import React from "react";
-import { AppProps } from "next/app";
-import {
-  QueryClient,
-  QueryClientProvider,
-  type DehydratedState,
-} from "react-query";
-import store from "@redux/store";
-import "tailwindcss/tailwind.css";
-import { Hydrate } from "react-query/hydration";
-import { Provider } from "react-redux";
-import Head from "next/head";
-import '@styles/styles.css'
-import LoadingIndicator from "@components/loading-indicator";
-import { Layout } from "@components";
-import GlobalStyle from "@styles/globalStyles";
-import { config } from "@fortawesome/fontawesome-svg-core";
-import "@fortawesome/fontawesome-svg-core/styles.css";
-
+import React from 'react';
+import { AppProps } from 'next/app';
+import { QueryClient, QueryClientProvider, type DehydratedState } from 'react-query';
+import store from '@redux/store';
+import 'tailwindcss/tailwind.css';
+import { Hydrate } from 'react-query/hydration';
+import { Provider } from 'react-redux';
+import Head from 'next/head';
+import '@styles/styles.css';
+import LoadingIndicator from '@components/loading-indicator';
+import { Layout } from '@components';
+import GlobalStyle from '@styles/globalStyles';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+import { ThemeProvider } from 'next-themes';
 config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 
 function MyApp({

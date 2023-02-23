@@ -1,9 +1,9 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/query";
-import { pokemonApi } from "./services/pokemon";
-import { useDispatch } from "react-redux";
+import { configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import { pokemonApi } from './services/pokemon';
+import { useDispatch } from 'react-redux';
 
-import rootReducer from "./reducers";
+import rootReducer from './reducers';
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +11,9 @@ export const store = configureStore({
     [pokemonApi.reducerPath]: pokemonApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(pokemonApi.middleware),
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(pokemonApi.middleware),
 });
 
 setupListeners(store.dispatch);
