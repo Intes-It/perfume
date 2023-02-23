@@ -1,46 +1,48 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { api } from '@utils/apiRoute';
-import { GET } from '@utils/fetch';
+import axios from 'axios';
 
 interface Favorite {
-  id: number | undefined;
   list: any[];
   loading?: boolean;
 }
 
 const initialState: Favorite = {
-  id: undefined,
   list: [],
-  loading: true,
 };
 
-export const getFavoriteList = createAsyncThunk('favorite/list', async () => {
-  const res = await GET(api.favouriteList);
-  return res.data;
+export const fetchFavoriteList = createAsyncThunk('favorite/fetchFavoriteList', async () => {
+  try {
+    const { data } = await axios.get(api.favouriteList);
+    console.log(data);
+    return data;
+  } catch (error: any) {
+    console.log(error);
+  }
 });
 
 const favoriteSlice = createSlice({
   name: 'favorite',
   initialState,
   reducers: {
-    setList: (state, action) => {
-      state.list = action.payload;
+    setList: (state, actions) => {
+      state.list = actions.payload;
+    },
+    addFavoriteItem: (state, actions) => {
+      state.list = [...state.list, actions.payload];
+    },
+    removeFavoriteItem: (state, actions) => {
+      state.list = actions.payload;
     },
   },
   extraReducers: {
-    [getFavoriteList.pending.toString()]: (state) => {
-      state.loading = true;
-    },
-    [getFavoriteList.fulfilled.toString()]: (state, { payload }) => {
+    [fetchFavoriteList.fulfilled.toString()]: (state, { payload }) => {
       console.log(payload);
-      state.loading = false;
       state.list = payload;
-    },
-    [getFavoriteList.rejected.toString()]: (state) => {
-      state.loading = false;
     },
   },
 });
 
-export const { setList } = favoriteSlice.actions;
+export const { setList, addFavoriteItem, removeFavoriteItem } = favoriteSlice.actions;
+
 export default favoriteSlice.reducer;

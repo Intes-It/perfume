@@ -8,9 +8,14 @@ import { api } from '@utils/apiRoute';
 import useFavorite from '@hooks/useFavoriteProduct';
 import { useEffect, useState } from 'react';
 import { faHeartbeat } from '@fortawesome/free-solid-svg-icons';
-import { instance } from '@utils/_axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFavoriteList, setList } from '@redux/slices/favorite';
+import {
+  addFavoriteItem,
+  fetchFavoriteList,
+  removeFavoriteItem,
+  setList,
+} from '@redux/slices/favorite';
+import { instance } from '@utils/_axios';
 
 type ProductProps = {
   favorites: () => void;
@@ -31,50 +36,48 @@ const ProductItem: React.FC<ProductProps> = ({
   score,
   showButton = true,
 }) => {
-  const { favorite } = useFavorite();
   const [state, setState] = useState({
     favoriteList: [] as any,
   });
-  const { favoriteList } = state;
   const dispatch = useDispatch();
-  const list = useSelector((state: any) => state.list);
+  const { favorite } = useFavorite();
+  const list = useSelector((state: any) => state.favorite.list);
 
   const addFavoriteProduct = () => {
     const postData = { product_id: id };
+    console.log('add');
     POST(api.favouriteAdd, postData);
-    setState((o) => ({
-      ...o,
-      favoriteList: [...favoriteList, id],
-    }));
+    dispatch(addFavoriteItem(id));
+    console.log(list);
   };
 
   const removeFavoriteProduct = () => {
+    console.log('delete');
     const postData = favorite.filter((item: any) => {
       return item.product === id;
     });
-    if (postData.length !== 0) instance.delete(`${api.favouriteDelete}/${postData[0].id}`);
+    if (postData.length !== 0) instance.delete(`${api.favouriteDelete}/${postData[0].id}`)
 
-    const favoriteList = favorite
+    const favoriteList = list
       .filter((item: any) => {
-        return item.product !== id;
+        return item !== id;
       })
-      .reduce((a: any[], item: any) => a.concat(item?.product), []);
-    setState((pre) => ({ ...pre, favoriteList }));
+
+    dispatch(removeFavoriteItem(favoriteList));
   };
 
   useEffect(() => {
     const favoriteList = favorite?.reduce((a: any[], item: any) => a.concat(item?.product), []);
     dispatch(setList(favoriteList));
-    console.log("s")
-    setState((pre) => ({ ...pre, favoriteList }));
+    console.log(favoriteList);
   }, [favorite]);
 
   return (
     <div className=" relative flex flex-col items-center text-[16px] mb-2">
       <FontAwesomeIcon
         className="absolute top-[5%] right-[4%] mobile:top-[2%] mobile:right-[0%]"
-        icon={favoriteList?.includes(id) ? faHeartbeat : faHeart}
-        onClick={favoriteList?.includes(id) ? removeFavoriteProduct : addFavoriteProduct}
+        icon={list?.includes(id) ? faHeartbeat : faHeart}
+        onClick={list?.includes(id) ? removeFavoriteProduct : addFavoriteProduct}
       />
       <NextLink href={`/product/${id}`}>
         <img
