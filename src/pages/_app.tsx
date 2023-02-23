@@ -16,6 +16,7 @@ import { Layout } from "@components";
 import GlobalStyle from "@styles/globalStyles";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import Script from 'next/script'
 
 config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 
@@ -24,15 +25,20 @@ function MyApp({
   pageProps,
 }: AppProps<{ dehydratedState: DehydratedState }>): JSX.Element {
   const queryClient = new QueryClient();
-
+  // React.useEffect(() => {
+  //   const use = async () => {
+  //     (await import('tw-elements/dist/plugin')).default;
+  //   };
+  //   use();
+  // }, [])
   return (
-    <div>
+    <>
       <Head>
         <meta charSet="utf8" />
         <link rel="icon" href="/images/icon.png" />
         <meta name="viewport" content="initial-scale=1, width=device-width" />
-        <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
       </Head>
+      <Script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js" />
       <div>
         <QueryClientProvider client={queryClient}>
           <GlobalStyle />
@@ -46,7 +52,7 @@ function MyApp({
           </Hydrate>
         </QueryClientProvider>
       </div>
-    </div>
+   </>
   );
 }
 
