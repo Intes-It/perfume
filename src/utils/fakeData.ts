@@ -1,85 +1,5 @@
 import { MemberComment, Product } from "@types";
-
-export const productItem: Product[] = [
-  {
-    id: "deodorant-plume",
-    group: "cosmetics",
-    subGroup: "solid-deodorant",
-    image:
-      "https://naturefeerique.fr/wp-content/uploads/2022/03/deodorant-plume.jpg",
-    title: "Déodorant Plume",
-    price: "14,50",
-    vote: "100",
-    score: 5,
-    numberOfReviewers: 10,
-    check:false
-  },
-  {
-    id: "demaquillant-cocoon",
-    group: "cosmetics",
-    subGroup: "solid-face-cleanser",
-    image:
-      "https://naturefeerique.fr/wp-content/uploads/2022/03/demaquillant-cocoon-1.jpg",
-    title: "Démaquillant Cocoon",
-    price: "15,50",
-    vote: "100",
-    score: 4,
-    numberOfReviewers: 10,
-    check:false
-  },
-  {
-    id: "perles-demaquillantes",
-    group: "cosmetics",
-    subGroup: "solid-face-cleanser",
-    image:
-      "https://naturefeerique.fr/wp-content/uploads/2022/03/perles-demaquillantes-1.jpg",
-    title: "Perles démaquillantes",
-    price: "9,50",
-    vote: "100",
-    score: 3,
-    numberOfReviewers: 10,
-    check:false
-  },
-  {
-    id: "perles-de-soin",
-    group: "cosmetics",
-    subGroup: "solid-balm",
-    image:
-      "https://naturefeerique.fr/wp-content/uploads/2022/03/perles-de-soin-2.jpg",
-    title: "Perles de soin",
-    price: "10,90",
-    vote: "100",
-    score: 2,
-    numberOfReviewers: 10,
-    check:false
-  },
-  {
-    id: "soin-precieux",
-    group: "cosmetics",
-    subGroup: "solid-balm",
-    image:
-      "https://naturefeerique.fr/wp-content/uploads/2022/03/soin-precieux.jpg",
-    title: "Soin Précieux",
-    price: "17,90",
-    vote: "100",
-    score: 5,
-    numberOfReviewers: 10,
-    check:false
-  },
-  {
-    id: "carre-demaquillant-coton-biobambou",
-    group: "accessories",
-    subGroup: "cleansing-squares",
-    image:
-      "https://naturefeerique.fr/wp-content/uploads/2022/02/carre-demaquillant-coton-biobambou.webp",
-    title: "Carré démaquillant Coton Bio/bambou",
-    price: "2,5",
-    vote: "100",
-    score: 3,
-    numberOfReviewers: 10,
-    check:false
-  },
-];
+ 
 export const productPrice = ["0€ — 10€", "11€ — 20€", "21€ — 50€"];
 export const productFilter = [
   "Trier Par...",
@@ -111,9 +31,9 @@ export const colourOptions = [
 
 export const totalProducts: Product[] = [
   {
-    id: "deodorant-plume",
-    group: "cosmetics",
-    subGroup: "solid-deodorant",
+    id: "12",
+    category: "cosmetics",
+    subCategory: "solid-deodorant",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/deodorant-plume.jpg",
     title: "Déodorant Plume",
@@ -129,8 +49,8 @@ export const totalProducts: Product[] = [
   },
   {
     id: "demaquillant-cocoon",
-    group: "cosmetics",
-    subGroup: "solid-face-cleanser",
+    category: "cosmetics",
+    subCategory: "solid-face-cleanser",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/demaquillant-cocoon-1.jpg",
     title: "Démaquillant Cocoon",
@@ -146,8 +66,8 @@ export const totalProducts: Product[] = [
   },
   {
     id: "perles-demaquillantes",
-    group: "cosmetics",
-    subGroup: "solid-face-cleanser",
+    category: "cosmetics",
+    subCategory: "solid-face-cleanser",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/perles-demaquillantes-1.jpg",
     title: "Perles démaquillantes",
@@ -163,8 +83,8 @@ export const totalProducts: Product[] = [
   },
   {
     id: "perles-de-soin",
-    group: "cosmetics",
-    subGroup: "solid-balm",
+    category: "cosmetics",
+    subCategory: "solid-balm",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/perles-de-soin-2.jpg",
     title: "Perles de soin",
@@ -180,8 +100,8 @@ export const totalProducts: Product[] = [
   },
   {
     id: "soin-precieux",
-    group: "cosmetics",
-    subGroup: "solid-balm",
+    category: "cosmetics",
+    subCategory: "solid-balm",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/soin-precieux.jpg",
     title: "Soin Précieux",
@@ -197,8 +117,8 @@ export const totalProducts: Product[] = [
   },
   {
     id: "carre-demaquillant-coton-biobambou",
-    group: "accessories",
-    subGroup: "cleansing-squares",
+    category: "accessories",
+    subCategory: "cleansing-squares",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/02/carre-demaquillant-coton-biobambou.webp",
     title: "Carré démaquillant Coton Bio/bambou",
@@ -213,8 +133,8 @@ export const totalProducts: Product[] = [
   },
   {
     id: "carre-demaquillant-coton-bio-lot-de",
-    group: "accessories",
-    subGroup: "cleansing-squares",
+    category: "accessories",
+    subCategory: "cleansing-squares",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/02/carre-demaquillant-coton-bio-lot-de-2.webp",
     title: "Carré démaquillant Coton bio/bambou Lot de 2",
@@ -230,8 +150,8 @@ export const totalProducts: Product[] = [
 
   {
     id: "precious-lip-hand-balm",
-    group: "limited-edition",
-    subGroup: "glamor-range",
+    category: "limited-edition",
+    subCategory: "glamor-range",
     image:
       "http://naturefeerique.fr/wp-content/uploads/2022/02/Baume-Precieux12-site-scaled.jpg",
     title: "Baume Précieux Mains & Lèvres",
@@ -246,8 +166,8 @@ export const totalProducts: Product[] = [
   },
   {
     id: "nomadic-precious-heart",
-    group: "limited-edition",
-    subGroup: "glamor-range",
+    category: "limited-edition",
+    subCategory: "glamor-range",
     image:
       "http://naturefeerique.fr/wp-content/uploads/2022/02/Coeur-Precieux-20-site-scaled.jpg",
     title: "Cœur Précieux nomade",
@@ -263,8 +183,8 @@ export const totalProducts: Product[] = [
 
   {
     id: "cleansing-beauty-kit",
-    group: "boxes",
-    subGroup: "our-wellness-formulas",
+    category: "boxes",
+    subCategory: "our-wellness-formulas",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/Kit-beaute-demaquillage-scaled-1.jpg",
     title: "Kit Beauté Démaquillage",
@@ -279,8 +199,8 @@ export const totalProducts: Product[] = [
   },
   {
     id: "nomadic-beauty-kit",
-    group: "boxes",
-    subGroup: "our-wellness-formulas",
+    category: "boxes",
+    subCategory: "our-wellness-formulas",
     image:
       "https://naturefeerique.fr/wp-content/uploads/2022/03/Kit-beaute-nomade-scaled-1.jpg",
     title: "Kit Beauté Nomade",
@@ -347,7 +267,7 @@ export const homeSlideInfo = [
 ];
 
 export const TextNature = [
-  "Il y a 3 ans, je préparais le départ pour une semaine de vacances avec mon mari et mes 2 filles. A nous 4, j’ai rempli 4 valises avec chacun ses vêtements puis 4 trousses de toilette avec des produits d’Hygiène & soin volumineux, parfois similaires alors qu’une trousse nomade regroupant des produits communs pour toute la famille serait plus raisonnable et responsable !",
+  "Il y a 3 ans, je préparais le départ pour une semaine de vacances avec mon mari et mes 2 filles. A nous 4, j’ai rempli 4 valises avec chacun ses vêtements puis 4 trousses de toilette avec des produits d’Hygiène & soin volumineux, parfois similaires alors qu’une trousse nomade recategoryant des produits communs pour toute la famille serait plus raisonnable et responsable !",
   "C’est en organisant les bagages que j’ai pris conscience que nous utilisions beaucoup de produits superflus contenus dans des bouteilles plastiques encombrantes et polluantes…",
   "Tout se passe dans nos salles de bain… on y trouve des produits cosmétiques en tout genre contenus dans des bouteilles plastiques à usage unique que l’on jette encore et encore. Chaque produit à sa fonction et sa cible, ce qui multiplie considérablement nos déchets quotidiens.",
   "C’est pour cela qu’en novembre 2019, Nature Féerique a imaginé une gamme de cosmétiques naturels solides adaptés à toute la famille, respectueux de la santé et de l’environnement.",
@@ -369,7 +289,7 @@ export const TextCreatrice = [
 ];
 
 export const BriefTextNature = [
-  "Il y a 3 ans, je préparais le départ pour une semaine de vacances avec mon mari et mes 2 filles. A nous 4, j’ai rempli 4 valises avec chacun ses vêtements puis 4 trousses de toilette avec des produits d’Hygiène & soin volumineux, parfois similaires alors qu’une trousse nomade regroupant des produits communs pour toute la famille serait plus raisonnable et responsable !",
+  "Il y a 3 ans, je préparais le départ pour une semaine de vacances avec mon mari et mes 2 filles. A nous 4, j’ai rempli 4 valises avec chacun ses vêtements puis 4 trousses de toilette avec des produits d’Hygiène & soin volumineux, parfois similaires alors qu’une trousse nomade recategoryant des produits communs pour toute la famille serait plus raisonnable et responsable !",
 ];
 export const BriefTextCreatrice = [
   "Née à Beaune (Côte d’Or), j’ai grandi au milieu des plus beaux vignobles de Bourgogne. C’est vers l’âge de 7 ans que j’ai commencé à me passionner pour les produits de beauté à travers une collection de miniatures de parfum. D’une imagination débordante, j’ai expérimenté mes premiers mélanges avec du gros sel, des craies de couleur et quelques gouttes de parfum dans un bocal en verre pour créer des sels de bain ; auxquels je pouvais rajouter du savon liquide. De caractère déterminée, c’est à la fin du collège, que je me suis orientée vers la chimie.",

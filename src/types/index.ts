@@ -1,7 +1,7 @@
 export interface Product {
   id: string;
-  group?: string | undefined;
-  subGroup?: string | undefined;
+  category?: string | undefined;
+  subCategory?: string | undefined;
   image?: string | undefined;
   title?: string | undefined;
   price?: string | undefined;

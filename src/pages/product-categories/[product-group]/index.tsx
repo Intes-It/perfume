@@ -10,6 +10,7 @@ import { useProducts } from "@hooks/useProduct";
 import { formatCurrency } from "@utils/formatNumber";
 import { addFavoriteItem, removeFavoriteItem } from "@redux/slices/favorite";
 import { useDispatch, useSelector } from "react-redux";
+import { NavbarItems, Routes } from "@definitions/constants";
 
 const ProductGroup = () => {
   const dispatch = useDispatch();
@@ -31,14 +32,15 @@ const ProductGroup = () => {
 
   useEffect(() => {
     const productGroup = router.query["product-group"];
-    // const products = totalProducts?.filter((product: Product) => productGroup === product?.group);
+    const category = NavbarItems?.find(item=>item?.route?.includes(productGroup as string)) as any;
+    // const products = totalProducts?.filter((product: Product) => category?.id === product?.category);
     // const copy = totalProducts?.filter((product: Product) => productGroup === product?.group);
     // const selection = products?.reduce((a: any[], item) => a.concat(item?.title || ''), []);
     // console.log(selection);
-    const filterProducts = products?.map((product: Product) => ({
+    const filterProducts = products?.filter((product: Product) => category?.id === product?.category)?.map((product: Product) => ({
       ...product,
     }));
-
+    console.log('cate:%o', category)
     filterProducts?.forEach((item: Product) => {
       const existItem = favoriteProducts?.find(
         (itemFavorite) => itemFavorite.id === item.id

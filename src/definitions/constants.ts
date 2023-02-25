@@ -32,7 +32,8 @@ export const Routes = {
     },
   },
   productCategories: {
-    cosmetics: {
+    cosmetics: { 
+      id: 6,
       title: "Cosmétiques",
       route: "/product-categories/cosmetics",
       image:
@@ -44,7 +45,7 @@ export const Routes = {
           children: {
             featherDeodorant: {
               title: "Déodorant Plume",
-              route: "/product/deodorant-plume",
+              route: "/product/12",
             },
           },
         },
@@ -79,6 +80,7 @@ export const Routes = {
       },
     },
     accessories: {
+      id: 5,
       title: "Accessoires",
       route: "/product-categories/accessories",
       image:
@@ -90,11 +92,11 @@ export const Routes = {
           children: {
             bambooCleansingSquare100: {
               title: "Carré Démaquillant 100% Bambou",
-              route: "/product/carre-demaquillant-coton-bio-lot-de",
+              route: "/product/8",
             },
             organicCottonBambooCleansingSquare: {
               title: "Carré Démaquillant Coton Bio/Bambou",
-              route: "/product/carre-demaquillant-coton-biobambou",
+              route: "/product/10",
             },
           },
         },
@@ -119,6 +121,7 @@ export const Routes = {
       },
     },
     limitedEdition: {
+      id: 4,
       title: "Édition Limitée",
       route: "/product-categories/limited-edition",
       image:

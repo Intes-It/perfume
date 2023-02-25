@@ -1,8 +1,8 @@
 import React from "react";
 import NextLink from "next/link";
-import { NavbarItems } from "@definitions/constants";
+import { NavbarItems } from "@definitions/constants"; 
 
-function Navbar() {
+function Navbar() { 
   return (
     <div className="bg-white sticky top-0 p-1 z-40  hidden md:block">
       <nav className=" w-full z-10">
