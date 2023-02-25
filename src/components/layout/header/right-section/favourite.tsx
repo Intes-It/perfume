@@ -5,8 +5,10 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { Routes } from '@definitions/constants';
 import useFavorite from '@hooks/useFavoriteProduct';
 import { useSelector } from 'react-redux';
+
+
 const Favourite = () => {
-  const count = useSelector((state: any) => state.favorite?.list?.length);
+  const count = useSelector((state: any) => state.persistedReducer?.favorite?.list?.length);
   return (
     <React.Fragment>
       <NextLink href={Routes.favorite.route}>

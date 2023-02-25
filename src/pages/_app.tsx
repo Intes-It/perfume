@@ -17,6 +17,8 @@ import GlobalStyle from "@styles/globalStyles";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import Script from 'next/script'
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
 
 config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 
@@ -25,6 +27,7 @@ function MyApp({
   pageProps,
 }: AppProps<{ dehydratedState: DehydratedState }>): JSX.Element {
   const queryClient = new QueryClient();
+  const persistor = persistStore(store)
   return (
     <>
       <Head>
@@ -39,9 +42,11 @@ function MyApp({
           <LoadingIndicator />
           <Hydrate state={pageProps.dehydratedState}>
             <Provider store={store}>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
+              {/* <PersistGate loading={null} persistor={persistor}> */}
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              {/* </PersistGate> */}
             </Provider>
           </Hydrate>
         </QueryClientProvider>

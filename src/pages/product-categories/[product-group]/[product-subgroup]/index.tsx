@@ -5,29 +5,51 @@ import ProductItem from "@components/product-item";
 import { Product } from "@types";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import {
-  productFilter, 
-  productPrice,
-  totalProducts,
-} from "@utils/fakeData";
+import { productFilter, productPrice, totalProducts } from "@utils/fakeData";
+import { useDispatch, useSelector } from "react-redux";
+import { addFavoriteItem, removeFavoriteItem } from "@redux/slices/favorite";
+import { useProducts } from "@hooks/useProduct";
 
 const ProductGroup = () => {
-  const router = useRouter();
-  const [state, setState] = useState({
-    products: [] as Product[] | undefined,
-  });
+  const server_link = process.env.NEXT_PUBLIC_API_URL;
+  const dispatch = useDispatch();
 
-  const { products } = state;
-  console.log(router.query);
+  const router = useRouter();
+  const { products } = useProducts();
+  const [state, setState] = useState({
+    filterProducts: [] as Product[] | undefined,
+    copy: [] as Product[] | undefined,
+    categories: "",
+    price: "",
+    selection: [] as string[],
+  });
+  const { filterProducts } = state;
+
+  const favoriteProducts = useSelector(
+    (state: any) => state.persistedReducer?.favorite?.list
+  ) as Product[];
+
   useEffect(() => {
     const productGroup = router.query["product-group"];
     const productSubgroup = router.query["product-subgroup"];
-    const products = totalProducts?.filter(
-      (product: Product) =>
-        productGroup === product?.group && productSubgroup === product?.subGroup
-    );
-    setState((pre) => ({ ...pre, products }));
-  }, [router.query]);
+
+    const filterProducts = products?.map((product: Product) => ({
+      ...product,
+    }));
+    // products?.filter(
+    //   (product: Product) => true
+    //     // comment for test
+    //     // productGroup === product?.group && productSubgroup === product?.subGroup
+    // );
+    filterProducts?.forEach((item: Product) => {
+      const existItem = favoriteProducts?.find(
+        (itemFavorite) => itemFavorite.id === item.id
+      );
+      if (existItem) item.favorite = true;
+      else item.favorite = false;
+    });
+    setState((pre) => ({ ...pre, filterProducts }));
+  }, [router.query, products, favoriteProducts]);
 
   const handleChange = (value: any) => {
     console.log(value);
@@ -44,15 +66,18 @@ const ProductGroup = () => {
           <div className="flex  space-x-5 mobile:justify-between mobile:mt-5 ">
             <DropdownCheckbox
               title="Catégories"
-              selections={products?.reduce(
+              selections={filterProducts?.reduce(
                 (a: string[], item) => a.concat(item?.title || ""),
                 []
               )}
               onChange={handleChange}
-
             />
-              
-            <DropdownCheckbox title="Prix" selections={productPrice} onChange={handleChange} />
+
+            <DropdownCheckbox
+              title="Prix"
+              selections={productPrice}
+              onChange={handleChange}
+            />
           </div>
           <div className="mobile:float-right">
             {" "}
@@ -63,13 +88,18 @@ const ProductGroup = () => {
           </div>
         </div>
         <div className="grid grid-cols-4 grid-flow-row gap-10 tablet:grid-cols-3 mobile:grid-cols-2">
-          {products?.map((item: Product, index: number) => (
+          {filterProducts?.map((item: Product, index: number) => (
             <div key={index}>
               <ProductItem
-                favorites={() => console.log(index)}
+                onFavoriteChanged={(state) => {
+                  if (state) dispatch(removeFavoriteItem(item));
+                  else dispatch(addFavoriteItem(item));
+                }}
+                favorite={item?.favorite}
+                showFavorite={true}
                 title={item?.title}
                 price={item?.price}
-                image={item?.image}
+                image={`${server_link}${item?.image}`}
                 id={item?.id}
                 score={item?.score}
               />

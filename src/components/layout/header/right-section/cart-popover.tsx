@@ -9,10 +9,11 @@ import { ExProduct } from "@types";
 
 const CartPopover: React.FC = () => {
   const products = useSelector(
-    (state: any) => state.rootReducer.cart.products
+    (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
-  const totalProducts = products.reduce((pre, curr) => pre + curr.quantity, 0);
-  const totalMoney = products.reduce((pre, curr) => pre + curr.quantity * Number.parseFloat(curr.product.price || '0'), 0);
+ 
+  const totalProducts = products?.reduce((pre, curr) => pre + curr.quantity, 0);
+  const totalMoney = products?.reduce((pre, curr) => pre + curr.quantity * Number.parseFloat(curr.product.price || '0'), 0);
 
   const [showModal, setShowModal] = useState(false);
 

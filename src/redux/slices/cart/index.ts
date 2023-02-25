@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ExProduct, Product } from "@types";
+import { PURGE } from "redux-persist";
 
 interface ICart {
   products: ExProduct[];
@@ -18,12 +19,17 @@ const cartSlice = createSlice({
         (item) => item.product.id === exProduct.product.id
       );
       if (existExProduct) existExProduct.quantity += Number.parseInt(exProduct.quantity);
-      else state.products = [...state.products, exProduct];
+      else state.products = [...state.products, exProduct]; 
     },
     removeProduct: (state, actions) => {
       console.log("remove product");
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(PURGE, (state) => { 
+      console.log('PURGE')
+    });
+}
 });
 
 export const { addProduct, removeProduct } = cartSlice.actions;

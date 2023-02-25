@@ -18,7 +18,7 @@ const DropdownCheckbox: React.FC<DropdownProps> = ({ title, selections, onChange
     console.log(selections);
     setState((o) => ({
       ...o,
-      newArr: selections.map((r: any, index: number) => {
+      newArr: selections?.map((r: any, index: number) => {
         return {
           name: r,
           id: index,
@@ -29,7 +29,7 @@ const DropdownCheckbox: React.FC<DropdownProps> = ({ title, selections, onChange
   }, [selections]);
 
   const handleCheck = (value: any, id: number) => {
-    const test = newArr.map((r: any) => {
+    const test = newArr?.map((r: any) => {
       if (r.id === id) {
         r.checked = !r.checked;
       } else {

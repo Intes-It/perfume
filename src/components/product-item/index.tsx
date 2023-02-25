@@ -18,7 +18,9 @@ import {
 import { instance } from '@utils/_axios';
 
 type ProductProps = {
-  favorites: () => void;
+  onFavoriteChanged?: (state?:boolean) => void;
+  favorite?:boolean;
+  showFavorite ?:boolean;
   image?: string;
   title?: string;
   price?: string;
@@ -28,57 +30,26 @@ type ProductProps = {
 };
 
 const ProductItem: React.FC<ProductProps> = ({
-  favorites,
+  onFavoriteChanged,
+  favorite,
+  showFavorite = false,
   image,
   title,
   price,
   id,
   score,
   showButton = true,
-}) => {
-  const [state, setState] = useState({
-    favoriteList: [] as any,
-  });
-  const dispatch = useDispatch();
-  const { favorite } = useFavorite();
-  const list = useSelector((state: any) => state.favorite.list);
-
-  const addFavoriteProduct = () => {
-    const postData = { product_id: id };
-    console.log('add');
-    POST(api.favouriteAdd, postData);
-    dispatch(addFavoriteItem(id));
-    console.log(list);
-  };
-
-  const removeFavoriteProduct = () => {
-    console.log('delete');
-    const postData = favorite.filter((item: any) => {
-      return item.product === id;
-    });
-    if (postData.length !== 0) instance.delete(`${api.favouriteDelete}/${postData[0].id}`)
-
-    const favoriteList = list
-      .filter((item: any) => {
-        return item !== id;
-      })
-
-    dispatch(removeFavoriteItem(favoriteList));
-  };
-
-  useEffect(() => {
-    const favoriteList = favorite?.reduce((a: any[], item: any) => a.concat(item?.product), []);
-    dispatch(setList(favoriteList));
-    console.log(favoriteList);
-  }, [favorite]);
-
+}) => { 
   return (
     <div className=" relative flex flex-col items-center text-[16px] mb-2">
-      <FontAwesomeIcon
-        className="absolute top-[5%] right-[4%] mobile:top-[2%] mobile:right-[0%]"
-        icon={list?.includes(id) ? faHeartbeat : faHeart}
-        onClick={list?.includes(id) ? removeFavoriteProduct : addFavoriteProduct}
+      {showFavorite && <FontAwesomeIcon 
+        className="absolute top-[5%] right-[4%] mobile:top-[2%] mobile:right-[0%] cursor-pointer"
+        icon={favorite ? faHeartbeat : faHeart}
+        onClick={
+          ()=>onFavoriteChanged?.(favorite)
+        }
       />
+      }
       <NextLink href={`/product/${id}`}>
         <img
           className="w-[22vw] tablet:w-[32vw] mobile:w-[45vw] cursor-pointer"

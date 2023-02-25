@@ -44,8 +44,7 @@ export const BestSales: React.FC<BestSalesProps> = ({
                           key={index2}
                           className="border border-gray duration-300 hover:shadow-2xl"
                         >
-                          <ProductItem
-                            favorites={() => console.log(index2)}
+                          <ProductItem 
                             title={item?.name}
                             price={formatCurrency(String(item.price))}
                             image={`${server_link}${item?.image}`}
