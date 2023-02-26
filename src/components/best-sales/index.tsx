@@ -45,11 +45,7 @@ export const BestSales: React.FC<BestSalesProps> = ({
                           className="border border-gray duration-300 hover:shadow-2xl"
                         >
                           <ProductItem 
-                            title={item?.name}
-                            price={formatCurrency(String(item.price))}
-                            image={`${server_link}${item?.image}`}
-                            id={item?.id}
-                            score={4}
+                            product={item}   
                             showButton={showButton}
                           />
                         </div>

@@ -40,7 +40,7 @@ const ProductGroup = () => {
     const filterProducts = products?.filter((product: Product) => category?.id === product?.category)?.map((product: Product) => ({
       ...product,
     }));
-    console.log('cate:%o', category)
+    
     filterProducts?.forEach((item: Product) => {
       const existItem = favoriteProducts?.find(
         (itemFavorite) => itemFavorite.id === item.id
@@ -86,11 +86,7 @@ const ProductGroup = () => {
                 }}
                 favorite={item?.favorite}
                 showFavorite={true}
-                title={item?.name}
-                price={formatCurrency(String(item.price))}
-                image={`${server_link}${item?.image}`}
-                id={item?.id}
-                score={item?.score}
+                product={item}   
               />
             </div>
           ))}

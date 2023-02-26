@@ -15,14 +15,18 @@ const cartSlice = createSlice({
   reducers: {
     addProduct: (state, actions) => {
       const exProduct = actions.payload;
-      const existExProduct = state.products.find(
+      const existExProduct = state.products?.find(
         (item) => item.product.id === exProduct.product.id
       );
       if (existExProduct) existExProduct.quantity += Number.parseInt(exProduct.quantity);
       else state.products = [...state.products, exProduct]; 
     },
     removeProduct: (state, actions) => {
-      console.log("remove product");
+      const exProduct = actions.payload;
+      const products = state.products?.filter(
+        (item) => item.product.id !== exProduct.product.id
+      ); 
+        state.products = products;
     },
   },
   extraReducers: (builder) => {

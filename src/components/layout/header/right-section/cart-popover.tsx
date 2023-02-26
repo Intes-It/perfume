@@ -2,16 +2,18 @@ import NextLink from "next/link";
 import * as React from "react";
 import { Fragment, useState } from "react";
 import { faX, faBagShopping } from "@fortawesome/free-solid-svg-icons";
+import {faXmarkCircle} from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { ExProduct } from "@types";
+import { ExProduct, Product } from "@types";
+import { removeProduct } from "@redux/actions";
 
 const CartPopover: React.FC = () => {
   const products = useSelector(
     (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
- 
+  const dispatch = useDispatch();
   const totalProducts = products?.reduce((pre, curr) => pre + curr.quantity, 0);
   const totalMoney = products?.reduce((pre, curr) => pre + curr.quantity * Number.parseFloat(curr.product.price || '0'), 0);
 
@@ -19,6 +21,10 @@ const CartPopover: React.FC = () => {
 
   const server_link = process.env.NEXT_PUBLIC_API_URL;
 
+  const handleRemoveProduct = (product : ExProduct) => {
+    dispatch(removeProduct(product)); 
+    // console.log(quantity)
+  };
   return (
     <Fragment>
       <div>
@@ -48,7 +54,7 @@ const CartPopover: React.FC = () => {
             onMouseLeave={() => setShowModal(false)}
             className="fixed right-[15px] top-[55px] z-50"
           >
-            <div className="mt-8 w-[330px] max-h-[500px] m-2 border shadow-md rounded-md bg-white p-4 py-5">
+            <div className="mt-8 w-[330px] max-h-[700px] border shadow-md rounded-md bg-white p-4 py-5">
               <FontAwesomeIcon
                 icon={faX}
                 fontSize={"1.5rem"}
@@ -59,18 +65,27 @@ const CartPopover: React.FC = () => {
               <br />
               {products ? (
                 <div>
-                  {products?.map((item) => (
-                    <div className="grid grid-cols-4 border-b-[1px] p-4">
-                      <img
-                        src={`${server_link}${item?.product?.image}`}
-                        alt={item?.product?.name}
-                      />
-                      <div className="col-span-3 ml-6 flex-row">
-                        <div>{item?.product?.name}</div>
-                        <div className="text-gray-400 font-bold">{`${item?.quantity} x ${item?.product?.price} €`}</div>
+                  <div className="overflow-y-auto max-h-[400px]">
+                    {products?.map((item) => (
+                      <div className="grid grid-cols-9 border-b-[1px] p-4">
+                        <img className="col-span-2"
+                          src={`${server_link}${item?.product?.image}`}
+                          alt={item?.product?.name}
+                        />
+                        <div className="col-span-6 ml-6 flex-row">
+                          <div>{item?.product?.name}</div>
+                          <div className="text-gray-400 font-bold">{`${item?.quantity} x ${item?.product?.price} €`}</div>
+                        </div>
+                        <FontAwesomeIcon
+                            icon={faXmarkCircle}
+                            fontSize={"1.5rem"}
+                            style={{ color: "#ccc" }}
+                            onClick={() => handleRemoveProduct(item)}
+                            className={"float-right mt-auto bottom-0 cursor-pointer"}
+                          />
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div> 
                   <div className="grid border-b-[1px] p-4">
                     <strong className="m-auto  text-[#603813] font-bold text-[20px]">
                       {`Sous-total: ${totalMoney} €`}

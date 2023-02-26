@@ -97,11 +97,7 @@ const ProductGroup = () => {
                 }}
                 favorite={item?.favorite}
                 showFavorite={true}
-                title={item?.title}
-                price={item?.price}
-                image={`${server_link}${item?.image}`}
-                id={item?.id}
-                score={item?.score}
+                product={item}   
               />
             </div>
           ))}
