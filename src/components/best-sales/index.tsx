@@ -3,7 +3,7 @@ import { useWindowSize } from "react-use";
 
 import ProductItem from "@components/product-item";
 import { Product } from "@types";
-import { formatCurrency } from "@utils/formatNumber";
+
 
 type BestSalesProps = {
   products: Product[];
