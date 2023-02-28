@@ -10,7 +10,7 @@ export interface Product {
   shortDescription?: string | undefined;
   description?: string | undefined;
   numberOfReviewers?: number | undefined;
-  favorite?:boolean;
+  favorite?: boolean;
   check?: boolean;
   name?: string;
 }
@@ -33,4 +33,12 @@ export interface cartProps {
   totalPrice: number;
   detail: string;
   title: string;
+}
+
+export interface BlogProps {
+  id: number;
+  image: string;
+  title: string;
+  subTitle: string;
+  date: string;
 }

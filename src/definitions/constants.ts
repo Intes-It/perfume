@@ -12,7 +12,7 @@ export const Routes = {
     route: "/faqs",
   },
   blog: {
-    title: "Journal",
+    title: "Articles",
     route: "/blog",
     image:
       "https://mldn3w3pos1n.i.optimole.com/cb:453S~5a2d9/w:auto/h:auto/q:mauto/id:b2ad038a933778cbbc61fbc58eedfcef/https://naturefeerique.fr/journal-nes.png",
@@ -209,8 +209,8 @@ export const NavbarItems = [
   Routes.about,
   Routes.productCategories.cosmetics,
   Routes.productCategories.accessories,
-  Routes.productCategories.limitedEdition,
   Routes.boxes,
+  Routes.productCategories.limitedEdition,
   Routes.contact,
 ] as const;
 

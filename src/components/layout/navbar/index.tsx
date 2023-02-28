@@ -1,8 +1,8 @@
-import React from "react";
-import NextLink from "next/link";
-import { NavbarItems } from "@definitions/constants"; 
+import React from 'react';
+import NextLink from 'next/link';
+import { NavbarItems } from '@definitions/constants';
 
-function Navbar() { 
+function Navbar() {
   return (
     <div className="bg-white sticky top-0 p-1 z-40  hidden md:block">
       <nav className=" w-full z-10">
@@ -11,19 +11,14 @@ function Navbar() {
             <div className="block items-center  justify-between w-full">
               <div className="mx-auto">
                 <nav>
-                  <ul className="flex justify-center mb-6 text-xs text-gray-500 font-bold">
+                  <ul className="flex justify-center mb-2 text-[2px] text-gray-700 tracking-wider">
                     {NavbarItems?.map((item: any, pIndex: number) => (
                       <li
                         key={pIndex}
-                        className="group p-5 px-7 py-3 text-base font-light no-underline border-b-2 border-transparent hover:border-black transition hover:duration-75 hover:ease-in-out"
-                      >
+                        className="group p-5 px-7 py-3 text-base font-light border-b-2 border-transparent hover:border-black transition hover:duration-75 hover:ease-in-out">
                         <div>
-                          <NextLink
-                            href={item?.route}
-                            key={item?.title}
-                            passHref
-                          >
-                            <a className={"text-sm"}>
+                          <NextLink href={item?.route} key={item?.title} passHref>
+                            <a className={'text-sm'}>
                               {item?.title?.toUpperCase()}
                             </a>
                           </NextLink>
@@ -33,33 +28,21 @@ function Navbar() {
                                   (subItem: any, index: number) => (
                                     <div
                                       key={index}
-                                      className="m-3 text-white font-[600] tracking-wide mx-auto"
-                                    >
+                                      className="m-3 text-white font-[600] tracking-wide mx-auto">
                                       <div
                                         className="transition duration-500
-                                          border-b-2 border-transparent hover:border-white"
-                                      >
-                                        <a href={subItem?.route}>
-                                          {subItem?.title?.toUpperCase()}
-                                        </a>
+                                          border-b-2 border-transparent hover:border-white">
+                                        <a href={subItem?.route}>{subItem?.title?.toUpperCase()}</a>
                                       </div>
                                       <div className="text-base font-extralight tracking-wide">
                                         {subItem?.children
-                                          ? Object.values(
-                                              subItem?.children
-                                            )?.map(
-                                              (
-                                                sSubItem: any,
-                                                sIndex: number
-                                              ) => (
+                                          ? Object.values(subItem?.children)?.map(
+                                              (sSubItem: any, sIndex: number) => (
                                                 <div
                                                   key={sIndex}
                                                   className="my-1 transition duration-500
-                                                    border-b-2 border-transparent hover:border-white"
-                                                >
-                                                  <a href={sSubItem?.route}>
-                                                    {sSubItem?.title}
-                                                  </a>
+                                                    border-b-2 border-transparent hover:border-white">
+                                                  <a href={sSubItem?.route}>{sSubItem?.title}</a>
                                                   <br />
                                                 </div>
                                               )

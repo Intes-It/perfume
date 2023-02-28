@@ -95,7 +95,7 @@ const Blog1 = () => {
           <div>
             <button
               type="submit"
-              className="w-[250px] px-4 py-4 text-[14.5px] uppercase font-semibold text-[#262238]  bg-[#ACD051] rounded-md shadow hover:bg-black hover:text-white"
+              className="w-[250px] px-4 py-4 text-[12.5px] uppercase font-semibold text-[#262238]  bg-[#ACD051] rounded-md shadow hover:bg-black hover:text-white"
             >
               Publier un commentaire »
             </button>

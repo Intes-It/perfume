@@ -178,7 +178,7 @@ const ProductDetail: React.FC<
               min={1}
               placeholder={"1"}
             />
-            <span className="text-center">OU</span>
+            <div>OU</div>
             <div className="flex gap-3">
               <button className="ml-3 rounded-md p-5 bg-[#acd051] hover:bg-black text-white font-semibold">
                 AJOUTER AU PANIER
