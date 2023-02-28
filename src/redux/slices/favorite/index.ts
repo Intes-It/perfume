@@ -29,13 +29,14 @@ const favoriteSlice = createSlice({
     setList: (state, actions) => {
       state.list = actions.payload;
     },
-    addFavoriteItem: (state, actions) => { 
-      const existExProduct = state.list.find(item=>item.id === actions.payload.id)
-      if(existExProduct === undefined || existExProduct === null)
+    addFavoriteItem: (state, actions) => {
+      actions.payload.favorite = true;
+      const existExProduct = state.list.find((item) => item.id === actions.payload.id);
+      if (existExProduct === undefined || existExProduct === null)
         state.list = [...state.list, actions.payload];
     },
     removeFavoriteItem: (state, actions) => {
-      state.list = state.list.filter(item=>item.id !== actions.payload.id);
+      state.list = state.list.filter((item) => item.id !== actions.payload.id);
     },
   },
   extraReducers: {
