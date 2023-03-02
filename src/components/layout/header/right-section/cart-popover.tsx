@@ -6,11 +6,13 @@ import {faXmarkCircle} from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 
-import { ExProduct, Product } from "@types";
+import { ExProduct, } from "@types";
 import { removeProduct } from "@redux/actions";
 import { Routes } from "@definitions/constants";
+import { useRouter } from "next/router";
 
 const CartPopover: React.FC = () => {
+  const router = useRouter()
   const products = useSelector(
     (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
@@ -93,7 +95,7 @@ const CartPopover: React.FC = () => {
                     </strong>
                   </div>
                   <NextLink href={Routes.checkout.route}>
-                    <button className="bg-[#61CE70] w-full p-3 rounded-[5px] mt-5">
+                    <button onClick={() => router.push('/checkout') } className="bg-[#61CE70] w-full p-3 rounded-[5px] mt-5">
                       Commander
                     </button>
                   </NextLink>
