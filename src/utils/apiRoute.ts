@@ -8,4 +8,5 @@ export const api = {
   favouriteDelete: '/api/favourite/delete',
   getProfile: '/api/user/profile',
   productDetail: '/api/product/detail',
+  productByCategory: '/api/product/filter',
 };

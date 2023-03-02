@@ -1,12 +1,10 @@
 import * as React from 'react';
 import SearchPopover from '../seach-popover';
 import MobileMenu from './mobile-menu';
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 const LeftSection = () => {
   const router = useRouter();
-  console.log(router.pathname);
   return (
     <div className="grid gap-4 content-center">
       <div className="flex mr-auto ml-2">
