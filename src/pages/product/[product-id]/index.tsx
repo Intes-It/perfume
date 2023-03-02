@@ -1,55 +1,54 @@
-import { useRouter } from "next/router";
-import React, { useMemo, useState } from "react";
-import NextLink from "next/link";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { formatCurrency } from "@utils/formatNumber";
-import { Container } from "@components/container";
-import { BestSales } from "@components/best-sales";
-import Rating from "@components/rating/rating";
+import React, { useMemo, useState } from 'react';
+import NextLink from 'next/link';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { formatCurrency } from '@utils/formatNumber';
+import { Container } from '@components/container';
+import { BestSales } from '@components/best-sales';
+import Rating from '@components/rating/rating';
 
-import { VisibleTitleRoutes } from "@definitions/constants";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { VisibleTitleRoutes } from '@definitions/constants';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 // import { Product } from "@types";
 
-import { addProduct, removeProduct } from "@redux/slices/cart";
-import { useSelector, useDispatch } from "react-redux";
+import { addProduct,  } from '@redux/slices/cart';
+import {  useDispatch } from 'react-redux';
 
-import ImageModal from "@components/image-modal";
-import { useProductDetail, useBestSallingProducts } from "@hooks/useProduct";
+import ImageModal from '@components/image-modal';
+import { useProductDetail, useBestSallingProducts } from '@hooks/useProduct';
 
 const DescriptionTabs = [
   {
-    id: "tab-descriptions-tab",
-    header: "Description",
-    href: "#tab-descriptions",
+    id: 'tab-descriptions-tab',
+    header: 'Description',
+    href: '#tab-descriptions',
   },
   {
-    id: "tab-features-tab",
-    header: "Caractéristiques",
-    href: "#tab-features",
+    id: 'tab-features-tab',
+    header: 'Caractéristiques',
+    href: '#tab-features',
   },
   {
-    id: "tab-utilisation-tab",
-    header: "Utilisation",
-    href: "#tab-utilisation",
+    id: 'tab-utilisation-tab',
+    header: 'Utilisation',
+    href: '#tab-utilisation',
   },
   {
-    id: "tab-composition-tab",
-    header: "Composition",
-    href: "#tab-composition",
+    id: 'tab-composition-tab',
+    header: 'Composition',
+    href: '#tab-composition',
   },
   {
-    id: "tab-reviews-tab",
-    header: "Avis",
-    href: "#tab-reviews",
+    id: 'tab-reviews-tab',
+    header: 'Avis',
+    href: '#tab-reviews',
   },
 ];
 
 export const getServerSideProps: GetServerSideProps<{
   productId: string;
 }> = async (context: any) => {
-  const productId = context.query["product-id"];
+  const productId = context.query['product-id'];
   if (productId)
     return {
       props: {
@@ -61,9 +60,9 @@ export const getServerSideProps: GetServerSideProps<{
   };
 };
 
-const ProductDetail: React.FC<
-  InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ productId }) => {
+const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
+  productId,
+}) => {
   // redux
   const dispatch = useDispatch();
 
@@ -80,22 +79,17 @@ const ProductDetail: React.FC<
   const server_link = process.env.NEXT_PUBLIC_API_URL;
 
   const breadCrumb = useMemo(() => {
-    let res = [{ name: "Accueil", route: "/" }];
+    let res = [{ name: 'Accueil', route: '/' }];
     const groupRoute = product?.group;
     const subGroupRoute = product?.subGroup;
     if (groupRoute) {
-      const group = VisibleTitleRoutes?.find((item) =>
-        item?.route?.includes(groupRoute)
-      );
+      const group = VisibleTitleRoutes?.find((item) => item?.route?.includes(groupRoute));
 
       if (group) res = [...res, { name: group?.title, route: group?.route }];
     }
     if (subGroupRoute) {
-      const subGroup = VisibleTitleRoutes?.find((item) =>
-        item?.route?.includes(subGroupRoute)
-      );
-      if (subGroup)
-        res = [...res, { name: subGroup?.title, route: subGroup?.route }];
+      const subGroup = VisibleTitleRoutes?.find((item) => item?.route?.includes(subGroupRoute));
+      if (subGroup) res = [...res, { name: subGroup?.title, route: subGroup?.route }];
     }
     return res;
   }, [product]);
@@ -105,8 +99,8 @@ const ProductDetail: React.FC<
   };
 
   const handleAddProduct = () => {
-    dispatch(addProduct({product, quantity})); 
-    console.log(quantity)
+    dispatch(addProduct({ product, quantity }));
+    console.log(quantity);
   };
 
   return (
@@ -123,7 +117,7 @@ const ProductDetail: React.FC<
             <FontAwesomeIcon
               onClick={() => setShowModal(true)}
               icon={faSearch}
-              fontSize={"1.1rem"}
+              fontSize={'1.1rem'}
             />
           </button>
         </div>
@@ -140,7 +134,7 @@ const ProductDetail: React.FC<
                       {item?.name}
                     </span>
                   </NextLink>
-                  <span className="mx-2">{"/"}</span>
+                  <span className="mx-2">{'/'}</span>
                 </div>
               );
             })}
@@ -162,9 +156,7 @@ const ProductDetail: React.FC<
           </div>
           {/* sub product */}
           <div className="my-3">
-            <span className="text-[#603813] font-semibold">
-              Contenance: 60 perles
-            </span>
+            <span className="text-[#603813] font-semibold">Contenance: 60 perles</span>
           </div>
           {/* add product to cart */}
           <div className="flex items-center gap-3">
@@ -176,17 +168,18 @@ const ProductDetail: React.FC<
               type="number"
               className="border border-gray outline-none p-1 text-center w-14 h-10"
               min={1}
-              placeholder={"1"}
+              placeholder={'1'}
             />
             <div>OU</div>
             <div className="flex gap-3">
-              <button className="ml-3 rounded-md p-5 bg-[#acd051] hover:bg-black text-white font-semibold">
+              <button
+                onClick={handleAddProduct}
+                className="ml-3 rounded-md p-5 bg-[#acd051] hover:bg-black text-white font-semibold">
                 AJOUTER AU PANIER
               </button>
               <button
                 className="rounded-md bg-[#603813] p-5  hover:bg-black text-white font-semibold"
-                onClick={handleAddProduct}
-              >
+                onClick={handleAddProduct}>
                 ACHETER
               </button>
             </div>
@@ -199,22 +192,18 @@ const ProductDetail: React.FC<
         <ul
           className="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0 mb-4"
           id="tabs-tab"
-          role="tablist"
-        >
+          role="tablist">
           {DescriptionTabs?.map((item, index) => (
             <li className="nav-item" role="presentation" key={index}>
               <a
                 href={item?.href}
                 className={`nav-link block leading-tight font-semibold border-t-[3px]  border-transparent 
-                px-6 py-3 my-2 ${
-                  index === 0 ? "active" : ""
-                } selection:border-black`}
+                px-6 py-3 my-2 ${index === 0 ? 'active' : ''} selection:border-black`}
                 id={item?.id}
                 data-bs-toggle="pill"
                 data-bs-target={item?.href}
                 role="tab"
-                aria-selected="true"
-              >
+                aria-selected="true">
                 {item?.header}
               </a>
             </li>
@@ -225,42 +214,35 @@ const ProductDetail: React.FC<
             className="tab-pane fade show active"
             id="tab-descriptions"
             role="tabpanel"
-            aria-labelledby="tab-descriptions-tab"
-          >
-            <span className="text-[#603813] whitespace-pre-line">
-              {product?.description}
-            </span>
+            aria-labelledby="tab-descriptions-tab">
+            <span className="text-[#603813] whitespace-pre-line">{product?.description}</span>
           </div>
           <div
             className="tab-pane fade"
             id="tab-features"
             role="tabpanel"
-            aria-labelledby="tab-features-tab"
-          >
+            aria-labelledby="tab-features-tab">
             No Data
           </div>
           <div
             className="tab-pane fade"
             id="tab-utilisation"
             role="tabpanel"
-            aria-labelledby="tab-utilisation-tab"
-          >
+            aria-labelledby="tab-utilisation-tab">
             No Data
           </div>
           <div
             className="tab-pane fade"
             id="tab-composition"
             role="tabpanel"
-            aria-labelledby="tab-composition-tab"
-          >
+            aria-labelledby="tab-composition-tab">
             No Data
           </div>
           <div
             className="tab-pane fade"
             id="tab-reviews"
             role="tabpanel"
-            aria-labelledby="tab-reviews-tab"
-          >
+            aria-labelledby="tab-reviews-tab">
             Tab 5 content
           </div>
         </div>
@@ -273,7 +255,7 @@ const ProductDetail: React.FC<
         <BestSales products={products} />
       </div>
       <ImageModal
-        imgUrl={`${server_link}${product?.image || ""}`}
+        imgUrl={`${server_link}${product?.image || ''}`}
         isShowModel={isShowImageModal}
         onClose={() => setShowModal(false)}
       />
