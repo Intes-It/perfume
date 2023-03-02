@@ -5,7 +5,7 @@ import ProductItem from '@components/product-item';
 import { Product } from '@types';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { productFilter } from '@utils/fakeData';
+import { productFilter, productPrice } from '@utils/fakeData';
 import { useProducts } from '@hooks/useProduct';
 import { addFavoriteItem, removeFavoriteItem } from '@redux/slices/favorite';
 import { useDispatch, useSelector } from 'react-redux';
@@ -47,7 +47,10 @@ const ProductGroup = () => {
         }));
       });
     }
-    const selection = filterProducts?.reduce((a: any[], item: any) => a.concat(item?.name || ''), []);
+    const selection = filterProducts?.reduce(
+      (a: any[], item: any) => a.concat(item?.name || ''),
+      []
+    );
     console.log(selection);
   }, [router.query, products, favoriteProducts]);
 
@@ -90,6 +93,7 @@ const ProductGroup = () => {
               onChange={handleChange}
               products={copy}
             />
+            <DropdownCheckbox title="Prix" onChange={handleChange} selections={productPrice} />
           </div>
           <div className="mobile:float-right">
             <DropdownSelect selections={productFilter} onChange={handleChange} />

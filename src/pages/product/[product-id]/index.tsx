@@ -11,11 +11,12 @@ import { VisibleTitleRoutes } from '@definitions/constants';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 // import { Product } from "@types";
 
-import { addProduct,  } from '@redux/slices/cart';
-import {  useDispatch } from 'react-redux';
+import { addProduct } from '@redux/slices/cart';
+import { useDispatch } from 'react-redux';
 
 import ImageModal from '@components/image-modal';
 import { useProductDetail, useBestSallingProducts } from '@hooks/useProduct';
+import { useRouter } from 'next/router';
 
 const DescriptionTabs = [
   {
@@ -70,6 +71,8 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
     isShowImageModal: false,
     quantity: 1,
   });
+
+  const router = useRouter();
 
   const { isShowImageModal, quantity } = state;
 
@@ -179,7 +182,10 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
               </button>
               <button
                 className="rounded-md bg-[#603813] p-5  hover:bg-black text-white font-semibold"
-                onClick={handleAddProduct}>
+                onClick={() => {
+                  handleAddProduct();
+                  router.push('/checkout');
+                }}>
                 ACHETER
               </button>
             </div>
@@ -193,21 +199,19 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
           className="mb-5 flex list-none flex-col flex-wrap border-b-0 pl-0 md:flex-row"
           id="tabs-tab"
           role="tablist"
-          data-te-nav-ref
-        >
+          data-te-nav-ref>
           {DescriptionTabs?.map((item, index) => (
             <li role="presentation" key={index}>
               <a
                 href={item?.href}
                 className="my-2 block border-x-0 border-b-0 border-t-2 border-transparent px-7 pt-4 pb-3.5 text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-[#6A5950] "
                 id={item?.id}
-                data-te-toggle="pill" 
+                data-te-toggle="pill"
                 data-te-nav-active={index === 0 ? true : undefined}
                 data-te-target={item?.href}
                 aria-controls={item?.href}
                 aria-selected={index === 0}
-                role="tab"
-              >
+                role="tab">
                 {item?.header}
               </a>
             </li>
@@ -217,38 +221,31 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
           <div
             className="hidden opacity-0 opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
             id="tab-descriptions"
-            role="tabpanel" 
-          >
-            <span className="text-[#603813] whitespace-pre-line">
-              {product?.description}
-            </span>
+            role="tabpanel">
+            <span className="text-[#603813] whitespace-pre-line">{product?.description}</span>
           </div>
           <div
             className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
             id="tab-features"
-            role="tabpanel" 
-          >
+            role="tabpanel">
             No Data
           </div>
           <div
             className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
             id="tab-utilisation"
-            role="tabpanel" 
-          >
+            role="tabpanel">
             No Data
           </div>
           <div
             className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
             id="tab-composition"
-            role="tabpanel" 
-          >
+            role="tabpanel">
             No Data
           </div>
           <div
             className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
             id="tab-reviews"
-            role="tabpanel" 
-          >
+            role="tabpanel">
             Tab 5 content
           </div>
         </div>
