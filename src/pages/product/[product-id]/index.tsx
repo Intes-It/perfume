@@ -197,69 +197,64 @@ const ProductDetail: React.FC<
       {/* description tabs */}
       <div className="mx-16">
         <ul
-          className="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0 mb-4"
+          className="mb-5 flex list-none flex-col flex-wrap border-b-0 pl-0 md:flex-row"
           id="tabs-tab"
           role="tablist"
+          data-te-nav-ref
         >
           {DescriptionTabs?.map((item, index) => (
-            <li className="nav-item" role="presentation" key={index}>
+            <li role="presentation" key={index}>
               <a
                 href={item?.href}
-                className={`nav-link block leading-tight font-semibold border-t-[3px]  border-transparent 
-                px-6 py-3 my-2 ${
-                  index === 0 ? "active" : ""
-                } selection:border-black`}
+                className="my-2 block border-x-0 border-b-0 border-t-2 border-transparent px-7 pt-4 pb-3.5 text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-[#6A5950] "
                 id={item?.id}
-                data-bs-toggle="pill"
-                data-bs-target={item?.href}
+                data-te-toggle="pill" 
+                data-te-nav-active={index === 0 ? true : undefined}
+                data-te-target={item?.href}
+                aria-controls={item?.href}
+                aria-selected={index === 0}
                 role="tab"
-                aria-selected="true"
               >
                 {item?.header}
               </a>
             </li>
           ))}
         </ul>
-        <div className="tab-content" id="tabs-tabContent">
+        <div className="my-2 w-full">
           <div
-            className="tab-pane fade show active"
+            className="hidden opacity-0 opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
             id="tab-descriptions"
-            role="tabpanel"
-            aria-labelledby="tab-descriptions-tab"
+            role="tabpanel" 
           >
             <span className="text-[#603813] whitespace-pre-line">
               {product?.description}
             </span>
           </div>
           <div
-            className="tab-pane fade"
+            className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
             id="tab-features"
-            role="tabpanel"
-            aria-labelledby="tab-features-tab"
+            role="tabpanel" 
           >
             No Data
           </div>
           <div
-            className="tab-pane fade"
+            className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
             id="tab-utilisation"
-            role="tabpanel"
-            aria-labelledby="tab-utilisation-tab"
+            role="tabpanel" 
           >
             No Data
           </div>
           <div
-            className="tab-pane fade"
+            className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
             id="tab-composition"
-            role="tabpanel"
-            aria-labelledby="tab-composition-tab"
+            role="tabpanel" 
           >
             No Data
           </div>
           <div
-            className="tab-pane fade"
+            className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
             id="tab-reviews"
-            role="tabpanel"
-            aria-labelledby="tab-reviews-tab"
+            role="tabpanel" 
           >
             Tab 5 content
           </div>

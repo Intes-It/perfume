@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { ExProduct, Product } from "@types";
 import { removeProduct } from "@redux/actions";
+import { Routes } from "@definitions/constants";
 
 const CartPopover: React.FC = () => {
   const products = useSelector(
@@ -91,9 +92,11 @@ const CartPopover: React.FC = () => {
                       {`Sous-total: ${totalMoney} €`}
                     </strong>
                   </div>
-                  <button className="bg-[#61CE70] w-full p-3 rounded-[5px] mt-5">
-                    Commander
-                  </button>
+                  <NextLink href={Routes.checkout.route}>
+                    <button className="bg-[#61CE70] w-full p-3 rounded-[5px] mt-5">
+                      Commander
+                    </button>
+                  </NextLink>
                 </div>
               ) : (
                 <div>No products in the cart</div>
