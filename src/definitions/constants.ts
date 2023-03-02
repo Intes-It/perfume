@@ -11,6 +11,10 @@ export const Routes = {
     title: "FAQ",
     route: "/faqs",
   },
+  checkout: {
+    title: "Paiement",
+    route: "/checkout",
+  },
   blog: {
     title: "Articles",
     route: "/blog",
@@ -190,6 +194,7 @@ export const VisibleTitleRoutes = [
   Routes.faq,
   Routes.favorite,
   Routes.myAccount,
+  Routes.checkout,
   Routes.productCategories.cosmetics,
   Routes.productCategories.cosmetics.children.solidBalm,
   Routes.productCategories.cosmetics.children.solidDeodorant,
