@@ -1,10 +1,57 @@
-import { Console } from 'console';
-import React from 'react';
 
-const BillingInfomation: React.FC = () => {
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import React, { useEffect } from 'react';
+import _ from 'lodash';
+
+type BillingInfomationProps = {
+  onError?: (errors: any) => void;
+};
+
+const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError }) => {
+  const formSchema = Yup.object().shape({
+    firstName: Yup.string().required(),
+    lastName: Yup.string().required(),
+    // country: Yup.string().required(),
+    streetNumber: Yup.string().required(),
+    streetName: Yup.string().required(),
+    postalCode: Yup.string().required(),
+    city: Yup.string().required(),
+    phone: Yup.number().required(),
+    email: Yup.string().required(),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      companyName: '',
+      country: '',
+      streetNumber: '',
+      streetName: '',
+      city: '',
+      postalCode: '',
+      phone: '',
+      email: '',
+      subscribeNewLetter: true,
+    },
+    validationSchema: formSchema,
+    onSubmit: (value, { setSubmitting }) => {
+      console.log(value)
+    },
+  });
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+
+  
+  useEffect(() => { 
+    if(!_.isEmpty(touched))
+      onError?.(errors);
+  }, [errors])
+
+
   return (
     <div className="">
-      <button className=" grid bg-[#33ddb3] hover:bg-[#43edc3] w-full max-h-[64px] min-h-[32px] rounded-md ">
+      <button className=" grid bg-[#33ddb3] hover:bg-[#43edc3] w-full max-h-[64px] min-h-[32px] rounded-md">
         <div className="flex m-auto p-2">
           <div className="mr-2">Payer avec</div>
           <span role="presentation">
@@ -42,7 +89,7 @@ const BillingInfomation: React.FC = () => {
       {/* form */}
       <div>
         <span className="text-[#26222f] text-[32px] font-semibold">Détails de facturation</span>
-        <form onInvalidCapture={()=>{
+        <form onInvalidCapture={() => {
           console.log('re')
         }} >
           <div className="grid gap-3">
@@ -52,10 +99,10 @@ const BillingInfomation: React.FC = () => {
                   Prénom <span className="text-red-500 text-[20px] ">*</span>
                 </label>
                 <input
-                  required
+                  {...formik.getFieldProps('firstName')}
                   type="text"
-                  id="id"
-                  className="px-4 py-3 border border-gray-300 text-black"
+                  id="firstName"
+                  className={`px-4 py-3 border ${errors.firstName ? 'border-red-700' : 'border-gray-300'} text-black`}
                 />
               </div>
               <div className="flex flex-col ml-6">
@@ -63,19 +110,18 @@ const BillingInfomation: React.FC = () => {
                   Nom <span className="text-red-500 text-[20px] ">*</span>
                 </label>
                 <input
-                  required
+                  {...formik.getFieldProps('lastName')}
                   type="text"
-                  id="id"
-                  className="px-4 py-3 border border-gray-300 text-black"
+                  id="lastName"
+                  className={`px-4 py-3 border ${errors.lastName ? 'border-red-700' : 'border-gray-300'} text-black`}
                 />
               </div>
             </div>
             <div className="flex flex-col">
               <label className="font-semibold">Nom de l’entreprise (facultatif)</label>
               <input
-                required
                 type="text"
-                id="id"
+                id="companyName"
                 className="px-4 py-3 border border-gray-300 text-black"
               />
             </div>
@@ -84,9 +130,9 @@ const BillingInfomation: React.FC = () => {
                 Pays/région <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <select
-                required 
-                id="id"
-                className="px-4 py-3 border border-gray-300 text-black"
+                {...formik.getFieldProps('country')}
+                id="country"
+                className={`px-4 py-3 border ${errors.country ? 'border-red-700' : 'border-gray-300'} text-black`}
               />
             </div>
             <div className="flex flex-col">
@@ -94,16 +140,16 @@ const BillingInfomation: React.FC = () => {
                 Numéro et nom de rue <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
-                required
+                {...formik.getFieldProps('streetNumber')}
                 type="text"
-                id="id"
-                className="px-4 py-3 border border-gray-300 text-black"
+                id="streetNumber"
+                className={`px-4 py-3 border ${errors.streetNumber ? 'border-red-700' : 'border-gray-300'} text-black`}
               />
               <input
-                required
+                {...formik.getFieldProps('streetName')}
                 type="text"
-                id="id"
-                className="px-4 py-3 mt-3 border border-gray-300 text-black"
+                id="streetName"
+                className={`px-4 py-3 mt-4 border ${errors.streetName ? 'border-red-700' : 'border-gray-300'} text-black`}
               />
             </div>
             <div className="flex flex-col">
@@ -111,21 +157,10 @@ const BillingInfomation: React.FC = () => {
                 Ville <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
-                required
+                {...formik.getFieldProps('city')}
                 type="text"
-                id="id"
-                className="px-4 py-3 border border-gray-300 text-black"
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="font-semibold">
-                Région / Département <span className="text-red-500 text-[20px] ">*</span>
-              </label>
-              <input
-                required
-                type="text"
-                id="id"
-                className="px-4 py-3 border border-gray-300 text-black"
+                id="city"
+                className={`px-4 py-3 border ${errors.city ? 'border-red-700' : 'border-gray-300'} text-black`}
               />
             </div>
             <div className="flex flex-col">
@@ -133,10 +168,10 @@ const BillingInfomation: React.FC = () => {
                 Code postal <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
-                required
+                {...formik.getFieldProps('postalCode')}
                 type="text"
-                id="id"
-                className="px-4 py-3 border border-gray-300 text-black"
+                id="postalCode"
+                className={`px-4 py-3 mt-4 border ${errors.postalCode ? 'border-red-700' : 'border-gray-300'} text-black`}
               />
             </div>
             <div className="flex flex-col">
@@ -144,10 +179,10 @@ const BillingInfomation: React.FC = () => {
                 Téléphone <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
-                required
+                {...formik.getFieldProps('phone')}
                 type="text"
-                id="id"
-                className="px-4 py-3 border border-gray-300 text-black"
+                id="phone"
+                className={`px-4 py-3 mt-4 border ${errors.phone ? 'border-red-700' : 'border-gray-300'} text-black`}
               />
             </div>
             <div className="flex flex-col">
@@ -155,31 +190,31 @@ const BillingInfomation: React.FC = () => {
                 E-mail <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
-                required
-                type="text"
+                {...formik.getFieldProps('email')}
+                type="email"
                 id="id"
-                className="px-4 py-3 border border-gray-300 text-black"
+                className={`px-4 py-3 mt-4 border ${errors.email ? 'border-red-700' : 'border-gray-300'} text-black`}
               />
             </div>
             <div className="flex justify-between font-semibold">
               <div className="flex items-center space-x-2">
-                <input type="checkbox" 
-                checked={true} 
-                onChange={()=>{}}
-                id="remember" className="w-4 h-4 " />
+                <input type="checkbox"
+                  checked={true}
+                  onChange={(e) => { console.log(e)}}
+                  id="remember" className="w-4 h-4 " />
                 <label>Subscribe to our newsletter</label>
               </div>
             </div>
             <div className="flex justify-between font-semibold">
               <div className="flex items-center space-x-2">
-                <input type="checkbox" 
-                checked={false} 
-                onChange={()=>{}}
-                id="remember" className="w-4 h-4 " />
+                <input type="checkbox"
+                  checked={false}
+                  onChange={(e) => { console.log(e)}}
+                  id="remember" className="w-4 h-4 " />
                 <label>Créer un compte ?</label>
               </div>
             </div>
-          </div> 
+          </div>
         </form>
       </div>
     </div>

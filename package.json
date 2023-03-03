@@ -23,6 +23,7 @@
     "daisyui": "^2.50.2",
     "dayjs": "^1.11.6",
     "embla-carousel-react": "^7.0.9",
+    "formik": "^2.2.9",
     "libphonenumber-js": "^1.10.14",
     "lodash-es": "^4.17.21",
     "next": "^12.1.6",
@@ -50,6 +51,7 @@
     "swr": "^2.0.3",
     "tailwindcss": "^3.2.7",
     "tw-elements": "^1.0.0-beta1",
+    "yup": "^1.0.2",
     "zod": "^3.20.6"
   },
   "devDependencies": {

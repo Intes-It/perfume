@@ -5,7 +5,8 @@ import { Container } from '@components/container';
 import { faWindowMaximize } from '@fortawesome/free-regular-svg-icons';
 import { faWarning } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import _ from 'lodash';
+import { useRef, useState } from 'react';
 
 const StepTabs = [
   {
@@ -29,10 +30,38 @@ const Checkout: React.FC = () => {
   const [state, setState] = useState(
     {
       activeTab: 0,
-      inValidData: false
+      inValidData: false,
+      formErrors: {
+        billingInfomation: true,
+        additionalInfomation: true,
+        orderReview: true
+      }
     }
   );
-  const { activeTab, inValidData } = state;
+  const { activeTab, inValidData, formErrors } = state;
+  const errorDivRef = useRef<HTMLDivElement>(null);
+
+  const hasError = () => {
+    switch (activeTab) {
+      case 0:
+        return formErrors.billingInfomation;
+      case 1:
+        return formErrors.additionalInfomation;
+      case 2:
+        return formErrors.orderReview;
+      default:
+        return false;
+    }
+  }
+
+  const showError = () => {
+    setState((pre) => ({ ...pre, inValidData: true }));
+    // Lấy ra vị trí của thẻ div bằng cách sử dụng method getBoundingClientRect()
+    const topPos = errorDivRef.current?.getBoundingClientRect().top;
+    // Scroll đến vị trí của thẻ div bằng cách sử dụng method scrollIntoView()
+    window.scrollTo({ top: topPos, behavior: 'smooth' });
+  }
+
   return (
     <Container>
       <div className="m-20 mt-2">
@@ -59,13 +88,16 @@ const Checkout: React.FC = () => {
           </ul>
           <div className="my-2 px-5 py-2 w-full col-span-5 bg-[#FBFBFB]">
             {/* error */}
-            {inValidData && <div className='border-t-[3px] border-t-red-700 p-4 mb-16 bg-[#F7F6F7]'>
+            <div ref={errorDivRef} className={`${!inValidData && 'hidden'} border-t-[3px] border-t-red-700 p-4 mb-16 bg-[#F7F6F7]`}>
               <FontAwesomeIcon icon={faWarning} fontSize={'1.0rem'} className={'w-10 h-10 text-red-700'} />
               <span>Invalid or data missing in the required field(s)</span>
-            </div>}
+            </div>
             <div
               className={`${activeTab !== 0 && 'hidden'} transition-opacity duration-150 ease-linear data-[te-tab-active]:block`} >
-              <BillingInfomation />
+              <BillingInfomation onError={(errors) => {
+                console.log('errors:%o', errors)
+                setState((pre) => ({ ...pre, formErrors: { ...formErrors, billingInfomation: !_.isEmpty(errors) } }))
+              }} />
             </div>
             <div
               className={`${activeTab !== 1 && 'hidden'} transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}>
@@ -78,15 +110,23 @@ const Checkout: React.FC = () => {
             <div className="flex float-right gap-3 mt-10 ">
               <button className="w-[90px] rounded-md p-3 border border-black  text-black hover:bg-black hover:text-white "
                 onClick={() => {
-                  if (activeTab > 0)
-                    setState((pre) => ({ ...pre, activeTab: activeTab - 1 }))
+                  if (activeTab > 0) {
+                    if (hasError())
+                      showError();
+                    else
+                      setState((pre) => ({ ...pre, inValidData: false, activeTab: activeTab - 1 }))
+                  }
                 }}>
                 PRÉC
               </button>
               <button className="w-[90px] rounded-md p-3 border border-black text-black hover:bg-black hover:text-white "
                 onClick={() => {
-                  if (activeTab < 2)
-                    setState((pre) => ({ ...pre, activeTab: activeTab + 1 }))
+                  if (activeTab < 2) {
+                    if (hasError())
+                      showError();
+                    else
+                      setState((pre) => ({ ...pre, inValidData: false, activeTab: activeTab + 1 }))
+                  }
                 }}>
                 SUIV
               </button>
