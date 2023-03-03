@@ -26,8 +26,8 @@ const OrderReview = () => {
           <div className="border border-black">Produit</div>
           <div className="border border-black">Sous-total</div>
         </div>
-        {products?.map((item: ExProduct) => (
-          <div className="grid grid-cols-2">
+        {products?.map((item: ExProduct, index:number) => (
+          <div key={index} className="grid grid-cols-2">
             <div className="border border-black">
               {item.product.name} x {item.quantity}
             </div>
@@ -50,7 +50,7 @@ const OrderReview = () => {
         </div>
         <div className="flex mt-5 items-center">
           <input
-            onClick={() => setState((o) => ({ ...o, carte: true, paypal: false }))}
+            onChange={() => setState((o) => ({ ...o, carte: true, paypal: false }))}
             type="radio"
             checked={carte}
             id="remember"
@@ -110,7 +110,7 @@ const OrderReview = () => {
           <div className="flex mt-5 items-center">
             <input
               checked={paypal}
-              onClick={() => setState((o) => ({ ...o, carte: false, paypal: true }))}
+              onChange={() => setState((o) => ({ ...o, carte: false, paypal: true }))}
               type="radio"
               id="remember"
               className="w-4 h-4 mr-2 "
@@ -138,15 +138,7 @@ const OrderReview = () => {
             <button className="h-[50px] rounded-md p-3 text-white hover:bg-black bg-[#603813] ">
               Commander
             </button>
-          </div>
-          <div className="flex float-right gap-3 mt-10 ">
-            <button className="w-[90px] rounded-md p-3 border border-black  text-black hover:bg-black hover:text-white ">
-              PRÉC
-            </button>
-            <button className="w-[90px] rounded-md p-3 border border-black text-black hover:bg-black hover:text-white ">
-              SUIV
-            </button>
-          </div>
+          </div> 
         </div>
       </div>
     </div>

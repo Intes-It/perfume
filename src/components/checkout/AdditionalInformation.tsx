@@ -9,8 +9,8 @@ const AdditionalInformation = () => {
     <div className="bg-[#FBFBFB] ">
       <div className="flex items-center">
         <input
-          type="checkbox"
-          onClick={() => setState((o) => ({ ...o, check: !check }))}
+          type="checkbox" 
+          onChange={() => setState((o) => ({ ...o, check: !check }))}
           checked={check}
           id="remember"
           className="w-4 h-4 mt-3 mr-2 "
@@ -112,15 +112,7 @@ const AdditionalInformation = () => {
                 className="px-4 py-2 h-[60px] mt-2 border border-gray-300 text-black bg-white"
               />
             </div>
-          </div>
-          <div className="flex float-right gap-3 mt-10 ">
-            <button className="w-[90px] rounded-md p-3 border border-black  text-black hover:bg-black hover:text-white ">
-              PRÉC
-            </button>
-            <button className="w-[90px] rounded-md p-3 border border-black text-black hover:bg-black hover:text-white ">
-              SUIV
-            </button>
-          </div>
+          </div> 
         </form>
       </div>
     </div>
