@@ -20,7 +20,8 @@ const DropdownCheckbox: React.FC<DropdownProps> = ({ title, selections, onChange
       ...o,
       newArr: selections?.map((r: any, index: number) => {
         return {
-          name: r,
+          name: r.name,
+          value: r.value,
           id: index,
           checked: false,
         };
@@ -88,7 +89,7 @@ const DropdownCheckbox: React.FC<DropdownProps> = ({ title, selections, onChange
                 id="remember"
                 className="w-4 h-4"
                 checked={selection.checked}
-                value={selection.name}
+                value={selection.value}
                 onClick={(value) => handleCheck(value, selection.id)}
               />
               <p className="">{selection.name}</p>

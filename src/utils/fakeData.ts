@@ -1,25 +1,18 @@
 import { MemberComment, Product } from '@types';
 
-export const productPrice = ['0€ — 10€', '11€ — 20€', '21€ — 50€'];
-export const productFilter = [
-  'Trier Par...',
-  'Alphabétique (A à Z)',
-  'Alphabétique (Z à A)',
-  'Prix Croissant',
-  'Prix Décroissant',
-  'Notes Moyennes',
-  "Nombres D'avis",
+export const productPrice = [
+  { name: '0€ — 10€', value: '0-10' },
+  { name: '11€ — 20€', value: '11-20' },
+  { name: '21€ — 50€', value: '21-50' },
 ];
-
-// export const productFilter = [
-//   {product:"Trier Par...",check:false},
-//   {product:"Alphabétique (A à Z)",check:false},
-//   {product:"Alphabétique (Z à A)",check:false},
-//   {product:"Prix Croissant",check:false},
-//   {product:"Notes Moyennes",check:false},
-//   {product:"Nombres D'avis",check:false},
-// ];
-
+export const productFilter = [
+  { name: 'Trier Par...', value: '' },
+  { name: 'Alphabétique (A à Z)', value: 'alpha-asc' },
+  { name: 'Alphabétique (Z à A)', value: 'alpha-desc' },
+  { name: 'Prix Croissant', value: 'price-asc' },
+  { name: 'Prix Décroissant', value: 'price-desc' },
+  { name: "Nombres D'avis", value: 'evaluate' },
+];
 export const colourOptions = [
   { value: 'orange', label: 'Orange' },
   { value: 'yellow', label: 'Yellow' },

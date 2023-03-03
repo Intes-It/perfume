@@ -9,7 +9,7 @@ import { productFilter, productPrice } from '@utils/fakeData';
 import { useProducts } from '@hooks/useProduct';
 import { addFavoriteItem, removeFavoriteItem } from '@redux/slices/favorite';
 import { useDispatch, useSelector } from 'react-redux';
-import useCategory, { getProduct } from '@hooks/useFilter';
+import useCategory, { getProduct, getSubCategory } from '@hooks/useFilter';
 
 const ProductGroup = () => {
   const dispatch = useDispatch();
@@ -17,24 +17,169 @@ const ProductGroup = () => {
   const [state, setState] = useState({
     filterProducts: [] as Product[] | undefined,
     copy: [] as Product[] | undefined,
-    categories: '',
-    price: '',
     selection: [] as string[],
+    id: undefined,
+    valueSort: '',
+    valuePrice: '',
+    valueSubCategory: '',
   });
-  const server_link = process.env.NEXT_PUBLIC_API_URL;
   const { products } = useProducts();
   const { categoryList } = useCategory();
 
   const favoriteProducts = useSelector(
     (state: any) => state.persistedReducer?.favorite?.list
   ) as Product[];
-  const { filterProducts, copy, price, categories, selection } = state;
+  const { filterProducts, copy, selection, id, valueSort, valuePrice, valueSubCategory } = state;
+
+  const sortByPrice = (value: any) => {
+    if (value === valuePrice) {
+      const param =
+        valueSubCategory === ''
+          ? { category: (id as any)?.id, sort: valueSort }
+          : { category: (id as any)?.id, sort: valueSort, subcategory: valueSubCategory };
+      getProduct(param).then((response: any) => {
+        response.data.results.forEach((item: Product) => {
+          const existItem = favoriteProducts?.find((itemFavorite) => itemFavorite.id === item.id);
+          if (existItem) item.favorite = true;
+          else item.favorite = false;
+        });
+        setState((o) => ({
+          ...o,
+          filterProducts: response.data.results,
+        }));
+      });
+      const valuePrice = '';
+      setState((o) => ({
+        ...o,
+        valuePrice,
+      }));
+    } else {
+      const param =
+        valueSubCategory === ''
+          ? { category: (id as any)?.id, sort: valueSort, price_range: value }
+          : {
+              category: (id as any)?.id,
+              sort: valueSort,
+              subcategory: valueSubCategory,
+              price_range: value,
+            };
+      getProduct(param).then((response: any) => {
+        response.data.results.forEach((item: Product) => {
+          const existItem = favoriteProducts?.find((itemFavorite) => itemFavorite.id === item.id);
+          if (existItem) item.favorite = true;
+          else item.favorite = false;
+        });
+        setState((o) => ({
+          ...o,
+          filterProducts: response.data.results,
+        }));
+      });
+      const valuePrice = value;
+      setState((o) => ({
+        ...o,
+        valuePrice,
+      }));
+    }
+  };
+
+  const sort = (value: any) => {
+    const param =
+      valuePrice === '' && valueSubCategory === ''
+        ? { category: (id as any)?.id, sort: value }
+        : {
+            category: (id as any)?.id,
+            sort: value,
+            price_range: valuePrice,
+            subcategory: valueSubCategory,
+          };
+    getProduct(param).then((response: any) => {
+      response.data.results.forEach((item: Product) => {
+        const existItem = favoriteProducts?.find((itemFavorite) => itemFavorite.id === item.id);
+        if (existItem) item.favorite = true;
+        else item.favorite = false;
+      });
+      setState((o) => ({
+        ...o,
+        filterProducts: response.data.results,
+      }));
+    });
+    setState((o) => ({
+      ...o,
+      valueSort: value,
+    }));
+  };
+
+  const sortBySubCategory = (value: any) => {
+    if (value === valueSubCategory) {
+      const param =
+        valuePrice === ''
+          ? { sort: valueSort, category: (id as any)?.id }
+          : {
+              sort: valueSort,
+              category: (id as any)?.id,
+              price_range: valuePrice,
+            };
+      getProduct(param).then((response: any) => {
+        response.data.results.forEach((item: Product) => {
+          const existItem = favoriteProducts?.find((itemFavorite) => itemFavorite.id === item.id);
+          if (existItem) item.favorite = true;
+          else item.favorite = false;
+        });
+        setState((o) => ({
+          ...o,
+          filterProducts: response.data.results,
+        }));
+      });
+      const valueSubCategory = '';
+      setState((o) => ({
+        ...o,
+        valueSubCategory,
+      }));
+    } else {
+      const param =
+        valuePrice === ''
+          ? { subcategory: value, category: (id as any)?.id, sort: valueSort }
+          : {
+              subcategory: valueSort,
+              category: (id as any)?.id,
+              sort: valueSort,
+              price_range: valuePrice,
+            };
+
+      getProduct(param).then((response: any) => {
+        response.data.results.forEach((item: Product) => {
+          const existItem = favoriteProducts?.find((itemFavorite) => itemFavorite.id === item.id);
+          if (existItem) item.favorite = true;
+          else item.favorite = false;
+        });
+        setState((o) => ({
+          ...o,
+          filterProducts: response.data.results,
+        }));
+      });
+      setState((o) => ({
+        ...o,
+        valueSubCategory: value,
+      }));
+    }
+  };
 
   useEffect(() => {
     const id = categoryList?.find((item: any) => {
       return router.query['product-group']?.includes(item.name.toLowerCase().slice(0, 3));
     });
     if (id) {
+      getSubCategory(id?.id).then((response: any) => {
+        const selection = response.reduce(
+          (a: any[], item: any) => a.concat({ name: item.name, value: item.id } || ''),
+          []
+        );
+        console.log(selection);
+        setState((o) => ({
+          ...o,
+          selection,
+        }));
+      });
       getProduct({ category: id?.id }).then((response: any) => {
         response.data.results.forEach((item: Product) => {
           const existItem = favoriteProducts?.find((itemFavorite) => itemFavorite.id === item.id);
@@ -47,40 +192,12 @@ const ProductGroup = () => {
         }));
       });
     }
-    const selection = filterProducts?.reduce(
-      (a: any[], item: any) => a.concat(item?.name || ''),
-      []
-    );
     console.log(selection);
+    setState((o) => ({
+      ...o,
+      id,
+    }));
   }, [router.query, products, favoriteProducts]);
-
-  // useEffect(() => {
-  //   const productGroup = router.query['product-group'];
-  //   const category = NavbarItems?.find((item) =>
-  //     item?.route?.includes(productGroup as string)
-  //   ) as any;
-  // const products = totalProducts?.filter((product: Product) => category?.id === product?.category);
-  // const copy = totalProducts?.filter((product: Product) => productGroup === product?.group);
-  // const selection = products?.reduce((a: any[], item) => a.concat(item?.title || ''), []);
-  // console.log(selection);
-  //   const filterProducts = products
-  //     ?.filter((product: Product) => category?.id === product?.category)
-  //     ?.map((product: Product) => ({
-  //       ...product,
-  //     }));
-
-  //   filterProducts?.forEach((item: Product) => {
-  //     const existItem = favoriteProducts?.find((itemFavorite) => itemFavorite.id === item.id);
-  //     if (existItem) item.favorite = true;
-  //     else item.favorite = false;
-  //   });
-
-  //   setState((pre) => ({ ...pre, filterProducts, copy, selection }));
-  // }, [router.query, products, favoriteProducts]);
-
-  const handleChange = (value: any) => {
-    console.log(value);
-  };
 
   return (
     <Container>
@@ -90,13 +207,13 @@ const ProductGroup = () => {
             <DropdownCheckbox
               title="Catégories"
               selections={selection}
-              onChange={handleChange}
+              onChange={sortBySubCategory}
               products={copy}
             />
-            <DropdownCheckbox title="Prix" onChange={handleChange} selections={productPrice} />
+            <DropdownCheckbox title="Prix" onChange={sortByPrice} selections={productPrice} />
           </div>
           <div className="mobile:float-right">
-            <DropdownSelect selections={productFilter} onChange={handleChange} />
+            <DropdownSelect selections={productFilter} onChange={sort} />
           </div>
         </div>
         <div className="grid grid-cols-4 grid-flow-row gap-10 tablet:grid-cols-3 mobile:grid-cols-2">
