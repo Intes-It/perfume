@@ -173,7 +173,6 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
               min={1}
               placeholder={'1'}
             />
-            <div>OU</div>
             <div className="flex gap-3">
               <button
                 onClick={handleAddProduct}

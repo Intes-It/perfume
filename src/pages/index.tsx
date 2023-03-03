@@ -224,7 +224,7 @@ const Home: React.FC = () => {
             </div>
             <div className="text-center my-2">
               <a href="/about/#apropos">
-                <button className="rounded-md bg-[#603813] hover:bg-[#383e42] text-white font-thin p-2 mobile:text-[2vw]">
+                <button className="mt-8 rounded-md bg-[#603813] hover:bg-[#383e42] text-white font-thin p-2 mobile:text-[2vw]">
                   En Savoir Plus
                 </button>
               </a>
@@ -241,12 +241,12 @@ const Home: React.FC = () => {
               {BriefTextCreatrice?.map((creatrice, index) => (
                 <h2 key={index}>{creatrice}</h2>
               ))}
-              <div className="flex justify-center my-10 mobile:my-5">
+              {/* <div className="flex justify-center my-10 mobile:my-5">
                 <h3>EMILIE</h3>
                 <img className="" src={"/images/about-mini-logo.webp"} alt="" />
-              </div>
+              </div> */}
             </div>
-            <div className="text-center my-2">
+            <div className="mt-8 text-center my-2">
               <a href="/about/#RALC">
                 <button className="rounded-md hover:bg-[#603813] bg-[#383e42] text-white font-thin p-2 mobile:text-[2vw]">
                   En Savoir Plus

@@ -1,4 +1,5 @@
 import { ExProduct } from '@types';
+import { formatCurrency } from '@utils/formatNumber';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -30,12 +31,14 @@ const OrderReview = () => {
             <div className="border border-black">
               {item.product.name} x {item.quantity}
             </div>
-            <div className="border border-black">{item.product.price} €</div>
+            <div className="border border-black">
+              {formatCurrency(String(item.product.price))} €
+            </div>
           </div>
         ))}
         <div className="grid grid-cols-2">
           <div className="border border-black">Sous-total</div>
-          <div className="border border-black">{totalMoney} €</div>
+          <div className="border border-black">{formatCurrency(String(totalMoney))} €</div>
         </div>
         <div className="grid grid-cols-2">
           <div className="border border-black">Expédition</div>
@@ -43,7 +46,7 @@ const OrderReview = () => {
         </div>
         <div className="grid grid-cols-2">
           <div className="border border-black">Total</div>
-          <div className="border border-black">{totalMoney} €</div>
+          <div className="border border-black">{formatCurrency(String(totalMoney))} €</div>
         </div>
         <div className="flex mt-5 items-center">
           <input
