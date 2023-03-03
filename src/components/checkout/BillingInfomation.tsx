@@ -1,8 +1,9 @@
+import { Console } from 'console';
 import React from 'react';
 
 const BillingInfomation: React.FC = () => {
   return (
-    <div className="bg-[#FBFBFB] p-6">
+    <div className="">
       <button className=" grid bg-[#33ddb3] hover:bg-[#43edc3] w-full max-h-[64px] min-h-[32px] rounded-md ">
         <div className="flex m-auto p-2">
           <div className="mr-2">Payer avec</div>
@@ -21,9 +22,9 @@ const BillingInfomation: React.FC = () => {
             <path
               d="M14.5247 0.219442C14.2317 -0.0733252 13.7568 -0.0731212 13.4641 0.219898C13.1713 0.512917 13.1715 0.98779 13.4645 1.28056L18.5 6.5L19 7L18.5 7.75C18 8.5 13.4645 12.7194 13.4645 12.7194C13.1715 13.0122 13.1713 13.4871 13.4641 13.7801C13.7568 14.0731 14.2317 14.0733 14.5247 13.7806L20.7801 7.53056C20.9209 7.38989 21 7.19902 21 7C21 6.80098 20.9209 6.61011 20.7801 6.46944L14.5247 0.219442Z"
               fill="#1D3944"></path>
-            <path d="M14 4L4 4" stroke="#1D3944" stroke-width="1.5" stroke-linecap="round"></path>
-            <path d="M14 4V1" stroke="#1D3944" stroke-width="1.5" stroke-linecap="round"></path>
-            <path d="M14 13V10" stroke="#1D3944" stroke-width="1.5" stroke-linecap="round"></path>
+            <path d="M14 4L4 4" stroke="#1D3944" strokeWidth="1.5" strokeLinecap="round"></path>
+            <path d="M14 4V1" stroke="#1D3944" strokeWidth="1.5" strokeLinecap="round"></path>
+            <path d="M14 13V10" stroke="#1D3944" strokeWidth="1.5" strokeLinecap="round"></path>
             <path
               d="M4 9.25C3.58579 9.25 3.25 9.58579 3.25 10C3.25 10.4142 3.58579 10.75 4 10.75V9.25ZM14 9.25H4V10.75H14V9.25Z"
               fill="#1D3944"></path>
@@ -41,7 +42,9 @@ const BillingInfomation: React.FC = () => {
       {/* form */}
       <div>
         <span className="text-[#26222f] text-[32px] font-semibold">Détails de facturation</span>
-        <form>
+        <form onInvalidCapture={()=>{
+          console.log('re')
+        }} >
           <div className="grid gap-3">
             <div className="grid grid-cols-2">
               <div className="flex flex-col mr-6">
@@ -80,9 +83,8 @@ const BillingInfomation: React.FC = () => {
               <label className="font-semibold">
                 Pays/région <span className="text-red-500 text-[20px] ">*</span>
               </label>
-              <input
-                required
-                type="text"
+              <select
+                required 
                 id="id"
                 className="px-4 py-3 border border-gray-300 text-black"
               />
@@ -161,25 +163,23 @@ const BillingInfomation: React.FC = () => {
             </div>
             <div className="flex justify-between font-semibold">
               <div className="flex items-center space-x-2">
-                <input type="checkbox" checked={true} id="remember" className="w-4 h-4 " />
+                <input type="checkbox" 
+                checked={true} 
+                onChange={()=>{}}
+                id="remember" className="w-4 h-4 " />
                 <label>Subscribe to our newsletter</label>
               </div>
             </div>
             <div className="flex justify-between font-semibold">
               <div className="flex items-center space-x-2">
-                <input type="checkbox" checked={false} id="remember" className="w-4 h-4 " />
+                <input type="checkbox" 
+                checked={false} 
+                onChange={()=>{}}
+                id="remember" className="w-4 h-4 " />
                 <label>Créer un compte ?</label>
               </div>
             </div>
-          </div>
-          <div className="flex float-right gap-3 mt-10 ">
-            <button className="w-[90px] rounded-md p-3 border border-black  text-black hover:bg-black hover:text-white ">
-              PRÉC
-            </button>
-            <button className="w-[90px] rounded-md p-3 border border-black text-black hover:bg-black hover:text-white ">
-              SUIV
-            </button>
-          </div>
+          </div> 
         </form>
       </div>
     </div>
