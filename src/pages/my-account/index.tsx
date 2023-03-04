@@ -4,13 +4,17 @@ import Register from '@components/register';
 import Login from '@components/login';
 import useUser from '@hooks/useUser';  
 import { useQuery, useQueryClient } from 'react-query';
+import { useRouter } from 'next/router';
 
 const MyAccount = () => {
-  const { user, loginAccount, registerAccount, isAuthenticated } = useUser(); 
-  
+  const { user, loginAccount, registerAccount, isAuthenticated } = useUser();  
+
   const onLogin = async (data: any) => {
-    await loginAccount(data);
-    console.log(isAuthenticated);
+    const res = await loginAccount(data);  
+    if(res?.status === 200 && res?.statusText === 'OK')
+    { 
+      window.location.reload();
+    } 
   };
 
   const onRegister = async (data: any) => {
