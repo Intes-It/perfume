@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useIsFetching } from "react-query";
+import { useIsFetching, useIsMutating } from "react-query";
 import styled from "styled-components";
-
+import { useQueryClient } from 'react-query';
 const DivStyled = styled.div`
   width: 100%;
   height: 100%;
@@ -13,14 +13,14 @@ const DivStyled = styled.div`
   background-color: rgba(0, 0, 0, 0.4);
 `;
 const LoadingIndicator = () => {
-  const isFetching = useIsFetching();
-  return isFetching ? (
+
+  return (
     <>
       <DivStyled>
         <div className="w-24 h-24 border-l-4 border-blue-300 rounded-full animate-spin"></div>
       </DivStyled>
     </>
-  ) : null;
+  );
 };
 
 export default LoadingIndicator;

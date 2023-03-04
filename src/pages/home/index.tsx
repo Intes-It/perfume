@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useQuery } from "react-query";
-
+ 
 const API_URL =
   "https://official-joke-api.appspot.com/jokes/programming/random";
 
 const Home = () => {
-  const { refetch } = useQuery(
+  const { data, refetch } = useQuery(
     "repoData",
     () => fetch(API_URL).then((res) => console.log(res)),
     {

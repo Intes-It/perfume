@@ -3,16 +3,11 @@ import { GET, POST } from '@utils/fetch';
 import { instance } from '@utils/_axios';
 import React, { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import useSWR, { mutate } from 'swr';
+ 
 const useUser = () => {
+  const queryClient = useQueryClient();
   const [isAuthenticating, setIsAuthenticating] = useState(false);
-  const user = useSWR('use-user', getProfile, {
-    revalidateIfStale: false,
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-    shouldRetryOnError: true,
-  });
-  // const user = useQuery('use-user', getProfile);
+  const user = useQuery("get-profile", getProfile); 
 
   //fetch data
   async function getProfile() {
@@ -21,24 +16,30 @@ const useUser = () => {
     return res.data;
   }
 
-  async function login(data: any) {
-    const res = await POST(api.login, data);
-    return res;
+  async function login(data: any) { 
+    return await POST(api.login, data);
   }
 
-  // check auth
-  const authenticate = (data: any) => {
-    setIsAuthenticating(true);
-    login(data)
-      .then(() => mutate('use-user'))
-      .catch(() => console.log(user))
-      .finally(() => setIsAuthenticating(false));
-  };
+  async function register (data: any){
+    return await POST(api.register, data);
+  } 
+
+  const loginAccount = useMutation('login', login);
+  const registerAccount = useMutation('register', register,
+  {
+    onSuccess:()=>{ 
+      queryClient.invalidateQueries('get-profile');
+      console.log(queryClient)
+    }
+  }
+  )
+
 
   return {
     user: user.data,
     isAuthenticated: Boolean(user.data),
-    authenticate,
+    loginAccount: loginAccount,
+    registerAccount: registerAccount
   };
 };
 
