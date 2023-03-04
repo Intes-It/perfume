@@ -4,18 +4,19 @@ import { useForm } from 'react-hook-form';
 import { POST } from '@utils/fetch';
 import { api } from '@utils/apiRoute';
 
-const Register = () => {
+type RegisterProps = {
+  submit: (value: any) => void;
+};
+
+const Register:React.FC<RegisterProps> = ({submit}) => {
   const [check, setCheck] = React.useState<boolean>(true);
   const { register, handleSubmit } = useForm();
-  const onRegister = (data: any) => {
-    console.log(data);
-    POST(api.register, data);
-  };
+
   return (
     <div>
       <form
         className="flex flex-col space-y-5 border rounded-md p-6 text-[14.4px] font-semibold text-[#603813] "
-        onSubmit={handleSubmit(onRegister)}>
+        onSubmit={handleSubmit(submit)}>
         <div className="flex flex-col space-y-1">
           <label>
             Identifiant <span className="text-red-500 text-[20px] ">*</span>
