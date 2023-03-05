@@ -82,7 +82,7 @@ const CartPopover: React.FC = () => {
                           <div>{item?.product?.name}</div>
                           <div className="text-gray-400 font-bold">{`${
                             item?.quantity
-                          } x ${formatCurrency(String(item?.product?.price))} €`}</div>
+                          } x ${item?.product?.price} €`}</div>
                         </div>
                         <FontAwesomeIcon
                           icon={faXmarkCircle}
@@ -96,7 +96,7 @@ const CartPopover: React.FC = () => {
                   </div>
                   <div className="grid border-b-[1px] p-4">
                     <strong className="m-auto  text-[#603813] font-bold text-[20px]">
-                      {`Sous-total: ${formatCurrency(String(totalMoney))} €`}
+                      {`Sous-total: ${totalMoney} €`}
                     </strong>
                   </div>
                   <NextLink href={Routes.checkout.route}>
