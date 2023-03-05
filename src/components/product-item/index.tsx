@@ -60,7 +60,7 @@ const ProductItem: React.FC<ProductProps> = ({
       <h5 className="text-[#603813] text-center">{product?.name}</h5>
       <div className="flex flex-col mt-5 items-center space-y-2">
         <Rating score={product?.score || 0} />
-        <p className="font-semibold">{formatCurrency(String(product?.price))}€</p>
+        <p className="font-semibold">{product?.price}€</p>
         <div>
           {showButton && (
             <button

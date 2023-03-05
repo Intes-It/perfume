@@ -82,17 +82,28 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
   const server_link = process.env.NEXT_PUBLIC_API_URL;
 
   const breadCrumb = useMemo(() => {
+    console.log(product);
     let res = [{ name: 'Accueil', route: '/' }];
-    const groupRoute = product?.group;
-    const subGroupRoute = product?.subGroup;
+    const groupRoute = product?.category?.name?.toLowerCase();
+    const subGroupRoute = product?.subcategory?.name?.toLowerCase();
     if (groupRoute) {
-      const group = VisibleTitleRoutes?.find((item) => item?.route?.includes(groupRoute));
-
-      if (group) res = [...res, { name: group?.title, route: group?.route }];
+      // const group = VisibleTitleRoutes?.find((item) => item?.route?.includes(groupRoute));
+      res = [
+        ...res,
+        {
+          name: product?.category?.name?.toLowerCase(),
+          route: product?.id?.toString(),
+        },
+      ];
     }
     if (subGroupRoute) {
-      const subGroup = VisibleTitleRoutes?.find((item) => item?.route?.includes(subGroupRoute));
-      if (subGroup) res = [...res, { name: subGroup?.title, route: subGroup?.route }];
+      res = [
+        ...res,
+        {
+          name: product?.subcategory?.name?.toLowerCase(),
+          route: product?.id?.toString(),
+        },
+      ];
     }
     return res;
   }, [product]);
@@ -149,13 +160,11 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
             <span className="text-[#603913]">{product?.shortDescription}</span>
           </div>
           <div className="flex gap-2 my-2">
-            <Rating score={product?.score || 0} />
-            <span>{`(${product?.evaluate || 0} avis client)`}</span>
+            <Rating score={product?.evaluate || 0} />
+            <span>{`( 0 avis client)`}</span>
           </div>
           <div className="my-2">
-            <span className="text-[#383e42] text-[24px] font-semibold">{`${formatCurrency(
-              String(product?.price)
-            )} €`}</span>
+            <span className="text-[#383e42] text-[24px] font-semibold">{product?.price} €</span>
           </div>
           {/* sub product */}
           <div className="my-3">
