@@ -1,12 +1,9 @@
 import { api } from '@utils/apiRoute';
 import { GET, POST } from '@utils/fetch';
-import { instance } from '@utils/_axios';
-import React, { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
  
 const useUser = () => {
   const queryClient = useQueryClient();
-  const [isAuthenticating, setIsAuthenticating] = useState(false);
   const user = useQuery("get-profile", getProfile); 
 
   //fetch data

@@ -110,10 +110,11 @@ const ProductGroup = () => {
   };
 
   const sortBySubCategory = (value: any) => {
+    console.log(value);
     if (value === valueSubCategory) {
       const param =
         valuePrice === ''
-          ? { sort: valueSort, category: (id as any)?.id }
+          ? { sort: valueSort, category: (id as any)?.id,}
           : {
               sort: valueSort,
               category: (id as any)?.id,
@@ -140,12 +141,12 @@ const ProductGroup = () => {
         valuePrice === ''
           ? { subcategory: value, category: (id as any)?.id, sort: valueSort }
           : {
-              subcategory: valueSort,
+              subcategory: value,
               category: (id as any)?.id,
               sort: valueSort,
               price_range: valuePrice,
             };
-
+      console.log(param);
       getProduct(param).then((response: any) => {
         response.data.results.forEach((item: Product) => {
           const existItem = favoriteProducts?.find((itemFavorite) => itemFavorite.id === item.id);
@@ -166,8 +167,9 @@ const ProductGroup = () => {
 
   useEffect(() => {
     const id = categoryList?.find((item: any) => {
-      return router.query['product-group']?.includes(item.name.toLowerCase().slice(0, 3));
+      return router.query['product-group']?.includes(item.slug.toLowerCase().slice(0, 3));
     });
+    console.log(categoryList);
     if (id) {
       getSubCategory(id?.id).then((response: any) => {
         const selection = response.reduce(
