@@ -9,5 +9,6 @@ export const api = {
   getProfile: '/api/user/profile',
   productDetail: '/api/product/detail',
   productByCategory: '/api/product/filter',
-  getSubCategory: '/api/subcategory/list',
+  getAllCategory: '/api/all',
+  getSubCategory: '/api/subcategory/list'
 };

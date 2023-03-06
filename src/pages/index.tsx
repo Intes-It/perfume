@@ -116,8 +116,8 @@ const Home: React.FC = () => {
               className="h-6 w-6"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M15.75 19.5L8.25 12l7.5-7.5"
               />
             </svg>
@@ -142,8 +142,8 @@ const Home: React.FC = () => {
               className="h-6 w-6"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M8.25 4.5l7.5 7.5-7.5 7.5"
               />
             </svg>
