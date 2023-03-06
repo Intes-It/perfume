@@ -13,6 +13,7 @@ export interface Product {
   favorite?: boolean;
   check?: boolean;
   name?: string;
+  evaluate?: number | undefined;
 }
 
 export interface ExProduct {

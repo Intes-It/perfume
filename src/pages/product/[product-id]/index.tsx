@@ -164,7 +164,9 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
             <span>{`( 0 avis client)`}</span>
           </div>
           <div className="my-2">
-            <span className="text-[#383e42] text-[24px] font-semibold">{product?.price} €</span>
+            <span className="text-[#383e42] text-[24px] font-semibold">
+              {formatCurrency(String(product?.price))} €
+            </span>
           </div>
           {/* sub product */}
           <div className="my-3">
