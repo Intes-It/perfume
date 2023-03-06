@@ -11,10 +11,10 @@ import { addFavoriteItem, removeFavoriteItem } from "@redux/slices/favorite";
 import { useProducts } from "@hooks/useProduct";
 import { useAllCategory } from "@hooks/useCategory";
 
-const ProductSubGroup = () => {
+const ProductSubSubGroup = () => {
   const server_link = process.env.NEXT_PUBLIC_API_URL;
   const dispatch = useDispatch();
-  const { categories, subCategories} = useAllCategory();
+  const { categories, subCategories, subsubCategories} = useAllCategory();
   const router = useRouter();
   const { products, fetchFilterProducts } = useProducts();
   const [state, setState] = useState({
@@ -31,10 +31,10 @@ const ProductSubGroup = () => {
   ) as Product[];
 
   const fetchProducts = async () =>{
-    const subCategoryId = subCategories?.find((item : any)=>item?.slug === router.query["product-subgroup"])?.id;
-    if(subCategoryId)
+    const subsubCategoryId = subsubCategories?.find((item : any)=>item?.slug === router.query["product-subsubgroup"])?.id;
+    if(subsubCategoryId)
     {
-      await fetchFilterProducts({ subcategory: subCategoryId as any }) 
+      await fetchFilterProducts({ subsubcategory: subsubCategoryId as any }) 
     }
   }
 
@@ -54,7 +54,7 @@ const ProductSubGroup = () => {
 
   useEffect(()=>{
     fetchProducts(); 
-  },[categories,subCategories, router.query])
+  },[categories, subCategories, subsubCategories, router.query])
   
   const handleChange = (value: any) => {
     console.log(value);
@@ -112,4 +112,4 @@ const ProductSubGroup = () => {
   );
 };
 
-export default ProductSubGroup;
+export default ProductSubSubGroup;
