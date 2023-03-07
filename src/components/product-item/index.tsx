@@ -14,7 +14,7 @@ import {
 } from '@redux/slices/favorite';
 import { instance } from '@utils/_axios';
 import { addProduct } from '@redux/actions';
-import { Product } from '@types';
+import { ExProduct, Product } from '@types';
 import { formatCurrency } from '@utils/formatNumber';
 import useCart from '@hooks/useCart';
 import useUser from '@hooks/useUser';
@@ -34,34 +34,44 @@ const ProductItem: React.FC<ProductProps> = ({
   product,
   showButton = true,
 }) => {
+  const localCart = useSelector(
+    (state: any) => state.persistedReducer?.cart?.products
+  ) as ExProduct[];
+
   const { addProductToCart, addExistProductToCart, cart } = useCart();
-  const {isAuthenticated} = useUser();
+  const { isAuthenticated } = useUser();
   const dispatch = useDispatch();
   const server_link = process.env.NEXT_PUBLIC_API_URL;
+  const totalMoney = localCart?.reduce(
+    (pre, curr) => pre + curr.quantity * Number.parseFloat(curr?.product?.price || '0'),
+    0
+  );
   const handleAddProduct = async () => {
-    if(isAuthenticated)
-    { 
-      const data={
+    if (isAuthenticated) {
+      const data = {
         order_id: cart?.data?.cart?.id || null,
         product_id: product?.id,
         amount: 1,
         total_amount_cart: 1,
         price: product?.price,
-        total_price_item: product?.price,
-        total_price_cart: product?.price
+        total_price_item: Number.parseFloat(product?.price || '0'),
+        total_price_cart: Number.parseFloat(product?.price || '0') + totalMoney,
       }
 
       //check exist product 
-      const existProduct = cart?.data?.order_item?.find((item:any)=>item?.product?.id === product?.id);
+      const existProduct = localCart?.find((item: any) => item?.product?.id === product?.id);
       console.log('existProduct:%o', existProduct)
       let res;
-      if(existProduct)
-        res= await addExistProductToCart( data )
+      if (existProduct) {
+        data['total_amount_cart'] = existProduct?.quantity + 1;
+        data['total_price_item'] = (existProduct?.quantity + 1) * Number.parseFloat(existProduct?.product?.price || '0')
+        res = await addExistProductToCart(data)
+      }
       else
-        res= await addProductToCart( data )
-      if(res?.status === 201) 
+        res = await addProductToCart(data)
+      if (res?.status === 201)
         dispatch(addProduct({ product, quantity: 1 }));
-    } 
+    }
     else
       dispatch(addProduct({ product, quantity: 1 }));
   };
