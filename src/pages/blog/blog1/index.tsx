@@ -89,7 +89,7 @@ const Blog1 = () => {
             </p>
           </div>
           <ReCAPTCHA
-            sitekey="6Lc2xVYjAAAAAIuk6-oEbePPkK0caIt1JrnPIOOp"
+            sitekey="6LcF1twkAAAAAMKsDQ71Bhktr3g0Q66sZM5bngyA"
             // onChange={onChange}
           />
           <div>

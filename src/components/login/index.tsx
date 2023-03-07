@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { POST } from '@utils/fetch';
 import { api } from '@utils/apiRoute';
 import useUser from '@hooks/useUser';
+import _ from 'lodash';
 
 type LoginProps = {
   submit: (value: any) => void;
@@ -13,6 +14,11 @@ type LoginProps = {
 
 const Login: React.FC<LoginProps> = ({ submit }) => {
   const { register, handleSubmit } = useForm();
+  const [state, setState] = React.useState({
+    captchaCode: ''
+  });
+  const {captchaCode} = state;
+  
   return (
     <form
       onSubmit={handleSubmit(submit)}
@@ -48,13 +54,16 @@ const Login: React.FC<LoginProps> = ({ submit }) => {
         </div>
       </div>
       <ReCAPTCHA
-        sitekey="6Lc2xVYjAAAAAIuk6-oEbePPkK0caIt1JrnPIOOp"
-        // onChange={onChange}
+        sitekey="6LcF1twkAAAAAMKsDQ71Bhktr3g0Q66sZM5bngyA"
+        onChange={(captchaCode)=>{
+          setState((pre)=>({...pre, captchaCode: captchaCode || ''})) 
+        }}
       />
       <div>
         <button
           type="submit"
-          className="w-[200px] px-4 py-3 text-[16px] uppercase font-semibold text-white  bg-[#603813] rounded-md shadow hover:bg-black">
+          disabled={_.isEmpty(captchaCode)}
+          className="w-[200px] px-4 py-3 text-[16px] uppercase font-semibold text-white  bg-[#603813] rounded-md shadow hover:bg-black disabled:bg-gray-300">
           Identification
         </button>
       </div>

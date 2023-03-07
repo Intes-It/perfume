@@ -28,6 +28,10 @@ const cartSlice = createSlice({
       ); 
         state.products = products;
     },
+    updateFullCart: (state, actions) =>{
+      const exProducts = actions.payload;
+      state.products = exProducts;
+    } 
   },
   extraReducers: (builder) => {
     builder.addCase(PURGE, (state) => { 
@@ -36,5 +40,5 @@ const cartSlice = createSlice({
 }
 });
 
-export const { addProduct, removeProduct } = cartSlice.actions;
+export const { addProduct, removeProduct, updateFullCart } = cartSlice.actions;
 export default cartSlice.reducer;

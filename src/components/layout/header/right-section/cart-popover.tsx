@@ -11,12 +11,19 @@ import { removeProduct } from '@redux/actions';
 import { Routes } from '@definitions/constants';
 import { useRouter } from 'next/router';
 import { formatCurrency } from '@utils/formatNumber';
+import useCart from '@hooks/useCart';
+import { updateFullCart } from '@redux/slices/cart';
+import useUser from '@hooks/useUser';
+
 
 const CartPopover: React.FC = () => {
   const router = useRouter();
+  const { cart, removeProductToCart } = useCart();
   const products = useSelector(
     (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
+  const { isAuthenticated } = useUser();
+
   const dispatch = useDispatch();
   const totalProducts = products?.reduce((pre, curr) => pre + curr.quantity, 0);
   const totalMoney = products?.reduce(
@@ -28,10 +35,32 @@ const CartPopover: React.FC = () => {
 
   const server_link = process.env.NEXT_PUBLIC_API_URL;
 
-  const handleRemoveProduct = (product: ExProduct) => {
-    dispatch(removeProduct(product));
-    // console.log(quantity)
+  const handleRemoveProduct = async (exProduct: ExProduct) => {
+    if (isAuthenticated) {
+      const totalPrice = exProduct.quantity * Number.parseFloat(exProduct.product.price || '0');
+      const res = await removeProductToCart({ order_item_id: exProduct.orderId, total_amount: exProduct.quantity, total_price: totalPrice })
+      if (res.status === 200)
+        dispatch(removeProduct(exProduct));
+      // console.log(quantity)
+    }
+    else
+      dispatch(removeProduct(exProduct));
   };
+
+  React.useEffect(() => {
+    console.log('useEffect: %o', cart )
+    if (cart?.status === 200) {
+      console.log('status 200')
+      const orderItem = cart?.data?.order_item?.map((item: any) => ({ ...item, quantity: item?.amount, orderId: item?.id }));
+      if (orderItem) {
+        //update to localstorage
+        console.log('updateFullCart:%o', orderItem )
+        dispatch(updateFullCart(orderItem));
+      }
+    }
+  }, [cart])
+
+
   return (
     <Fragment>
       <div>
@@ -80,9 +109,8 @@ const CartPopover: React.FC = () => {
                         />
                         <div className="col-span-6 ml-6 flex-row">
                           <div>{item?.product?.name}</div>
-                          <div className="text-gray-400 font-bold">{`${
-                            item?.quantity
-                          } x ${formatCurrency(String(item?.product?.price))} €`}</div>
+                          <div className="text-gray-400 font-bold">{`${item?.quantity
+                            } x ${formatCurrency(String(item?.product?.price))} €`}</div>
                         </div>
                         <FontAwesomeIcon
                           icon={faXmarkCircle}

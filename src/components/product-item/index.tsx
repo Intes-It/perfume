@@ -14,8 +14,10 @@ import {
 } from '@redux/slices/favorite';
 import { instance } from '@utils/_axios';
 import { addProduct } from '@redux/actions';
-import { Product } from '@types';
+import { ExProduct, Product } from '@types';
 import { formatCurrency } from '@utils/formatNumber';
+import useCart from '@hooks/useCart';
+import useUser from '@hooks/useUser';
 
 type ProductProps = {
   onFavoriteChanged?: (state?: boolean) => void;
@@ -32,11 +34,57 @@ const ProductItem: React.FC<ProductProps> = ({
   product,
   showButton = true,
 }) => {
+  const localCart = useSelector(
+    (state: any) => state.persistedReducer?.cart?.products
+  ) as ExProduct[];
+
+  const { addProductToCart, addExistProductToCart, cart } = useCart();
+  const { isAuthenticated } = useUser();
   const dispatch = useDispatch();
   const server_link = process.env.NEXT_PUBLIC_API_URL;
-  const handleAddProduct = () => {
-    dispatch(addProduct({ product, quantity: 1 }));
-    // console.log(quantity)
+  const totalMoney = localCart?.reduce(
+    (pre, curr) => pre + curr.quantity * Number.parseFloat(curr?.product?.price || '0'),
+    0
+  );
+  const handleAddProduct = async () => {
+    if (isAuthenticated) {
+      
+
+      //check exist product 
+      const existProduct = localCart?.find((item: any) => item?.product?.id === product?.id);
+      console.log('existProduct:%o', existProduct)
+      let res;
+      if (existProduct) {
+        const data = {
+          order_item_id : existProduct?.orderId,
+          order_id : cart?.data?.cart?.id || null,
+          amount : 1,
+          total_amount: existProduct?.quantity + 1,
+          total_price: (existProduct?.quantity + 1) * Number.parseFloat(existProduct?.product?.price || '0')
+        } 
+        res = await addExistProductToCart(data)
+      }
+      else
+      {
+        const data = {
+          order_id: cart?.data?.cart?.id || null,
+          product_id: product?.id,
+          amount: 1,
+          total_amount_cart: 1,
+          price: product?.price,
+          total_price_item: Number.parseFloat(product?.price || '0'),
+          total_price_cart: Number.parseFloat(product?.price || '0') + totalMoney,
+        }
+        res = await addProductToCart(data)
+      }
+      console.log('res:%o', res)
+      if (res?.status === 201 || res?.status === 200 )
+      { 
+        dispatch(addProduct({ product, quantity: 1, orderId: res?.data?.data?.id }));
+      }
+    }
+    else
+      dispatch(addProduct({ product, quantity: 1 }));
   };
 
   return (
