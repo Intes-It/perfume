@@ -59,7 +59,7 @@ const ProductItem: React.FC<ProductProps> = ({
         res= await addExistProductToCart( data )
       else
         res= await addProductToCart( data )
-      if(res?.status === 201 && res?.statusText === 'Created') 
+      if(res?.status === 201) 
         dispatch(addProduct({ product, quantity: 1 }));
     } 
     else

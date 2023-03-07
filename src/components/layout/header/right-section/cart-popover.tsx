@@ -48,7 +48,9 @@ const CartPopover: React.FC = () => {
   };
 
   React.useEffect(() => {
-    if (cart?.status === 200 && cart?.statusText === 'OK') {
+    console.log('useEffect: %o', cart )
+    if (cart?.status === 200) {
+      console.log('status 200')
       const orderItem = cart?.data?.order_item?.map((item: any) => ({ ...item, quantity: item?.amount, orderId: item?.id }));
       if (orderItem) {
         //update to localstorage
