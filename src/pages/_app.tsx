@@ -68,6 +68,7 @@ function MyApp({
       setState((pre) => ({ ...pre, queries: queryCount }));
     }
   })
+  persistStore(store)
   return (
     <>
       <Head>
