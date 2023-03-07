@@ -17,6 +17,7 @@ export interface Product {
 }
 
 export interface ExProduct {
+  orderId: number;
   product: Product;
   quantity: number;
 }

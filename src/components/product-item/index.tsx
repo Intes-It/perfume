@@ -17,6 +17,7 @@ import { addProduct } from '@redux/actions';
 import { Product } from '@types';
 import { formatCurrency } from '@utils/formatNumber';
 import useCart from '@hooks/useCart';
+import useUser from '@hooks/useUser';
 
 type ProductProps = {
   onFavoriteChanged?: (state?: boolean) => void;
@@ -34,22 +35,27 @@ const ProductItem: React.FC<ProductProps> = ({
   showButton = true,
 }) => {
   const { addProductToCart, cart } = useCart();
+  const {isAuthenticated} = useUser();
   const dispatch = useDispatch();
   const server_link = process.env.NEXT_PUBLIC_API_URL;
   const handleAddProduct = async () => {
-    const data={
-      order_id: null,
-      product_id: product?.id,
-      amount: 1,
-      total_amount_cart: 1,
-      price: product?.price,
-      total_price_item: product?.price,
-      total_price_cart: product?.price
-    }
-    const res = await addProductToCart( data )
-    if(res.status === 201 && res.statusText === 'Created') 
+    if(isAuthenticated)
+    { 
+      const data={
+        order_id: cart?.data?.cart?.id || null,
+        product_id: product?.id,
+        amount: 1,
+        total_amount_cart: 1,
+        price: product?.price,
+        total_price_item: product?.price,
+        total_price_cart: product?.price
+      }
+      const res = await addProductToCart( data )
+      if(res.status === 201 && res.statusText === 'Created') 
+        dispatch(addProduct({ product, quantity: 1 }));
+    } 
+    else
       dispatch(addProduct({ product, quantity: 1 }));
-
   };
 
   return (

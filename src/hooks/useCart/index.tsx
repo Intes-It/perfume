@@ -21,8 +21,8 @@ const useCart = () => {
         return await POST(api.addProduct, data)
     }
 
-    async function removeProduct(query: any) {
-        return await DELETE(`${api.addProduct}?${encode(query)}`)
+    async function removeProduct(data: any) {
+        return await DELETE(api.addProduct, data)
     }
     
     return {
