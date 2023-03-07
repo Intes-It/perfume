@@ -3,6 +3,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { useForm } from 'react-hook-form';
 import { POST } from '@utils/fetch';
 import { api } from '@utils/apiRoute';
+import _ from 'lodash';
 
 type RegisterProps = {
   submit: (value: any) => void;
@@ -10,7 +11,13 @@ type RegisterProps = {
 
 const Register:React.FC<RegisterProps> = ({submit}) => {
   const [check, setCheck] = React.useState<boolean>(true);
+  const [state, setState] = React.useState({
+    captchaCode: ''
+  });
+
   const { register, handleSubmit } = useForm();
+
+  const {captchaCode} = state;
 
   return (
     <div>
@@ -64,8 +71,10 @@ const Register:React.FC<RegisterProps> = ({submit}) => {
           <label>Subscribe to our newsletter</label>
         </div>
         <ReCAPTCHA
-          sitekey="6Lc2xVYjAAAAAIuk6-oEbePPkK0caIt1JrnPIOOp"
-          // onChange={onChange}
+          sitekey="6LcF1twkAAAAAMKsDQ71Bhktr3g0Q66sZM5bngyA"
+          onChange={(captchaCode)=>{
+            setState((pre)=>({...pre, captchaCode: captchaCode || ''})) 
+          }}
         />
         <p className="text-[16px] text-[#603813] font-normal">
           Vos données personnelles seront utilisées pour vous accompagner au cours de votre visite
@@ -75,7 +84,8 @@ const Register:React.FC<RegisterProps> = ({submit}) => {
         <div>
           <button
             type="submit"
-            className="w-[200px] px-4 py-3 text-[16px] uppercase font-semibold text-white  bg-[#603813] rounded-md shadow hover:bg-black">
+            disabled={_.isEmpty(captchaCode)}
+            className="w-[200px] px-4 py-3 text-[16px] uppercase font-semibold text-white  bg-[#603813] rounded-md shadow hover:bg-black disabled:bg-gray-300">
             S’enregistrer
           </button>
         </div>

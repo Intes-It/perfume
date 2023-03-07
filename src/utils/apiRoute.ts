@@ -10,5 +10,8 @@ export const api = {
   productDetail: '/api/product/detail',
   productByCategory: '/api/product/filter',
   getAllCategory: '/api/all',
-  getSubCategory: '/api/subcategory/list'
+  getSubCategory: '/api/subcategory/list',
+  getCart: '/api/checkout/cart',
+  addProduct: '/api/orders/add',
+  changeProduct: '/api/orders/change' 
 };
