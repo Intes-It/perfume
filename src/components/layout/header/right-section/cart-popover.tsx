@@ -52,6 +52,7 @@ const CartPopover: React.FC = () => {
       const orderItem = cart?.data?.order_item?.map((item: any) => ({ ...item, quantity: item?.amount, orderId: item?.id }));
       if (orderItem) {
         //update to localstorage
+        console.log('updateFullCart:%o', orderItem )
         dispatch(updateFullCart(orderItem));
       }
     }

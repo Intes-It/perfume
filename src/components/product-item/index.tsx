@@ -34,7 +34,7 @@ const ProductItem: React.FC<ProductProps> = ({
   product,
   showButton = true,
 }) => {
-  const { addProductToCart, cart } = useCart();
+  const { addProductToCart, addExistProductToCart, cart } = useCart();
   const {isAuthenticated} = useUser();
   const dispatch = useDispatch();
   const server_link = process.env.NEXT_PUBLIC_API_URL;
@@ -50,8 +50,16 @@ const ProductItem: React.FC<ProductProps> = ({
         total_price_item: product?.price,
         total_price_cart: product?.price
       }
-      const res = await addProductToCart( data )
-      if(res.status === 201 && res.statusText === 'Created') 
+
+      //check exist product 
+      const existProduct = cart?.data?.order_item?.find((item:any)=>item?.product?.id === product?.id);
+      console.log('existProduct:%o', existProduct)
+      let res;
+      if(existProduct)
+        res= await addExistProductToCart( data )
+      else
+        res= await addProductToCart( data )
+      if(res?.status === 201 && res?.statusText === 'Created') 
         dispatch(addProduct({ product, quantity: 1 }));
     } 
     else
