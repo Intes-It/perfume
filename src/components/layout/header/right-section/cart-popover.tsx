@@ -11,9 +11,13 @@ import { removeProduct } from '@redux/actions';
 import { Routes } from '@definitions/constants';
 import { useRouter } from 'next/router';
 import { formatCurrency } from '@utils/formatNumber';
+import useCart from '@hooks/useCart';
+import { updateFullCart } from '@redux/slices/cart';
+
 
 const CartPopover: React.FC = () => {
   const router = useRouter();
+  const {cart, removeProductToCart} = useCart();
   const products = useSelector(
     (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
@@ -28,10 +32,26 @@ const CartPopover: React.FC = () => {
 
   const server_link = process.env.NEXT_PUBLIC_API_URL;
 
-  const handleRemoveProduct = (product: ExProduct) => {
+  const handleRemoveProduct = async (product: ExProduct) => {
+    await removeProductToCart({order_item_id:19, total_amount:0, total_price:0})
+    
     dispatch(removeProduct(product));
     // console.log(quantity)
   };
+
+  React.useEffect(()=>{
+    if(cart?.status === 200 && cart?.statusText === 'OK')
+    {
+      const orderItem = cart?.data?.order_item?.map((item:any)=>({...item, quantity: item?.amount}));
+      if(orderItem)
+      { 
+        //update to localstorage
+        dispatch(updateFullCart(orderItem));
+      }
+    } 
+  },[cart])
+
+
   return (
     <Fragment>
       <div>

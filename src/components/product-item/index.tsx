@@ -16,6 +16,7 @@ import { instance } from '@utils/_axios';
 import { addProduct } from '@redux/actions';
 import { Product } from '@types';
 import { formatCurrency } from '@utils/formatNumber';
+import useCart from '@hooks/useCart';
 
 type ProductProps = {
   onFavoriteChanged?: (state?: boolean) => void;
@@ -32,11 +33,23 @@ const ProductItem: React.FC<ProductProps> = ({
   product,
   showButton = true,
 }) => {
+  const { addProductToCart, cart } = useCart();
   const dispatch = useDispatch();
   const server_link = process.env.NEXT_PUBLIC_API_URL;
-  const handleAddProduct = () => {
-    dispatch(addProduct({ product, quantity: 1 }));
-    // console.log(quantity)
+  const handleAddProduct = async () => {
+    const data={
+      order_id: null,
+      product_id: product?.id,
+      amount: 1,
+      total_amount_cart: 1,
+      price: product?.price,
+      total_price_item: product?.price,
+      total_price_cart: product?.price
+    }
+    const res = await addProductToCart( data )
+    if(res.status === 201 && res.statusText === 'Created') 
+      dispatch(addProduct({ product, quantity: 1 }));
+
   };
 
   return (

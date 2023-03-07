@@ -28,6 +28,9 @@ function MyApp({
 }: AppProps<{ dehydratedState: DehydratedState }>): JSX.Element {
   const [state, setState] = useState({ queries: 0, mutations: 0 });
   const { queries, mutations } = state;
+  
+  let queryCount = 0, mutationCount = 0;
+
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -36,9 +39,8 @@ function MyApp({
       },
       mutations: {
         onMutate: (variables: any) => {
-          console.log('onMutate:%o', variables)
-          setState((pre) => ({ ...pre, mutations: mutations + 1 }));
-          // Nếu bạn muốn có thêm các tùy chọn xử lý trước khi mutation bắt đầu
+          mutationCount = mutationCount + 1;
+          setState((pre) => ({ ...pre, mutations: mutationCount }));
         },
         onError: (error, variables, rollback: any) => {
           console.log('error')
@@ -49,15 +51,13 @@ function MyApp({
           // Nếu bạn muốn xử lý các thành công xảy ra trong quá trình mutation
         },
         onSettled: (data, error, onSettled) => {
-          setState((pre) => ({ ...pre, mutations: mutations - 1 }));
-          // Khi mutation kết thúc, bạn có thể gọi useIsMutating để kiểm tra xem còn đang có mutation nào đang xử lý hay không.
-          // Nếu không còn, bạn có thể tắt component loading ở đây
+          mutationCount = mutationCount - 1;
+          setState((pre) => ({ ...pre, mutations: mutationCount }));
         },
       },
     },
   });
-
-  let queryCount = 0;
+ 
   queryClient.getQueryCache().subscribe((event: any) => { 
     if (event?.['action']?.type === 'fetch') {
       queryCount = queryCount + 1;
