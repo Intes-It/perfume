@@ -39,11 +39,7 @@ const DescriptionTabs = [
     header: 'Composition',
     href: '#tab-composition',
   },
-  {
-    id: 'tab-reviews-tab',
-    header: 'Avis',
-    href: '#tab-reviews',
-  },
+ 
 ];
 
 export const getServerSideProps: GetServerSideProps<{
@@ -232,25 +228,27 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
             className="hidden opacity-0 opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
             id="tab-descriptions"
             role="tabpanel">
-            <span className="text-[#603813] whitespace-pre-line">{product?.description}</span>
+            <span className="text-[#603813] whitespace-pre-line">
+              {product?.note?.Description || ''}
+            </span>
           </div>
           <div
             className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
             id="tab-features"
             role="tabpanel">
-            No Data
+            {product?.note?.Caractéristiques || ''}
           </div>
           <div
             className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
             id="tab-utilisation"
             role="tabpanel">
-            No Data
+            {product?.note?.Utilisation || ''}
           </div>
           <div
             className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
             id="tab-composition"
             role="tabpanel">
-            No Data
+            {product?.note?.Composition || ''}
           </div>
           <div
             className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
