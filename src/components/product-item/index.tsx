@@ -46,21 +46,21 @@ const ProductItem: React.FC<ProductProps> = ({
     (pre, curr) => pre + curr.quantity * Number.parseFloat(curr?.product?.price || '0'),
     0
   );
+  const totalProducts = localCart?.reduce((pre, curr) => pre + curr.quantity, 0);
+  
   const handleAddProduct = async () => {
     if (isAuthenticated) {
-      
-
+       
       //check exist product 
       const existProduct = localCart?.find((item: any) => item?.product?.id === product?.id);
-      console.log('existProduct:%o', existProduct)
       let res;
       if (existProduct) {
         const data = {
           order_item_id : existProduct?.orderId,
           order_id : cart?.data?.cart?.id || null,
           amount : 1,
-          total_amount: existProduct?.quantity + 1,
-          total_price: (existProduct?.quantity + 1) * Number.parseFloat(existProduct?.product?.price || '0')
+          total_amount: totalProducts + 1,
+          total_price: Number.parseFloat(existProduct?.product?.price || '0') + totalMoney
         } 
         res = await addExistProductToCart(data)
       }
