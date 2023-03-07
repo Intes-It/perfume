@@ -48,27 +48,35 @@ const ProductItem: React.FC<ProductProps> = ({
   );
   const handleAddProduct = async () => {
     if (isAuthenticated) {
-      const data = {
-        order_id: cart?.data?.cart?.id || null,
-        product_id: product?.id,
-        amount: 1,
-        total_amount_cart: 1,
-        price: product?.price,
-        total_price_item: Number.parseFloat(product?.price || '0'),
-        total_price_cart: Number.parseFloat(product?.price || '0') + totalMoney,
-      }
+      
 
       //check exist product 
       const existProduct = localCart?.find((item: any) => item?.product?.id === product?.id);
       console.log('existProduct:%o', existProduct)
       let res;
       if (existProduct) {
-        data['total_amount_cart'] = existProduct?.quantity + 1;
-        data['total_price_item'] = (existProduct?.quantity + 1) * Number.parseFloat(existProduct?.product?.price || '0')
+        const data = {
+          order_item_id : existProduct?.orderId,
+          order_id : cart?.data?.cart?.id || null,
+          amount : 1,
+          total_amount: existProduct?.quantity + 1,
+          total_price: (existProduct?.quantity + 1) * Number.parseFloat(existProduct?.product?.price || '0')
+        } 
         res = await addExistProductToCart(data)
       }
       else
+      {
+        const data = {
+          order_id: cart?.data?.cart?.id || null,
+          product_id: product?.id,
+          amount: 1,
+          total_amount_cart: 1,
+          price: product?.price,
+          total_price_item: Number.parseFloat(product?.price || '0'),
+          total_price_cart: Number.parseFloat(product?.price || '0') + totalMoney,
+        }
         res = await addProductToCart(data)
+      }
       if (res?.status === 201)
         dispatch(addProduct({ product, quantity: 1 }));
     }
