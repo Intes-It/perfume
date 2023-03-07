@@ -11,7 +11,7 @@ const MyAccount = () => {
 
   const onLogin = async (data: any) => {
     const res = await loginAccount(data);  
-    if(res?.status === 200 && res?.statusText === 'OK')
+    if(res?.status === 200)
     { 
       window.location.reload();
     } 
