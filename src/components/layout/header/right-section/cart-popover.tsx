@@ -38,7 +38,11 @@ const CartPopover: React.FC = () => {
   const handleRemoveProduct = async (exProduct: ExProduct) => {
     if (isAuthenticated) {
       const totalPrice = exProduct.quantity * Number.parseFloat(exProduct.product.price || '0');
-      const res = await removeProductToCart({ order_item_id: exProduct.orderId, total_amount: exProduct.quantity, total_price: totalPrice })
+      const res = await removeProductToCart({ 
+        order_item_id: exProduct.orderId, 
+        total_amount: totalProducts - exProduct.quantity, 
+        total_price: totalMoney - totalPrice 
+      })
       if (res.status === 200)
         dispatch(removeProduct(exProduct));
       // console.log(quantity)
