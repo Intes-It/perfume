@@ -1,7 +1,7 @@
 import React from 'react';
 import NextLink from 'next/link';
-import { NavbarItems, Routes } from '@definitions/constants';
-import { useCategory, useAllCategory } from '@hooks/useCategory';
+import { Routes } from '@definitions/constants';
+import { useAllCategory } from '@hooks/useCategory';
 
 function Navbar() {
   const { categories, subCategories, subsubCategories } = useAllCategory();
