@@ -16,7 +16,7 @@ const OrderReview = () => {
     (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.product.price || '0'),
     0
   );
-  console.log(products);
+  // console.log(products);
 
   return (
     <div className="bg-[#FBFBFB]">

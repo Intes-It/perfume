@@ -91,7 +91,7 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
   const totalProducts = localCart?.reduce((pre, curr) => pre + curr.quantity, 0);
 
   const breadCrumb = useMemo(() => {
-    console.log(product);
+    // console.log(product);
     let res = [{ name: 'Accueil', route: '/' }];
     const groupRoute = product?.category?.name?.toLowerCase();
     const subGroupRoute = product?.subcategory?.name?.toLowerCase();

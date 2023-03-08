@@ -77,7 +77,7 @@ const ProductItem: React.FC<ProductProps> = ({
         }
         res = await addProductToCart(data)
       }
-      console.log('res:%o', res)
+      // console.log('res:%o', res)
       if (res?.status === 201 || res?.status === 200 )
       { 
         dispatch(addProduct({ product, quantity: 1, orderId: res?.data?.data?.id }));

@@ -5,6 +5,7 @@ import { Container } from '@components/container';
 import { faWindowMaximize } from '@fortawesome/free-regular-svg-icons';
 import { faWarning } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import useCart from '@hooks/useCart';
 import useCheckout from '@hooks/useCheckout';
 import _ from 'lodash';
 import { useRef, useState } from 'react';
@@ -28,7 +29,8 @@ const StepTabs = [
 ];
 
 const Checkout: React.FC = () => {
-  const {processBilling} = useCheckout();
+  const { cart } = useCart();
+  const { processBilling } = useCheckout();
   const [state, setState] = useState(
     {
       activeTab: 0,
@@ -69,14 +71,24 @@ const Checkout: React.FC = () => {
     window.scrollTo({ top: topPos, behavior: 'smooth' });
   }
 
-  const handlNextStep = async () =>{
+  const handlNextStep = async () => {
     if (activeTab < 2) {
       if (hasError())
         showError();
-      else
-      {
-        await processBilling(formValues.billingInfomation);
-        setState((pre) => ({ ...pre, inValidData: false, activeTab: activeTab + 1 }))
+      else {
+        if (activeTab == 0) {
+          const res = await processBilling(
+            {
+              ...formValues.billingInfomation,
+              order_id: cart?.data?.cart?.id || null,
+            });
+          if (res?.status === 200 && res?.data?.created_time)
+            setState((pre) => ({ ...pre, inValidData: false, activeTab: activeTab + 1 }))
+        }
+        else if(activeTab == 1)
+        {
+          console.log('todo')
+        }
       }
     }
   }
@@ -114,7 +126,6 @@ const Checkout: React.FC = () => {
             <div
               className={`${activeTab !== 0 && 'hidden'} transition-opacity duration-150 ease-linear data-[te-tab-active]:block`} >
               <BillingInfomation onError={(errors) => {
-                console.log('errors:%o', errors)
                 setState((pre) => ({ ...pre, formErrors: { ...formErrors, billingInfomation: !_.isEmpty(errors) } }))
               }}
                 onValueChange={(values) => {
@@ -144,7 +155,7 @@ const Checkout: React.FC = () => {
               </button>
               <button className="w-[90px] rounded-md p-3 border border-black text-black hover:bg-black hover:text-white "
                 onClick={() => {
-                  handlNextStep() 
+                  handlNextStep()
                 }}>
                 SUIV
               </button>

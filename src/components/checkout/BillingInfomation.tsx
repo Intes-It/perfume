@@ -3,21 +3,22 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import React, { useEffect } from 'react';
 import _ from 'lodash';
+import { Countries } from '@definitions/constants';
 
 type BillingInfomationProps = {
   onError?: (errors: any) => void;
   onValueChange?: (values: any) => void;
-};
+}; 
 
 const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueChange }) => {
   const formSchema = Yup.object().shape({
     first_name: Yup.string().required(),
     last_name: Yup.string().required(),
-    // country: Yup.string().required(),
-    street: Yup.string().required(),
-    building: Yup.string().required(),
+    // country: Yup.tuple().required(),
+    ward: Yup.string().required(),
+    district: Yup.string().required(),
     zip_code: Yup.string().required(),
-    city: Yup.string().required(),
+    province: Yup.string().required(),
     phone: Yup.number().required(),
     email: Yup.string().required(),
   });
@@ -27,14 +28,13 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueC
       first_name: '',
       last_name: '',
       company_name: '',
-      country: '',
-      street: '',
-      building: '',
-      city: '',
+      country: Countries[0].value,
+      ward: '',
+      district: '',
+      province: '',
       zip_code: '',
       phone: '',
       email: '',
-      subscribeNewLetter: true,
     },
     validationSchema: formSchema,
     onSubmit: (value, { setSubmitting }) => {
@@ -124,6 +124,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueC
             <div className="flex flex-col">
               <label className="font-semibold">Nom de l’entreprise (facultatif)</label>
               <input
+                {...formik.getFieldProps('company_name')}
                 type="text"
                 id="company_name"
                 className="px-4 py-3 border border-gray-300 text-black"
@@ -137,10 +138,15 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueC
                 {...formik.getFieldProps('country')}
                 id="country"
                 className={`px-4 py-3 border ${errors.country ? 'border-red-700' : 'border-gray-300'} text-black`}
+                onChange={(event) => { 
+                  formik.setFieldValue('country', event.target.value);
+                }}
               >
-                <option value="1">Vietnam</option>
-                <option value="2">France</option>
-                <option value="3">Chinese</option>
+                {
+                  Countries?.map((item: any, index: number) => (
+                    <option key={index} value="{item?.value}">{item?.name}</option>
+                  ))
+                }
               </select>
             </div>
             <div className="flex flex-col">
@@ -148,16 +154,16 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueC
                 Numéro et nom de rue <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
-                {...formik.getFieldProps('street')}
+                {...formik.getFieldProps('ward')}
                 type="text"
-                id="street"
-                className={`px-4 py-3 border ${errors.street ? 'border-red-700' : 'border-gray-300'} text-black`}
+                id="ward"
+                className={`px-4 py-3 border ${errors.ward ? 'border-red-700' : 'border-gray-300'} text-black`}
               />
               <input
-                {...formik.getFieldProps('building')}
+                {...formik.getFieldProps('district')}
                 type="text"
-                id="building"
-                className={`px-4 py-3 mt-4 border ${errors.building ? 'border-red-700' : 'border-gray-300'} text-black`}
+                id="district"
+                className={`px-4 py-3 mt-4 border ${errors.district ? 'border-red-700' : 'border-gray-300'} text-black`}
               />
             </div>
             <div className="flex flex-col">
@@ -165,10 +171,10 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueC
                 Ville <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
-                {...formik.getFieldProps('city')}
+                {...formik.getFieldProps('province')}
                 type="text"
-                id="city"
-                className={`px-4 py-3 border ${errors.city ? 'border-red-700' : 'border-gray-300'} text-black`}
+                id="province"
+                className={`px-4 py-3 border ${errors.province ? 'border-red-700' : 'border-gray-300'} text-black`}
               />
             </div>
             <div className="flex flex-col">
@@ -209,7 +215,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueC
                 <input type="checkbox"
                   defaultChecked={true}
                   onChange={(e) => { console.log(e) }}
-                  id="remember" className="w-4 h-4 " />
+                  id="subscribe" className="w-4 h-4 " />
                 <label>Subscribe to our newsletter</label>
               </div>
             </div>

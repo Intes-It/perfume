@@ -236,3 +236,18 @@ export const FooterRoutes = [
     items: OurUniverse,
   },
 ] as const;
+
+export const Countries = [
+  {
+    name: 'Vietnam',
+    value: 'Vn'
+  },
+  {
+    name: 'France',
+    value: 'Fr'
+  },
+  {
+    name: 'Chinese',
+    value: 'Cn'
+  }
+]
