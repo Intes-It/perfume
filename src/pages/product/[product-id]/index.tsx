@@ -120,7 +120,8 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
         <div className="overflow-clip relative">
           <img
             className="hover:scale-125 transition duration-100 w-full object-cover"
-            src={`${server_link}${product?.image}`}
+            // src={`${server_link}${product?.image}`}
+            src={product?.url_image}
             alt={product?.name}
           />
           <button className="absolute right-0 top-0 bg-white rounded-full w-[2.2rem] h-[2.2rem]">
