@@ -108,7 +108,7 @@ const CartPopover: React.FC = () => {
                       <div key={index} className="grid grid-cols-9 border-b-[1px] p-4">
                         <img
                           className="col-span-2"
-                          src={`${server_link}${item?.product?.image}`}
+                          src={(item?.product as any)?.url_image}
                           alt={item?.product?.name}
                         />
                         <div className="col-span-6 ml-6 flex-row">

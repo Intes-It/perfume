@@ -100,7 +100,8 @@ const ProductItem: React.FC<ProductProps> = ({
       <NextLink href={`/product/${product?.id}`}>
         <img
           className="w-[22vw] tablet:w-[32vw] mobile:w-[45vw] cursor-pointer"
-          src={`${server_link}${product?.image}`}
+          // src={`${server_link}${product?.image}`}
+          src={(product as any)?.url_image}
           alt="{title}"
         />
       </NextLink>
