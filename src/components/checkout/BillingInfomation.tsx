@@ -36,6 +36,17 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueC
       phone: '',
       email: '',
     },
+    initialErrors:{
+      first_name: 'required',
+      last_name: 'required',
+      // country: Yup.tuple().required(),
+      ward: 'required',
+      district: 'required',
+      zip_code: 'required',
+      province: 'required',
+      phone: 'required',
+      email: 'required',
+    },
     validationSchema: formSchema,
     onSubmit: (value, { setSubmitting }) => {
       console.log(value)
@@ -45,8 +56,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueC
 
 
   useEffect(() => {
-    if (!_.isEmpty(touched))
-      onError?.(errors);
+    onError?.(errors);
   }, [errors])
 
   useEffect(() => {

@@ -30,7 +30,7 @@ const StepTabs = [
 
 const Checkout: React.FC = () => {
   const { cart } = useCart();
-  const { processBilling } = useCheckout();
+  const { processBilling, processShipping } = useCheckout();
   const [state, setState] = useState(
     {
       activeTab: 0,
@@ -85,10 +85,14 @@ const Checkout: React.FC = () => {
           if (res?.status === 200 && res?.data?.created_time)
             setState((pre) => ({ ...pre, inValidData: false, activeTab: activeTab + 1 }))
         }
-        else if(activeTab == 1)
-        {
-          
-          console.log('todo')
+        else if (activeTab == 1) {
+          const res = await processShipping(
+            {
+              ...formValues.additionalInfomation,
+              order_id: cart?.data?.cart?.id || null,
+            });
+          if (res?.status === 200 && res?.data?.created_time)
+            setState((pre) => ({ ...pre, inValidData: false, activeTab: activeTab + 1 }))
         }
       }
     }
@@ -136,7 +140,13 @@ const Checkout: React.FC = () => {
             </div>
             <div
               className={`${activeTab !== 1 && 'hidden'} transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}>
-              <AdditionalInformation />
+              <AdditionalInformation
+                onError={(errors) => {
+                  setState((pre) => ({ ...pre, formErrors: { ...formErrors, additionalInfomation: !_.isEmpty(errors) } }))
+                }}
+                onValueChange={(values, expanded) => {
+                  setState((pre) => ({ ...pre, formValues: { ...formValues, additionalInfomation: expanded ? values : { note: values?.note } } }))
+                }} />
             </div>
             <div
               className={`${activeTab !== 2 && 'hidden'} transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}>

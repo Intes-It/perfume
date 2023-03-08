@@ -14,5 +14,6 @@ export const api = {
   getCart: '/api/checkout/cart',
   addProduct: '/api/orders/add',
   changeProduct: '/api/orders/change',
-  processBilling: '/payment/process/billing' 
+  processBilling: '/payment/process/billing',
+  processShipping: '/payment/process/shipping' 
 };

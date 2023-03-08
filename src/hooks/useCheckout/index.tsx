@@ -7,14 +7,19 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 const useCheckout = () => { 
     const processBilling = useMutation('process-billing', billing); 
+    const processShipping = useMutation('process-shipping', shipping); 
   
     //mutation
     async function billing(data: any) {
         return await POST(api.processBilling, data)
     } 
+    async function shipping(data: any) {
+        return await POST(api.processShipping, data)
+    } 
     
     return { 
-        processBilling: processBilling.mutateAsync, 
+        processBilling: processBilling.mutateAsync,
+        processShipping: processShipping.mutateAsync  
     };
 };
 
