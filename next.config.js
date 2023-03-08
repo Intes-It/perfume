@@ -8,6 +8,10 @@ const nextConfig = {
         source: "/api/:path*",
         destination: `${process.env.NEXT_PUBLIC_API_URL}/api/:path*`,
       },
+      {
+        source: "/payment/:path*",
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/payment/:path*`,
+      },
     ];
   },
   output: "standalone",
