@@ -87,6 +87,7 @@ const Checkout: React.FC = () => {
         }
         else if(activeTab == 1)
         {
+          
           console.log('todo')
         }
       }
