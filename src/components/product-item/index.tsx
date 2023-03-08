@@ -70,7 +70,7 @@ const ProductItem: React.FC<ProductProps> = ({
           order_id: cart?.data?.cart?.id || null,
           product_id: product?.id,
           amount: 1,
-          total_amount_cart: 1,
+          total_amount_cart: totalProducts + 1,
           price: product?.price,
           total_price_item: Number.parseFloat(product?.price || '0'),
           total_price_cart: Number.parseFloat(product?.price || '0') + totalMoney,

@@ -12,11 +12,14 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 // import { Product } from "@types";
 
 import { addProduct } from '@redux/slices/cart';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ImageModal from '@components/image-modal';
 import { useProductDetail, useBestSallingProducts } from '@hooks/useProduct';
 import { useRouter } from 'next/router';
+import useUser from '@hooks/useUser';
+import { ExProduct } from '@types';
+import useCart from '@hooks/useCart';
 
 const DescriptionTabs = [
   {
@@ -39,7 +42,7 @@ const DescriptionTabs = [
     header: 'Composition',
     href: '#tab-composition',
   },
- 
+
 ];
 
 export const getServerSideProps: GetServerSideProps<{
@@ -62,6 +65,12 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
 }) => {
   // redux
   const dispatch = useDispatch();
+  const localCart = useSelector(
+    (state: any) => state.persistedReducer?.cart?.products
+  ) as ExProduct[];
+
+  const { isAuthenticated } = useUser();
+  const { addProductToCart, addExistProductToCart, cart } = useCart();
 
   const [state, setState] = useState({
     isShowImageModal: false,
@@ -75,7 +84,11 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
   const { product } = useProductDetail({ id: productId });
   const { products } = useBestSallingProducts();
 
-  const server_link = process.env.NEXT_PUBLIC_API_URL;
+  const totalMoney = localCart?.reduce(
+    (pre, curr) => pre + curr.quantity * Number.parseFloat(curr?.product?.price || '0'),
+    0
+  );
+  const totalProducts = localCart?.reduce((pre, curr) => pre + curr.quantity, 0);
 
   const breadCrumb = useMemo(() => {
     console.log(product);
@@ -108,9 +121,43 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
     setState((pre) => ({ ...pre, isShowImageModal: isOpen }));
   };
 
-  const handleAddProduct = () => {
-    dispatch(addProduct({ product, quantity }));
-    console.log(quantity);
+  const handleAddProduct = async () => {
+    if (isAuthenticated) {
+      //check exist product 
+      const existProduct = localCart?.find((item: any) => item?.product?.id === product?.id);
+      let res;
+      if (existProduct) {
+        const data = {
+          order_item_id: existProduct?.orderId,
+          order_id: cart?.data?.cart?.id || null,
+          amount: quantity,
+          total_amount: totalProducts + quantity,
+          total_price: Number.parseFloat(existProduct?.product?.price || '0') * quantity + totalMoney
+        }
+        res = await addExistProductToCart(data)
+      }
+      else {
+        const data = {
+          order_id: cart?.data?.cart?.id || null,
+          product_id: product?.id,
+          amount: quantity,
+          total_amount_cart: totalProducts + quantity,
+          price: product?.price,
+          total_price_item: Number.parseFloat(product?.price || '0') * quantity,
+          total_price_cart: Number.parseFloat(product?.price || '0') * quantity + totalMoney,
+        }
+        res = await addProductToCart(data)
+      }
+      console.log('res:%o', res)
+      if (res?.status === 201 || res?.status === 200) {
+        dispatch(addProduct({ product, quantity: 1, orderId: res?.data?.data?.id }));
+      }
+    }
+    else {
+      dispatch(addProduct({ product, quantity }));
+    }
+    // dispatch(addProduct({ product, quantity }));
+    // console.log(quantity);
   };
 
   return (
@@ -267,7 +314,7 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
         <BestSales products={products} />
       </div>
       <ImageModal
-        imgUrl={`${server_link}${product?.image || ''}`}
+        imgUrl={product?.url_image}
         isShowModel={isShowImageModal}
         onClose={() => setShowModal(false)}
       />
