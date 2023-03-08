@@ -23,6 +23,7 @@ const Favorite = () => {
   // favoriteProducts?.forEach((item: Product) => {
   //   item.favorite = true;
   // });
+  console.log(favoriteProducts)
 
   const handleChange = (value: any) => {
     console.log(value);

@@ -6,8 +6,8 @@ import { formatCurrency } from '@utils/formatNumber';
 import { Container } from '@components/container';
 import { BestSales } from '@components/best-sales';
 import Rating from '@components/rating/rating';
+import Parser from 'html-react-parser';
 
-import { VisibleTitleRoutes } from '@definitions/constants';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 // import { Product } from "@types";
 
@@ -42,7 +42,6 @@ const DescriptionTabs = [
     header: 'Composition',
     href: '#tab-composition',
   },
-
 ];
 
 export const getServerSideProps: GetServerSideProps<{
@@ -123,7 +122,7 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
 
   const handleAddProduct = async () => {
     if (isAuthenticated) {
-      //check exist product 
+      //check exist product
       const existProduct = localCart?.find((item: any) => item?.product?.id === product?.id);
       let res;
       if (existProduct) {
@@ -132,11 +131,11 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
           order_id: cart?.data?.cart?.id || null,
           amount: quantity,
           total_amount: totalProducts + quantity,
-          total_price: Number.parseFloat(existProduct?.product?.price || '0') * quantity + totalMoney
-        }
-        res = await addExistProductToCart(data)
-      }
-      else {
+          total_price:
+            Number.parseFloat(existProduct?.product?.price || '0') * quantity + totalMoney,
+        };
+        res = await addExistProductToCart(data);
+      } else {
         const data = {
           order_id: cart?.data?.cart?.id || null,
           product_id: product?.id,
@@ -145,15 +144,14 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
           price: product?.price,
           total_price_item: Number.parseFloat(product?.price || '0') * quantity,
           total_price_cart: Number.parseFloat(product?.price || '0') * quantity + totalMoney,
-        }
-        res = await addProductToCart(data)
+        };
+        res = await addProductToCart(data);
       }
-      console.log('res:%o', res)
+      console.log('res:%o', res);
       if (res?.status === 201 || res?.status === 200) {
         dispatch(addProduct({ product, quantity, orderId: res?.data?.data?.id }));
       }
-    }
-    else {
+    } else {
       dispatch(addProduct({ product, quantity }));
     }
     // dispatch(addProduct({ product, quantity }));
@@ -277,26 +275,26 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
             id="tab-descriptions"
             role="tabpanel">
             <span className="text-[#603813] whitespace-pre-line">
-              {product?.note?.Description || ''}
+              {Parser(product?.note?.Description || '')}
             </span>
           </div>
           <div
             className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
             id="tab-features"
             role="tabpanel">
-            {product?.note?.Caractéristiques || ''}
+            {Parser(product?.note?.Caractéristiques || '')}
           </div>
           <div
             className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
             id="tab-utilisation"
             role="tabpanel">
-            {product?.note?.Utilisation || ''}
+            {Parser(product?.note?.Utilisation || '')}
           </div>
           <div
             className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
             id="tab-composition"
             role="tabpanel">
-            {product?.note?.Composition || ''}
+            {Parser(product?.note?.Composition || '')}
           </div>
           <div
             className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
