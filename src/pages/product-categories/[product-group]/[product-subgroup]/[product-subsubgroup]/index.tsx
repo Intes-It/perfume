@@ -14,7 +14,7 @@ import { useAllCategory } from "@hooks/useCategory";
 const ProductSubSubGroup = () => {
   const server_link = process.env.NEXT_PUBLIC_API_URL;
   const dispatch = useDispatch();
-  const { categories, subCategories, subsubCategories} = useAllCategory();
+  const { categories, subCategories, subsubCategories } = useAllCategory();
   const router = useRouter();
   const { products, fetchFilterProducts } = useProducts();
   const [state, setState] = useState({
@@ -23,41 +23,53 @@ const ProductSubSubGroup = () => {
     categories: "",
     price: "",
     selection: [] as string[],
+    sort: null,
+    priceRange: null,
   });
-  const { filterProducts } = state;
+  const { filterProducts, sort, priceRange, } = state;
 
   const favoriteProducts = useSelector(
     (state: any) => state.persistedReducer?.favorite?.list
   ) as Product[];
 
-  const fetchProducts = async () =>{
-    const subsubCategoryId = subsubCategories?.find((item : any)=>item?.slug === router.query["product-subsubgroup"])?.id;
-    if(subsubCategoryId)
-    {
-      await fetchFilterProducts({ subsubcategory: subsubCategoryId as any }) 
+  const fetchProducts = async () => {
+    const subsubCategoryId = subsubCategories?.find((item: any) => item?.slug === router.query["product-subsubgroup"])?.id;
+    if (subsubCategoryId) {
+      await fetchFilterProducts({
+        subsubcategory: subsubCategoryId as any,
+        ...(sort && { sort: sort as any }) as any,
+        ...(priceRange && { price_range: priceRange as any }) as any
+      })
     }
   }
 
-  useEffect(() => {    
+  useEffect(() => {
     const filterProducts = products?.map((product: Product) => ({
       ...product,
-    })); 
+    }));
     filterProducts?.forEach((item: Product) => {
       const existItem = favoriteProducts?.find(
         (itemFavorite) => itemFavorite.id === item.id
       );
       if (existItem) item.favorite = true;
       else item.favorite = false;
-    }); 
-    setState((pre) => ({ ...pre, filterProducts })); 
+    });
+    setState((pre) => ({ ...pre, filterProducts }));
   }, [router.query, products, favoriteProducts]);
 
-  useEffect(()=>{
-    fetchProducts(); 
-  },[categories, subCategories, subsubCategories, router.query])
-  
+  useEffect(() => {
+    fetchProducts();
+  }, [subsubCategories, router.query, sort, priceRange])
+
   const handleChange = (value: any) => {
     console.log(value);
+  };
+
+  const handleSortChange = (value: any) => {
+    setState((pre) => ({ ...pre, sort: value }))
+  };
+  const handlePriceRangeChange = (value: any) => {
+    setState((pre) => ({ ...pre, priceRange: value }))
   };
 
   return (
@@ -81,14 +93,14 @@ const ProductSubSubGroup = () => {
             <DropdownCheckbox
               title="Prix"
               selections={productPrice}
-              onChange={handleChange}
+              onChange={handlePriceRangeChange}
             />
           </div>
           <div className="mobile:float-right">
             {" "}
             <DropdownSelect
               selections={productFilter}
-              onChange={handleChange}
+              onChange={handleSortChange}
             />
           </div>
         </div>
@@ -102,7 +114,7 @@ const ProductSubSubGroup = () => {
                 }}
                 favorite={item?.favorite}
                 showFavorite={true}
-                product={item}   
+                product={item}
               />
             </div>
           ))}

@@ -210,7 +210,7 @@ const ProductGroup = () => {
               title="Catégories"
               selections={selection}
               onChange={sortBySubCategory}
-              products={copy}
+               
             />
             <DropdownCheckbox title="Prix" onChange={sortByPrice} selections={productPrice} />
           </div>
