@@ -13,5 +13,6 @@ export const api = {
   getSubCategory: '/api/subcategory/list',
   getCart: '/api/checkout/cart',
   addProduct: '/api/orders/add',
-  changeProduct: '/api/orders/change' 
+  changeProduct: '/api/orders/change',
+  processBilling: '/payment/process/billing' 
 };

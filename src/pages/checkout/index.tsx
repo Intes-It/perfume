@@ -5,6 +5,7 @@ import { Container } from '@components/container';
 import { faWindowMaximize } from '@fortawesome/free-regular-svg-icons';
 import { faWarning } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import useCheckout from '@hooks/useCheckout';
 import _ from 'lodash';
 import { useRef, useState } from 'react';
 
@@ -27,6 +28,7 @@ const StepTabs = [
 ];
 
 const Checkout: React.FC = () => {
+  const {processBilling} = useCheckout();
   const [state, setState] = useState(
     {
       activeTab: 0,
@@ -35,10 +37,15 @@ const Checkout: React.FC = () => {
         billingInfomation: true,
         additionalInfomation: true,
         orderReview: true
+      },
+      formValues: {
+        billingInfomation: {},
+        additionalInfomation: {},
+        orderReview: {}
       }
     }
   );
-  const { activeTab, inValidData, formErrors } = state;
+  const { activeTab, inValidData, formErrors, formValues } = state;
   const errorDivRef = useRef<HTMLDivElement>(null);
 
   const hasError = () => {
@@ -60,6 +67,18 @@ const Checkout: React.FC = () => {
     const topPos = errorDivRef.current?.getBoundingClientRect().top;
     // Scroll đến vị trí của thẻ div bằng cách sử dụng method scrollIntoView()
     window.scrollTo({ top: topPos, behavior: 'smooth' });
+  }
+
+  const handlNextStep = async () =>{
+    if (activeTab < 2) {
+      if (hasError())
+        showError();
+      else
+      {
+        await processBilling(formValues.billingInfomation);
+        setState((pre) => ({ ...pre, inValidData: false, activeTab: activeTab + 1 }))
+      }
+    }
   }
 
   return (
@@ -97,7 +116,11 @@ const Checkout: React.FC = () => {
               <BillingInfomation onError={(errors) => {
                 console.log('errors:%o', errors)
                 setState((pre) => ({ ...pre, formErrors: { ...formErrors, billingInfomation: !_.isEmpty(errors) } }))
-              }} />
+              }}
+                onValueChange={(values) => {
+                  setState((pre) => ({ ...pre, formValues: { ...formValues, billingInfomation: values } }))
+                }}
+              />
             </div>
             <div
               className={`${activeTab !== 1 && 'hidden'} transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}>
@@ -111,22 +134,17 @@ const Checkout: React.FC = () => {
               <button className="w-[90px] rounded-md p-3 border border-black  text-black hover:bg-black hover:text-white "
                 onClick={() => {
                   if (activeTab > 0) {
-                    if (hasError())
-                      showError();
-                    else
-                      setState((pre) => ({ ...pre, inValidData: false, activeTab: activeTab - 1 }))
+                    // if (hasError())
+                    //   showError();
+                    // else
+                    setState((pre) => ({ ...pre, inValidData: false, activeTab: activeTab - 1 }))
                   }
                 }}>
                 PRÉC
               </button>
               <button className="w-[90px] rounded-md p-3 border border-black text-black hover:bg-black hover:text-white "
                 onClick={() => {
-                  if (activeTab < 2) {
-                    if (hasError())
-                      showError();
-                    else
-                      setState((pre) => ({ ...pre, inValidData: false, activeTab: activeTab + 1 }))
-                  }
+                  handlNextStep() 
                 }}>
                 SUIV
               </button>
