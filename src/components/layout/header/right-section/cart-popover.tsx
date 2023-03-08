@@ -104,8 +104,8 @@ const CartPopover: React.FC = () => {
               {products ? (
                 <div>
                   <div className="overflow-y-auto max-h-[400px]">
-                    {products?.map((item) => (
-                      <div className="grid grid-cols-9 border-b-[1px] p-4">
+                    {products?.map((item: any, index:number) => (
+                      <div key={index} className="grid grid-cols-9 border-b-[1px] p-4">
                         <img
                           className="col-span-2"
                           src={`${server_link}${item?.product?.image}`}
