@@ -4,7 +4,7 @@ import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 
-type AdditionalInfomationProps = {
+type AdditionalInfomationProps = { 
   onError?: (errors: any) => void;
   onValueChange?: (values: any, 
     expanded: boolean) => void;
@@ -39,7 +39,7 @@ const AdditionalInformation: React.FC<AdditionalInfomationProps> =
       initialErrors: {
         dif_first_name: 'required',
         dif_last_name: 'required',
-        dif_country: 'required',
+        // dif_country: {name:'required', value:'required'},
         dif_ward: 'required',
         dif_district: 'required',
         dif_province: 'required',

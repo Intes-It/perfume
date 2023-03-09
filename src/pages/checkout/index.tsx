@@ -30,7 +30,7 @@ const StepTabs = [
 
 const Checkout: React.FC = () => {
   const { cart } = useCart();
-  const { processBilling, processShipping } = useCheckout();
+  const { processBilling, processShipping, processYourOrder } = useCheckout();
   const [state, setState] = useState(
     {
       activeTab: 0,
@@ -98,6 +98,11 @@ const Checkout: React.FC = () => {
     }
   }
 
+  const handleOder = async () => {
+    const res = await processYourOrder({ order_id: cart?.data?.cart?.id || null}); 
+    console.log('process youroder: %o', res)
+  }
+
   return (
     <Container>
       <div className="m-20 mt-2">
@@ -140,7 +145,7 @@ const Checkout: React.FC = () => {
             </div>
             <div
               className={`${activeTab !== 1 && 'hidden'} transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}>
-              <AdditionalInformation
+              <AdditionalInformation 
                 onError={(errors) => {
                   setState((pre) => ({ ...pre, formErrors: { ...formErrors, additionalInfomation: !_.isEmpty(errors) } }))
                 }}
@@ -150,7 +155,7 @@ const Checkout: React.FC = () => {
             </div>
             <div
               className={`${activeTab !== 2 && 'hidden'} transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}>
-              <OrderReview />
+              <OrderReview onOderClicked={handleOder}/>
             </div>
             <div className="flex float-right gap-3 mt-10 ">
               <button className="w-[90px] rounded-md p-3 border border-black  text-black hover:bg-black hover:text-white "
