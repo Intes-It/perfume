@@ -102,8 +102,8 @@ const Checkout: React.FC = () => {
 
   const handleOder = async () => {
     const res = await processYourOrder({ order_id: cart?.data?.cart?.id || null}); 
-    console.log('process youroder: %o', res)
-    //router.push('https://www.paypal.com/webapps/shoppingcart/error?flowlogging_id=f68581135407d&code=400')
+    if(res?.status === 200 && res?.data?.link)
+      router.push(res?.data?.link)
   }
 
   return (
