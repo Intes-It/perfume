@@ -16,5 +16,6 @@ export const api = {
   changeProduct: '/api/orders/change',
   processBilling: '/api/payment/process/billing',
   processShipping: '/api/payment/process/shipping',
-  processYourOrder: '/api/payment/process/your_order'  
+  processYourOrder: '/api/payment/process/your_order' , 
+  successOrder: '/api/payment/success'  
 };

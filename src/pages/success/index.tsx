@@ -1,8 +1,16 @@
 import { Container } from '@components/container';
 import { faCancel, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { api } from '@utils/apiRoute';
+import { GET } from '@utils/fetch';
+import { useEffect } from 'react';
 
 const Success: React.FC = () => {
+  useEffect(() => {
+    GET(api.successOrder).then((res) => {
+      console.log(res);
+    });
+  }, []);
   return (
     <Container>
       <div className="mx-auto p-5  grid ">
