@@ -14,6 +14,7 @@ export interface Product {
   check?: boolean;
   name?: string;
   evaluate?: number | undefined;
+  url_image? : string | undefined
 }
 
 export interface ExProduct {

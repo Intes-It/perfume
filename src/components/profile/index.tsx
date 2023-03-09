@@ -1,10 +1,12 @@
 import Footer from '@components/layout/footer';
-import { POST } from '@utils/fetch';
 import { instance } from '@utils/_axios';
 import React from 'react';
 import { Container } from '..';
+import Adress from './adress';
 import Delivery from './delivery';
+import Detail from './detail';
 import Order from './order';
+import Payment from './payment';
 import UserProfile from './user-profile';
 
 const Tabs = [
@@ -77,7 +79,7 @@ const Profile = () => {
                           return;
                         }
                   }
-                  className="my-[1px] min-w-[100px] block border-x-0 font-semibold rounded-md border-t-0 border-b-2 border-transparent px-7 pt-4 pb-3.5 text-sm  uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent bg-[#B2B2B0] hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:bg-[#603813] data-[te-nav-active]:text-white ">
+                  className="my-[1px] min-w-[100px] block border-x-0 font-semibold rounded-md border-t-0 border-b-2 border-transparent px-7 pt-4 pb-3.5 text-sm  uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent bg-white hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:bg-[#603813] data-[te-nav-active]:text-white ">
                   {item?.header}
                 </a>
               </li>
@@ -85,10 +87,11 @@ const Profile = () => {
           </ul>
           <div className="my-2 w-full col-span-5 mb-10">
             <div
-              className="hidden opacity-0 opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+              className="hidden opacity-0  transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
               id="profile-tab"
               role="tabpanel"
-              data-te-tab-active>
+              data-te-tab-active
+              >
               <UserProfile />
             </div>
             <div
@@ -107,19 +110,19 @@ const Profile = () => {
               className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
               id="adress-tab"
               role="tabpanel">
-              adress-tab
+              <Adress/>
             </div>
             <div
               className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
               id="payment-tab"
               role="tabpanel">
-              payment-tab
+              <Payment />
             </div>
             <div
               className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
               id="detail-tab"
               role="tabpanel">
-              detail-tab
+              <Detail/>
             </div>
             <div
               className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
