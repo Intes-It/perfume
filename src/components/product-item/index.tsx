@@ -88,7 +88,7 @@ const ProductItem: React.FC<ProductProps> = ({
   };
 
   return (
-    <div className=" relative flex flex-col items-center text-[16px] mb-2">
+    <div className=" relative flex flex-col items-center text-[16px] mb-2 bg-white">
       {showFavorite && (
         <FontAwesomeIcon
           className={`absolute top-[5%] right-[4%] mobile:top-[2%] mobile:right-[0%] 
