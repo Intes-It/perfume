@@ -87,7 +87,7 @@ const Profile = () => {
           </ul>
           <div className="my-2 w-full col-span-5 mb-10">
             <div
-              className="hidden opacity-0 opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+              className="hidden  opacity-100  transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
               id="profile-tab"
               role="tabpanel"
               data-te-tab-active
