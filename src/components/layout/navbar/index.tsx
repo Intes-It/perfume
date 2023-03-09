@@ -2,6 +2,7 @@ import React from 'react';
 import NextLink from 'next/link';
 import { Routes } from '@definitions/constants';
 import { useAllCategory } from '@hooks/useCategory';
+import CartPopover from '../header/right-section/cart-popover';
 
 function Navbar() {
   const { categories, subCategories, subsubCategories } = useAllCategory();
@@ -56,60 +57,18 @@ function Navbar() {
                                       <br />
                                     </div>
                                   ))}
-                                  {/* {subItem?.children
-                                    ? Object.values(subItem?.children)?.map(
-                                      (sSubItem: any, sIndex: number) => (
-                                        <div
-                                          key={sIndex}
-                                          className="my-1 transition duration-500
-                                                    border-b-2 border-transparent hover:border-white">
-                                          <a href={sSubItem?.route}>{sSubItem?.title}</a>
-                                          <br />
-                                        </div>
-                                      )
-                                    )
-                                    : null} */}
+                                   
                                 </div>
                               </div>
 
-                            ))}
-                            {/* {item?.children
-                              ? Object.values(item?.children)?.map(
-                                  (subItem: any, index: number) => (
-                                    <div
-                                      key={index}
-                                      className="m-3 text-white font-[600] tracking-wide mx-auto">
-                                      <div
-                                        className="transition duration-500
-                                          border-b-2 border-transparent hover:border-white">
-                                        <a href={subItem?.route}>{subItem?.title?.toUpperCase()}</a>
-                                      </div>
-                                      <div className="text-base font-extralight tracking-wide">
-                                        {subItem?.children
-                                          ? Object.values(subItem?.children)?.map(
-                                              (sSubItem: any, sIndex: number) => (
-                                                <div
-                                                  key={sIndex}
-                                                  className="my-1 transition duration-500
-                                                    border-b-2 border-transparent hover:border-white">
-                                                  <a href={sSubItem?.route}>{sSubItem?.title}</a>
-                                                  <br />
-                                                </div>
-                                              )
-                                            )
-                                          : null}
-                                      </div>
-                                    </div>
-                                  )
-                                )
-                              : null} */}
+                            ))} 
                           </div>
                         </div>
                       </li>
                     ))}
                   </ul>
                 </nav>
-              </div>
+              </div> 
             </div>
           </div>
         </div>
