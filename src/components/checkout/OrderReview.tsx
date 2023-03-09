@@ -1,12 +1,17 @@
+import useCheckout from '@hooks/useCheckout';
 import { ExProduct } from '@types';
 import { formatCurrency } from '@utils/formatNumber';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-const OrderReview = () => {
+type OrderReviewProps = {
+  onOderClicked?: () => void; 
+}; 
+
+const OrderReview: React.FC<OrderReviewProps> = ({onOderClicked}) => {
   const [state, setState] = useState({
-    carte: true,
-    paypal: false,
+    carte: false,
+    paypal: true,
   });
   const { carte, paypal } = state;
   const products = useSelector(
@@ -16,7 +21,7 @@ const OrderReview = () => {
     (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.product.price || '0'),
     0
   );
-  // console.log(products);
+ 
 
   return (
     <div className="bg-[#FBFBFB]">
@@ -26,7 +31,7 @@ const OrderReview = () => {
           <div className="border border-black">Produit</div>
           <div className="border border-black">Sous-total</div>
         </div>
-        {products?.map((item: ExProduct, index:number) => (
+        {products?.map((item: ExProduct, index: number) => (
           <div key={index} className="grid grid-cols-2">
             <div className="border border-black">
               {item.product.name} x {item.quantity}
@@ -135,10 +140,11 @@ const OrderReview = () => {
             </span>
           </div>
           <div className=" grid mt-2 flex items-center">
-            <button className="h-[50px] rounded-md p-3 text-white hover:bg-black bg-[#603813] ">
+            <button onClick={onOderClicked}
+              className="h-[50px] rounded-md p-3 text-white hover:bg-black bg-[#603813] ">
               Commander
             </button>
-          </div> 
+          </div>
         </div>
       </div>
     </div>

@@ -127,14 +127,15 @@ const CartPopover: React.FC = () => {
                     <strong className="m-auto  text-[#603813] font-bold text-[20px]">
                       {`Sous-total: ${formatCurrency(String(totalMoney))} €`}
                     </strong>
-                  </div>
-                  <NextLink href={Routes.checkout.route}>
+                  </div> 
                     <button
-                      onClick={() => router.push('/checkout')}
+                      onClick={async () => {
+                        await router.replace('/checkout'); 
+                        await router.reload(); 
+                    }}
                       className="bg-[#61CE70] w-full p-3 rounded-[5px] mt-5">
                       Commander
-                    </button>
-                  </NextLink>
+                    </button> 
                 </div>
               ) : (
                 <div>No products in the cart</div>
