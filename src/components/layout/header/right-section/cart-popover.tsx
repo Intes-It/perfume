@@ -88,7 +88,7 @@ const CartPopover: React.FC = () => {
           <div
             onMouseEnter={() => setShowModal(true)}
             onMouseLeave={() => setShowModal(false)}
-            className="fixed right-[15px] top-[55px] z-50">
+            className="fixed right-[15px] top-[25px] z-50">
             <div className="mt-8 w-[330px] max-h-[700px] border shadow-md rounded-md bg-white p-4 py-5">
               <FontAwesomeIcon
                 icon={faX}
