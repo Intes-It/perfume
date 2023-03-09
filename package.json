@@ -29,6 +29,7 @@
     "lodash-es": "^4.17.21",
     "next": "^12.1.6",
     "next-compose-plugins": "^2.2.1",
+    "next-http-proxy-middleware": "^1.2.5",
     "next-themes": "^0.2.1",
     "next-translate": "^1.0.1",
     "nock": "^13.2.9",
