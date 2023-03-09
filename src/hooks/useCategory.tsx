@@ -1,13 +1,13 @@
-import { useQuery } from "react-query";
-import { api } from "@utils/apiRoute";
-import { GET } from "@utils/fetch";
+import { useQuery } from 'react-query';
+import { api } from '@utils/apiRoute';
+import { GET } from '@utils/fetch';
 
 export const useCategory = () => {
   async function getCategory() {
     const res = await GET(api.category);
     return res.data;
   }
-  const { data } = useQuery("get-category", getCategory);
+  const { data } = useQuery('get-category', getCategory);
   return {
     categories: data,
   };
@@ -18,8 +18,9 @@ export const useAllCategory = () => {
     const res = await GET(api.getAllCategory);
     return res.data;
   }
-  const { data } = useQuery("get-all-category", getAllCategory);
+  const { data } = useQuery('get-all-category', getAllCategory);
   return {
+    data: data,
     categories: data?.category,
     subCategories: data?.sub_category_serializer,
     subsubCategories: data?.sub_sub_category_serializer,

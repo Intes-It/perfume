@@ -20,6 +20,8 @@ import { useRouter } from 'next/router';
 import useUser from '@hooks/useUser';
 import { ExProduct } from '@types';
 import useCart from '@hooks/useCart';
+import { useAllCategory } from '@hooks/useCategory';
+import _ from 'lodash';
 
 const DescriptionTabs = [
   {
@@ -71,17 +73,33 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
   const { isAuthenticated } = useUser();
   const { addProductToCart, addExistProductToCart, cart } = useCart();
 
+  const { product } = useProductDetail({ id: productId });
+  const { products } = useBestSallingProducts();
+  const { data } = useAllCategory();
+
   const [state, setState] = useState({
     isShowImageModal: false,
     quantity: 1,
+    packagePrice: 0,
+    contenancePrice: 0,
+    packageName: undefined,
+    contenance: undefined,
+    color: undefined,
   });
 
   const router = useRouter();
 
-  const { isShowImageModal, quantity } = state;
+  const {
+    isShowImageModal,
+    quantity,
+    packagePrice,
+    packageName,
+    contenance,
+    contenancePrice,
+    color,
+  } = state;
 
-  const { product } = useProductDetail({ id: productId });
-  const { products } = useBestSallingProducts();
+  console.log(data);
 
   const totalMoney = localCart?.reduce(
     (pre, curr) => pre + curr.quantity * Number.parseFloat(curr?.product?.price || '0'),
@@ -210,10 +228,107 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
               {formatCurrency(String(product?.price))} €
             </span>
           </div>
+          {/* color */}
+          <div className="my-3">
+            {_.isEmpty(product?.color) ? null : (
+              <span className="grid mb-4 text-[#603813] font-semibold">Color : {color} </span>
+            )}
+            <div className="mt-4 flex gap-3">
+              {product?.color
+                ? Object.values(product.color)?.map((item: any, index: number) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        const color = item?.name;
+                        setState((o) => ({
+                          ...o,
+                          color,
+                        }));
+                      }}
+                      style={{
+                        background: `${item.color}`
+                      }}
+                      className={`mb-3 border p-2 text-white border-black `}>
+                  {/* //  className={`mb-3 border p-2 text-white border-black bg-[#50d71e]`}>  */}
+                      {item?.name}
+                    </button>
+                  ))
+                : null}
+            </div>
+          </div>
           {/* sub product */}
           <div className="my-3">
-            <span className="text-[#603813] font-semibold">Contenance: 60 perles</span>
+            {_.isEmpty(product?.capacity) ? null : (
+              <span className="grid mb-4 text-[#603813] font-semibold">
+                Contenance : {contenance}{' '}
+              </span>
+            )}
+            <div className="mt-4 flex gap-3">
+              {product?.packaging
+                ? Object.values(product.capacity)?.map((item: any, index: number) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        const contenancePrice = parseFloat(item?.price);
+                        const contenance = item?.name;
+                        setState((o) => ({
+                          ...o,
+                          contenancePrice,
+                          contenance,
+                        }));
+                      }}
+                      className="mb-3 border p-2  border-black">
+                      {item?.name}
+                    </button>
+                  ))
+                : null}
+            </div>
           </div>
+          {/* packaging */}
+          <div>
+            <div className="mt-4 mb-3">
+              {_.isEmpty(product?.packaging) ? null : (
+                <span className="grid mb-4 text-[#603813] font-semibold">
+                  Packaging : {packageName}{' '}
+                </span>
+              )}
+              <div className="flex gap-3">
+                {product?.packaging
+                  ? Object.values(product.packaging)?.map((item: any, index: number) => (
+                      <button
+                        key={index}
+                        onClick={() => {
+                          const packagePrice = parseFloat(item?.price);
+                          const packageName = item?.name;
+                          setState((o) => ({
+                            ...o,
+                            packagePrice,
+                            packageName,
+                          }));
+                        }}
+                        className="mb-3 border p-2  border-black">
+                        {item?.name}
+                      </button>
+                    ))
+                  : null}
+              </div>
+            </div>
+          </div>
+          {_.isEmpty(product?.packaging) ? null : (
+            <span className="mb-4 text-[#383e42] text-[24px] font-semibold">
+              {packagePrice === 0
+                ? formatCurrency(String(product?.price))
+                : formatCurrency(
+                    String(
+                      parseFloat(String(packagePrice)) +
+                        parseFloat(String(product?.price)) +
+                        parseFloat(String(contenancePrice))
+                    )
+                  )}{' '}
+              €{' '}
+            </span>
+          )}
+
           {/* add product to cart */}
           <div className="flex items-center gap-3">
             <input

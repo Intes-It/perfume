@@ -3,23 +3,38 @@ import Register from '@components/register';
 import Login from '@components/login';
 import useUser from '@hooks/useUser';
 import Profile from '@components/profile';
+import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWindowMaximize } from '@fortawesome/free-solid-svg-icons';
 
 const MyAccount = () => {
   const { user, loginAccount, registerAccount, isAuthenticated } = useUser();
+
+  const [error, setError] = useState(false);
 
   const onLogin = async (data: any) => {
     const res = await loginAccount(data);
     if (res?.status === 200) {
       window.location.reload();
+    } else {
+      setError(true);
     }
   };
 
   const onRegister = async (data: any) => {
-     await registerAccount(data);
+    await registerAccount(data);
   };
 
   return (
     <Container>
+      {error ? (
+        <div className="mt-4 border-t-[3px] border-[#ed2805] bg-[#F7F6F7] p-5">
+          <FontAwesomeIcon icon={faWindowMaximize} className="mr-3" fontSize={'1.2rem'} />
+          <span>Something Wrong</span>
+        </div>
+      ) : (
+        <></>
+      )}
       {isAuthenticated ? (
         <div>
           <Profile />
