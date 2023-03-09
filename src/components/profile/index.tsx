@@ -13,7 +13,7 @@ const Tabs = [
   {
     id: 'profile-tab',
     header: 'Tableau de bord',
-    href: '#profile--tab',
+    href: '#profile-tab',
   },
   {
     id: 'orders-tab',
@@ -76,8 +76,8 @@ const Profile = () => {
                     item?.header === 'Déconnexion'
                       ? () => logOut()
                       : () => {
-                          return;
-                        }
+                        return;
+                      }
                   }
                   className="my-[1px] min-w-[100px] block border-x-0 font-semibold rounded-md border-t-0 border-b-2 border-transparent px-7 pt-4 pb-3.5 text-sm  uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent bg-white hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:bg-[#603813] data-[te-nav-active]:text-white ">
                   {item?.header}
@@ -87,11 +87,11 @@ const Profile = () => {
           </ul>
           <div className="my-2 w-full col-span-5 mb-10">
             <div
-              className="hidden opacity-0  transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+              className="hidden opacity-0 opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
               id="profile-tab"
               role="tabpanel"
               data-te-tab-active
-              >
+            >
               <UserProfile />
             </div>
             <div
@@ -110,7 +110,7 @@ const Profile = () => {
               className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
               id="adress-tab"
               role="tabpanel">
-              <Adress/>
+              <Adress />
             </div>
             <div
               className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
@@ -122,7 +122,7 @@ const Profile = () => {
               className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
               id="detail-tab"
               role="tabpanel">
-              <Detail/>
+              <Detail />
             </div>
             <div
               className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"

@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useCart from '@hooks/useCart';
 import useCheckout from '@hooks/useCheckout';
 import _ from 'lodash';
+import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 
 const StepTabs = [
@@ -29,6 +30,7 @@ const StepTabs = [
 ];
 
 const Checkout: React.FC = () => {
+  const router = useRouter();
   const { cart } = useCart();
   const { processBilling, processShipping, processYourOrder } = useCheckout();
   const [state, setState] = useState(
@@ -101,6 +103,7 @@ const Checkout: React.FC = () => {
   const handleOder = async () => {
     const res = await processYourOrder({ order_id: cart?.data?.cart?.id || null}); 
     console.log('process youroder: %o', res)
+    //router.push('https://www.paypal.com/webapps/shoppingcart/error?flowlogging_id=f68581135407d&code=400')
   }
 
   return (

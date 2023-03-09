@@ -271,9 +271,10 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
         </ul>
         <div className="my-2 w-full">
           <div
-            className="hidden opacity-0 opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+            className="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
             id="tab-descriptions"
-            role="tabpanel">
+            role="tabpanel"
+            data-te-tab-active>
             <span className="text-[#603813] whitespace-pre-line">
               {Parser(product?.note?.Description || '')}
             </span>
@@ -296,12 +297,7 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
             role="tabpanel">
             {Parser(product?.note?.Composition || '')}
           </div>
-          <div
-            className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
-            id="tab-reviews"
-            role="tabpanel">
-            Tab 5 content
-          </div>
+
         </div>
       </div>
 
