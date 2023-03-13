@@ -80,7 +80,7 @@ const ProductItem: React.FC<ProductProps> = ({
       // console.log('res:%o', res)
       if (res?.status === 201 || res?.status === 200 )
       { 
-        dispatch(addProduct({ product, quantity: 1, orderId: res?.data?.data?.id }));
+        dispatch(addProduct({ product, quantity: 1, orderId: res?.data?.data?.id, price: product?.price, }));
       }
     }
     else

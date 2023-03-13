@@ -99,8 +99,6 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
     color,
   } = state;
 
-  console.log(data);
-
   const totalMoney = localCart?.reduce(
     (pre, curr) => pre + curr.quantity * Number.parseFloat(curr?.product?.price || '0'),
     0
@@ -138,16 +136,30 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
     setState((pre) => ({ ...pre, isShowImageModal: isOpen }));
   };
 
+  const sumChoice =
+    parseFloat(String(packagePrice)) +
+    parseFloat(String(product?.price)) +
+    parseFloat(String(contenancePrice));
+
   const handleAddProduct = async () => {
     if (isAuthenticated) {
       //check exist product
-      const existProduct = localCart?.find((item: any) => item?.product?.id === product?.id);
+      const existProduct = localCart?.find(
+        (item: any) =>
+          item?.product?.id === product?.id &&
+          item?.packageName === packageName &&
+          item?.color === color &&
+          item?.capacity === contenance
+      );
       let res;
       if (existProduct) {
         const data = {
           order_item_id: existProduct?.orderId,
           order_id: cart?.data?.cart?.id || null,
           amount: quantity,
+          packaging: packageName === undefined ? null : packageName,
+          color: color === undefined ? null : color,
+          capacity: contenance === undefined ? null : contenance,
           total_amount: totalProducts + quantity,
           total_price:
             Number.parseFloat(existProduct?.product?.price || '0') * quantity + totalMoney,
@@ -158,22 +170,32 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
           order_id: cart?.data?.cart?.id || null,
           product_id: product?.id,
           amount: quantity,
+          packaging: packageName === undefined ? null : packageName,
+          color: color === undefined ? null : color,
+          capacity: contenance === undefined ? null : contenance,
           total_amount_cart: totalProducts + quantity,
-          price: product?.price,
-          total_price_item: Number.parseFloat(product?.price || '0') * quantity,
+          price: sumChoice,
+          total_price_item: sumChoice || 0 * quantity,
           total_price_cart: Number.parseFloat(product?.price || '0') * quantity + totalMoney,
         };
         res = await addProductToCart(data);
       }
-      console.log('res:%o', res);
       if (res?.status === 201 || res?.status === 200) {
-        dispatch(addProduct({ product, quantity, orderId: res?.data?.data?.id }));
+        dispatch(
+          addProduct({
+            product,
+            quantity,
+            orderId: res?.data?.data?.id,
+            packageName: packageName,
+            color: color,
+            capacity: contenance,
+            price: sumChoice,
+          })
+        );
       }
     } else {
       dispatch(addProduct({ product, quantity }));
     }
-    // dispatch(addProduct({ product, quantity }));
-    // console.log(quantity);
   };
 
   return (
@@ -246,10 +268,10 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
                         }));
                       }}
                       style={{
-                        background: `${item.color}`
+                        background: `${item.color}`,
                       }}
                       className={`mb-3 border p-2 text-white border-black `}>
-                  {/* //  className={`mb-3 border p-2 text-white border-black bg-[#50d71e]`}>  */}
+                      {/* //  className={`mb-3 border p-2 text-white border-black bg-[#50d71e]`}>  */}
                       {item?.name}
                     </button>
                   ))
@@ -412,7 +434,6 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
             role="tabpanel">
             {Parser(product?.note?.Composition || '')}
           </div>
-
         </div>
       </div>
 
