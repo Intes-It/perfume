@@ -15,7 +15,6 @@ import useCart from '@hooks/useCart';
 import { updateFullCart } from '@redux/slices/cart';
 import useUser from '@hooks/useUser';
 
-
 const CartPopover: React.FC = () => {
   const router = useRouter();
   const { cart, removeProductToCart } = useCart();
@@ -27,7 +26,7 @@ const CartPopover: React.FC = () => {
   const dispatch = useDispatch();
   const totalProducts = products?.reduce((pre, curr) => pre + curr.quantity, 0);
   const totalMoney = products?.reduce(
-    (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.product.price || '0'),
+    (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.price || '0'),
     0
   );
 
@@ -38,29 +37,30 @@ const CartPopover: React.FC = () => {
   const handleRemoveProduct = async (exProduct: ExProduct) => {
     if (isAuthenticated) {
       const totalPrice = exProduct.quantity * Number.parseFloat(exProduct.product.price || '0');
-      const res = await removeProductToCart({ 
-        order_item_id: exProduct.orderId, 
-        total_amount: totalProducts - exProduct.quantity, 
-        total_price: totalMoney - totalPrice 
-      })
-      if (res.status === 200)
-        dispatch(removeProduct(exProduct));
+      const res = await removeProductToCart({
+        order_item_id: exProduct.orderId,
+        total_amount: totalProducts - exProduct.quantity,
+        total_price: totalMoney - totalPrice,
+      });
+      if (res.status === 200) dispatch(removeProduct(exProduct));
       // console.log(quantity)
-    }
-    else
-      dispatch(removeProduct(exProduct));
+    } else dispatch(removeProduct(exProduct));
   };
 
-  React.useEffect(() => { 
-    if (cart?.status === 200) { 
-      const orderItem = cart?.data?.order_item?.map((item: any) => ({ ...item, quantity: item?.amount, orderId: item?.id }));
+  React.useEffect(() => {
+    if (cart?.status === 200) {
+      const orderItem = cart?.data?.order_item?.map((item: any) => ({
+        ...item,
+        quantity: item?.amount,
+        orderId: item?.id,
+        packageName: item?.packaging,
+      }));
       if (orderItem) {
-        //update to localstorage 
+        //update to localstorage
         dispatch(updateFullCart(orderItem));
       }
     }
-  }, [cart])
-
+  }, [cart]);
 
   return (
     <Fragment>
@@ -101,7 +101,7 @@ const CartPopover: React.FC = () => {
               {products ? (
                 <div>
                   <div className="overflow-y-auto max-h-[400px]">
-                    {products?.map((item: any, index:number) => (
+                    {products?.map((item: any, index: number) => (
                       <div key={index} className="grid grid-cols-9 border-b-[1px] p-4">
                         <img
                           className="col-span-2"
@@ -109,9 +109,26 @@ const CartPopover: React.FC = () => {
                           alt={item?.product?.name}
                         />
                         <div className="col-span-6 ml-6 flex-row">
-                          <div>{item?.product?.name}</div>
-                          <div className="text-gray-400 font-bold">{`${item?.quantity
-                            } x ${formatCurrency(String(item?.product?.price))} €`}</div>
+                          {/* {item?.packageName ? (
+                            <div>{item?.product?.name + '-' + item?.packageName}</div>
+                          ) : (
+                            <div>{item?.product?.name}</div>
+                          ) } */}
+                          {item?.packageName && !item?.capacity ? (
+                            <div>{item?.product?.name + '-' + item?.packageName}</div>
+                          ) : item?.color ? (
+                            <div>{item?.product?.name + '-' + item?.color}</div>
+                          ) :  item?.capacity ? (
+                            <div>
+                              {item?.product?.name + '-' + item?.capacity + ', ' + item?.packageName}
+                            </div>
+                          ) : (
+                            <div>{item?.product?.name}</div>
+                          )}
+
+                          <div className="text-gray-400 font-bold">{`${
+                            item?.quantity
+                          } x ${formatCurrency(String(item?.price))} €`}</div>
                         </div>
                         <FontAwesomeIcon
                           icon={faXmarkCircle}
@@ -127,15 +144,15 @@ const CartPopover: React.FC = () => {
                     <strong className="m-auto  text-[#603813] font-bold text-[20px]">
                       {`Sous-total: ${formatCurrency(String(totalMoney))} €`}
                     </strong>
-                  </div> 
-                    <button
-                      onClick={async () => {
-                        await router.replace('/checkout'); 
-                        await router.reload(); 
+                  </div>
+                  <button
+                    onClick={async () => {
+                      await router.replace('/checkout');
+                      await router.reload();
                     }}
-                      className="bg-[#61CE70] w-full p-3 rounded-[5px] mt-5">
-                      Commander
-                    </button> 
+                    className="bg-[#61CE70] w-full p-3 rounded-[5px] mt-5">
+                    Commander
+                  </button>
                 </div>
               ) : (
                 <div>No products in the cart</div>

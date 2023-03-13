@@ -14,13 +14,17 @@ export interface Product {
   check?: boolean;
   name?: string;
   evaluate?: number | undefined;
-  url_image? : string | undefined
+  url_image?: string | undefined;
 }
 
 export interface ExProduct {
   orderId: number;
   product: Product;
   quantity: number;
+  packageName?: string;
+  price?: any;
+  color?: any;
+  capacity?: any;
 }
 
 export interface MemberComment {
