@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { api } from '@utils/apiRoute';
 import { GET } from '@utils/fetch';
 import { useEffect,useRef } from 'react';
-
+import {useQuery}from 'react-query'
 const Success: React.FC = () => {
   // const successRef=useRef(false)
   // useEffect(() => {
