@@ -3,14 +3,24 @@ import { faCancel, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { api } from '@utils/apiRoute';
 import { GET } from '@utils/fetch';
-import { useEffect } from 'react';
+import { useEffect,useRef } from 'react';
 
 const Success: React.FC = () => {
-  useEffect(() => {
-    GET(api.successOrder).then((res) => {
-      console.log(res);
-    });
-  }, []);
+  // const successRef=useRef(false)
+  // useEffect(() => {
+  //   if(successRef.current===true){
+  //   GET(api.successOrder).then((res) => {
+  //     console.log(res);
+  //   });
+  //   }
+  //   return ()=>successRef.current=false
+  // }, []);
+  async function getSuccess(){
+    await GET(api.successOrder)
+  }
+  const {data}=useQuery('get-success',getSuccess,{
+    refetchOmount:true
+  })
   return (
     <Container>
       <div className="mx-auto p-5  grid ">
