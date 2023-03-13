@@ -7,19 +7,26 @@ import { POST } from '@utils/fetch';
 import { api } from '@utils/apiRoute';
 import useUser from '@hooks/useUser';
 import _ from 'lodash';
-
+interface loginData{
+  email:string,
+  user_name:string,
+  password:string
+}
 type LoginProps = {
-  submit: (value: any) => void;
+  submit: (value: loginData) => void;
+  checkEmpty?:boolean
 };
 
-const Login: React.FC<LoginProps> = ({ submit }) => {
+const Login: React.FC<LoginProps> = ({ submit,checkEmpty }) => {
   const { register, handleSubmit } = useForm();
   const [state, setState] = React.useState({
-    captchaCode: ''
+    captchaCode: '',
+   
   });
   const {captchaCode} = state;
   
   return (
+    <>
     <form
       onSubmit={handleSubmit(submit)}
       className="flex flex-col space-y-5 border rounded-md p-6 text-[14.4px] font-semibold text-[#603813]">
@@ -71,6 +78,7 @@ const Login: React.FC<LoginProps> = ({ submit }) => {
         <a className="text-base  text-brow-300">Mot de passe perdu ?</a>
       </Link>
     </form>
+    </>
   );
 };
 
