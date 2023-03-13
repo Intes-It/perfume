@@ -4,23 +4,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { api } from '@utils/apiRoute';
 import { GET } from '@utils/fetch';
 import { useEffect,useRef } from 'react';
-import {useQuery}from 'react-query'
+
 const Success: React.FC = () => {
-  // const successRef=useRef(false)
-  // useEffect(() => {
-  //   if(successRef.current===true){
-  //   GET(api.successOrder).then((res) => {
-  //     console.log(res);
-  //   });
-  //   }
-  //   return ()=>successRef.current=false
-  // }, []);
-  async function getSuccess(){
-    await GET(api.successOrder)
-  }
-  const {data}=useQuery('get-success',getSuccess,{
-    refetchOmount:true
-  })
+  
+  useEffect(() => {
+ 
+    GET(api.successOrder)
+  
+  }, []);
+  // async function getSuccess(){
+  //   await GET(api.successOrder)
+  // }
+  // const {data}=useQuery('get-success',getSuccess,{
+  //   refetchOmount:true
+  // })
   return (
     <Container>
       <div className="mx-auto p-5  grid ">
