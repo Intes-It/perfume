@@ -10,27 +10,57 @@ import { faWindowMaximize } from '@fortawesome/free-solid-svg-icons';
 const MyAccount = () => {
   const { user, loginAccount, registerAccount, isAuthenticated } = useUser();
 
-  const [error, setError] = useState(false);
+  const [state, setState] = useState({
+    error: false,
+    message: '',
+    color: '',
+  });
+
+  const { error, message, color } = state;
 
   const onLogin = async (data: any) => {
     const res = await loginAccount(data);
     if (res?.status === 200) {
       window.location.reload();
     } else {
-      setError(true);
+      setState((o) => ({
+        ...o,
+        error: true,
+        message: "Quelque chose s'est mal passé",
+      }));
     }
   };
 
   const onRegister = async (data: any) => {
-    await registerAccount(data);
+    const res = await registerAccount(data);
+    if (res?.status === 200) {
+      setState((o) => ({
+        ...o,
+        error: true,
+        message: "L'enregistrement fut un succès",
+        color: '#06e318',
+      }));
+    } else {
+      console.log(res.status);
+      setState((o) => ({
+        ...o,
+        error: true,
+        message: "Quelque chose s'est mal passé",
+        color: '#ed2805',
+      }));
+    }
   };
 
   return (
     <Container>
       {error ? (
-        <div className="mt-4 border-t-[3px] border-[#ed2805] bg-[#F7F6F7] p-5">
+        <div
+          style={{
+            borderColor: `${color}`,
+          }}
+          className={`mt-4 border-t-[3px]  bg-[#f6f7f6] p-5`}>
           <FontAwesomeIcon icon={faWindowMaximize} className="mr-3" fontSize={'1.2rem'} />
-          <span>Something Wrong</span>
+          <span>{message}</span>
         </div>
       ) : (
         <></>
