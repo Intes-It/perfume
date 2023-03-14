@@ -105,7 +105,8 @@ const CartPopover: React.FC = () => {
                       <div key={index} className="grid grid-cols-9 border-b-[1px] p-4">
                         <img
                           className="col-span-2"
-                          src={(item?.product as any)?.url_image}
+                          // src={(item?.product as any)?.url_image}
+                          src={item?.image}
                           alt={item?.product?.name}
                         />
                         <div className="col-span-6 ml-6 flex-row">
@@ -118,9 +119,13 @@ const CartPopover: React.FC = () => {
                             <div>{item?.product?.name + '-' + item?.packageName}</div>
                           ) : item?.color ? (
                             <div>{item?.product?.name + '-' + item?.color}</div>
-                          ) :  item?.capacity ? (
+                          ) : item?.capacity ? (
                             <div>
-                              {item?.product?.name + '-' + item?.capacity + ', ' + item?.packageName}
+                              {item?.product?.name +
+                                '-' +
+                                item?.capacity +
+                                ', ' +
+                                item?.packageName}
                             </div>
                           ) : (
                             <div>{item?.product?.name}</div>

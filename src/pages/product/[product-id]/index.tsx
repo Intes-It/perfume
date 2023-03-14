@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import NextLink from 'next/link';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -76,7 +76,6 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
   const { product } = useProductDetail({ id: productId });
   const { products } = useBestSallingProducts();
   const { data } = useAllCategory();
-
   const [state, setState] = useState({
     isShowImageModal: false,
     quantity: 1,
@@ -85,6 +84,7 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
     packageName: undefined,
     contenance: undefined,
     color: undefined,
+    selectorImage: undefined,
   });
 
   const router = useRouter();
@@ -97,6 +97,7 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
     contenance,
     contenancePrice,
     color,
+    selectorImage,
   } = state;
 
   const totalMoney = localCart?.reduce(
@@ -131,6 +132,22 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
     }
     return res;
   }, [product]);
+
+  let images = [];
+  if (product?.packaging) {
+    images = Object?.values(product?.packaging)?.reduce(
+      (a: any[], item: any) => a.concat(item?.image || ''),
+      []
+    );
+  }
+  let namePackaging = [];
+  if (product?.packaging) {
+    namePackaging = Object?.values(product?.packaging)?.reduce(
+      (a: any[], item: any) => a.concat(item?.name || ''),
+      []
+    );
+  }
+  console.log(namePackaging);
 
   const setShowModal = (isOpen: boolean) => {
     setState((pre) => ({ ...pre, isShowImageModal: isOpen }));
@@ -173,6 +190,7 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
           packaging: packageName === undefined ? null : packageName,
           color: color === undefined ? null : color,
           capacity: contenance === undefined ? null : contenance,
+          image: selectorImage,
           total_amount_cart: totalProducts + quantity,
           price: sumChoice,
           total_price_item: sumChoice || 0 * quantity,
@@ -190,11 +208,22 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
             color: color,
             capacity: contenance,
             price: sumChoice,
+            image: selectorImage === undefined ? product?.url_image : selectorImage,
           })
         );
       }
     } else {
-      dispatch(addProduct({ product, quantity }));
+      dispatch(
+        addProduct({
+          product,
+          quantity,
+          packageName: packageName,
+          color: color,
+          capacity: contenance,
+          price: sumChoice,
+          image: selectorImage === undefined ? product?.url_image : selectorImage,
+        })
+      );
     }
   };
 
@@ -205,8 +234,8 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
         <div className="overflow-clip relative">
           <img
             className="hover:scale-125 transition duration-100 w-full object-cover"
-            // src={`${server_link}${product?.image}`}
-            src={product?.url_image}
+            // src={product?.url_image}
+            src={selectorImage === undefined ? product?.url_image : selectorImage}
             alt={product?.name}
           />
           <button className="absolute right-0 top-0 bg-white rounded-full w-[2.2rem] h-[2.2rem]">
@@ -282,7 +311,7 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
           <div className="my-3">
             {_.isEmpty(product?.capacity) ? null : (
               <span className="grid mb-4 text-[#603813] font-semibold">
-                Contenance : {contenance}{' '}
+                Contenance : {contenance === undefined ? '30 perles' : contenance}
               </span>
             )}
             <div className="mt-4 flex gap-3">
@@ -293,6 +322,8 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
                       onClick={() => {
                         const contenancePrice = parseFloat(item?.price);
                         const contenance = item?.name;
+                        console.log(contenancePrice);
+                        console.log(sumChoice);
                         setState((o) => ({
                           ...o,
                           contenancePrice,
@@ -311,7 +342,7 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
             <div className="mt-4 mb-3">
               {_.isEmpty(product?.packaging) ? null : (
                 <span className="grid mb-4 text-[#603813] font-semibold">
-                  Packaging : {packageName}{' '}
+                  Packaging : {packageName === undefined ? namePackaging[0] : packageName}
                 </span>
               )}
               <div className="flex gap-3">
@@ -322,10 +353,13 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
                         onClick={() => {
                           const packagePrice = parseFloat(item?.price);
                           const packageName = item?.name;
+                          const selectorImage = item?.image;
+                          console.log(selectorImage);
                           setState((o) => ({
                             ...o,
                             packagePrice,
                             packageName,
+                            selectorImage,
                           }));
                         }}
                         className="mb-3 border p-2  border-black">
@@ -342,9 +376,9 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
                 ? formatCurrency(String(product?.price))
                 : formatCurrency(
                     String(
-                      parseFloat(String(packagePrice)) +
-                        parseFloat(String(product?.price)) +
-                        parseFloat(String(contenancePrice))
+                      parseFloat(String(contenancePrice)) +
+                        parseFloat(String(packagePrice)) +
+                        parseFloat(String(product?.price))
                     )
                   )}{' '}
               €{' '}

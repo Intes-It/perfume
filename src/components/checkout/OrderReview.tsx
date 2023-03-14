@@ -18,7 +18,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({onOderClicked}) => {
     (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
   const totalMoney = products?.reduce(
-    (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.product.price || '0'),
+    (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.price || '0'),
     0
   );
  
@@ -37,7 +37,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({onOderClicked}) => {
               {item.product.name} x {item.quantity}
             </div>
             <div className="border border-black">
-              {formatCurrency(String(item.product.price))} €
+              {formatCurrency(String(item.price))} €
             </div>
           </div>
         ))}
