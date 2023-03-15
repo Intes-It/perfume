@@ -29,10 +29,10 @@ const Register:React.FC<RegisterProps> = ({submit}) => {
             Identifiant <span className="text-red-500 text-[20px] ">*</span>
           </label>
           <input
-            {...register('user_name')}
+            {...register('name')}
             required
             type="text"
-            id="user_name"
+            id="name"
             className="px-4 py-3 border border-gray-300 text-black"
           />
         </div>
