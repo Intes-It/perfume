@@ -72,6 +72,7 @@ const ProductItem: React.FC<ProductProps> = ({
           amount: 1,
           total_amount_cart: totalProducts + 1,
           price: product?.price,
+          image: product?.url_image,
           total_price_item: Number.parseFloat(product?.price || '0'),
           total_price_cart: Number.parseFloat(product?.price || '0') + totalMoney,
         }
@@ -80,11 +81,11 @@ const ProductItem: React.FC<ProductProps> = ({
       // console.log('res:%o', res)
       if (res?.status === 201 || res?.status === 200 )
       { 
-        dispatch(addProduct({ product, quantity: 1, orderId: res?.data?.data?.id, price: product?.price, }));
+        dispatch(addProduct({ product, quantity: 1, orderId: res?.data?.data?.id, price: product?.price,image: product?.url_image }));
       }
     }
     else
-      dispatch(addProduct({ product, quantity: 1 }));
+      dispatch(addProduct({ product, quantity: 1,image: product?.url_image }));
   };
 
   return (
