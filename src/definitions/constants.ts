@@ -39,7 +39,7 @@ export const Routes = {
     cosmetics: { 
       id: 6,
       title: "Cosmétiques",
-      route: "/product-categories/cosmetics",
+      route: "/product-categories/cosmetiques",
       image:
         "http://naturefeerique.fr/wp-content/uploads/2022/03/Photo-Categorie-cosmetiques-1-scaled-2.webp",
       children: {
@@ -86,7 +86,7 @@ export const Routes = {
     accessories: {
       id: 5,
       title: "Accessoires",
-      route: "/product-categories/accessories",
+      route: "/product-categories/accessoires",
       image:
         "http://naturefeerique.fr/wp-content/uploads/2022/03/Photo-categorie-Accessoires-scaled-1.jpg",
       children: {
@@ -127,7 +127,7 @@ export const Routes = {
     limitedEdition: {
       id: 4,
       title: "Édition Limitée",
-      route: "/product-categories/limited-edition",
+      route: "/product-categories/edition-limitee",
       image:
         "https://mldn3w3pos1n.i.optimole.com/cb:453S~5a2d9/w:auto/h:auto/q:mauto/id:bc473c5bdb3bd5a52d20679306c31fd7/https://naturefeerique.fr/Presentation-Gamme-Amour1-scaled.jpg",
       children: {
