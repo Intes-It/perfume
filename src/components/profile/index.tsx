@@ -55,7 +55,7 @@ const Profile = () => {
     });
   };
   return (
-    <Container>
+    <div>
       <div className="m-5">
         <div className="grid grid-cols-7 items-start ">
           <ul
@@ -131,8 +131,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <Footer />
-    </Container>
+    </div>
   );
 };
 
