@@ -1,5 +1,5 @@
 import { faEyeSlash } from '@fortawesome/free-regular-svg-icons';
-import { faEye, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faHeart, faWindowMaximize } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useUser from '@hooks/useUser';
 import { POST, PUT } from '@utils/fetch';
@@ -11,7 +11,7 @@ const Detail = () => {
   const [showOldPass, setShowOldPass] = useState(false);
   const [showNewPass, setShowNewPass] = useState(false);
   const [showConfPass, setShowConfPass] = useState(false);
-  const [error, setError] = useState(false);
+  const [errorPass, setErrorPass] = useState(false);
   // const formSchema = yup.object().shape({
   //   confirm_password: yup
   //     .string()
@@ -19,7 +19,13 @@ const Detail = () => {
   //     .min(8, 'employee.profile.changePass.error2')
   //     .required('employee.profile.changePass.error1'),
   // });
+  const [state, setState] = useState({
+    message: '',
+    color: '',
+    error:false
+  });
 
+  const { message, color,error } = state;
   const { user } = useUser();
   const formik = useFormik({
     initialValues: {
@@ -29,7 +35,7 @@ const Detail = () => {
       email: '',
       password: '',
       new_password: undefined,
-      confirm_password: '',
+      confirm_password: undefined,
     },
     // validationSchema: formSchema,
     onSubmit: (value) => {
@@ -44,17 +50,44 @@ const Detail = () => {
         else {
           data = { first_name: value.first_name, last_name: value.last_name };
         }
-        PUT('/api/user/profile', data).then((res) => console.log(res));
-        setError(false);
-        console.log('can');
+        PUT('/api/user/profile', data).then((res) => {
+          if (res?.status === 200) {
+            setState((o) => ({
+              ...o,
+              error: true,
+              message: 'Mise à jour réussie',
+              color: '#06e318',
+            }));
+          } else {
+            console.log(res.status);
+            setState((o) => ({
+              ...o,
+              error: true,
+              message: "Quelque chose s'est mal passé",
+              color: '#ed2805',
+            }));
+          }
+        });
+        setErrorPass(false);
       } else {
-        setError(true);
-        console.log('cant');
+        setErrorPass(true);
       }
     },
   });
   return (
     <div>
+      {error ? (
+        <div
+          style={{
+            borderColor: `${color}`,
+          }}
+          className={`mt-4 border-t-[3px]  bg-[#f6f7f6] p-5`}>
+          <FontAwesomeIcon icon={faWindowMaximize} className="mr-3" fontSize={'1.2rem'} />
+          <span>{message}</span>
+        </div>
+      ) : (
+        <div></div>
+      )}
       <form onSubmit={formik.handleSubmit}>
         <div className="grid gap-3">
           <div className="grid grid-cols-2">
@@ -165,7 +198,7 @@ const Detail = () => {
                 id="confirm_password"
                 onChange={formik.handleChange}
                 className={`px-4 py-3 mt-4 border ${
-                  error ? 'border-red-700' : 'border-gray-300'
+                  errorPass ? 'border-red-700' : 'border-gray-300'
                 } text-black`}
               />
             </div>
