@@ -103,13 +103,15 @@ console.log(products);
                 <div>
                   <div className="overflow-y-auto max-h-[400px]">
                     {products?.map((item: any, index: number) => (
-                      <div key={index} className="grid grid-cols-9 border-b-[1px] p-4">
-                        <img
-                          className="col-span-2"
-                          // src={(item?.product as any)?.url_image}
-                          src={item?.image}
-                          alt={item?.product?.name}
-                        />
+                      <div key={index} className="grid grid-cols-9 border-b-[1px] p-4 ">
+                        <NextLink href={`/product/${item?.id}`}>
+                          <img
+                            className="col-span-2 cursor-pointer"
+                            // src={(item?.product as any)?.url_image}
+                            src={item?.image}
+                            alt={item?.product?.name}
+                          />
+                        </NextLink>
                         <div className="col-span-6 ml-6 flex-row">
                           {/* {item?.packageName ? (
                             <div>{item?.product?.name + '-' + item?.packageName}</div>
