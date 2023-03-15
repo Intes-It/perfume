@@ -4,34 +4,37 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
 import NextLink from 'next/link';
 import Parser from 'html-react-parser';
+import { useFormik } from 'formik';
 
 const index = () => {
   const router = useRouter();
-  const [searchValue, setsearchValue] = useState(router.query['result']);
+  const [searchValue, setSearchValue] = useState<any>();
   const { data } = useAllCategory();
+  const formik = useFormik({
+    initialValues: {
+      searchValue: '',
+    },
+    onSubmit: (value) => {
+      console.log(value);
+      router.replace({ query: { result: value.searchValue } });
+    },
+  });
 
-  const filterProduct = useMemo(() => {
-    console.log('render');
+  const res = useMemo(() => {
+    const query = router.query['result'];
+    setSearchValue(query);
     return data?.product?.filter((item: any) =>
       item?.name?.toLowerCase().includes(String(searchValue)?.toLowerCase())
     );
-  }, [router.query]);
+  }, [router.query, data, searchValue]);
 
-  const search = () => {
-    console.log(searchValue);
-    router.push({
-      pathname: '/search',
-      query: {
-        result: searchValue,
-      },
-    });
-  };
+
 
   return (
     <Container>
-      {filterProduct?.length !== 0 ? (
+      {res?.length !== 0 ? (
         <div className="">
-          {filterProduct?.map((item: any, index: number) => (
+          {res?.map((item: any, index: number) => (
             <div
               key={index}
               className="mx-auto relative flex flex-col  w-3/6 text-[16px] mb-2 bg-white">
@@ -68,16 +71,21 @@ const index = () => {
             Désolé, mais rien ne correspond à vos termes de recherche. Veuillez réessayer avec des
             mots clés différents.
           </div>
-          <div className="mt-5 ">
-            <input
-              onChange={(e) => setsearchValue(e.target.value)}
-              placeholder="Resercher"
-              className="w-[200px]  p-2 rounded-md border  border-black"
-            />
-            <button onClick={search} className="w-[100px]  p-2 rounded-md border  border-black">
-              Resercher
-            </button>
-          </div>
+          <form onSubmit={formik.handleSubmit}>
+            <div className="mt-5 flex gap-3 ">
+              <input
+                id="searchValue"
+                onChange={formik.handleChange}
+                placeholder="Resercher"
+                className="w-[200px]  p-2 rounded-md border  border-black"
+              />
+              <button
+                type='submit'
+                className="w-[100px]  p-2 rounded-md border  border-black">
+                Resercher
+              </button>
+            </div>
+          </form>
         </div>
       )}
     </Container>
