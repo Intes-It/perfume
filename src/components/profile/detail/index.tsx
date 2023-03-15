@@ -1,40 +1,56 @@
+import { faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import { faEye, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useUser from '@hooks/useUser';
 import { POST, PUT } from '@utils/fetch';
 import { useFormik } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
 import * as yup from 'yup';
 
 const Detail = () => {
-  const formSchema = yup.object().shape({
-    password: yup.string().required(),
-    new_password: yup.string().required(),
-    confirm_password: yup
-      .string()
-      .oneOf([yup.ref('new_password')])
-      .min(8, 'employee.profile.changePass.error2')
-      .required('employee.profile.changePass.error1'),
-  });
+  const [showOldPass, setShowOldPass] = useState(false);
+  const [showNewPass, setShowNewPass] = useState(false);
+  const [showConfPass, setShowConfPass] = useState(false);
+  const [error, setError] = useState(false);
+  // const formSchema = yup.object().shape({
+  //   confirm_password: yup
+  //     .string()
+  //     .oneOf([yup.ref('new_password')])
+  //     .min(8, 'employee.profile.changePass.error2')
+  //     .required('employee.profile.changePass.error1'),
+  // });
 
   const { user } = useUser();
   const formik = useFormik({
     initialValues: {
-      first_name: '',
-      last_name: '',
+      first_name: user?.first_name,
+      last_name: user?.last_name,
       name: '',
       email: '',
       password: '',
-      new_password: '',
+      new_password: undefined,
       confirm_password: '',
     },
     // validationSchema: formSchema,
     onSubmit: (value) => {
-      const data = {
-        first_name: value.first_name,
-        last_name: value.last_name,
-        new_password: value.new_password,
-      };
-      PUT('/api/user/profile', data).then((res) => console.log(res));
-      console.log(value);
+      if (value.new_password === value.confirm_password) {
+        let data;
+        if (value.new_password)
+          data = {
+            first_name: value.first_name,
+            last_name: value.last_name,
+            new_password: value.new_password,
+          };
+        else {
+          data = { first_name: value.first_name, last_name: value.last_name };
+        }
+        PUT('/api/user/profile', data).then((res) => console.log(res));
+        setError(false);
+        console.log('can');
+      } else {
+        setError(true);
+        console.log('cant');
+      }
     },
   });
   return (
@@ -49,6 +65,7 @@ const Detail = () => {
               <input
                 type="text"
                 id="first_name"
+                defaultValue={user?.first_name}
                 onChange={formik.handleChange}
                 className={`px-4 py-3 border  text-black`}
               />
@@ -60,6 +77,7 @@ const Detail = () => {
               <input
                 type="text"
                 id="last_name"
+                defaultValue={user?.last_name}
                 onChange={formik.handleChange}
                 className={`px-4 py-3 border  text-black`}
               />
@@ -70,10 +88,10 @@ const Detail = () => {
               Nom affiché <span className="text-red-500 text-[20px] ">*</span>
             </label>
             <input
-              {...formik.getFieldProps('name')}
-              value={user?.name}
+              defaultValue={user?.name}
               type="text"
               id="name"
+              readOnly
               onChange={formik.handleChange}
               className="px-4 py-3 border border-gray-300 text-black"
             />
@@ -83,48 +101,74 @@ const Detail = () => {
               E-mail <span className="text-red-500 text-[20px] ">*</span>
             </label>
             <input
-              {...formik.getFieldProps('email')}
               type="text"
-              value={user?.email}
+              readOnly
+              defaultValue={user?.email}
               id="email"
               onChange={formik.handleChange}
               className="px-4 py-3 border border-gray-300 text-black"
             />
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col ">
             <label className="font-semibold">
               Mot de passe actuel (laisser vide pour le conserver)
             </label>
-            <input
-              {...formik.getFieldProps('password')}
-              type="text"
-              id="password"
-              onChange={formik.handleChange}
-              className="px-4 py-3 border  border-gray-300 text-black"
-              // className={`px-4 py-3 border ${errors.last_name ? 'border-red-700' : 'border-gray-300'} text-black`}
-            />
+            <div className="relative grid  items-center">
+              <FontAwesomeIcon
+                className="absolute right-0 mr-2  "
+                icon={showOldPass ? faEye : faEyeSlash}
+                onClick={() => {
+                  setShowOldPass(!showOldPass);
+                }}
+              />
+              {/* <FontAwesomeIcon icon={faEyeSlash}/> */}
+              <input
+                type={showOldPass ? 'text' : 'password'}
+                id="password"
+                onChange={formik.handleChange}
+                className="px-4 py-3 border border-gray-300 text-black"
+              />
+            </div>
           </div>
           <div className="flex flex-col">
             <label className="font-semibold">
               Nouveau mot de passe (laisser vide pour conserver l’actuel)
             </label>
-            <input
-              {...formik.getFieldProps('new_password')}
-              type="text"
-              id="new_password"
-              onChange={formik.handleChange}
-              className="px-4 py-3 border border-gray-300 text-black"
-            />
+            <div className="relative grid  items-center">
+              <FontAwesomeIcon
+                className="absolute right-0 mr-2"
+                icon={showNewPass ? faEye : faEyeSlash}
+                onClick={() => {
+                  setShowNewPass(!showNewPass);
+                }}
+              />
+              <input
+                type={showNewPass ? 'text' : 'password'}
+                id="new_password"
+                onChange={formik.handleChange}
+                className="px-4 py-3 border border-gray-300 text-black"
+              />
+            </div>
           </div>
           <div className="flex flex-col">
             <label className="font-semibold">Confirmer le nouveau mot de passe</label>
-            <input
-              {...formik.getFieldProps('confirm_password')}
-              type="text"
-              id="confirm_password"
-              onChange={formik.handleChange}
-              className="px-4 py-3 border border-gray-300 text-black"
-            />
+            <div className="relative grid  items-center">
+              <FontAwesomeIcon
+                className="absolute right-0 mr-2  "
+                icon={showConfPass ? faEye : faEyeSlash}
+                onClick={() => {
+                  setShowConfPass(!showConfPass);
+                }}
+              />
+              <input
+                type={showConfPass ? 'text' : 'password'}
+                id="confirm_password"
+                onChange={formik.handleChange}
+                className={`px-4 py-3 mt-4 border ${
+                  error ? 'border-red-700' : 'border-gray-300'
+                } text-black`}
+              />
+            </div>
           </div>
           <button type="submit" className="w-[250px] p-3 rounded-md bg-[#603813] ">
             <div className="text-[15px]  text-white">Enregister les modifications</div>
