@@ -1,16 +1,24 @@
-
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import React, { useEffect } from 'react';
-import _ from 'lodash';
-import { Countries } from '@definitions/constants';
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import React, { useEffect } from "react";
+import _ from "lodash";
+import { Countries } from "@definitions/constants";
+import { useQuery } from "react-query";
 
 type BillingInfomationProps = {
   onError?: (errors: any) => void;
   onValueChange?: (values: any) => void;
-}; 
-
-const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueChange }) => {
+};
+async function getCountry() {
+  const res = await fetch(
+    "https://restcountries.com/v3.1/all?fields=name,flags"
+  );
+  return res.json();
+}
+const BillingInfomation: React.FC<BillingInfomationProps> = ({
+  onError,
+  onValueChange,
+}) => {
   const formSchema = Yup.object().shape({
     first_name: Yup.string().required(),
     last_name: Yup.string().required(),
@@ -25,43 +33,47 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueC
 
   const formik = useFormik({
     initialValues: {
-      first_name: '',
-      last_name: '',
-      company_name: '',
+      first_name: "",
+      last_name: "",
+      company_name: "",
       country: Countries[0].value,
-      ward: '',
-      district: '',
-      province: '',
-      zip_code: '',
-      phone: '',
-      email: '',
+      ward: "",
+      district: "",
+      province: "",
+      zip_code: "",
+      phone: "",
+      email: "",
     },
-    initialErrors:{
-      first_name: 'required',
-      last_name: 'required',
+    initialErrors: {
+      first_name: "required",
+      last_name: "required",
       // country: Yup.tuple().required(),
-      ward: 'required',
-      district: 'required',
-      zip_code: 'required',
-      province: 'required',
-      phone: 'required',
-      email: 'required',
+      ward: "required",
+      district: "required",
+      zip_code: "required",
+      province: "required",
+      phone: "required",
+      email: "required",
     },
     validationSchema: formSchema,
     onSubmit: (value, { setSubmitting }) => {
-      console.log(value)
+      console.log(value);
     },
   });
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
-
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
+    formik;
+  const countrys = useQuery("country", getCountry);
+  const listCoutry = countrys?.data?.map(
+    (c: { name: { common: string } }) => c.name.common
+  );
 
   useEffect(() => {
     onError?.(errors);
-  }, [errors])
+  }, [errors]);
 
   useEffect(() => {
     onValueChange?.(values);
-  }, [values])
+  }, [values]);
 
   return (
     <div className="">
@@ -73,25 +85,50 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueC
               className="max-h-[41px] min-h-[18px] mt-1"
               focusable="false"
               viewBox="0 0 250 113.3"
-              fill="none">
+              fill="none"
+            >
               <path
                 fill="#1D3944"
-                d="M39.8 1.7C41.5.6 43.4 0 45.5 0c2.7 0 5.3 1.1 7.2 3 1.9 1.9 3 4.5 3 7.2 0 2-.6 4-1.7 5.7-1.1 1.7-2.7 3-4.6 3.8-1.9.8-3.9 1-5.9.6-2-.4-3.8-1.4-5.2-2.8-1.4-1.4-2.4-3.3-2.8-5.2-.4-2-.2-4 .6-5.9.7-2 2-3.5 3.7-4.7zM0 1.1h18.3v110.6H0V1.1zM247.2 32.7c-6.3 13.6-13.8 26.6-22.3 38.9l25.1 40h-21.6L213 87c-15.5 17.7-30.8 26.3-45.6 26.3-18 0-25.4-12.9-25.4-27.5V75.3c0-19.3-2-24.8-8.6-23.9-12.5 1.7-31.6 30.2-44 60.3H72.3v-79h18.3v39.5c10.4-17.6 20-32.7 35.4-38.5 8.9-3.4 16.5-1.9 20.4-.2 14.2 6.3 14.2 21.5 14 42v8.7c0 7.4 2.1 10.7 7.1 11.2 3 .3 6-.4 8.6-1.9V1.1h18.3v79.2s15.9-14.5 32.6-47.5h20.2zM54.6 32.8H36.3v78.9h18.3V32.8z"></path>
+                d="M39.8 1.7C41.5.6 43.4 0 45.5 0c2.7 0 5.3 1.1 7.2 3 1.9 1.9 3 4.5 3 7.2 0 2-.6 4-1.7 5.7-1.1 1.7-2.7 3-4.6 3.8-1.9.8-3.9 1-5.9.6-2-.4-3.8-1.4-5.2-2.8-1.4-1.4-2.4-3.3-2.8-5.2-.4-2-.2-4 .6-5.9.7-2 2-3.5 3.7-4.7zM0 1.1h18.3v110.6H0V1.1zM247.2 32.7c-6.3 13.6-13.8 26.6-22.3 38.9l25.1 40h-21.6L213 87c-15.5 17.7-30.8 26.3-45.6 26.3-18 0-25.4-12.9-25.4-27.5V75.3c0-19.3-2-24.8-8.6-23.9-12.5 1.7-31.6 30.2-44 60.3H72.3v-79h18.3v39.5c10.4-17.6 20-32.7 35.4-38.5 8.9-3.4 16.5-1.9 20.4-.2 14.2 6.3 14.2 21.5 14 42v8.7c0 7.4 2.1 10.7 7.1 11.2 3 .3 6-.4 8.6-1.9V1.1h18.3v79.2s15.9-14.5 32.6-47.5h20.2zM54.6 32.8H36.3v78.9h18.3V32.8z"
+              ></path>
             </svg>
           </span>
-          <svg focusable="false" viewBox="0 0 25 25" fill="none" className="h-[32px] ml-2">
+          <svg
+            focusable="false"
+            viewBox="0 0 25 25"
+            fill="none"
+            className="h-[32px] ml-2"
+          >
             <path
               d="M14.5247 0.219442C14.2317 -0.0733252 13.7568 -0.0731212 13.4641 0.219898C13.1713 0.512917 13.1715 0.98779 13.4645 1.28056L18.5 6.5L19 7L18.5 7.75C18 8.5 13.4645 12.7194 13.4645 12.7194C13.1715 13.0122 13.1713 13.4871 13.4641 13.7801C13.7568 14.0731 14.2317 14.0733 14.5247 13.7806L20.7801 7.53056C20.9209 7.38989 21 7.19902 21 7C21 6.80098 20.9209 6.61011 20.7801 6.46944L14.5247 0.219442Z"
-              fill="#1D3944"></path>
-            <path d="M14 4L4 4" stroke="#1D3944" strokeWidth="1.5" strokeLinecap="round"></path>
-            <path d="M14 4V1" stroke="#1D3944" strokeWidth="1.5" strokeLinecap="round"></path>
-            <path d="M14 13V10" stroke="#1D3944" strokeWidth="1.5" strokeLinecap="round"></path>
+              fill="#1D3944"
+            ></path>
+            <path
+              d="M14 4L4 4"
+              stroke="#1D3944"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            ></path>
+            <path
+              d="M14 4V1"
+              stroke="#1D3944"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            ></path>
+            <path
+              d="M14 13V10"
+              stroke="#1D3944"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            ></path>
             <path
               d="M4 9.25C3.58579 9.25 3.25 9.58579 3.25 10C3.25 10.4142 3.58579 10.75 4 10.75V9.25ZM14 9.25H4V10.75H14V9.25Z"
-              fill="#1D3944"></path>
+              fill="#1D3944"
+            ></path>
             <path
               d="M1.00007 6.25C0.585853 6.24996 0.250037 6.58572 0.25 6.99993C0.249963 7.41415 0.58572 7.74996 0.999934 7.75L1.00007 6.25ZM14.0001 6.25115L1.00007 6.25L0.999934 7.75L13.9999 7.75115L14.0001 6.25115Z"
-              fill="#1D3944"></path>
+              fill="#1D3944"
+            ></path>
           </svg>
         </div>
       </button>
@@ -102,10 +139,14 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueC
 
       {/* form */}
       <div>
-        <span className="text-[#26222f] text-[32px] font-semibold">Détails de facturation</span>
-        <form onInvalidCapture={() => {
-          console.log('re')
-        }} >
+        <span className="text-[#26222f] text-[32px] font-semibold">
+          Détails de facturation
+        </span>
+        <form
+          onInvalidCapture={() => {
+            console.log("re");
+          }}
+        >
           <div className="grid gap-3">
             <div className="grid grid-cols-2">
               <div className="flex flex-col mr-6">
@@ -113,10 +154,12 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueC
                   Prénom <span className="text-red-500 text-[20px] ">*</span>
                 </label>
                 <input
-                  {...formik.getFieldProps('first_name')}
+                  {...formik.getFieldProps("first_name")}
                   type="text"
                   id="first_name"
-                  className={`px-4 py-3 border ${errors.first_name ? 'border-red-700' : 'border-gray-300'} text-black`}
+                  className={`px-4 py-3 border ${
+                    errors.first_name ? "border-red-700" : "border-gray-300"
+                  } text-black`}
                 />
               </div>
               <div className="flex flex-col ml-6">
@@ -124,17 +167,21 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueC
                   Nom <span className="text-red-500 text-[20px] ">*</span>
                 </label>
                 <input
-                  {...formik.getFieldProps('last_name')}
+                  {...formik.getFieldProps("last_name")}
                   type="text"
                   id="last_name"
-                  className={`px-4 py-3 border ${errors.last_name ? 'border-red-700' : 'border-gray-300'} text-black`}
+                  className={`px-4 py-3 border ${
+                    errors.last_name ? "border-red-700" : "border-gray-300"
+                  } text-black`}
                 />
               </div>
             </div>
             <div className="flex flex-col">
-              <label className="font-semibold">Nom de l’entreprise (facultatif)</label>
+              <label className="font-semibold">
+                Nom de l’entreprise (facultatif)
+              </label>
               <input
-                {...formik.getFieldProps('company_name')}
+                {...formik.getFieldProps("company_name")}
                 type="text"
                 id="company_name"
                 className="px-4 py-3 border border-gray-300 text-black"
@@ -144,36 +191,47 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueC
               <label className="font-semibold">
                 Pays/région <span className="text-red-500 text-[20px] ">*</span>
               </label>
-              <select data-te-select-init data-te-select-filter="true"
-                {...formik.getFieldProps('country')}
+              <select
+                data-te-select-init
+                data-te-select-filter="true"
+                {...formik.getFieldProps("country")}
                 id="country"
-                className={`px-4 py-3 border ${errors.country ? 'border-red-700' : 'border-gray-300'} text-black`}
-                onChange={(event) => { 
-                  formik.setFieldValue('country', event.target.value);
+                className={`px-4 py-3 border ${
+                  errors.country ? "border-red-700" : "border-gray-300"
+                } text-black`}
+                onChange={(event) => {
+                  formik.setFieldValue("country", event.target.value);
                 }}
               >
-                {
-                  Countries?.map((item: any, index: number) => (
-                    <option key={index} value="{item?.value}">{item?.name}</option>
-                  ))
-                }
+                {countrys?.data?.map(
+                  (c: { name: { common: string } }, index: number) => (
+                    <option key={index} value={c?.name?.common}>
+                      {c?.name?.common}
+                    </option>
+                  )
+                )}
               </select>
             </div>
             <div className="flex flex-col">
               <label className="font-semibold">
-                Numéro et nom de rue <span className="text-red-500 text-[20px] ">*</span>
+                Numéro et nom de rue{" "}
+                <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
-                {...formik.getFieldProps('ward')}
+                {...formik.getFieldProps("ward")}
                 type="text"
                 id="ward"
-                className={`px-4 py-3 border ${errors.ward ? 'border-red-700' : 'border-gray-300'} text-black`}
+                className={`px-4 py-3 border ${
+                  errors.ward ? "border-red-700" : "border-gray-300"
+                } text-black`}
               />
               <input
-                {...formik.getFieldProps('district')}
+                {...formik.getFieldProps("district")}
                 type="text"
                 id="district"
-                className={`px-4 py-3 mt-4 border ${errors.district ? 'border-red-700' : 'border-gray-300'} text-black`}
+                className={`px-4 py-3 mt-4 border ${
+                  errors.district ? "border-red-700" : "border-gray-300"
+                } text-black`}
               />
             </div>
             <div className="flex flex-col">
@@ -181,10 +239,12 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueC
                 Ville <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
-                {...formik.getFieldProps('province')}
+                {...formik.getFieldProps("province")}
                 type="text"
                 id="province"
-                className={`px-4 py-3 border ${errors.province ? 'border-red-700' : 'border-gray-300'} text-black`}
+                className={`px-4 py-3 border ${
+                  errors.province ? "border-red-700" : "border-gray-300"
+                } text-black`}
               />
             </div>
             <div className="flex flex-col">
@@ -192,10 +252,12 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueC
                 Code postal <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
-                {...formik.getFieldProps('zip_code')}
+                {...formik.getFieldProps("zip_code")}
                 type="text"
                 id="zip_code"
-                className={`px-4 py-3 mt-4 border ${errors.zip_code ? 'border-red-700' : 'border-gray-300'} text-black`}
+                className={`px-4 py-3 mt-4 border ${
+                  errors.zip_code ? "border-red-700" : "border-gray-300"
+                } text-black`}
               />
             </div>
             <div className="flex flex-col">
@@ -203,10 +265,12 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueC
                 Téléphone <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
-                {...formik.getFieldProps('phone')}
+                {...formik.getFieldProps("phone")}
                 type="text"
                 id="phone"
-                className={`px-4 py-3 mt-4 border ${errors.phone ? 'border-red-700' : 'border-gray-300'} text-black`}
+                className={`px-4 py-3 mt-4 border ${
+                  errors.phone ? "border-red-700" : "border-gray-300"
+                } text-black`}
               />
             </div>
             <div className="flex flex-col">
@@ -214,27 +278,39 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({ onError, onValueC
                 E-mail <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
-                {...formik.getFieldProps('email')}
+                {...formik.getFieldProps("email")}
                 type="email"
                 id="id"
-                className={`px-4 py-3 mt-4 border ${errors.email ? 'border-red-700' : 'border-gray-300'} text-black`}
+                className={`px-4 py-3 mt-4 border ${
+                  errors.email ? "border-red-700" : "border-gray-300"
+                } text-black`}
               />
             </div>
             <div className="flex justify-between font-semibold">
               <div className="flex items-center space-x-2">
-                <input type="checkbox"
+                <input
+                  type="checkbox"
                   defaultChecked={true}
-                  onChange={(e) => { console.log(e) }}
-                  id="subscribe" className="w-4 h-4 " />
+                  onChange={(e) => {
+                    console.log(e);
+                  }}
+                  id="subscribe"
+                  className="w-4 h-4 "
+                />
                 <label>Subscribe to our newsletter</label>
               </div>
             </div>
             <div className="flex justify-between font-semibold">
               <div className="flex items-center space-x-2">
-                <input type="checkbox"
+                <input
+                  type="checkbox"
                   defaultChecked={false}
-                  onChange={(e) => { console.log(e) }}
-                  id="remember" className="w-4 h-4 " />
+                  onChange={(e) => {
+                    console.log(e);
+                  }}
+                  id="remember"
+                  className="w-4 h-4 "
+                />
                 <label>Créer un compte ?</label>
               </div>
             </div>
