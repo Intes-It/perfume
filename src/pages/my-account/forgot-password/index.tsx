@@ -18,9 +18,10 @@ const ForgotPassword = () => {
           required
           type="email"
           id="email"
-          className="px-4 py-3 border border-gray-300 text-black mb-4 w-[38rem] focus:outline-none"
+          className="px-4 py-3 border border-gray-300 text-black mb-4 w-[40rem] focus:outline-none"
         />
         <ReCAPTCHA sitekey="6LcF1twkAAAAAMKsDQ71Bhktr3g0Q66sZM5bngyA" />
+  
         <button
           type="submit"
           className=" px-4 py-3 text-[16px] uppercase font-semibold text-white  bg-[#603813] rounded-md shadow hover:bg-black my-5"

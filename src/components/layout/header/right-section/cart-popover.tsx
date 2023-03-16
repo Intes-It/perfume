@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ExProduct } from '@types';
 import { removeProduct } from '@redux/actions';
 import { Routes } from '@definitions/constants';
-import { useRouter } from 'next/router';
+import {useRouter } from 'next/router';
 import { formatCurrency } from '@utils/formatNumber';
 import useCart from '@hooks/useCart';
 import { updateFullCart } from '@redux/slices/cart';
@@ -22,6 +22,7 @@ const CartPopover: React.FC = () => {
     (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
   const { isAuthenticated } = useUser();
+console.log(products);
 
   const dispatch = useDispatch();
   const totalProducts = products?.reduce((pre, curr) => pre + curr.quantity, 0);

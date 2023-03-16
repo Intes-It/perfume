@@ -49,8 +49,8 @@ const Tabs = [
 
 const Profile = () => {
   const logOut = async () => {
-    await instance.post('/api/user/logout').then((res: any) => {
-      console.log(res);
+    await instance.post('/api/user/logout').then(() => {
+
       window.location.reload();
     });
   };
