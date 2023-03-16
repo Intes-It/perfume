@@ -19,13 +19,16 @@ const MyAccount = () => {
   const { error, message, color } = state;
 
   const onLogin = async (data: any) => {
-    const res = await loginAccount(data);
+    const res = await loginAccount(data).catch((res) => {
+      console.log(res);
+    });
     if (res?.status === 200) {
       window.location.reload();
     } else {
       setState((o) => ({
         ...o,
         error: true,
+        color: '#ed2805',
         message: "Quelque chose s'est mal passé",
       }));
     }
@@ -34,12 +37,21 @@ const MyAccount = () => {
   const onRegister = async (data: any) => {
     const res = await registerAccount(data);
     if (res?.status === 200) {
-      setState((o) => ({
-        ...o,
-        error: true,
-        message: "L'enregistrement fut un succès",
-        color: '#06e318',
-      }));
+      if (res?.data?.message === 'Email exists') {
+        setState((o) => ({
+          ...o,
+          error: true,
+          message: 'Email exists',
+          color: '#ed2805',
+        }));
+      } else {
+        setState((o) => ({
+          ...o,
+          error: true,
+          message: "L'enregistrement fut un succès",
+          color: '#06e318',
+        }));
+      }
     } else {
       console.log(res.status);
       setState((o) => ({
@@ -50,7 +62,7 @@ const MyAccount = () => {
       }));
     }
   };
-
+  //tests
   return (
     <Container>
       {error ? (
