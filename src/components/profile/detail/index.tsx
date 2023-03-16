@@ -93,7 +93,7 @@ const Detail = () => {
           <div className="grid grid-cols-2">
             <div className="flex flex-col mr-6">
               <label className="font-semibold">
-                Prénom <span className="text-red-500 text-[20px] ">*</span>
+                Prénom 
               </label>
               <input
                 type="text"
@@ -105,7 +105,7 @@ const Detail = () => {
             </div>
             <div className="flex flex-col ml-6">
               <label className="font-semibold">
-                Nom <span className="text-red-500 text-[20px] ">*</span>
+                Nom 
               </label>
               <input
                 type="text"
@@ -118,7 +118,7 @@ const Detail = () => {
           </div>
           <div className="flex flex-col">
             <label className="font-semibold">
-              Nom affiché <span className="text-red-500 text-[20px] ">*</span>
+              Nom affiché 
             </label>
             <input
               defaultValue={user?.name}
@@ -131,7 +131,7 @@ const Detail = () => {
           </div>
           <div className="flex flex-col">
             <label className="font-semibold">
-              E-mail <span className="text-red-500 text-[20px] ">*</span>
+              E-mail 
             </label>
             <input
               type="text"
