@@ -81,14 +81,14 @@ const ProductSubSubGroup = () => {
         </p> */}
         <div className="w-[100%] flex justify-between mobile:flex-wrap-reverse">
           <div className="flex  space-x-5 mobile:justify-between mobile:mt-5 ">
-            <DropdownCheckbox
+            {/* <DropdownCheckbox
               title="Catégories"
               selections={filterProducts?.reduce(
                 (a: string[], item) => a.concat(item?.title || ""),
                 []
               )}
               onChange={handleChange}
-            />
+            /> */}
 
             <DropdownCheckbox
               title="Prix"
