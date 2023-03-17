@@ -16,7 +16,7 @@ export const Routes = {
     route: "/checkout",
   },
   blog: {
-    title: "Articles",
+    title: "Journal",
     route: "/blog",
     image:
       "https://mldn3w3pos1n.i.optimole.com/cb:453S~5a2d9/w:auto/h:auto/q:mauto/id:b2ad038a933778cbbc61fbc58eedfcef/https://naturefeerique.fr/journal-nes.png",

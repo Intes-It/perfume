@@ -47,25 +47,22 @@ const ProductItem: React.FC<ProductProps> = ({
     0
   );
   const totalProducts = localCart?.reduce((pre, curr) => pre + curr.quantity, 0);
-  
+
   const handleAddProduct = async () => {
     if (isAuthenticated) {
-       
-      //check exist product 
+      //check exist product
       const existProduct = localCart?.find((item: any) => item?.product?.id === product?.id);
       let res;
       if (existProduct) {
         const data = {
-          order_item_id : existProduct?.orderId,
-          order_id : cart?.data?.cart?.id || null,
-          amount : 1,
+          order_item_id: existProduct?.orderId,
+          order_id: cart?.data?.cart?.id || null,
+          amount: 1,
           total_amount: totalProducts + 1,
-          total_price: Number.parseFloat(existProduct?.product?.price || '0') + totalMoney
-        } 
-        res = await addExistProductToCart(data)
-      }
-      else
-      {
+          total_price: Number.parseFloat(existProduct?.product?.price || '0') + totalMoney,
+        };
+        res = await addExistProductToCart(data);
+      } else {
         const data = {
           order_id: cart?.data?.cart?.id || null,
           product_id: product?.id,
@@ -75,17 +72,25 @@ const ProductItem: React.FC<ProductProps> = ({
           image: product?.url_image,
           total_price_item: Number.parseFloat(product?.price || '0'),
           total_price_cart: Number.parseFloat(product?.price || '0') + totalMoney,
-        }
-        res = await addProductToCart(data)
+        };
+        res = await addProductToCart(data);
       }
       // console.log('res:%o', res)
-      if (res?.status === 201 || res?.status === 200 )
-      { 
-        dispatch(addProduct({ product, quantity: 1, orderId: res?.data?.data?.id, price: product?.price,image: product?.url_image }));
+      if (res?.status === 201 || res?.status === 200) {
+        dispatch(
+          addProduct({
+            product,
+            quantity: 1,
+            orderId: res?.data?.data?.id,
+            price: product?.price,
+            image: product?.url_image,
+          })
+        );
       }
-    }
-    else
-      dispatch(addProduct({ product, quantity: 1,image: product?.url_image }));
+    } else
+      dispatch(
+        addProduct({ product, quantity: 1, image: product?.url_image, price: product?.price })
+      );
   };
 
   return (
