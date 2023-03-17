@@ -14,7 +14,7 @@ import { formatCurrency } from '@utils/formatNumber';
 import useCart from '@hooks/useCart';
 import { updateFullCart } from '@redux/slices/cart';
 import useUser from '@hooks/useUser';
-
+//
 const CartPopover: React.FC = () => {
   const router = useRouter();
   const { cart, removeProductToCart } = useCart();
@@ -99,7 +99,7 @@ console.log(products);
                 className={'float-right'}
               />
               <br />
-              {products ? (
+              {products.length > 0 ? (
                 <div>
                   <div className="overflow-y-auto max-h-[400px]">
                     {products?.map((item: any, index: number) => (
