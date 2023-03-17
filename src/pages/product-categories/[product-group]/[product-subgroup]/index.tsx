@@ -1,15 +1,15 @@
-import { Container } from "@components/container";
-import DropdownCheckbox from "@components/dropdown-checkbox";
-import DropdownSelect from "@components/dropdown-select";
-import ProductItem from "@components/product-item";
-import { Product } from "@types";
-import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
-import { productFilter, productPrice, totalProducts } from "@utils/fakeData";
-import { useDispatch, useSelector } from "react-redux";
-import { addFavoriteItem, removeFavoriteItem } from "@redux/slices/favorite";
-import { useProducts } from "@hooks/useProduct";
-import { useAllCategory } from "@hooks/useCategory";
+import { Container } from '@components/container';
+import DropdownCheckbox from '@components/dropdown-checkbox';
+import DropdownSelect from '@components/dropdown-select';
+import ProductItem from '@components/product-item';
+import { Product } from '@types';
+import { useRouter } from 'next/router';
+import { useEffect, useMemo, useState } from 'react';
+import { productFilter, productPrice, totalProducts } from '@utils/fakeData';
+import { useDispatch, useSelector } from 'react-redux';
+import { addFavoriteItem, removeFavoriteItem } from '@redux/slices/favorite';
+import { useProducts } from '@hooks/useProduct';
+import { useAllCategory } from '@hooks/useCategory';
 
 const ProductSubGroup = () => {
   const server_link = process.env.NEXT_PUBLIC_API_URL;
@@ -20,12 +20,12 @@ const ProductSubGroup = () => {
   const [state, setState] = useState({
     filterProducts: [] as Product[] | undefined,
     copy: [] as Product[] | undefined,
-    categories: "",
-    price: "",
+    categories: '',
+    price: '',
     selection: [] as string[],
     sort: null,
     priceRange: null,
-    categoriesSort: null
+    categoriesSort: null,
   });
   const { filterProducts, sort, priceRange, categoriesSort } = state;
 
@@ -34,38 +34,36 @@ const ProductSubGroup = () => {
   ) as Product[];
 
   const selectedSubCategory = useMemo(() => {
-    return subCategories?.find((item: any) => item?.slug === router.query["product-subgroup"]);
-  }, [subCategories, router.query])
+    return subCategories?.find((item: any) => item?.slug === router.query['product-subgroup']);
+  }, [subCategories, router.query]);
 
   const subsubCategoriesFilter = useMemo(() => {
-    return subsubCategories?.filter((item: any) => item?.subcategory === selectedSubCategory?.id)
-  }, [subsubCategories, selectedSubCategory])
+    return subsubCategories?.filter((item: any) => item?.subcategory === selectedSubCategory?.id);
+  }, [subsubCategories, selectedSubCategory]);
 
   // console.log('subsubCategoriesFilter:%o', subsubCategoriesFilter)
   const fetchProducts = async () => {
     const subCategoryId = selectedSubCategory?.id;
     if (subCategoryId) {
-      await fetchFilterProducts(
-        {
-          subcategory: subCategoryId as any,
-          ...(sort && { sort: sort as any }) as any,
-          ...(priceRange && { price_range: priceRange as any }) as any,
-          ...(categoriesSort && {
-            category: selectedSubCategory?.category,
-            subsubcategory: categoriesSort as any
-          }) as any,
-        })
+      await fetchFilterProducts({
+        ...((!categoriesSort && { subcategory: subCategoryId as any }) as any),
+        // subcategory: subCategoryId as any,
+        ...((sort && { sort: sort as any }) as any),
+        ...((priceRange && { price_range: priceRange as any }) as any),
+        ...((categoriesSort && {
+          // category: selectedSubCategory?.category,
+          subsubcategory: categoriesSort as any,
+        }) as any),
+      });
     }
-  }
+  };
 
   useEffect(() => {
     const filterProducts = products?.map((product: Product) => ({
       ...product,
     }));
     filterProducts?.forEach((item: Product) => {
-      const existItem = favoriteProducts?.find(
-        (itemFavorite) => itemFavorite.id === item.id
-      );
+      const existItem = favoriteProducts?.find((itemFavorite) => itemFavorite.id === item.id);
       if (existItem) item.favorite = true;
       else item.favorite = false;
     });
@@ -74,16 +72,19 @@ const ProductSubGroup = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, [selectedSubCategory, sort, priceRange, categoriesSort])
+  }, [selectedSubCategory, sort, priceRange, categoriesSort]);
 
   const handleSortByCategoryChange = (value: any) => {
-    setState((pre) => ({ ...pre, categoriesSort: value }))
+    if (value === categoriesSort) setState((pre) => ({ ...pre, categoriesSort: null }));
+    else setState((pre) => ({ ...pre, categoriesSort: value }));
   };
   const handleSortChange = (value: any) => {
-    setState((pre) => ({ ...pre, sort: value }))
+    if (value === sort) setState((pre) => ({ ...pre, sort: null }));
+    else setState((pre) => ({ ...pre, sort: value }));
   };
   const handlePriceRangeChange = (value: any) => {
-    setState((pre) => ({ ...pre, priceRange: value }))
+    if (value === priceRange) setState((pre) => ({ ...pre, priceRange: null }));
+    else setState((pre) => ({ ...pre, priceRange: value }));
   };
 
   return (
@@ -99,7 +100,7 @@ const ProductSubGroup = () => {
               title="Catégories"
               selections={subsubCategoriesFilter?.map((item: any, index: number) => ({
                 name: item?.name || '',
-                value: item?.id || ''
+                value: item?.id || '',
               }))}
               onChange={handleSortByCategoryChange}
             />
@@ -111,11 +112,8 @@ const ProductSubGroup = () => {
             />
           </div>
           <div className="mobile:float-right">
-            {" "}
-            <DropdownSelect
-              selections={productFilter}
-              onChange={handleSortChange}
-            />
+            {' '}
+            <DropdownSelect selections={productFilter} onChange={handleSortChange} />
           </div>
         </div>
         <div className="grid grid-cols-4 grid-flow-row gap-10 tablet:grid-cols-3 mobile:grid-cols-2">
