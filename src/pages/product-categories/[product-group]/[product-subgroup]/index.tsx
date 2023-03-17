@@ -68,6 +68,7 @@ const ProductSubGroup = () => {
       else item.favorite = false;
     });
     setState((pre) => ({ ...pre, filterProducts }));
+    console.log(filterProducts);
   }, [router.query, products, favoriteProducts]);
 
   useEffect(() => {
@@ -88,7 +89,7 @@ const ProductSubGroup = () => {
   };
 
   return (
-    <Container>
+    <div>
       <div className="flex flex-col items-center space-y-10 mx-5 my-5 ">
         {/* <p className="text-[17px] text-[#383E42] text-center">
           Des cosmétiques naturels solides fabriqués artisanalement en Provence
@@ -117,22 +118,26 @@ const ProductSubGroup = () => {
           </div>
         </div>
         <div className="grid grid-cols-4 grid-flow-row gap-10 tablet:grid-cols-3 mobile:grid-cols-2">
-          {filterProducts?.map((item: Product, index: number) => (
-            <div key={index}>
-              <ProductItem
-                onFavoriteChanged={(state) => {
-                  if (state) dispatch(removeFavoriteItem(item));
-                  else dispatch(addFavoriteItem(item));
-                }}
-                favorite={item?.favorite}
-                showFavorite={true}
-                product={item}
-              />
-            </div>
-          ))}
+          {products?.length > 0 ? (
+            filterProducts?.map((item: Product, index: number) => (
+              <div key={index}>
+                <ProductItem
+                  onFavoriteChanged={(state) => {
+                    if (state) dispatch(removeFavoriteItem(item));
+                    else dispatch(addFavoriteItem(item));
+                  }}
+                  favorite={item?.favorite}
+                  showFavorite={true}
+                  product={item}
+                />
+              </div>
+            ))
+          ) : (
+            <div className="ml-20 text-[20px]">Aucun Produit trouvé</div>
+          )}
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 

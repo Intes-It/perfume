@@ -27,7 +27,7 @@ const ProductGroup = () => {
     priceRange: null,
     categoriesSort: null,
   });
-  const { filterProducts, sort, priceRange, categoriesSort, } = state;
+  const { filterProducts, sort, priceRange, categoriesSort } = state;
 
   const favoriteProducts = useSelector(
     (state: any) => state.persistedReducer?.favorite?.list
@@ -74,9 +74,8 @@ const ProductGroup = () => {
   }, [selectedCategory, sort, priceRange, categoriesSort]);
 
   const handleSortByCategoryChange = (value: any) => {
-    if (value === categoriesSort)
-      setState((pre) => ({ ...pre, categoriesSort: null, }));
-    else setState((pre) => ({ ...pre, categoriesSort: value,  }));
+    if (value === categoriesSort) setState((pre) => ({ ...pre, categoriesSort: null }));
+    else setState((pre) => ({ ...pre, categoriesSort: value }));
   };
   const handleSortChange = (value: any) => {
     if (value === sort) setState((pre) => ({ ...pre, sort: null }));
@@ -117,19 +116,23 @@ const ProductGroup = () => {
           </div>
         </div>
         <div className="grid grid-cols-4 grid-flow-row gap-10 tablet:grid-cols-3 mobile:grid-cols-2">
-          {filterProducts?.map((item: Product, index: number) => (
-            <div key={index}>
-              <ProductItem
-                onFavoriteChanged={(state) => {
-                  if (state) dispatch(removeFavoriteItem(item));
-                  else dispatch(addFavoriteItem(item));
-                }}
-                favorite={item?.favorite}
-                showFavorite={true}
-                product={item}
-              />
-            </div>
-          ))}
+          {products?.length > 0 ? (
+            filterProducts?.map((item: Product, index: number) => (
+              <div key={index}>
+                <ProductItem
+                  onFavoriteChanged={(state) => {
+                    if (state) dispatch(removeFavoriteItem(item));
+                    else dispatch(addFavoriteItem(item));
+                  }}
+                  favorite={item?.favorite}
+                  showFavorite={true}
+                  product={item}
+                />
+              </div>
+            ))
+          ) : (
+            <div className="ml-20 text-[20px]">Aucun Produit trouvé</div>
+          )}
         </div>
       </div>
     </Container>
