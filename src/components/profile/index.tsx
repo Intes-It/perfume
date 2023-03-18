@@ -1,6 +1,7 @@
 import Footer from '@components/layout/footer';
 import { instance } from '@utils/_axios';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Container } from '..';
 import Adress from './adress';
 import Delivery from './delivery';
@@ -8,6 +9,7 @@ import Detail from './detail';
 import Order from './order';
 import Payment from './payment';
 import UserProfile from './user-profile';
+import { updateFullCart } from '@redux/slices/cart';
 
 const Tabs = [
   {
@@ -48,9 +50,10 @@ const Tabs = [
 ];
 
 const Profile = () => {
+  const dispatch = useDispatch()
   const logOut = async () => {
     await instance.post('/api/user/logout').then(() => {
-
+      dispatch(updateFullCart([]))
       window.location.reload();
     });
   };

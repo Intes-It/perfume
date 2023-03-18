@@ -41,7 +41,7 @@ const MyAccount = () => {
         setState((o) => ({
           ...o,
           error: true,
-          message: 'Email exists',
+          message: 'Un compte est déjà enregistré avec votre adresse e-mail',
           color: '#ed2805',
         }));
       } else {
