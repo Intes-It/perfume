@@ -10,10 +10,18 @@ import NextLink from 'next/link';
 const MobileMenu = ({ ...props }) => {
   const router = useRouter();
   const { categories, subCategories, subsubCategories } = useAllCategory();
-
+  categories?.forEach((item: any) => {
+    item.newName = item.name.replace(/\s/g, '');
+  });
+  subCategories?.forEach((item: any) => {
+    item.newName = item.name.replace(/\s/g, '');
+  });
+  subsubCategories?.forEach((item: any) => {
+    item.newName = item.name.replace(/\s/g, '');
+  });
+  console.log(subCategories);
+  console.log(subsubCategories);
   const exCategories = categories && [Routes.home, Routes.about, ...categories, Routes.contact];
-  console.log('exCategories:%o ', exCategories);
-  console.log('subCategories:%o ', subCategories);
 
   return (
     <div>
@@ -46,7 +54,7 @@ const MobileMenu = ({ ...props }) => {
                           type="button"
                           data-te-collapse-init
                           data-te-collapse-collapsed
-                          data-te-target={'#' + item?.name}
+                          data-te-target={'#' + item?.newName}
                           aria-expanded="true"
                           aria-controls={item?.slug}>
                           {item?.name}
@@ -73,23 +81,20 @@ const MobileMenu = ({ ...props }) => {
                           subCategory?.category === item?.id && (
                             <div
                               key={sIndex}
-                              id={item?.name}
+                              id={item?.newName}
                               className="!visible hidden"
                               data-te-collapse-item
                               data-te-collapse-show
                               aria-labelledby={item?.slug}
                               data-te-parent="#accordionExample">
-                              <div className="p-6 text-[10px]">
-                                <a href={`/product-categories/${item?.slug}/${subCategory?.slug}`}>
-                                  {subCategory?.name}
-                                </a>
-
-                                {/* <h2 className="mb-0" id={subCategory?.slug}>
+                              <div key={sIndex} className="p-6 text-[10px]">
+                                <h2 className="mb-0" id={subCategory?.slug}>
                                   <button
-                                    className="group relative flex w-full items-center  py-4 px-5 text-left text-base text-white transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white [&:not([data-te-collapse-collapsed])]:bg-transparent [&:not([data-te-collapse-collapsed])]:text-white [&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:[&:not([data-te-collapse-collapsed])]:bg-neutral-800 dark:[&:not([data-te-collapse-collapsed])]:text-primary-400 dark:[&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(75,85,99)]"
+                                    className="group relative flex w-full items-center  py-4 px-5 text-left text-base text-[#8f8b88] transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-[#8f8b88] [&:not([data-te-collapse-collapsed])]:bg-transparent [&:not([data-te-collapse-collapsed])]:text-white  dark:[&:not([data-te-collapse-collapsed])]:bg-neutral-800]"
                                     type="button"
                                     data-te-collapse-init
-                                    data-te-target={'#' + subCategory?.name}
+                                    data-te-collapse-collapsed
+                                    data-te-target={'#' + subCategory?.newName}
                                     aria-expanded="true"
                                     aria-controls={subCategory?.slug}>
                                     {subCategory?.name}
@@ -109,23 +114,26 @@ const MobileMenu = ({ ...props }) => {
                                       </svg>
                                     </span>
                                   </button>
-                                </h2> */}
+                                </h2>
                                 {/*subsubCategories*/}
-                                {/* {subsubCategories?.map(
+                                {subsubCategories?.map(
                                   (subsubCategory: any, ssindex: number) =>
-                                    subsubCategories?.subcategory === subCategory?.id && (
+                                    subsubCategory?.subcategory === subCategory?.id && (
                                       <div
                                         key={ssindex}
-                                        id={subCategory?.name}
-                                        className="!visible"
+                                        id={subCategory?.newName}
+                                        className="!visible hidden p-7 text-[15px]"
                                         data-te-collapse-item
                                         data-te-collapse-show
                                         aria-labelledby={subCategory?.slug}
                                         data-te-parent="#accordionExample">
-                                        {subsubCategory?.name}
+                                        <a
+                                          href={`/product-categories/${item?.slug}/${subCategory?.slug}/${subsubCategory?.slug}`}>
+                                          {subsubCategory?.name}
+                                        </a>
                                       </div>
                                     )
-                                )} */}
+                                )}
                               </div>
                             </div>
                           )

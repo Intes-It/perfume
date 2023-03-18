@@ -33,7 +33,7 @@ const Login: React.FC<LoginProps> = ({ submit, checkEmpty }) => {
       >
         <div className="flex flex-col space-y-1">
           <label>
-            Identifiant ou e-mail{" "}
+            E-mail{" "}
             <span className="text-red-500 text-[20px] ">*</span>
           </label>
           <input
