@@ -22,6 +22,7 @@ import { ExProduct } from '@types';
 import useCart from '@hooks/useCart';
 import { useAllCategory } from '@hooks/useCategory';
 import _ from 'lodash';
+import { opacity } from 'styled-system';
 
 const DescriptionTabs = [
   {
@@ -133,21 +134,28 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
     return res;
   }, [product]);
 
-  let images = [];
-  if (product?.packaging) {
-    images = Object?.values(product?.packaging)?.reduce(
-      (a: any[], item: any) => a.concat(item?.image || ''),
-      []
-    );
-  }
-  let namePackaging = [];
+  let namePackaging: any = [];
   if (product?.packaging) {
     namePackaging = Object?.values(product?.packaging)?.reduce(
       (a: any[], item: any) => a.concat(item?.name || ''),
       []
     );
+    namePackaging.forEach((item: any, index: number) => {
+      namePackaging[index] = item.replace(/\s/g, '');
+    });
   }
-  console.log(namePackaging);
+
+  let capacityName: any = [];
+  if (product?.capacity) {
+    capacityName = Object?.values(product?.capacity)?.reduce(
+      (a: any[], item: any) => a.concat(item?.name || ''),
+      []
+    );
+    capacityName.forEach((item: any, index: number) => {
+      capacityName[index] = item.replace(/\s/g, '');
+    });
+    console.log(capacityName);
+  }
 
   const setShowModal = (isOpen: boolean) => {
     setState((pre) => ({ ...pre, isShowImageModal: isOpen }));
@@ -337,24 +345,46 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
                 : null}
             </div>
           </div>
+
           {/* packaging */}
+          <div className="mt-4 mb-3 flex gap-1 ">
+            {_.isEmpty(product?.packaging)
+              ? null
+              : Object.values(product?.packaging)?.map((item: any, index: number) => (
+                  <div
+                    // id={item?.newName}
+                    id={namePackaging[index]}
+                    role="tabpanel"
+                    className={`hidden mb-4 ${
+                      index === 0 ? 'opacity-100' : 'opacity-0'
+                    } text-[#603813]    transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}
+                    data-te-tab-active={index === 0 ? true : false}>
+                    Packaging : {item?.name}
+                  </div>
+                ))}
+          </div>
           <div>
-            <div className="mt-4 mb-3">
-              {_.isEmpty(product?.packaging) ? null : (
-                <span className="grid mb-4 text-[#603813] font-semibold">
-                  Packaging : {packageName === undefined ? namePackaging[0] : packageName}
-                </span>
-              )}
-              <div className="flex gap-3">
-                {product?.packaging
-                  ? Object.values(product.packaging)?.map((item: any, index: number) => (
-                      <button
-                        key={index}
+            <ul
+              className=" flex gap-2 list-none flex-col flex-wrap border-b-0 pl-0 md:flex-row"
+              id="tabs-tab"
+              role="tablist"
+              data-te-nav-ref>
+              {product?.packaging
+                ? Object.values(product.packaging)?.map((item: any, index: number) => (
+                    <li role="presentation" key={index}>
+                      <a
+                        href={'#' + namePackaging[index]}
+                        className="p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-[#6A5950] "
+                        id={namePackaging[index]}
+                        data-te-toggle="pill"
+                        data-te-nav-active={index === 0 ? true : undefined}
+                        data-te-target={'#' + namePackaging[index]}
+                        aria-controls={'#' + namePackaging[index]}
+                        aria-selected={index === 0}
                         onClick={() => {
                           const packagePrice = parseFloat(item?.price);
                           const packageName = item?.name;
                           const selectorImage = item?.image;
-                          console.log(selectorImage);
                           setState((o) => ({
                             ...o,
                             packagePrice,
@@ -362,13 +392,13 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
                             selectorImage,
                           }));
                         }}
-                        className="mb-3 border p-2  border-black">
+                        role="tab">
                         {item?.name}
-                      </button>
-                    ))
-                  : null}
-              </div>
-            </div>
+                      </a>
+                    </li>
+                  ))
+                : null}
+            </ul>
           </div>
           {_.isEmpty(product?.packaging) ? null : (
             <span className="mb-4 text-[#383e42] text-[24px] font-semibold">
