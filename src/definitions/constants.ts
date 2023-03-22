@@ -240,14 +240,14 @@ export const FooterRoutes = [
 export const Countries = [
   {
     name: 'Vietnam',
-    value: 'Vn'
+    value: 'Vietnam'
   },
   {
     name: 'France',
-    value: 'Fr'
+    value: 'France'
   },
   {
     name: 'Chinese',
-    value: 'Cn'
+    value: 'Chinese'
   }
 ]
