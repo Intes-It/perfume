@@ -10,6 +10,7 @@ import Order from './order';
 import Payment from './payment';
 import UserProfile from './user-profile';
 import { updateFullCart } from '@redux/slices/cart';
+import { setList } from '@redux/slices/favorite';
 
 const Tabs = [
   {
@@ -50,10 +51,11 @@ const Tabs = [
 ];
 
 const Profile = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const logOut = async () => {
     await instance.post('/api/user/logout').then(() => {
-      dispatch(updateFullCart([]))
+      dispatch(updateFullCart([]));
+      dispatch(setList([]));
       window.location.reload();
     });
   };

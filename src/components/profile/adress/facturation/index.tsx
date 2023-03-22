@@ -93,7 +93,6 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 <input
                   onChange={formik.handleChange}
                   required
-                  value={user?.first_name}
                   type="text"
                   defaultValue={user?.first_name}
                   id="first_name"
@@ -149,6 +148,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 Numéro et nom de rue <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
+                placeholder='Numéro de voie et nom de la rue'
                 onChange={formik.handleChange}
                 type="text"
                 defaultValue={user?.wards}
@@ -158,6 +158,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
               />
               <input
                 onChange={formik.handleChange}
+                placeholder='Batiment,appartment,lol,etc.(facultatif)'
                 type="text"
                 id="district"
                 defaultValue={user?.district}
