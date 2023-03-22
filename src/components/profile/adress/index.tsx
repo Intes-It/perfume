@@ -1,22 +1,34 @@
 import useUser from '@hooks/useUser';
-import React, { useState } from 'react';
+import { api } from '@utils/apiRoute';
+import { GET } from '@utils/fetch';
+import React, { useMemo, useState } from 'react';
 import Facturation from './facturation';
 
 const Adress = () => {
   const [state, setState] = useState({
     facturation: false,
     livraison: false,
+    // user: [],
   });
+
+  async function getProfile() {
+    const res = await GET(api.getProfile);
+    console.log(res);
+    return res.data;
+  }
 
   const backFacturation = () => {
     setState((pre) => ({ ...pre, facturation: false }));
+    getProfile();
   };
+
+
 
   const { user } = useUser();
 
   console.log(user);
 
-  const { facturation, livraison } = state;
+  const { facturation, livraison,  } = state;
   return (
     <div className="">
       {!facturation && !livraison ? (
@@ -30,7 +42,7 @@ const Adress = () => {
               <button
                 onClick={() => setState((pre) => ({ ...pre, facturation: true }))}
                 className="p-2 rounded-md border border-black">
-                Ajouter
+                {!user?.zip_code && !user?.first_name ? "Ajouter" : "Modifier" }
               </button>
             </div>
             <div className="mt-3 grid text-[#603813]">

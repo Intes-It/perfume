@@ -43,6 +43,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
       console.log(value);
       PUT('/api/user/profile', value).then((res) => {
         if (res?.status === 200) {
+          onBack();
           setState((o) => ({
             ...o,
             error: true,
@@ -148,7 +149,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 Numéro et nom de rue <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
-                placeholder='Numéro de voie et nom de la rue'
+                placeholder="Numéro de voie et nom de la rue"
                 onChange={formik.handleChange}
                 type="text"
                 defaultValue={user?.wards}
@@ -158,7 +159,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
               />
               <input
                 onChange={formik.handleChange}
-                placeholder='Batiment,appartment,lol,etc.(facultatif)'
+                placeholder="Batiment,appartment,lol,etc.(facultatif)"
                 type="text"
                 id="district"
                 defaultValue={user?.district}
