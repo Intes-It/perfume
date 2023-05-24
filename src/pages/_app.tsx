@@ -18,7 +18,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import Script from 'next/script'
 import { PersistGate } from "redux-persist/integration/react";
-import { persistStore } from "redux-persist";
+import { persistStore } from "redux-persist"; 
 
 config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 
