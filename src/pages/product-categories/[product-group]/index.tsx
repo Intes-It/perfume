@@ -115,7 +115,7 @@ const ProductGroup = () => {
             <DropdownSelect selections={productFilter} onChange={handleSortChange} />
           </div>
         </div>
-        <div className="grid grid-cols-4 grid-flow-row gap-10 tablet:grid-cols-3 mobile:grid-cols-2">
+        <div className="grid md:grid-cols-4 grid-flow-row gap-10 tablet:grid-cols-3 grid-cols-2">
           {products?.length > 0 ? (
             filterProducts?.map((item: Product, index: number) => (
               <div key={index}>

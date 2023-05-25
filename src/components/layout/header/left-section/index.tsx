@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 const LeftSection = () => {
   const router = useRouter();
   return (
-    <div className="grid gap-4 content-center">
+    <div className="grid gap-4 mt-5 ">
       <div className="flex mr-auto ml-2">
         <div className="hidden md:block">
           <nav className="flex ml-6 space-x-4">
@@ -31,8 +31,8 @@ const LeftSection = () => {
             </a>
           </nav>
         </div>
-        <MobileMenu className="mr-6" />
-        <SearchPopover className="md:hidden" />
+        <MobileMenu className="mr-6 " />
+        <SearchPopover className="md:hidden " />
       </div>
     </div>
   );

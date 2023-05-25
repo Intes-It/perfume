@@ -147,7 +147,7 @@ const Home: React.FC = () => {
           <div className="mobile:mx-5 mx-10 mobile:w-[100vw] w-1/2">
             <div className="text-center text-[44.8px] mobile:text-[25.6px] font-bold text-[#383E42]">
               <h2>Rencontre</h2>
-              <h2> Avec la créatrice</h2>
+              <h2>Avec la créatrice</h2>
             </div>
             <div>
               {BriefTextCreatrice?.map((creatrice, index) => (
@@ -166,11 +166,9 @@ const Home: React.FC = () => {
               </a>
             </div>
           </div>
-          <img
-            className="mobile:w-[100vw] w-1/2"
-            src={"/images/about-creatrice.webp"}
-            alt=""
-          />
+          <div className="animate-wiggle mobile:w-[100vw] w-1/2">
+            <img src={"/images/about-creatrice.webp"} alt="" />
+          </div> 
         </div>
       </div>
 
