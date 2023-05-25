@@ -124,6 +124,7 @@ const ProductItem: React.FC<ProductProps> = ({
           // src={`${server_link}${product?.image}`}
           src={(product as any)?.url_image}
           alt="{title}"
+          height={450}
         />
       </NextLink>
       <h5 className="text-[#603813] text-center">{product?.name}</h5>

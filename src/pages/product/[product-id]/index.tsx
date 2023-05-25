@@ -60,10 +60,12 @@ const ProductDetail: React.FC<
     quantity: 1,
     packagePrice: 0,
     contenancePrice: 0,
-    packageName: undefined,
+    packageName: "Recharge",
     contenance: undefined,
     color: undefined,
     selectorImage: undefined,
+    packageChoice: 0,
+    contenanceChoice: 0,
   });
 
   const router = useRouter();
@@ -77,6 +79,8 @@ const ProductDetail: React.FC<
     contenancePrice,
     color,
     selectorImage,
+    packageChoice,
+    contenanceChoice,
   } = state;
 
   const totalMoney = localCart?.reduce(
@@ -292,11 +296,11 @@ const ProductDetail: React.FC<
             <Rating score={product?.evaluate || 0} />
             <span>{`( 0 avis client)`}</span>
           </div>
-          <div className="my-2">
-            <span className="text-[#383e42] text-[24px] font-semibold">
-              {formatCurrency(String(product?.price))} €
-            </span>
-          </div>
+          {/*<div className="my-2">*/}
+          {/*  <span className="text-[#383e42] text-[24px] font-semibold">*/}
+          {/*    {formatCurrency(String(product?.price))} €*/}
+          {/*  </span>*/}
+          {/*</div>*/}
           {/* color */}
           <div className="my-3">
             {_.isEmpty(product?.color) ? null : (
@@ -332,22 +336,14 @@ const ProductDetail: React.FC<
           </div>
           {/* sub product */}
           <div className="mt-4 mb-3 flex gap-1 ">
-            {_.isEmpty(product?.capacity)
-              ? null
-              : Object.values(product?.capacity)?.map(
-                  (item: any, index: number) => (
-                    <div
-                      id={capacityName[index]}
-                      role="tabpanel"
-                      className={`hidden mb-4 ${
-                        index === 0 ? "opacity-100" : "opacity-0"
-                      } text-[#603813]    transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}
-                      data-te-tab-active={index === 0}
-                    >
-                      Contenance : {contenance}
-                    </div>
-                  )
-                )}
+            {_.isEmpty(product?.capacity) ? null : (
+              <div
+                role="tabpanel"
+                className={` text-[#603813] transition-opacity duration-150 ease-linear `}
+              >
+                Contenance : {contenance}
+              </div>
+            )}
           </div>
           <div className="">
             <ul
@@ -361,8 +357,12 @@ const ProductDetail: React.FC<
                       <li role="presentation" key={index}>
                         <button
                           // href={"#" + capacityName[index]}
-                          className="p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-[#6A5950] "
-                          id={capacityName[index]}
+                          className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate ${
+                            contenanceChoice === index && "border-[#6A5950]"
+                          } "
+                          
+                          `}
+                          // id={capacityName[index]}
                           // data-te-toggle="pill"
                           // data-te-nav-active={index === 0 ? true : undefined}
                           // data-te-target={"#" + capacityName[index]}
@@ -376,6 +376,7 @@ const ProductDetail: React.FC<
                               ...o,
                               contenancePrice,
                               contenance,
+                              contenanceChoice: index,
                             }));
                           }}
                         >
@@ -390,23 +391,17 @@ const ProductDetail: React.FC<
 
           {/* packaging */}
           <div className="mt-4 mb-3 flex gap-1 ">
-            {_.isEmpty(product?.packaging)
-              ? null
-              : Object.values(product?.packaging)?.map(
-                  (item: any, index: number) => (
-                    <div
-                      // id={item?.newName}
-                      id={namePackaging[index]}
-                      role="tabpanel"
-                      className={`hidden mb-4 ${
-                        index === 0 ? "opacity-100" : "opacity-0"
-                      } text-[#603813]    transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}
-                      // data-te-tab-active={index === 0 ? true : false}
-                    >
-                      Packaging : {item?.name}
-                    </div>
-                  )
-                )}
+            {_.isEmpty(product?.packaging) ? null : (
+              <div
+                // id={item?.newName}
+                // id={namePackaging[index]}
+                role="tabpanel"
+                className={`mb-4  text-[#603813]    transition-opacity duration-150 ease-linear `}
+                // data-te-tab-active={index === 0 ? true : false}
+              >
+                Packaging : {packageName}
+              </div>
+            )}
           </div>
           <div>
             <ul
@@ -420,13 +415,10 @@ const ProductDetail: React.FC<
                       <li role="presentation" key={index}>
                         <button
                           // href={"#" + namePackaging[index]}
-                          className="p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-[#6A5950] "
+                          className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate focus:isolate hover:border-transparent hover:bg-neutral-100   ${
+                            packageChoice === index ? "border-[#6A5950]" : ""
+                          } `}
                           id={namePackaging[index]}
-                          // data-te-toggle="pill"
-                          // data-te-nav-active={index === 0 ? true : undefined}
-                          // data-te-target={"#" + namePackaging[index]}
-                          // aria-controls={"#" + namePackaging[index]}
-                          // aria-selected={index === 0}
                           onClick={() => {
                             const packagePrice = parseFloat(item?.price);
                             const packageName = item?.name;
@@ -436,6 +428,7 @@ const ProductDetail: React.FC<
                               packagePrice,
                               packageName,
                               selectorImage,
+                              packageChoice: index,
                             }));
                           }}
                           role="tab"
