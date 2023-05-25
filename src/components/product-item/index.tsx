@@ -94,7 +94,7 @@ const ProductItem: React.FC<ProductProps> = ({
   };
 
   return (
-    <div className=" relative flex flex-col items-center text-[16px] mb-2 bg-white">
+    <div className="relative flex flex-col items-center text-[16px] mb-2 bg-white">
       {showFavorite && (
         <FontAwesomeIcon
           className={`absolute top-[5%] right-[4%] mobile:top-[2%] mobile:right-[0%] 
@@ -105,7 +105,7 @@ const ProductItem: React.FC<ProductProps> = ({
       )}
       <NextLink href={`/product/${product?.id}`}>
         <img
-          className="w-[22vw] tablet:w-[32vw] mobile:w-[45vw] cursor-pointer"
+          className="w-[60vw] cursor-pointer"
           // src={`${server_link}${product?.image}`}
           src={(product as any)?.url_image}
           alt="{title}"

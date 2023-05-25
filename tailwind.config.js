@@ -4,6 +4,7 @@
 module.exports = {
   mode: "jit",
   content: [ 
+    "./node_modules/flowbite-react/**/*.js",
     "./src/**/*.{ts,tsx}",
     "./public/**/*.html"
   ],
@@ -14,5 +15,6 @@ module.exports = {
     extend: {},
   },
   plugins: [
+    require("flowbite/plugin")
   ],
 };

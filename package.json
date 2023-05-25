@@ -23,6 +23,8 @@
     "daisyui": "^2.50.2",
     "dayjs": "^1.11.6",
     "embla-carousel-react": "^7.0.9",
+    "flowbite": "^1.6.5",
+    "flowbite-react": "^0.4.4",
     "formik": "^2.2.9",
     "html-react-parser": "^3.0.12",
     "libphonenumber-js": "^1.10.14",
