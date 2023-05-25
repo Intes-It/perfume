@@ -1,56 +1,34 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import NextLink from 'next/link';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { formatCurrency } from '@utils/formatNumber';
-import { Container } from '@components/container';
-import { BestSales } from '@components/best-sales';
-import Rating from '@components/rating/rating';
-import Parser from 'html-react-parser';
-
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import React, { useEffect, useMemo, useState } from "react";
+import NextLink from "next/link";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { formatCurrency } from "@utils/formatNumber";
+import { Container } from "@components/container";
+import { BestSales } from "@components/best-sales";
+import Rating from "@components/rating/rating";
+import Parser from "html-react-parser";
+import { Tabs } from "flowbite-react";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 // import { Product } from "@types";
 
-import { addProduct } from '@redux/slices/cart';
-import { useDispatch, useSelector } from 'react-redux';
+import { addProduct } from "@redux/slices/cart";
+import { useDispatch, useSelector } from "react-redux";
 
-import ImageModal from '@components/image-modal';
-import { useProductDetail, useBestSallingProducts } from '@hooks/useProduct';
-import { useRouter } from 'next/router';
-import useUser from '@hooks/useUser';
-import { ExProduct } from '@types';
-import useCart from '@hooks/useCart';
-import { useAllCategory } from '@hooks/useCategory';
-import _ from 'lodash';
-import { opacity } from 'styled-system';
+import ImageModal from "@components/image-modal";
+import { useProductDetail, useBestSallingProducts } from "@hooks/useProduct";
+import { useRouter } from "next/router";
+import useUser from "@hooks/useUser";
+import { ExProduct } from "@types";
+import useCart from "@hooks/useCart";
+import { useAllCategory } from "@hooks/useCategory";
+import _ from "lodash";
 
-const DescriptionTabs = [
-  {
-    id: 'tab-descriptions-tab',
-    header: 'Description',
-    href: '#tab-descriptions',
-  },
-  {
-    id: 'tab-features-tab',
-    header: 'Caractéristiques',
-    href: '#tab-features',
-  },
-  {
-    id: 'tab-utilisation-tab',
-    header: 'Utilisation',
-    href: '#tab-utilisation',
-  },
-  {
-    id: 'tab-composition-tab',
-    header: 'Composition',
-    href: '#tab-composition',
-  },
-];
+const { Group, Item } = Tabs;
 
 export const getServerSideProps: GetServerSideProps<{
   productId: string;
 }> = async (context: any) => {
-  const productId = context.query['product-id'];
+  const productId = context.query["product-id"];
   if (productId)
     return {
       props: {
@@ -62,9 +40,9 @@ export const getServerSideProps: GetServerSideProps<{
   };
 };
 
-const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
-  productId,
-}) => {
+const ProductDetail: React.FC<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ productId }) => {
   // redux
   const dispatch = useDispatch();
   const localCart = useSelector(
@@ -73,7 +51,7 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
 
   const { isAuthenticated } = useUser();
   const { addProductToCart, addExistProductToCart, cart } = useCart();
-
+  const [tabs, setTabs] = useState(0);
   const { product } = useProductDetail({ id: productId });
   const { products } = useBestSallingProducts();
   const { data } = useAllCategory();
@@ -102,14 +80,18 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
   } = state;
 
   const totalMoney = localCart?.reduce(
-    (pre, curr) => pre + curr.quantity * Number.parseFloat(curr?.product?.price || '0'),
+    (pre, curr) =>
+      pre + curr.quantity * Number.parseFloat(curr?.product?.price || "0"),
     0
   );
-  const totalProducts = localCart?.reduce((pre, curr) => pre + curr.quantity, 0);
+  const totalProducts = localCart?.reduce(
+    (pre, curr) => pre + curr.quantity,
+    0
+  );
 
   const breadCrumb = useMemo(() => {
     // console.log(product);
-    let res = [{ name: 'Accueil', route: '/' }];
+    let res = [{ name: "Accueil", route: "/" }];
     const groupRoute = product?.category?.name?.toLowerCase();
     const subGroupRoute = product?.subcategory?.name?.toLowerCase();
     if (groupRoute) {
@@ -137,15 +119,15 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
   let namePackaging: any = [];
   if (product?.packaging) {
     namePackaging = Object?.values(product?.packaging)?.reduce(
-      (a: any[], item: any) => a.concat(item?.name || ''),
+      (a: any[], item: any) => a.concat(item?.name || ""),
       []
     );
     namePackaging.forEach((item: any, index: number) => {
-      namePackaging[index] = item.replace(/\s/g, '');
+      namePackaging[index] = item.replace(/\s/g, "");
     });
   }
 
-  const capacityName: any = ['one', 'two'];
+  const capacityName: any = ["one", "two"];
   // let capacityName: any = [];
   // if (product?.capacity) {
   //   capacityName = Object?.values(product?.capacity)?.reduce(
@@ -157,7 +139,28 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
   //   });
   //   console.log(capacityName);
   // }
-
+  const DescriptionTabs = [
+    {
+      id: "tab-descriptions-tab",
+      header: "Description",
+      content: Parser(product?.note?.Description || ""),
+    },
+    {
+      id: "tab-features-tab",
+      header: "Caractéristiques",
+      content: Parser(product?.note?.Caractéristiques || ""),
+    },
+    {
+      id: "tab-utilisation-tab",
+      header: "Utilisation",
+      content: Parser(product?.note?.Utilisation || ""),
+    },
+    {
+      id: "tab-composition-tab",
+      header: "Composition",
+      content: Parser(product?.note?.Composition || ""),
+    },
+  ];
   const setShowModal = (isOpen: boolean) => {
     setState((pre) => ({ ...pre, isShowImageModal: isOpen }));
   };
@@ -188,7 +191,8 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
           capacity: contenance === undefined ? null : contenance,
           total_amount: totalProducts + quantity,
           total_price:
-            Number.parseFloat(existProduct?.product?.price || '0') * quantity + totalMoney,
+            Number.parseFloat(existProduct?.product?.price || "0") * quantity +
+            totalMoney,
         };
         res = await addExistProductToCart(data);
       } else {
@@ -203,7 +207,8 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
           total_amount_cart: totalProducts + quantity,
           price: sumChoice,
           total_price_item: sumChoice || 0 * quantity,
-          total_price_cart: Number.parseFloat(product?.price || '0') * quantity + totalMoney,
+          total_price_cart:
+            Number.parseFloat(product?.price || "0") * quantity + totalMoney,
         };
         res = await addProductToCart(data);
       }
@@ -217,7 +222,8 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
             color: color,
             capacity: contenance,
             price: sumChoice,
-            image: selectorImage === undefined ? product?.url_image : selectorImage,
+            image:
+              selectorImage === undefined ? product?.url_image : selectorImage,
           })
         );
       }
@@ -230,7 +236,8 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
           color: color,
           capacity: contenance,
           price: sumChoice,
-          image: selectorImage === undefined ? product?.url_image : selectorImage,
+          image:
+            selectorImage === undefined ? product?.url_image : selectorImage,
         })
       );
     }
@@ -244,14 +251,16 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
           <img
             className="hover:scale-125 transition duration-100 w-full object-cover"
             // src={product?.url_image}
-            src={selectorImage === undefined ? product?.url_image : selectorImage}
+            src={
+              selectorImage === undefined ? product?.url_image : selectorImage
+            }
             alt={product?.name}
           />
           <button className="absolute right-0 top-0 bg-white rounded-full w-[2.2rem] h-[2.2rem]">
             <FontAwesomeIcon
               onClick={() => setShowModal(true)}
               icon={faSearch}
-              fontSize={'1.1rem'}
+              fontSize={"1.1rem"}
             />
           </button>
         </div>
@@ -268,7 +277,7 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
                       {item?.name}
                     </span>
                   </NextLink>
-                  <span className="mx-2">{'/'}</span>
+                  <span className="mx-2">{"/"}</span>
                 </div>
               );
             })}
@@ -291,28 +300,33 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
           {/* color */}
           <div className="my-3">
             {_.isEmpty(product?.color) ? null : (
-              <span className="grid mb-4 text-[#603813] font-semibold">Color : {color} </span>
+              <span className="grid mb-4 text-[#603813] font-semibold">
+                Color : {color}{" "}
+              </span>
             )}
             <div className="mt-4 flex gap-3">
               {product?.color
-                ? Object.values(product.color)?.map((item: any, index: number) => (
-                    <button
-                      key={index}
-                      onClick={() => {
-                        const color = item?.name;
-                        setState((o) => ({
-                          ...o,
-                          color,
-                        }));
-                      }}
-                      style={{
-                        background: `${item.color}`,
-                      }}
-                      className={`mb-3 border p-2 text-white border-black `}>
-                      {/* //  className={`mb-3 border p-2 text-white border-black bg-[#50d71e]`}>  */}
-                      {item?.name}
-                    </button>
-                  ))
+                ? Object.values(product.color)?.map(
+                    (item: any, index: number) => (
+                      <button
+                        key={index}
+                        onClick={() => {
+                          const color = item?.name;
+                          setState((o) => ({
+                            ...o,
+                            color,
+                          }));
+                        }}
+                        style={{
+                          background: `${item.color}`,
+                        }}
+                        className={`mb-3 border p-2 text-white border-black `}
+                      >
+                        {/* //  className={`mb-3 border p-2 text-white border-black bg-[#50d71e]`}>  */}
+                        {item?.name}
+                      </button>
+                    )
+                  )
                 : null}
             </div>
           </div>
@@ -320,51 +334,56 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
           <div className="mt-4 mb-3 flex gap-1 ">
             {_.isEmpty(product?.capacity)
               ? null
-              : Object.values(product?.capacity)?.map((item: any, index: number) => (
-                  <div
-                    id={capacityName[index]}
-                    role="tabpanel"
-                    className={`hidden mb-4 ${
-                      index === 0 ? 'opacity-100' : 'opacity-0'
-                    } text-[#603813]    transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}
-                    data-te-tab-active={index === 0 ? true : false}>
-                    Contenance : {item?.name}
-                  </div>
-                ))}
+              : Object.values(product?.capacity)?.map(
+                  (item: any, index: number) => (
+                    <div
+                      id={capacityName[index]}
+                      role="tabpanel"
+                      className={`hidden mb-4 ${
+                        index === 0 ? "opacity-100" : "opacity-0"
+                      } text-[#603813]    transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}
+                      data-te-tab-active={index === 0}
+                    >
+                      Contenance : {contenance}
+                    </div>
+                  )
+                )}
           </div>
           <div className="">
             <ul
               className=" flex gap-2 list-none flex-col flex-wrap border-b-0 pl-0 md:flex-row"
               id="tabs-tab"
               role="tablist"
-              data-te-nav-ref>
+            >
               {product?.capacity
-                ? Object.values(product.capacity)?.map((item: any, index: number) => (
-                    <li role="presentation" key={index}>
-                      <a
-                        href={'#' + capacityName[index]}
-                        className="p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-[#6A5950] "
-                        id={capacityName[index]}
-                        data-te-toggle="pill"
-                        data-te-nav-active={index === 0 ? true : undefined}
-                        data-te-target={'#' + capacityName[index]}
-                        aria-controls={'#' + capacityName[index]}
-                        aria-selected={index === 0}
-                        onClick={() => {
-                          const contenancePrice = parseFloat(item?.price);
-                          const contenance = item?.name;
-                          console.log(contenancePrice);
-                          console.log(sumChoice);
-                          setState((o) => ({
-                            ...o,
-                            contenancePrice,
-                            contenance,
-                          }));
-                        }}>
-                        {item?.name}
-                      </a>
-                    </li>
-                  ))
+                ? Object.values(product.capacity)?.map(
+                    (item: any, index: number) => (
+                      <li role="presentation" key={index}>
+                        <button
+                          // href={"#" + capacityName[index]}
+                          className="p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-[#6A5950] "
+                          id={capacityName[index]}
+                          // data-te-toggle="pill"
+                          // data-te-nav-active={index === 0 ? true : undefined}
+                          // data-te-target={"#" + capacityName[index]}
+                          // aria-controls={"#" + capacityName[index]}
+                          // aria-selected={index === 0}
+                          onClick={() => {
+                            const contenancePrice = parseFloat(item?.price);
+                            const contenance = item?.name;
+
+                            setState((o) => ({
+                              ...o,
+                              contenancePrice,
+                              contenance,
+                            }));
+                          }}
+                        >
+                          {item?.name}
+                        </button>
+                      </li>
+                    )
+                  )
                 : null}
             </ul>
           </div>
@@ -373,53 +392,59 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
           <div className="mt-4 mb-3 flex gap-1 ">
             {_.isEmpty(product?.packaging)
               ? null
-              : Object.values(product?.packaging)?.map((item: any, index: number) => (
-                  <div
-                    // id={item?.newName}
-                    id={namePackaging[index]}
-                    role="tabpanel"
-                    className={`hidden mb-4 ${
-                      index === 0 ? 'opacity-100' : 'opacity-0'
-                    } text-[#603813]    transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}
-                    data-te-tab-active={index === 0 ? true : false}>
-                    Packaging : {item?.name}
-                  </div>
-                ))}
+              : Object.values(product?.packaging)?.map(
+                  (item: any, index: number) => (
+                    <div
+                      // id={item?.newName}
+                      id={namePackaging[index]}
+                      role="tabpanel"
+                      className={`hidden mb-4 ${
+                        index === 0 ? "opacity-100" : "opacity-0"
+                      } text-[#603813]    transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}
+                      // data-te-tab-active={index === 0 ? true : false}
+                    >
+                      Packaging : {item?.name}
+                    </div>
+                  )
+                )}
           </div>
           <div>
             <ul
               className=" flex gap-2 list-none flex-col flex-wrap border-b-0 pl-0 md:flex-row"
               id="tabs-tab"
               role="tablist"
-              data-te-nav-ref>
+            >
               {product?.packaging
-                ? Object.values(product.packaging)?.map((item: any, index: number) => (
-                    <li role="presentation" key={index}>
-                      <a
-                        href={'#' + namePackaging[index]}
-                        className="p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-[#6A5950] "
-                        id={namePackaging[index]}
-                        data-te-toggle="pill"
-                        data-te-nav-active={index === 0 ? true : undefined}
-                        data-te-target={'#' + namePackaging[index]}
-                        aria-controls={'#' + namePackaging[index]}
-                        aria-selected={index === 0}
-                        onClick={() => {
-                          const packagePrice = parseFloat(item?.price);
-                          const packageName = item?.name;
-                          const selectorImage = item?.image;
-                          setState((o) => ({
-                            ...o,
-                            packagePrice,
-                            packageName,
-                            selectorImage,
-                          }));
-                        }}
-                        role="tab">
-                        {item?.name}
-                      </a>
-                    </li>
-                  ))
+                ? Object.values(product.packaging)?.map(
+                    (item: any, index: number) => (
+                      <li role="presentation" key={index}>
+                        <button
+                          // href={"#" + namePackaging[index]}
+                          className="p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-[#6A5950] "
+                          id={namePackaging[index]}
+                          // data-te-toggle="pill"
+                          // data-te-nav-active={index === 0 ? true : undefined}
+                          // data-te-target={"#" + namePackaging[index]}
+                          // aria-controls={"#" + namePackaging[index]}
+                          // aria-selected={index === 0}
+                          onClick={() => {
+                            const packagePrice = parseFloat(item?.price);
+                            const packageName = item?.name;
+                            const selectorImage = item?.image;
+                            setState((o) => ({
+                              ...o,
+                              packagePrice,
+                              packageName,
+                              selectorImage,
+                            }));
+                          }}
+                          role="tab"
+                        >
+                          {item?.name}
+                        </button>
+                      </li>
+                    )
+                  )
                 : null}
             </ul>
           </div>
@@ -433,8 +458,8 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
                         parseFloat(String(packagePrice)) +
                         parseFloat(String(product?.price))
                     )
-                  )}{' '}
-              €{' '}
+                  )}{" "}
+              €{" "}
             </span>
           )}
 
@@ -443,25 +468,30 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
             <input
               value={quantity}
               onChange={(e: any) => {
-                setState((pre) => ({ ...pre, quantity: Number.parseInt(e.target.value) }));
+                setState((pre) => ({
+                  ...pre,
+                  quantity: Number.parseInt(e.target.value),
+                }));
               }}
               type="number"
               className="border border-gray outline-none p-1 text-center w-14 h-10"
               min={1}
-              placeholder={'1'}
+              placeholder={"1"}
             />
             <div className="flex gap-3">
               <button
                 onClick={handleAddProduct}
-                className="ml-3 rounded-md p-5 bg-[#acd051] hover:bg-black text-white font-semibold">
+                className="ml-3 rounded-md p-5 bg-[#acd051] hover:bg-black text-white font-semibold"
+              >
                 AJOUTER AU PANIER
               </button>
               <button
                 className="rounded-md bg-[#603813] p-5  hover:bg-black text-white font-semibold"
                 onClick={() => {
                   handleAddProduct();
-                  router.push('/checkout');
-                }}>
+                  router.push("/checkout");
+                }}
+              >
                 ACHETER
               </button>
             </div>
@@ -470,57 +500,37 @@ const ProductDetail: React.FC<InferGetServerSidePropsType<typeof getServerSidePr
       </div>
 
       {/* description tabs */}
+
       <div className="mx-16">
-        <ul
-          className="mb-5 flex list-none flex-col flex-wrap border-b-0 pl-0 md:flex-row"
-          id="tabs-tab"
-          role="tablist"
-          data-te-nav-ref>
+        <ul className="mb-5 flex list-none flex-col flex-wrap border-b-0 pl-0 md:flex-row">
           {DescriptionTabs?.map((item, index) => (
             <li role="presentation" key={index}>
-              <a
-                href={item?.href}
-                className="my-2 block border-x-0 border-b-0 border-t-2 border-transparent px-7 pt-4 pb-3.5 text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-[#6A5950] "
+              <button
+                className={`my-2 block  border-b-0 border-t-2 border-transparent px-7 pt-4 pb-3.5 text-[#16px] leading-tight text-[#515151] font-semibold hover:border-transparent hover:bg-neutral-100   ${
+                  tabs === index ? "border-t-[#6A5950]" : " "
+                }  `}
                 id={item?.id}
-                data-te-toggle="pill"
-                data-te-nav-active={index === 0 ? true : undefined}
-                data-te-target={item?.href}
-                aria-controls={item?.href}
-                aria-selected={index === 0}
-                role="tab">
+                onClick={() => setTabs(index)}
+              >
                 {item?.header}
-              </a>
+              </button>
             </li>
           ))}
         </ul>
         <div className="my-2 w-full">
-          <div
-            className="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
-            id="tab-descriptions"
-            role="tabpanel"
-            data-te-tab-active>
-            <span className="text-[#603813] whitespace-pre-line">
-              {Parser(product?.note?.Description || '')}
-            </span>
-          </div>
-          <div
-            className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
-            id="tab-features"
-            role="tabpanel">
-            {Parser(product?.note?.Caractéristiques || '')}
-          </div>
-          <div
-            className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
-            id="tab-utilisation"
-            role="tabpanel">
-            {Parser(product?.note?.Utilisation || '')}
-          </div>
-          <div
-            className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
-            id="tab-composition"
-            role="tabpanel">
-            {Parser(product?.note?.Composition || '')}
-          </div>
+          {DescriptionTabs.map(
+            (item, index) =>
+              tabs === index && (
+                <div className=" opacity-100 transition-opacity duration-150 ease-linear ">
+                  <span
+                    className="text-[#603813] whitespace-pre-line"
+                    key={index}
+                  >
+                    {item.content}
+                  </span>
+                </div>
+              )
+          )}
         </div>
       </div>
 

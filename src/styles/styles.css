@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @font-face {
     font-family: 'Objektiv';
     src: url('../../public/fonts/Trial_objektiv-1/ObjektivMk2_Trial_Lt.ttf');
