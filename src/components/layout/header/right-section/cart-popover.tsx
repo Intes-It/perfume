@@ -62,6 +62,8 @@ console.log(products);
       }
     }
   }, [cart]);
+  console.log(products);
+  
 
   return (
     <Fragment>
@@ -104,7 +106,7 @@ console.log(products);
                   <div className="overflow-y-auto max-h-[400px]">
                     {products?.map((item: any, index: number) => (
                       <div key={index} className="grid grid-cols-9 border-b-[1px] p-4 ">
-                        <NextLink href={`/product/${item?.id}`}>
+                        <NextLink href={`/product/${item?.product.id}`}>
                           <img
                             className="col-span-2 cursor-pointer"
                             // src={(item?.product as any)?.url_image}
