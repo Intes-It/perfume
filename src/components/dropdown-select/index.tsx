@@ -11,7 +11,7 @@ const DropdownSelect: React.FC<DropdownProps> = ({ selections ,onChange}) => {
     onChange(e);
   }
   return (
-    <select id="s" className="w-52 tablet:w-36  p-4 border rounded bg-white text-[#603813] text-[14.4px] mobile:text-[12.6px] mobile:w-28 cursor-pointer"
+    <select id="s" className="md:w-44 w-30 p-4 border rounded bg-white text-[#603813] text-[14.4px] mobile:text-[12.6px] mobile:w-28 cursor-pointer"
       onChange={handleChange}  >
       {selections?.map((selection: any, index: number) => (
         <option  key={index} value={selection.value}>

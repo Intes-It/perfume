@@ -107,10 +107,10 @@ const ProductItem: React.FC<ProductProps> = ({
   };
 
   return (
-    <div className="relative flex flex-col items-center text-[16px] mb-2 bg-white">
+    <div className="relative flex flex-col  items-center text-[16px] mb-2 bg-white">
       {showFavorite && (
         <FontAwesomeIcon
-          className={`absolute top-[5%] right-[4%] mobile:top-[2%]  mobile:right-[0%] 
+          className={`absolute top-[5%] right-[4%] mobile:top-[2%] mobile:right-[0%] 
                   cursor-pointer hover:text-red-500 ${
                     favorite ? "text-red-500" : ""
                   } `}
@@ -118,16 +118,16 @@ const ProductItem: React.FC<ProductProps> = ({
           onClick={() => onFavoriteChanged?.(favorite)}
         />
       )}
-      <NextLink href={`/product/${product?.id}`}>
-        <img
-          className="cursor-pointer rounded-t-lg object-scale-down md:w-[20vw] md:h-[20vw] w-[80vw] h-[80vw"
-          // src={`${server_link}${product?.image}`}
-          src={(product as any)?.url_image}
-          alt="title"
-        />
-      </NextLink>
-      {/*<div className={"flex content-center flex-wrap"}>
-      </div>*/}
+      <a href={`/product/${product?.id}`}>
+        <div >
+          <img
+            className="object-scale-down md:w-[20vw] md:h-[20vw] w-[80vw] h-[80vw]  cursor-pointer"
+            // src={`${server_link}${product?.image}`}
+            src={(product as any)?.url_image}
+            alt="{title}"
+          />
+        </div>
+      </a>
       <h5 className="text-[#603813] text-center">{product?.name}</h5>
       <div className="flex flex-col mt-5 items-center space-y-2">
         <Rating score={product?.evaluate || 0} />

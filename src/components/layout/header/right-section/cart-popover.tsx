@@ -37,8 +37,7 @@ const CartPopover: React.FC = () => {
 
   const handleRemoveProduct = async (exProduct: ExProduct) => {
     if (isAuthenticated) {
-      const totalPrice =
-        exProduct.quantity * Number.parseFloat(exProduct.product.price || "0");
+      const totalPrice = exProduct.quantity * Number.parseFloat(exProduct.product.price || '0');
       const res = await removeProductToCart({
         order_item_id: exProduct.orderId,
         total_amount: totalProducts - exProduct.quantity,
@@ -63,7 +62,6 @@ const CartPopover: React.FC = () => {
       }
     }
   }, [cart]);
-  console.log(products);
 
   return (
     <Fragment>
@@ -100,25 +98,23 @@ const CartPopover: React.FC = () => {
                 fontSize={"1.5rem"}
                 style={{ color: "#ccc" }}
                 onClick={() => setShowModal(false)}
-                className={"float-right"}
+                className={'float-right'}
               />
               <br />
               {products.length > 0 ? (
                 <div>
                   <div className="overflow-y-auto max-h-[400px]">
                     {products?.map((item: any, index: number) => (
-                      <div
-                        key={index}
-                        className="grid grid-cols-9 border-b-[1px] p-4 "
-                      >
-                        <NextLink href={`/product/${item?.product.id}`}>
-                          <img
-                            className="col-span-2 cursor-pointer"
-                            // src={(item?.product as any)?.url_image}
-                            src={item?.image}
-                            alt={item?.product?.name}
-                          />
-                        </NextLink>
+                      <div key={index} className="grid grid-cols-9 border-b-[1px] p-4 ">
+
+                          <a href={`/product/${item?.product.id}`}>
+                            <img
+                              className="col-span-2 cursor-pointer"
+                              // src={(item?.product as any)?.url_image}
+                              src={item?.image}
+                              alt={item?.product?.name}
+                            />
+                          </a>
                         <div className="col-span-6 ml-6 flex-row">
                           {/* {item?.packageName ? (
                             <div>{item?.product?.name + '-' + item?.packageName}</div>
