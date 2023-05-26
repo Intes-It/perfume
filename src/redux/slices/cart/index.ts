@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { ExProduct, Product } from '@types';
-import { PURGE } from 'redux-persist';
+import { createSlice } from "@reduxjs/toolkit";
+import { ExProduct, Product } from "@types";
+import { PURGE } from "redux-persist";
 
 interface ICart {
   products: ExProduct[];
@@ -10,7 +10,7 @@ const initialState: ICart = {
 };
 
 const cartSlice = createSlice({
-  name: 'cart',
+  name: "cart",
   initialState,
   reducers: {
     addProduct: (state, actions) => {
@@ -37,11 +37,14 @@ const cartSlice = createSlice({
       if (exProduct.packageName && !exProduct.capacity)
         products = state.products?.filter(
           (item) =>
-            item?.product?.id !== exProduct?.id && item?.packageName !== exProduct.packageName
+            item?.product?.id !== exProduct?.id &&
+            item?.packageName !== exProduct.packageName
         );
       else if (exProduct.color)
         products = state.products?.filter(
-          (item) => item?.product?.id !== exProduct?.id && item?.color !== exProduct.color
+          (item) =>
+            item?.product?.id !== exProduct?.id &&
+            item?.color !== exProduct.color
         );
       else if (exProduct.capacity) {
         products = state.products?.filter(
@@ -50,9 +53,11 @@ const cartSlice = createSlice({
             item?.packageName !== exProduct.packageName &&
             item?.capacity !== exProduct.capacity
         );
-        console.log(products);
+        // console.log(products);
       } else {
-        products = state.products?.filter((item) => item.product.id !== exProduct.product.id);
+        products = state.products?.filter(
+          (item) => item.product.id !== exProduct.product.id
+        );
       }
       if (products) state.products = products;
     },
@@ -63,7 +68,7 @@ const cartSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(PURGE, (state) => {
-      console.log('PURGE');
+      console.log("PURGE");
     });
   },
 });

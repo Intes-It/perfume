@@ -7,7 +7,7 @@ import { Container } from "@components/container";
 import { BestSales } from "@components/best-sales";
 import Rating from "@components/rating/rating";
 import Parser from "html-react-parser";
-import { Tabs } from "flowbite-react";
+
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 // import { Product } from "@types";
 
@@ -22,8 +22,7 @@ import { ExProduct } from "@types";
 import useCart from "@hooks/useCart";
 import { useAllCategory } from "@hooks/useCategory";
 import _ from "lodash";
-
-const { Group, Item } = Tabs;
+import Link from "next/link";
 
 export const getServerSideProps: GetServerSideProps<{
   productId: string;
@@ -61,7 +60,7 @@ const ProductDetail: React.FC<
     packagePrice: 0,
     contenancePrice: 0,
     packageName: "Recharge",
-    contenance: undefined,
+    contenance: "30 perles",
     color: undefined,
     selectorImage: undefined,
     packageChoice: 0,
@@ -93,18 +92,20 @@ const ProductDetail: React.FC<
     0
   );
 
+  console.log("product-slug", product);
   const breadCrumb = useMemo(() => {
-    // console.log(product);
     let res = [{ name: "Accueil", route: "/" }];
     const groupRoute = product?.category?.name?.toLowerCase();
+
     const subGroupRoute = product?.subcategory?.name?.toLowerCase();
+
     if (groupRoute) {
       // const group = VisibleTitleRoutes?.find((item) => item?.route?.includes(groupRoute));
       res = [
         ...res,
         {
           name: product?.category?.name?.toLowerCase(),
-          route: product?.id?.toString(),
+          route: `/product-categories/${product?.category?.slug?.toLowerCase()}`,
         },
       ];
     }
@@ -277,9 +278,9 @@ const ProductDetail: React.FC<
               return (
                 <div className="flex" key={index}>
                   <NextLink href={item?.route}>
-                    <span className="cursor-pointer text-[#603813] hover:text-[#777777]">
+                    <a className="cursor-pointer text-[#603813] hover:text-[#777777]">
                       {item?.name}
-                    </span>
+                    </a>
                   </NextLink>
                   <span className="mx-2">{"/"}</span>
                 </div>
