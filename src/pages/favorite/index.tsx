@@ -1,14 +1,14 @@
-import { Container } from '@components/container';
-import DropdownSelect from '@components/dropdown-select';
-import ProductItem from '@components/product-item';
-import useFavorite from '@hooks/useFavoriteProduct';
-import { useProducts } from '@hooks/useProduct';
-import { addFavoriteItem, removeFavoriteItem } from '@redux/slices/favorite';
-import { Product } from '@types';
-import { productFilter } from '@utils/fakeData';
-import { formatCurrency } from '@utils/formatNumber';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { Container } from "@components/container";
+import DropdownSelect from "@components/dropdown-select";
+import ProductItem from "@components/product-item";
+import useFavorite from "@hooks/useFavoriteProduct";
+import { useProducts } from "@hooks/useProduct";
+import { addFavoriteItem, removeFavoriteItem } from "@redux/slices/favorite";
+import { Product } from "@types";
+import { productFilter } from "@utils/fakeData";
+import { formatCurrency } from "@utils/formatNumber";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Favorite = () => {
   const dispatch = useDispatch();
@@ -41,9 +41,9 @@ const Favorite = () => {
 
             /> */}
           </div>
-          <div className="mobile:float-right">
-            <DropdownSelect selections={productFilter} onChange={handleChange} />
-          </div>
+          {/*<div className="mobile:float-right">*/}
+          {/*  <DropdownSelect selections={productFilter} onChange={handleChange} />*/}
+          {/*</div>*/}
         </div>
         {favoriteProducts.length > 0 ? (
           <div className="grid grid-cols-4 grid-flow-row gap-10 tablet:grid-cols-3 mobile:grid-cols-2">
@@ -62,7 +62,9 @@ const Favorite = () => {
             ))}
           </div>
         ) : (
-          <span className="text-[20px] text-[#603813]">Aucun Produits Ajoutés Aux Favoris</span>
+          <span className="text-[20px] text-[#603813]">
+            Aucun Produits Ajoutés Aux Favoris
+          </span>
         )}
       </div>
     </div>
