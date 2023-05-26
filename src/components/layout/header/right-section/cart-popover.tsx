@@ -1,19 +1,19 @@
-import NextLink from 'next/link';
-import * as React from 'react';
-import { Fragment, useState } from 'react';
-import { faX, faBagShopping } from '@fortawesome/free-solid-svg-icons';
-import { faXmarkCircle } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useDispatch, useSelector } from 'react-redux';
+import NextLink from "next/link";
+import * as React from "react";
+import { Fragment, useState } from "react";
+import { faX, faBagShopping } from "@fortawesome/free-solid-svg-icons";
+import { faXmarkCircle } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useDispatch, useSelector } from "react-redux";
 
-import { ExProduct } from '@types';
-import { removeProduct } from '@redux/actions';
-import { Routes } from '@definitions/constants';
-import {useRouter } from 'next/router';
-import { formatCurrency } from '@utils/formatNumber';
-import useCart from '@hooks/useCart';
-import { updateFullCart } from '@redux/slices/cart';
-import useUser from '@hooks/useUser';
+import { ExProduct } from "@types";
+import { removeProduct } from "@redux/actions";
+import { Routes } from "@definitions/constants";
+import { useRouter } from "next/router";
+import { formatCurrency } from "@utils/formatNumber";
+import useCart from "@hooks/useCart";
+import { updateFullCart } from "@redux/slices/cart";
+import useUser from "@hooks/useUser";
 //
 const CartPopover: React.FC = () => {
   const router = useRouter();
@@ -22,12 +22,12 @@ const CartPopover: React.FC = () => {
     (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
   const { isAuthenticated } = useUser();
-console.log(products);
+  // console.log(products);
 
   const dispatch = useDispatch();
   const totalProducts = products?.reduce((pre, curr) => pre + curr.quantity, 0);
   const totalMoney = products?.reduce(
-    (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.price || '0'),
+    (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.price || "0"),
     0
   );
 
@@ -37,7 +37,8 @@ console.log(products);
 
   const handleRemoveProduct = async (exProduct: ExProduct) => {
     if (isAuthenticated) {
-      const totalPrice = exProduct.quantity * Number.parseFloat(exProduct.product.price || '0');
+      const totalPrice =
+        exProduct.quantity * Number.parseFloat(exProduct.product.price || "0");
       const res = await removeProductToCart({
         order_item_id: exProduct.orderId,
         total_amount: totalProducts - exProduct.quantity,
@@ -70,18 +71,19 @@ console.log(products);
       <div>
         <NextLink href="#">
           <a>
-            <span className={'relative inline-flex'}>
+            <span className={"relative inline-flex"}>
               <FontAwesomeIcon
                 className="hover:opacity-[0.5]  w-8 h-8"
                 onMouseEnter={() => setShowModal(true)}
                 onMouseLeave={() => setShowModal(false)}
                 icon={faBagShopping}
-                fontSize={'1.5rem'}
+                fontSize={"1.5rem"}
               />
               <span
                 className={
-                  'absolute top-badge mb-3 right-0 px-1 h-3 text-xs font-bold leading-none text-red-100 transform bg-red-500 rounded-full'
-                }>
+                  "absolute top-badge mb-3 right-0 px-1 h-3 text-xs font-bold leading-none text-red-100 transform bg-red-500 rounded-full"
+                }
+              >
                 {totalProducts}
               </span>
             </span>
@@ -91,30 +93,33 @@ console.log(products);
           <div
             onMouseEnter={() => setShowModal(true)}
             onMouseLeave={() => setShowModal(false)}
-            className="fixed right-[15px] top-[25px] z-50">
+            className="fixed right-[15px] top-[25px] z-50"
+          >
             <div className="mt-8 w-[330px] max-h-[700px] border shadow-md rounded-md bg-white p-4 py-5">
               <FontAwesomeIcon
                 icon={faX}
-                fontSize={'1.5rem'}
-                style={{ color: '#ccc' }}
+                fontSize={"1.5rem"}
+                style={{ color: "#ccc" }}
                 onClick={() => setShowModal(false)}
-                className={'float-right'}
+                className={"float-right"}
               />
               <br />
               {products.length > 0 ? (
                 <div>
                   <div className="overflow-y-auto max-h-[400px]">
                     {products?.map((item: any, index: number) => (
-                      <div key={index} className="grid grid-cols-9 border-b-[1px] p-4 ">
-                        
-                          <a href={`/product/${item?.product.id}`}>
-                            <img
-                              className="col-span-2 cursor-pointer"
-                              // src={(item?.product as any)?.url_image}
-                              src={item?.image}
-                              alt={item?.product?.name}
-                            />
-                          </a> 
+                      <div
+                        key={index}
+                        className="grid grid-cols-9 border-b-[1px] p-4 "
+                      >
+                        <NextLink href={`/product/${item?.product.id}`}>
+                          <img
+                            className="col-span-2 cursor-pointer"
+                            // src={(item?.product as any)?.url_image}
+                            src={item?.image}
+                            alt={item?.product?.name}
+                          />
+                        </NextLink>
                         <div className="col-span-6 ml-6 flex-row">
                           {/* {item?.packageName ? (
                             <div>{item?.product?.name + '-' + item?.packageName}</div>
@@ -122,15 +127,17 @@ console.log(products);
                             <div>{item?.product?.name}</div>
                           ) } */}
                           {item?.packageName && !item?.capacity ? (
-                            <div>{item?.product?.name + '-' + item?.packageName}</div>
+                            <div>
+                              {item?.product?.name + "-" + item?.packageName}
+                            </div>
                           ) : item?.color ? (
-                            <div>{item?.product?.name + '-' + item?.color}</div>
+                            <div>{item?.product?.name + "-" + item?.color}</div>
                           ) : item?.capacity ? (
                             <div>
                               {item?.product?.name +
-                                '-' +
+                                "-" +
                                 item?.capacity +
-                                ', ' +
+                                ", " +
                                 item?.packageName}
                             </div>
                           ) : (
@@ -143,10 +150,12 @@ console.log(products);
                         </div>
                         <FontAwesomeIcon
                           icon={faXmarkCircle}
-                          fontSize={'1.5rem'}
-                          style={{ color: '#ccc' }}
+                          fontSize={"1.5rem"}
+                          style={{ color: "#ccc" }}
                           onClick={() => handleRemoveProduct(item)}
-                          className={'float-right mt-auto bottom-0 cursor-pointer'}
+                          className={
+                            "float-right mt-auto bottom-0 cursor-pointer"
+                          }
                         />
                       </div>
                     ))}
@@ -158,10 +167,11 @@ console.log(products);
                   </div>
                   <button
                     onClick={async () => {
-                      await router.replace('/checkout');
+                      await router.replace("/checkout");
                       await router.reload();
                     }}
-                    className="bg-[#61CE70] w-full p-3 rounded-[5px] mt-5">
+                    className="bg-[#61CE70] w-full p-3 rounded-[5px] mt-5"
+                  >
                     Commander
                   </button>
                 </div>

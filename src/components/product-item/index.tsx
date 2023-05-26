@@ -110,7 +110,7 @@ const ProductItem: React.FC<ProductProps> = ({
     <div className="relative flex flex-col  items-center text-[16px] mb-2 bg-white">
       {showFavorite && (
         <FontAwesomeIcon
-          className={`absolute top-[5%] right-[4%] mobile:top-[2%] mobile:right-[0%] 
+          className={`absolute top-[5%] right-[4%] mobile:top-[2%]  mobile:right-[0%] 
                   cursor-pointer hover:text-red-500 ${
                     favorite ? "text-red-500" : ""
                   } `}
