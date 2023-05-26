@@ -93,7 +93,7 @@ const ProductGroup = () => {
           Des cosmétiques naturels solides fabriqués artisanalement en Provence
           avec des ingrédients majoritairement locaux.
         </p> */}
-        <div className="w-[100%] flex justify-between mobile:flex-wrap-reverse">
+        <div className="w-[100%] grid md:grid-cols-2 grid-cols-1 gap-2">
           <div className="flex  space-x-5 mobile:justify-between mobile:mt-5 ">
             <DropdownCheckbox
               title="Catégories"
@@ -110,8 +110,7 @@ const ProductGroup = () => {
               onChange={handlePriceRangeChange}
             />
           </div>
-          <div className="mobile:float-right">
-            {' '}
+          <div className="md:flex justify-end">
             <DropdownSelect selections={productFilter} onChange={handleSortChange} />
           </div>
         </div>

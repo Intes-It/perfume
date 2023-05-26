@@ -45,7 +45,7 @@ const DropdownCheckbox: React.FC<DropdownProps> = ({ title, selections, onChange
     <div className="font-semibold">
       <div
         onClick={() => setIsList(!isList)}
-        className="w-60 tablet:w-40 mobile:text-[14px] mobile:w-44 p-4 border rounded bg-white text-[#603813] text-[14.4px] leading-none flex items-center justify-between cursor-pointer">
+        className="md:w-60 mobile:text-[14px] mobile:w-44 p-4 border rounded bg-white text-[#603813] text-[14.4px] leading-none flex items-center justify-between cursor-pointer">
         {title}
         <div>
           {isList ? (
