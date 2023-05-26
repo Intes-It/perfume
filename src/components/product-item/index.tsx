@@ -118,7 +118,7 @@ const ProductItem: React.FC<ProductProps> = ({
           onClick={() => onFavoriteChanged?.(favorite)}
         />
       )}
-      <NextLink href={`/product/${product?.id}`}>
+      <a href={`/product/${product?.id}`}>
         <div >
           <img
             className="object-scale-down md:w-[20vw] md:h-[20vw] w-[80vw] h-[80vw]  cursor-pointer"
@@ -127,7 +127,7 @@ const ProductItem: React.FC<ProductProps> = ({
             alt="{title}"
           />
         </div> 
-      </NextLink>
+      </a>
       <h5 className="text-[#603813] text-center">{product?.name}</h5>
       <div className="flex flex-col mt-5 items-center space-y-2">
         <Rating score={product?.evaluate || 0} />
