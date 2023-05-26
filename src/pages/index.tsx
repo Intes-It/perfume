@@ -76,7 +76,7 @@ const Home: React.FC = () => {
       {/* best sales */}
       <div>
         <div className="w-full grid">
-          <span className="text-center text-[32px] font-semibold tracking-wide text-[#383e42]">
+          <span className="text-center text-[32px] font-semibold tracking-wide text-[#383e42] mb-5">
             NOS MEILLEURES VENTES
           </span>
         </div>
