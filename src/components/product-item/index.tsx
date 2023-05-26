@@ -126,7 +126,7 @@ const ProductItem: React.FC<ProductProps> = ({
             src={(product as any)?.url_image}
             alt="{title}"
           />
-        </div> 
+        </div>
       </a>
       <h5 className="text-[#603813] text-center">{product?.name}</h5>
       <div className="flex flex-col mt-5 items-center space-y-2">

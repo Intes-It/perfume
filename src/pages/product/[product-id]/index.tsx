@@ -254,7 +254,7 @@ const ProductDetail: React.FC<
         {/* product image */}
         <div className="overflow-clip relative">
           <img
-            className="hover:scale-125 transition duration-100 w-full object-cover"
+            className="hover:scale-125 transition duration-100 w-full object-cover   "
             // src={product?.url_image}
             src={
               selectorImage === undefined ? product?.url_image : selectorImage
@@ -297,14 +297,13 @@ const ProductDetail: React.FC<
             <Rating score={product?.evaluate || 0} />
             <span>{`( 0 avis client)`}</span>
           </div>
-          {
-            _.isEmpty(product?.capacity) &&
+          {_.isEmpty(product?.capacity) && (
             <div className="my-2">
               <span className="text-[#383e42] text-[24px] font-semibold">
                 {formatCurrency(String(product?.price))} €
               </span>
             </div>
-          }
+          )}
           {/* color */}
           <div className="my-3">
             {_.isEmpty(product?.color) ? null : (

@@ -64,7 +64,6 @@ const CartPopover: React.FC = () => {
     }
   }, [cart]);
   console.log(products);
-  
 
   return (
     <Fragment>
