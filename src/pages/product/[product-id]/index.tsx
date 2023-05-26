@@ -7,7 +7,7 @@ import { Container } from "@components/container";
 import { BestSales } from "@components/best-sales";
 import Rating from "@components/rating/rating";
 import Parser from "html-react-parser";
-import { Tabs } from "flowbite-react";
+
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 // import { Product } from "@types";
 
@@ -22,8 +22,7 @@ import { ExProduct } from "@types";
 import useCart from "@hooks/useCart";
 import { useAllCategory } from "@hooks/useCategory";
 import _ from "lodash";
-
-const { Group, Item } = Tabs;
+import Link from "next/link";
 
 export const getServerSideProps: GetServerSideProps<{
   productId: string;
@@ -61,7 +60,7 @@ const ProductDetail: React.FC<
     packagePrice: 0,
     contenancePrice: 0,
     packageName: "Recharge",
-    contenance: undefined,
+    contenance: "30 perles",
     color: undefined,
     selectorImage: undefined,
     packageChoice: 0,
@@ -93,18 +92,20 @@ const ProductDetail: React.FC<
     0
   );
 
+  console.log("product-slug", product);
   const breadCrumb = useMemo(() => {
-    // console.log(product);
     let res = [{ name: "Accueil", route: "/" }];
     const groupRoute = product?.category?.name?.toLowerCase();
+
     const subGroupRoute = product?.subcategory?.name?.toLowerCase();
+
     if (groupRoute) {
       // const group = VisibleTitleRoutes?.find((item) => item?.route?.includes(groupRoute));
       res = [
         ...res,
         {
           name: product?.category?.name?.toLowerCase(),
-          route: `\\product-categories\\${product?.category?.slug}`,
+          route: `/product-categories/${product?.category?.slug?.toLowerCase()}`,
         },
       ];
     }
@@ -277,9 +278,9 @@ const ProductDetail: React.FC<
               return (
                 <div className="flex" key={index}>
                   <NextLink href={item?.route}>
-                    <span className="cursor-pointer text-[#603813] hover:text-[#777777]">
+                    <a className="cursor-pointer text-[#603813] hover:text-[#777777]">
                       {item?.name}
-                    </span>
+                    </a>
                   </NextLink>
                   <span className="mx-2">{"/"}</span>
                 </div>
@@ -314,26 +315,26 @@ const ProductDetail: React.FC<
             <div className="mt-4 flex gap-3">
               {product?.color
                 ? Object.values(product.color)?.map(
-                  (item: any, index: number) => (
-                    <button
-                      key={index}
-                      onClick={() => {
-                        const color = item?.name;
-                        setState((o) => ({
-                          ...o,
-                          color,
-                        }));
-                      }}
-                      style={{
-                        background: `${item.color}`,
-                      }}
-                      className={`mb-3 border p-2 text-white border-black `}
-                    >
-                      {/* //  className={`mb-3 border p-2 text-white border-black bg-[#50d71e]`}>  */}
-                      {item?.name}
-                    </button>
+                    (item: any, index: number) => (
+                      <button
+                        key={index}
+                        onClick={() => {
+                          const color = item?.name;
+                          setState((o) => ({
+                            ...o,
+                            color,
+                          }));
+                        }}
+                        style={{
+                          background: `${item.color}`,
+                        }}
+                        className={`mb-3 border p-2 text-white border-black `}
+                      >
+                        {/* //  className={`mb-3 border p-2 text-white border-black bg-[#50d71e]`}>  */}
+                        {item?.name}
+                      </button>
+                    )
                   )
-                )
                 : null}
             </div>
           </div>
@@ -356,37 +357,38 @@ const ProductDetail: React.FC<
             >
               {product?.capacity
                 ? Object.values(product.capacity)?.map(
-                  (item: any, index: number) => (
-                    <li role="presentation" key={index}>
-                      <button
-                        // href={"#" + capacityName[index]}
-                        className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate ${contenanceChoice === index && "border-[#6A5950]"
+                    (item: any, index: number) => (
+                      <li role="presentation" key={index}>
+                        <button
+                          // href={"#" + capacityName[index]}
+                          className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate ${
+                            contenanceChoice === index && "border-[#6A5950]"
                           } "
                           
                           `}
-                        // id={capacityName[index]}
-                        // data-te-toggle="pill"
-                        // data-te-nav-active={index === 0 ? true : undefined}
-                        // data-te-target={"#" + capacityName[index]}
-                        // aria-controls={"#" + capacityName[index]}
-                        // aria-selected={index === 0}
-                        onClick={() => {
-                          const contenancePrice = parseFloat(item?.price);
-                          const contenance = item?.name;
+                          // id={capacityName[index]}
+                          // data-te-toggle="pill"
+                          // data-te-nav-active={index === 0 ? true : undefined}
+                          // data-te-target={"#" + capacityName[index]}
+                          // aria-controls={"#" + capacityName[index]}
+                          // aria-selected={index === 0}
+                          onClick={() => {
+                            const contenancePrice = parseFloat(item?.price);
+                            const contenance = item?.name;
 
-                          setState((o) => ({
-                            ...o,
-                            contenancePrice,
-                            contenance,
-                            contenanceChoice: index,
-                          }));
-                        }}
-                      >
-                        {item?.name}
-                      </button>
-                    </li>
+                            setState((o) => ({
+                              ...o,
+                              contenancePrice,
+                              contenance,
+                              contenanceChoice: index,
+                            }));
+                          }}
+                        >
+                          {item?.name}
+                        </button>
+                      </li>
+                    )
                   )
-                )
                 : null}
             </ul>
           </div>
@@ -399,7 +401,7 @@ const ProductDetail: React.FC<
                 // id={namePackaging[index]}
                 role="tabpanel"
                 className={`mb-4  text-[#603813]    transition-opacity duration-150 ease-linear `}
-              // data-te-tab-active={index === 0 ? true : false}
+                // data-te-tab-active={index === 0 ? true : false}
               >
                 Packaging : {packageName}
               </div>
@@ -413,32 +415,33 @@ const ProductDetail: React.FC<
             >
               {product?.packaging
                 ? Object.values(product.packaging)?.map(
-                  (item: any, index: number) => (
-                    <li role="presentation" key={index}>
-                      <button
-                        // href={"#" + namePackaging[index]}
-                        className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate focus:isolate hover:border-transparent hover:bg-neutral-100   ${packageChoice === index ? "border-[#6A5950]" : ""
+                    (item: any, index: number) => (
+                      <li role="presentation" key={index}>
+                        <button
+                          // href={"#" + namePackaging[index]}
+                          className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate focus:isolate hover:border-transparent hover:bg-neutral-100   ${
+                            packageChoice === index ? "border-[#6A5950]" : ""
                           } `}
-                        id={namePackaging[index]}
-                        onClick={() => {
-                          const packagePrice = parseFloat(item?.price);
-                          const packageName = item?.name;
-                          const selectorImage = item?.image;
-                          setState((o) => ({
-                            ...o,
-                            packagePrice,
-                            packageName,
-                            selectorImage,
-                            packageChoice: index,
-                          }));
-                        }}
-                        role="tab"
-                      >
-                        {item?.name}
-                      </button>
-                    </li>
+                          id={namePackaging[index]}
+                          onClick={() => {
+                            const packagePrice = parseFloat(item?.price);
+                            const packageName = item?.name;
+                            const selectorImage = item?.image;
+                            setState((o) => ({
+                              ...o,
+                              packagePrice,
+                              packageName,
+                              selectorImage,
+                              packageChoice: index,
+                            }));
+                          }}
+                          role="tab"
+                        >
+                          {item?.name}
+                        </button>
+                      </li>
+                    )
                   )
-                )
                 : null}
             </ul>
           </div>
@@ -447,12 +450,12 @@ const ProductDetail: React.FC<
               {packagePrice === 0
                 ? formatCurrency(String(product?.price))
                 : formatCurrency(
-                  String(
-                    parseFloat(String(contenancePrice)) +
-                    parseFloat(String(packagePrice)) +
-                    parseFloat(String(product?.price))
-                  )
-                )}{" "}
+                    String(
+                      parseFloat(String(contenancePrice)) +
+                        parseFloat(String(packagePrice)) +
+                        parseFloat(String(product?.price))
+                    )
+                  )}{" "}
               €{" "}
             </span>
           )}
@@ -500,8 +503,9 @@ const ProductDetail: React.FC<
           {DescriptionTabs?.map((item, index) => (
             <li role="presentation" key={index}>
               <button
-                className={`my-2 block  border-b-0 border-t-2 border-transparent px-7 pt-4 pb-3.5 text-[#16px] leading-tight text-[#515151] font-semibold hover:border-transparent hover:bg-neutral-100   ${tabs === index ? "border-t-[#6A5950]" : " "
-                  }  `}
+                className={`my-2 block  border-b-0 border-t-2 border-transparent px-7 pt-4 pb-3.5 text-[#16px] leading-tight text-[#515151] font-semibold hover:border-transparent hover:bg-neutral-100   ${
+                  tabs === index ? "border-t-[#6A5950]" : " "
+                }  `}
                 id={item?.id}
                 onClick={() => setTabs(index)}
               >
