@@ -107,7 +107,7 @@ const ProductItem: React.FC<ProductProps> = ({
   };
 
   return (
-    <div className="relative flex flex-col items-center text-[16px] mb-2 bg-white">
+    <div className="relative flex flex-col  items-center text-[16px] mb-2 bg-white">
       {showFavorite && (
         <FontAwesomeIcon
           className={`absolute top-[5%] right-[4%] mobile:top-[2%] mobile:right-[0%] 
@@ -119,13 +119,14 @@ const ProductItem: React.FC<ProductProps> = ({
         />
       )}
       <NextLink href={`/product/${product?.id}`}>
-        <img
-          className="w-[60vw] cursor-pointer"
-          // src={`${server_link}${product?.image}`}
-          src={(product as any)?.url_image}
-          alt="{title}"
-          height={450}
-        />
+        <div >
+          <img
+            className="object-scale-down md:w-[20vw] md:h-[20vw] w-[80vw] h-[80vw]  cursor-pointer"
+            // src={`${server_link}${product?.image}`}
+            src={(product as any)?.url_image}
+            alt="{title}"
+          />
+        </div> 
       </NextLink>
       <h5 className="text-[#603813] text-center">{product?.name}</h5>
       <div className="flex flex-col mt-5 items-center space-y-2">
