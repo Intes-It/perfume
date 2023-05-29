@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import { POST } from "@utils/fetch";
 import { api } from "@utils/apiRoute";
+import { instance } from "@utils/_axios";
 
 type OrderReviewProps = {
   onOderClicked?: () => void;
@@ -31,14 +32,15 @@ const OrderReview: React.FC<OrderReviewProps> = ({
   const cardRef = useRef<HTMLInputElement | null>(null);
   const numberRef = useRef<HTMLInputElement | null>(null);
   const cvvRef = useRef<HTMLInputElement | null>(null);
-  const handleStripePayment = async () => {
-    await POST(api.stripe_payment, {
+  const { processStripe } = useCheckout();
+  async function handleStripePayment() {
+    await processStripe({
       order_id: orderID,
       card_number: cardRef.current?.value,
       card_expiry: numberRef.current?.value,
       card_cvv: cvvRef.current?.value,
     });
-  };
+  }
   return (
     <div className="bg-[#FBFBFB]">
       <div className="grid">
