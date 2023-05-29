@@ -1,31 +1,31 @@
-import AdditionalInformation from '@components/checkout/AdditionalInformation';
-import BillingInfomation from '@components/checkout/BillingInfomation';
-import OrderReview from '@components/checkout/OrderReview';
-import { Container } from '@components/container';
-import { faWindowMaximize } from '@fortawesome/free-regular-svg-icons';
-import { faWarning } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import useCart from '@hooks/useCart';
-import useCheckout from '@hooks/useCheckout';
-import _ from 'lodash';
-import { useRouter } from 'next/router';
-import { useRef, useState } from 'react';
+import AdditionalInformation from "@components/checkout/AdditionalInformation";
+import BillingInfomation from "@components/checkout/BillingInfomation";
+import OrderReview from "@components/checkout/OrderReview";
+import { Container } from "@components/container";
+import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
+import { faWarning } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useCart from "@hooks/useCart";
+import useCheckout from "@hooks/useCheckout";
+import _ from "lodash";
+import { useRouter } from "next/router";
+import { useRef, useState } from "react";
 
 const StepTabs = [
   {
-    id: 'billing-infomation-tab',
-    header: 'Détails de Facturation',
-    href: '#billing-infomation-tab',
+    id: "billing-infomation-tab",
+    header: "Détails de Facturation",
+    href: "#billing-infomation-tab",
   },
   {
-    id: 'shipping-details-tab',
-    header: 'Détails D’expédition',
-    href: '#shipping-details-tab',
+    id: "shipping-details-tab",
+    header: "Détails D’expédition",
+    href: "#shipping-details-tab",
   },
   {
-    id: 'your-order-tab',
-    header: 'Votre Commande',
-    href: '#your-order-tab',
+    id: "your-order-tab",
+    header: "Votre Commande",
+    href: "#your-order-tab",
   },
 ];
 
@@ -68,7 +68,7 @@ const Checkout: React.FC = () => {
     // Lấy ra vị trí của thẻ div bằng cách sử dụng method getBoundingClientRect()
     const topPos = errorDivRef.current?.getBoundingClientRect().top;
     // Scroll đến vị trí của thẻ div bằng cách sử dụng method scrollIntoView()
-    window.scrollTo({ top: topPos, behavior: 'smooth' });
+    window.scrollTo({ top: topPos, behavior: "smooth" });
   };
 
   const handlNextStep = async () => {
@@ -81,41 +81,65 @@ const Checkout: React.FC = () => {
             order_id: cart?.data?.cart?.id || null,
           });
           if (res?.status === 200 && res?.data?.created_time)
-            setState((pre) => ({ ...pre, inValidData: false, activeTab: activeTab + 1 }));
+            setState((pre) => ({
+              ...pre,
+              inValidData: false,
+              activeTab: activeTab + 1,
+            }));
         } else if (activeTab == 1) {
           const res = await processShipping({
             ...formValues.additionalInfomation,
             order_id: cart?.data?.cart?.id || null,
           });
           if (res?.status === 200 && res?.data?.created_time)
-            setState((pre) => ({ ...pre, inValidData: false, activeTab: activeTab + 1 }));
+            setState((pre) => ({
+              ...pre,
+              inValidData: false,
+              activeTab: activeTab + 1,
+            }));
         }
       }
     }
   };
 
   const handleOder = async () => {
-    const res = await processYourOrder({ order_id: cart?.data?.cart?.id || null });
+    const res = await processYourOrder({
+      order_id: cart?.data?.cart?.id || null,
+    });
     if (res?.status === 200 && res?.data?.link) router.push(res?.data?.link);
   };
-
+  console.log("order id", cart?.data?.cart?.id);
   return (
     <Container>
       <div className=" mt-2 md:m-20">
         <div className="border-t-[3px] border-[#603813] bg-[#F7F6F7] p-5">
-          <FontAwesomeIcon className="mr-3" fontSize={'1.2rem'} icon={faWindowMaximize} />
-          <span>Avez-vous un code promo ? Cliquez ici pour saisir votre code</span>
+          <FontAwesomeIcon
+            className="mr-3"
+            fontSize={"1.2rem"}
+            icon={faWindowMaximize}
+          />
+          <span>
+            Avez-vous un code promo ? Cliquez ici pour saisir votre code
+          </span>
         </div>
 
         {/* tabs */}
         <div className=" items-start mt-7 md:flex">
           <ul className="mr-4 flex list-none flex-col flex-wrap pl-0 col-span-2">
             {StepTabs?.map((item, index) => (
-              <div key={index} className="flex-grow text-center pointer-events-none">
+              <div
+                key={index}
+                className="flex-grow text-center pointer-events-none"
+              >
                 <span
                   className={`my-[1px] min-w-[100px] block border-x-0 font-semibold rounded-md border-t-0 border-b-2 border-transparent px-7 pt-4 pb-3.5 text-sm  uppercase leading-tight text-neutral-500
                           focus:border-transparent 
-                          ${index === activeTab ? 'bg-[#603813] text-white' : 'bg-[#B2B2B0]'} `}>
+                          ${
+                            index === activeTab
+                              ? "bg-[#603813] text-white"
+                              : "bg-[#B2B2B0]"
+                          } `}
+                >
                   {item?.header}
                 </span>
               </div>
@@ -126,24 +150,29 @@ const Checkout: React.FC = () => {
             <div
               ref={errorDivRef}
               className={`${
-                !inValidData && 'hidden'
-              } border-t-[3px] border-t-red-700 p-4 mb-16 bg-[#F7F6F7]`}>
+                !inValidData && "hidden"
+              } border-t-[3px] border-t-red-700 p-4 mb-16 bg-[#F7F6F7]`}
+            >
               <FontAwesomeIcon
                 icon={faWarning}
-                fontSize={'1.0rem'}
-                className={'w-10 h-10 text-red-700'}
+                fontSize={"1.0rem"}
+                className={"w-10 h-10 text-red-700"}
               />
               <span>Invalid or data missing in the required field(s)</span>
             </div>
             <div
               className={`${
-                activeTab !== 0 && 'hidden'
-              } transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}>
+                activeTab !== 0 && "hidden"
+              } transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}
+            >
               <BillingInfomation
                 onError={(errors) => {
                   setState((pre) => ({
                     ...pre,
-                    formErrors: { ...formErrors, billingInfomation: !_.isEmpty(errors) },
+                    formErrors: {
+                      ...formErrors,
+                      billingInfomation: !_.isEmpty(errors),
+                    },
                   }));
                 }}
                 onValueChange={(values) => {
@@ -156,13 +185,17 @@ const Checkout: React.FC = () => {
             </div>
             <div
               className={`${
-                activeTab !== 1 && 'hidden'
-              } transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}>
+                activeTab !== 1 && "hidden"
+              } transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}
+            >
               <AdditionalInformation
                 onError={(errors) => {
                   setState((pre) => ({
                     ...pre,
-                    formErrors: { ...formErrors, additionalInfomation: !_.isEmpty(errors) },
+                    formErrors: {
+                      ...formErrors,
+                      additionalInfomation: !_.isEmpty(errors),
+                    },
                   }));
                 }}
                 onValueChange={(values, expanded) => {
@@ -170,7 +203,9 @@ const Checkout: React.FC = () => {
                     ...pre,
                     formValues: {
                       ...formValues,
-                      additionalInfomation: expanded ? values : { note: values?.note },
+                      additionalInfomation: expanded
+                        ? values
+                        : { note: values?.note },
                     },
                   }));
                 }}
@@ -178,9 +213,13 @@ const Checkout: React.FC = () => {
             </div>
             <div
               className={`${
-                activeTab !== 2 && 'hidden'
-              } transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}>
-              <OrderReview onOderClicked={handleOder} />
+                activeTab !== 2 && "hidden"
+              } transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}
+            >
+              <OrderReview
+                onOderClicked={handleOder}
+                orderID={cart?.data?.cart?.id}
+              />
             </div>
             <div className="flex float-right gap-3 mt-10 ">
               <button
@@ -190,16 +229,22 @@ const Checkout: React.FC = () => {
                     // if (hasError())
                     //   showError();
                     // else
-                    setState((pre) => ({ ...pre, inValidData: false, activeTab: activeTab - 1 }));
+                    setState((pre) => ({
+                      ...pre,
+                      inValidData: false,
+                      activeTab: activeTab - 1,
+                    }));
                   }
-                }}>
+                }}
+              >
                 PRÉC
               </button>
               <button
                 className="w-[90px] rounded-md p-3 border border-black text-black hover:bg-black hover:text-white "
                 onClick={() => {
                   handlNextStep();
-                }}>
+                }}
+              >
                 SUIV
               </button>
             </div>
