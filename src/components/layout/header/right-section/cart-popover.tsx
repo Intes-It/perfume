@@ -63,7 +63,7 @@ const CartPopover: React.FC = () => {
       }
     }
   }, [cart]);
-  console.log(products);
+  console.log('product',products);
 
   return (
     <Fragment>
@@ -114,8 +114,8 @@ const CartPopover: React.FC = () => {
                         <NextLink href={`/product/${item?.product.id}`}>
                           <img
                             className="col-span-2 cursor-pointer"
-                            // src={(item?.product as any)?.url_image}
-                            src={item?.image}
+                            src={(item?.product as any)?.url_image}
+                            // src={item?.image}
                             alt={item?.product?.name}
                           />
                         </NextLink>

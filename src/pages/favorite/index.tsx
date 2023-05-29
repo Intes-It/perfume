@@ -1,13 +1,6 @@
-import { Container } from "@components/container";
-import DropdownSelect from "@components/dropdown-select";
 import ProductItem from "@components/product-item";
-import useFavorite from "@hooks/useFavoriteProduct";
-import { useProducts } from "@hooks/useProduct";
 import { addFavoriteItem, removeFavoriteItem } from "@redux/slices/favorite";
 import { Product } from "@types";
-import { productFilter } from "@utils/fakeData";
-import { formatCurrency } from "@utils/formatNumber";
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const Favorite = () => {
