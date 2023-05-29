@@ -1,14 +1,21 @@
-import useCheckout from '@hooks/useCheckout';
-import { ExProduct } from '@types';
-import { formatCurrency } from '@utils/formatNumber';
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import useCheckout from "@hooks/useCheckout";
+import { ExProduct } from "@types";
+import { formatCurrency } from "@utils/formatNumber";
+import React, { useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { useFormik } from "formik";
+import { POST } from "@utils/fetch";
+import { api } from "@utils/apiRoute";
 
 type OrderReviewProps = {
-  onOderClicked?: () => void; 
-}; 
+  onOderClicked?: () => void;
+  orderID: number;
+};
 
-const OrderReview: React.FC<OrderReviewProps> = ({onOderClicked}) => {
+const OrderReview: React.FC<OrderReviewProps> = ({
+  onOderClicked,
+  orderID,
+}) => {
   const [state, setState] = useState({
     carte: false,
     paypal: true,
@@ -18,11 +25,20 @@ const OrderReview: React.FC<OrderReviewProps> = ({onOderClicked}) => {
     (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
   const totalMoney = products?.reduce(
-    (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.price || '0'),
+    (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.price || "0"),
     0
   );
- 
-
+  const cardRef = useRef<HTMLInputElement | null>(null);
+  const numberRef = useRef<HTMLInputElement | null>(null);
+  const cvvRef = useRef<HTMLInputElement | null>(null);
+  const handleStripePayment = async () => {
+    await POST(api.stripe_payment, {
+      order_id: orderID,
+      card_number: cardRef.current?.value,
+      card_expiry: numberRef.current?.value,
+      card_cvv: cvvRef.current?.value,
+    });
+  };
   return (
     <div className="bg-[#FBFBFB]">
       <div className="grid">
@@ -43,7 +59,9 @@ const OrderReview: React.FC<OrderReviewProps> = ({onOderClicked}) => {
         ))}
         <div className="grid grid-cols-2">
           <div className="border border-black">Sous-total</div>
-          <div className="border border-black">{formatCurrency(String(totalMoney))} €</div>
+          <div className="border border-black">
+            {formatCurrency(String(totalMoney))} €
+          </div>
         </div>
         <div className="grid grid-cols-2">
           <div className="border border-black">Expédition</div>
@@ -51,17 +69,23 @@ const OrderReview: React.FC<OrderReviewProps> = ({onOderClicked}) => {
         </div>
         <div className="grid grid-cols-2">
           <div className="border border-black">Total</div>
-          <div className="border border-black">{formatCurrency(String(totalMoney))} €</div>
+          <div className="border border-black">
+            {formatCurrency(String(totalMoney))} €
+          </div>
         </div>
         <div className="flex mt-5 items-center">
           <input
-            onChange={() => setState((o) => ({ ...o, carte: true, paypal: false }))}
+            onChange={() =>
+              setState((o) => ({ ...o, carte: true, paypal: false }))
+            }
             type="radio"
             checked={carte}
             id="remember"
             className="w-4 h-4 mr-2 "
           />
-          <span className="text-black text-[22px] font-semibold">Carte Bancaire</span>
+          <span className="text-black text-[22px] font-semibold">
+            Carte Bancaire
+          </span>
         </div>
         <div className="mt-5">
           {/* first form */}
@@ -71,22 +95,26 @@ const OrderReview: React.FC<OrderReviewProps> = ({onOderClicked}) => {
                 <div className="grid gap-3 bg-[#efefef] ">
                   <div className="flex flex-col mt-6 mr-6 ml-6">
                     <label className="font-semibold">
-                      Numéro de carte <span className="text-red-500 text-[20px] ">*</span>
+                      Numéro de carte{" "}
+                      <span className="text-red-500 text-[20px] ">*</span>
                     </label>
                     <input
                       placeholder="1234 1234 1234 1234"
                       required
                       type="text"
                       id="id"
+                      ref={cardRef}
                       className="h-[35px] mt-2 px-4 py-3 border border-gray-300 text-black"
                     />
                   </div>
                   <div className="grid grid-cols-2 mt-10 mb-10">
                     <div className="flex flex-col mr-6 ml-6">
                       <label className="font-semibold">
-                        Date d’expiration <span className="text-red-500 text-[20px] ">*</span>
+                        Date d’expiration{" "}
+                        <span className="text-red-500 text-[20px] ">*</span>
                       </label>
                       <input
+                        ref={numberRef}
                         required
                         type="text"
                         id="id"
@@ -95,12 +123,14 @@ const OrderReview: React.FC<OrderReviewProps> = ({onOderClicked}) => {
                     </div>
                     <div className="flex flex-col ml-6 mr-6">
                       <label className="font-semibold">
-                        Cryptogramme visuel <span className="text-red-500 text-[20px] ">*</span>
+                        Cryptogramme visuel{" "}
+                        <span className="text-red-500 text-[20px] ">*</span>
                       </label>
                       <input
                         required
                         type="text"
                         id="id"
+                        ref={cvvRef}
                         className=" h-[35px] mt-2 px-4 py-3 border border-gray-300 text-black"
                       />
                     </div>
@@ -115,7 +145,9 @@ const OrderReview: React.FC<OrderReviewProps> = ({onOderClicked}) => {
           <div className="flex mt-5 items-center">
             <input
               checked={paypal}
-              onChange={() => setState((o) => ({ ...o, carte: false, paypal: true }))}
+              onChange={() =>
+                setState((o) => ({ ...o, carte: false, paypal: true }))
+              }
               type="radio"
               id="remember"
               className="w-4 h-4 mr-2 "
@@ -123,25 +155,32 @@ const OrderReview: React.FC<OrderReviewProps> = ({onOderClicked}) => {
             <span className="text-black text-[22px] font-semibold">PayPal</span>
           </div>
           <div className="mt-7">
-            {paypal ? <div className="grid bg-[#efefef]">Pay via PayPal.</div> : <div></div>}
+            {paypal ? (
+              <div className="grid bg-[#efefef]">Pay via PayPal.</div>
+            ) : (
+              <div></div>
+            )}
           </div>
           <div className="mt-6 flex items-center">
             <input type="checkbox" id="remember" className="w-4 h-4  mr-2 " />
             <span className="text-black  font-semibold">
-              Je voudrais recevoir des e-mails exclusifs avec des réductions et des informations sur
-              le produit (facultatif)
+              Je voudrais recevoir des e-mails exclusifs avec des réductions et
+              des informations sur le produit (facultatif)
             </span>
           </div>
           <div className="mt-6 flex items-center">
             <span className="text-black  font-semibold">
-              Vos données personnelles seront utilisées pour le traitement de votre commande, vous
-              accompagner au cours de votre visite du site web, et pour d’autres raisons décrites
-              dans notre politique de confidentialité.
+              Vos données personnelles seront utilisées pour le traitement de
+              votre commande, vous accompagner au cours de votre visite du site
+              web, et pour d’autres raisons décrites dans notre politique de
+              confidentialité.
             </span>
           </div>
           <div className=" grid mt-2 flex items-center">
-            <button onClick={onOderClicked}
-              className="h-[50px] rounded-md p-3 text-white hover:bg-black bg-[#603813] ">
+            <button
+              onClick={carte ? handleStripePayment : onOderClicked}
+              className="h-[50px] rounded-md p-3 text-white hover:bg-black bg-[#603813] "
+            >
               Commander
             </button>
           </div>

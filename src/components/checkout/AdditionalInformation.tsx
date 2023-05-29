@@ -49,7 +49,7 @@ const AdditionalInformation: React.FC<AdditionalInfomationProps> =
         console.log(value)
       },
     });
-    const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+    const { errors,  values,  handleSubmit, getFieldProps } = formik;
 
     useEffect(() => {
       if (check)

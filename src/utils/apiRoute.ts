@@ -17,5 +17,6 @@ export const api = {
   processBilling: '/api/payment/process/billing',
   processShipping: '/api/payment/process/shipping',
   processYourOrder: '/api/payment/process/your_order' , 
-  successOrder: '/payment/success'  
+  successOrder: '/payment/success'  ,
+  stripe_payment:'/payment/process/stripe-payment-credit'
 };
