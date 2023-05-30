@@ -3,10 +3,10 @@ import { faCancel, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { api } from '@utils/apiRoute';
 import { GET } from '@utils/fetch';
-import { useEffect,useRef } from 'react';
-
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 const Success: React.FC = () => {
-  
+  const router=useRouter()
   useEffect(() => {
  
     GET(api.successOrder)
@@ -29,7 +29,7 @@ const Success: React.FC = () => {
           Thank you for completing your secure online payment
         </span>
         <span className="mb-1 text-center ">Have a great day!</span>
-        <button className="p-2  rounded-md border border-black bg-[#1f9163]">Go back</button>
+        <button className="p-2  rounded-md border border-black bg-[#1f9163]"onClick={()=>router.push('/')}>Go back</button>
       </div>
     </Container>
   );
