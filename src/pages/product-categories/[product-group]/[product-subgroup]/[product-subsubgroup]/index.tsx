@@ -96,8 +96,8 @@ const ProductSubSubGroup = () => {
               onChange={handlePriceRangeChange}
             />
           </div>
-          <div className="mobile:float-right">
-            {" "}
+          <div className="md:flex justify-end">
+          
             <DropdownSelect
               selections={productFilter}
               onChange={handleSortChange}

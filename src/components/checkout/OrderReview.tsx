@@ -25,6 +25,8 @@ const OrderReview: React.FC<OrderReviewProps> = ({
     (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
 const dispatch=useDispatch()
+const {cart}=useCart()
+console.log(cart)
   const totalMoney = products?.reduce(
     (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.price || "0"),
     0

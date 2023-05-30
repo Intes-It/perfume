@@ -12,7 +12,7 @@ import { useProducts } from '@hooks/useProduct';
 import { useAllCategory } from '@hooks/useCategory';
 
 const ProductSubGroup = () => {
-  const server_link = process.env.NEXT_PUBLIC_API_URL;
+  
   const dispatch = useDispatch();
   const { categories, subCategories, subsubCategories } = useAllCategory();
   const router = useRouter();
@@ -95,7 +95,7 @@ const ProductSubGroup = () => {
           Des cosmétiques naturels solides fabriqués artisanalement en Provence
           avec des ingrédients majoritairement locaux.
         </p> */}
-        <div className="w-[100%] flex justify-between mobile:flex-wrap-reverse">
+        <div className="w-[100%] grid md:grid-cols-2 grid-cols-1 gap-2">
           <div className="flex  space-x-5 mobile:justify-between mobile:mt-5 ">
             <DropdownCheckbox
               title="Catégories"
@@ -112,7 +112,7 @@ const ProductSubGroup = () => {
               onChange={handlePriceRangeChange}
             />
           </div>
-          <div className="mobile:float-right">
+          <div className="md:flex justify-end">
             {' '}
             <DropdownSelect selections={productFilter} onChange={handleSortChange} />
           </div>
