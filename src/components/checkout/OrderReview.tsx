@@ -2,11 +2,10 @@ import useCheckout from "@hooks/useCheckout";
 import { ExProduct } from "@types";
 import { formatCurrency } from "@utils/formatNumber";
 import React, { useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { useFormik } from "formik";
-import { POST } from "@utils/fetch";
-import { api } from "@utils/apiRoute";
-import { instance } from "@utils/_axios";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import useCart from "@hooks/useCart";
+import { removeProduct } from "@redux/slices/cart";
 
 type OrderReviewProps = {
   onOderClicked?: () => void;
@@ -25,6 +24,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
   const products = useSelector(
     (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
+const dispatch=useDispatch()
   const totalMoney = products?.reduce(
     (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.price || "0"),
     0
@@ -32,14 +32,21 @@ const OrderReview: React.FC<OrderReviewProps> = ({
   const cardRef = useRef<HTMLInputElement | null>(null);
   const numberRef = useRef<HTMLInputElement | null>(null);
   const cvvRef = useRef<HTMLInputElement | null>(null);
+  const router = useRouter();
   const { processStripe } = useCheckout();
   async function handleStripePayment() {
-    await processStripe({
+    const res = await processStripe({
       order_id: orderID,
       card_number: cardRef.current?.value,
       card_expiry: numberRef.current?.value,
       card_cvv: cvvRef.current?.value,
     });
+// đoạn này e check status 200 thì xóa sản phẩm khỏi giỏ hàng vs chuyển tới trang thành công
+    if (res.status === 200) {
+      //dispatch(removeProduct(products))
+      // localStorage.removeItem('persist:root')
+      router.push("/stripe_success");
+    }
   }
   return (
     <div className="bg-[#FBFBFB]">
@@ -101,9 +108,12 @@ const OrderReview: React.FC<OrderReviewProps> = ({
                       <span className="text-red-500 text-[20px] ">*</span>
                     </label>
                     <input
-                      placeholder="1234 1234 1234 1234"
+                      placeholder="4242 4242 4242 4242"
                       required
-                      type="text"
+                      type="tel"
+                      inputMode={"numeric"}
+                      pattern={"[0-9s]{13,19}"}
+                      maxLength={19}
                       id="id"
                       ref={cardRef}
                       className="h-[35px] mt-2 px-4 py-3 border border-gray-300 text-black"
@@ -130,8 +140,11 @@ const OrderReview: React.FC<OrderReviewProps> = ({
                       </label>
                       <input
                         required
-                        type="text"
+                        type="tel"
                         id="id"
+                        inputMode={"numeric"}
+                        pattern={"[0-9s]{13,19}"}
+                        maxLength={3}
                         ref={cvvRef}
                         className=" h-[35px] mt-2 px-4 py-3 border border-gray-300 text-black"
                       />
@@ -178,7 +191,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
               confidentialité.
             </span>
           </div>
-          <div className=" grid mt-2 flex items-center">
+          <div className=" grid mt-2 items-center">
             <button
               onClick={carte ? handleStripePayment : onOderClicked}
               className="h-[50px] rounded-md p-3 text-white hover:bg-black bg-[#603813] "

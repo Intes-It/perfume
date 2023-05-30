@@ -33,7 +33,7 @@ const CartPopover: React.FC = () => {
 
   const [showModal, setShowModal] = useState(false);
 
-  const server_link = process.env.NEXT_PUBLIC_API_URL;
+  
 
   const handleRemoveProduct = async (exProduct: ExProduct) => {
     if (isAuthenticated) {
@@ -63,7 +63,7 @@ const CartPopover: React.FC = () => {
       }
     }
   }, [cart]);
-  console.log('product',products);
+  console.log("product", products);
 
   return (
     <Fragment>
@@ -164,10 +164,13 @@ const CartPopover: React.FC = () => {
                       {`Sous-total: ${formatCurrency(String(totalMoney))} €`}
                     </strong>
                   </div>
+
                   <button
                     onClick={async () => {
-                      await router.replace("/checkout");
-                      await router.reload();
+                      isAuthenticated
+                        ? await router.replace("/checkout")
+                        : await router.replace("/my-account");
+                      router.reload();
                     }}
                     className="bg-[#61CE70] w-full p-3 rounded-[5px] mt-5"
                   >

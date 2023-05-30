@@ -1,19 +1,21 @@
-import { Container } from '@components/container';
-import Register from '@components/register';
-import Login from '@components/login';
-import useUser from '@hooks/useUser';
-import Profile from '@components/profile';
-import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWindowMaximize } from '@fortawesome/free-solid-svg-icons';
-
+import { Container } from "@components/container";
+import Register from "@components/register";
+import Login from "@components/login";
+import useUser from "@hooks/useUser";
+import Profile from "@components/profile";
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWindowMaximize } from "@fortawesome/free-solid-svg-icons";
+import useCart from "@hooks/useCart";
+import { useSelector } from "react-redux";
+import { ExProduct } from "@types";
 const MyAccount = () => {
   const { user, loginAccount, registerAccount, isAuthenticated } = useUser();
 
   const [state, setState] = useState({
     error: false,
-    message: '',
-    color: '',
+    message: "",
+    color: "",
   });
 
   const { error, message, color } = state;
@@ -37,19 +39,19 @@ const MyAccount = () => {
   const onRegister = async (data: any) => {
     const res = await registerAccount(data);
     if (res?.status === 200) {
-      if (res?.data?.message === 'Email exists') {
+      if (res?.data?.message === "Email exists") {
         setState((o) => ({
           ...o,
           error: true,
-          message: 'Un compte est déjà enregistré avec votre adresse e-mail',
-          color: '#ed2805',
+          message: "Un compte est déjà enregistré avec votre adresse e-mail",
+          color: "#ed2805",
         }));
       } else {
         setState((o) => ({
           ...o,
           error: true,
           message: "L'enregistrement fut un succès",
-          color: '#06e318',
+          color: "#06e318",
         }));
       }
     } else {
@@ -58,7 +60,7 @@ const MyAccount = () => {
         ...o,
         error: true,
         message: "Quelque chose s'est mal passé",
-        color: '#ed2805',
+        color: "#ed2805",
       }));
     }
   };
@@ -70,8 +72,13 @@ const MyAccount = () => {
           style={{
             borderColor: `${color}`,
           }}
-          className={`mt-4 border-t-[3px]  bg-[#f6f7f6] p-5`}>
-          <FontAwesomeIcon icon={faWindowMaximize} className="mr-3" fontSize={'1.2rem'} />
+          className={`mt-4 border-t-[3px]  bg-[#f6f7f6] p-5`}
+        >
+          <FontAwesomeIcon
+            icon={faWindowMaximize}
+            className="mr-3"
+            fontSize={"1.2rem"}
+          />
           <span>{message}</span>
         </div>
       ) : (
