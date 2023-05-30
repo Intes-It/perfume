@@ -32,7 +32,7 @@ const cartSlice = createSlice({
     },
     removeProduct: (state, actions) => {
       const exProduct = actions.payload;
-     
+
       let products;
       if (exProduct.packageName && !exProduct.capacity)
         products = state.products?.filter(
@@ -65,6 +65,9 @@ const cartSlice = createSlice({
       const exProducts = actions.payload;
       state.products = exProducts;
     },
+    clearCart: (state) => {
+      state.products = [];
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(PURGE, (state) => {
@@ -73,5 +76,5 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addProduct, removeProduct, updateFullCart } = cartSlice.actions;
+export const { addProduct, removeProduct, updateFullCart, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;

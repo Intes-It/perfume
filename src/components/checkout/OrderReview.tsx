@@ -5,7 +5,7 @@ import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import useCart from "@hooks/useCart";
-import { removeProduct } from "@redux/slices/cart";
+import { clearCart, removeProduct } from "@redux/slices/cart";
 
 type OrderReviewProps = {
   onOderClicked?: () => void;
@@ -43,7 +43,7 @@ const dispatch=useDispatch()
     });
 // đoạn này e check status 200 thì xóa sản phẩm khỏi giỏ hàng vs chuyển tới trang thành công
     if (res.status === 200) {
-      //dispatch(removeProduct(products))
+      dispatch(clearCart())
       // localStorage.removeItem('persist:root')
       router.push("/stripe_success");
     }
