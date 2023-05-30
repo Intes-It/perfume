@@ -32,7 +32,7 @@ const cartSlice = createSlice({
     },
     removeProduct: (state, actions) => {
       const exProduct = actions.payload;
-      console.log(exProduct);
+     
       let products;
       if (exProduct.packageName && !exProduct.capacity)
         products = state.products?.filter(
