@@ -28,16 +28,14 @@ const Home: React.FC = () => {
 
   return (
     <Container>
-      <div
-        className="right-0 bottom-0 left-0 z-[2] flex list-none justify-center p-0"
-        >
+      <div className="right-0 bottom-0 left-0 z-[2] flex list-none justify-center p-0">
         <Carousel>
-          {homeSlideData?.map((item: any, index: number) => { 
+          {homeSlideData?.map((item: any, index: number) => {
             return (
               <div
                 key={index}
                 className={`relative float-left -mr-[100%] w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none`}
-                  >
+              >
                 <div className="absolute z-0 top-1/2 left-1/2 -translate-y-2/4 -translate-x-2/4 w-[100%] text-center">
                   {item?.caption && (
                     <div>
@@ -46,14 +44,14 @@ const Home: React.FC = () => {
                       </span>
                     </div>
                   )}
-                  {item?.text && (
+                  {/*  {item?.text && (
                     <button
                       className="rounded-full h-12 bg-white text-lg min-w-[140px] border-white border hover:bg-transparent hover:text-white"
                       ref={item?.ref}
                     >
                       {item?.text}
                     </button>
-                  )}
+                  )}*/}
                 </div>
                 <img
                   src={item?.url}
@@ -64,7 +62,7 @@ const Home: React.FC = () => {
             );
           })}
         </Carousel>
-      </div> 
+      </div>
 
       <div className="my-16 md:min-h-[15vw] min-h-[12rem] w-full grid content-center bg-[#cec2b9]">
         <span className="text-center md:text-[36px] text-[24px] m-2 text-white font-bold">
@@ -168,7 +166,7 @@ const Home: React.FC = () => {
           </div>
           <div className="animate-wiggle mobile:w-[100vw] w-1/2">
             <img src={"/images/about-creatrice.webp"} alt="" />
-          </div> 
+          </div>
         </div>
       </div>
 
