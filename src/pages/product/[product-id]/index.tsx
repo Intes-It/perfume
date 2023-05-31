@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import NextLink from "next/link";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -254,7 +254,7 @@ const ProductDetail: React.FC<
         {/* product image */}
         <div className="overflow-clip relative">
           <img
-            className="hover:scale-125 transition duration-100 w-full object-cover   "
+            className="hover:scale-125 transition duration-100 w-full object-cover h-full  "
             // src={product?.url_image}
             src={
               selectorImage === undefined ? product?.url_image : selectorImage
@@ -365,12 +365,6 @@ const ProductDetail: React.FC<
                           } "
                           
                           `}
-                          // id={capacityName[index]}
-                          // data-te-toggle="pill"
-                          // data-te-nav-active={index === 0 ? true : undefined}
-                          // data-te-target={"#" + capacityName[index]}
-                          // aria-controls={"#" + capacityName[index]}
-                          // aria-selected={index === 0}
                           onClick={() => {
                             const contenancePrice = parseFloat(item?.price);
                             const contenance = item?.name;
