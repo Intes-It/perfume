@@ -69,11 +69,7 @@ const Profile = () => {
             role="tablist"
           >
             {Tabs?.map((item: any, index: number) => (
-              <li
-                role="presentation"
-                key={index}
-                className="flex-grow text-center"
-              >
+              <li key={index} className="flex-grow text-start">
                 <button
                   onClick={
                     item?.header === "Déconnexion"
@@ -84,7 +80,7 @@ const Profile = () => {
                     index === tabs ? "bg-[#603813] text-white" : ""
                   }`}
                 >
-                  {item?.header}
+                  <span>{item?.header}</span>
                 </button>
               </li>
             ))}

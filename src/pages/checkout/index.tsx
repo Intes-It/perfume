@@ -221,6 +221,7 @@ const Checkout: React.FC = () => {
                 orderID={cart?.data?.cart?.id}
               />
             </div>
+
             <div className="flex float-right gap-3 mt-10 ">
               <button
                 className="w-[90px] rounded-md p-3 border border-black  text-black hover:bg-black hover:text-white "
@@ -239,14 +240,16 @@ const Checkout: React.FC = () => {
               >
                 PRÉC
               </button>
-              <button
-                className="w-[90px] rounded-md p-3 border border-black text-black hover:bg-black hover:text-white "
-                onClick={() => {
-                  handlNextStep();
-                }}
-              >
-                SUIV
-              </button>
+              {activeTab !== 2 && (
+                <button
+                  className="w-[90px] rounded-md p-3 border border-black text-black hover:bg-black hover:text-white "
+                  onClick={() => {
+                    handlNextStep();
+                  }}
+                >
+                  SUIV
+                </button>
+              )}
             </div>
           </div>
         </div>

@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import _ from "lodash";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-
+import useUser from "@hooks/useUser";
 type AdditionalInfomationProps = {
   onError?: (errors: any) => void;
   onValueChange?: (values: any, expanded: boolean) => void;
@@ -17,6 +17,7 @@ const AdditionalInformation: React.FC<AdditionalInfomationProps> = ({
     check: false,
   });
   const { check } = state;
+  const { user, isAuthenticated } = useUser();
 
   const formSchema = Yup.object().shape({
     dif_first_name: Yup.string().required(),
@@ -65,7 +66,7 @@ const AdditionalInformation: React.FC<AdditionalInfomationProps> = ({
       onError?.(errors);
     } else onError?.(null);
   }, [check]);
-
+  console.log(user);
   return (
     <div className="bg-[#FBFBFB] ">
       <div className="flex items-center">
