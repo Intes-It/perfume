@@ -71,7 +71,7 @@ const Register:React.FC<RegisterProps> = ({submit}) => {
           <label>Subscribe to our newsletter</label>
         </div>
         <ReCAPTCHA
-          sitekey="6LeQP1smAAAAAMu1GQCYh8DJ1nAEcU4qSRMDxnEB"
+          sitekey="6LfAUlsmAAAAAJhiDuM15XtkE1VUnAOOchhh9UGb"
           onChange={(captchaCode)=>{
             setState((pre)=>({...pre, captchaCode: captchaCode || ''})) 
           }}
