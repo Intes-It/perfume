@@ -63,7 +63,7 @@ const Login: React.FC<LoginProps> = ({ submit, checkEmpty }) => {
           </div>
         </div>
         <ReCAPTCHA
-          sitekey="6LcF1twkAAAAAMKsDQ71Bhktr3g0Q66sZM5bngyA"
+          sitekey="6LeQP1smAAAAAMu1GQCYh8DJ1nAEcU4qSRMDxnEB"
           onChange={(captchaCode) => {
             setState((pre) => ({ ...pre, captchaCode: captchaCode || "" }));
           }}

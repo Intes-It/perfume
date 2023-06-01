@@ -20,7 +20,7 @@ const ForgotPassword = () => {
           id="email"
           className="px-4 py-3 border border-gray-300 text-black mb-4 w-[40rem] focus:outline-none"
         />
-        <ReCAPTCHA sitekey="6LcF1twkAAAAAMKsDQ71Bhktr3g0Q66sZM5bngyA" />
+        <ReCAPTCHA sitekey="6LeQP1smAAAAAMu1GQCYh8DJ1nAEcU4qSRMDxnEB" />
   
         <button
           type="submit"
