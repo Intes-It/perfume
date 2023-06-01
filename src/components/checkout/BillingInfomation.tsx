@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import _ from "lodash";
 import { Countries } from "@definitions/constants";
 import { useQuery } from "react-query";
+import useUser from "@hooks/useUser";
 
 type BillingInfomationProps = {
   onError?: (errors: any) => void;
@@ -19,12 +20,13 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
   onError,
   onValueChange,
 }) => {
+  const { isAuthenticated } = useUser();
   const formSchema = Yup.object().shape({
     first_name: Yup.string().required(),
     last_name: Yup.string().required(),
     // country: Yup.tuple().required(),
     ward: Yup.string().required(),
-    district: Yup.string().required(),
+    // district: Yup.string().required(),
     zip_code: Yup.string().required(),
     province: Yup.string().required(),
     phone: Yup.number().required(),
@@ -38,7 +40,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
       company_name: "",
       country: Countries[0].value,
       ward: "",
-      district: "",
+
       province: "",
       zip_code: "",
       phone: "",
@@ -49,7 +51,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
       last_name: "required",
       // country: Yup.tuple().required(),
       ward: "required",
-      district: "required",
+
       zip_code: "required",
       province: "required",
       phone: "required",
@@ -63,9 +65,6 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
     formik;
   const countrys = useQuery("country", getCountry);
-  const listCoutry = countrys?.data?.map(
-    (c: { name: { common: string } }) => c.name.common
-  );
 
   useEffect(() => {
     onError?.(errors);
@@ -77,7 +76,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
 
   return (
     <div className="">
-      <button className=" grid bg-[#33ddb3] hover:bg-[#43edc3] w-full max-h-[64px] min-h-[32px] rounded-md">
+      {/* <button className=" grid bg-[#33ddb3] hover:bg-[#43edc3] w-full max-h-[64px] min-h-[32px] rounded-md">
         <div className="flex m-auto p-2">
           <div className="mr-2">Payer avec</div>
           <span role="presentation">
@@ -135,7 +134,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
 
       <div className="text-center mt-6 mb-2">
         <span>— OU —</span>
-      </div>
+      </div> */}
 
       {/* form */}
       <div>
@@ -225,14 +224,14 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                   errors.ward ? "border-red-700" : "border-gray-300"
                 } text-black`}
               />
-              <input
+              {/* <input
                 {...formik.getFieldProps("district")}
                 type="text"
                 id="district"
                 className={`px-4 py-3 mt-4 border ${
                   errors.district ? "border-red-700" : "border-gray-300"
                 } text-black`}
-              />
+              /> */}
             </div>
             <div className="flex flex-col">
               <label className="font-semibold">
@@ -286,34 +285,40 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                 } text-black`}
               />
             </div>
-            <div className="flex justify-between font-semibold">
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  defaultChecked={true}
-                  onChange={(e) => {
-                    console.log(e);
-                  }}
-                  id="subscribe"
-                  className="w-4 h-4 "
-                />
-                <label>Subscribe to our newsletter</label>
-              </div>
-            </div>
-            <div className="flex justify-between font-semibold">
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  defaultChecked={false}
-                  onChange={(e) => {
-                    console.log(e);
-                  }}
-                  id="remember"
-                  className="w-4 h-4 "
-                />
-                <label>Créer un compte ?</label>
-              </div>
-            </div>
+            {!isAuthenticated && (
+              <>
+            
+            
+                <div className="flex justify-between font-semibold">
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      defaultChecked={true}
+                      onChange={(e) => {
+                        console.log(e);
+                      }}
+                      id="subscribe"
+                      className="w-4 h-4 "
+                    />
+                    <label>Subscribe to our newsletter</label>
+                  </div>
+                </div>
+                <div className="flex justify-between font-semibold">
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      defaultChecked={false}
+                      onChange={(e) => {
+                        console.log(e);
+                      }}
+                      id="remember"
+                      className="w-4 h-4 "
+                    />
+                    <label>Créer un compte ?</label>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </form>
       </div>
