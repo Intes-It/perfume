@@ -4,8 +4,7 @@ import { formatCurrency } from "@utils/formatNumber";
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import useCart from "@hooks/useCart";
-import { clearCart, removeProduct } from "@redux/slices/cart";
+import { clearCart } from "@redux/slices/cart";
 
 type OrderReviewProps = {
   onOderClicked?: () => void;
@@ -24,13 +23,13 @@ const OrderReview: React.FC<OrderReviewProps> = ({
   const products = useSelector(
     (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
-const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const totalMoney = products?.reduce(
     (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.price || "0"),
     0
   );
   const cardRef = useRef<HTMLInputElement | null>(null);
-  const numberRef = useRef<HTMLInputElement | null>(null);
+  const expiredRef = useRef<HTMLInputElement | null>(null);
   const cvvRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
   const { processStripe } = useCheckout();
@@ -38,15 +37,16 @@ const dispatch=useDispatch()
     const res = await processStripe({
       order_id: orderID,
       card_number: cardRef.current?.value,
-      card_expiry: numberRef.current?.value,
+      card_expiry: expiredRef.current?.value,
       card_cvv: cvvRef.current?.value,
     });
-// đoạn này e check status 200 thì xóa sản phẩm khỏi giỏ hàng vs chuyển tới trang thành công
+   
     if (res.status === 200) {
-      dispatch(clearCart())
-      // localStorage.removeItem('persist:root')
+      dispatch(clearCart());
       router.push("/stripe_success");
     }
+
+    
   }
   return (
     <div className="bg-[#FBFBFB]">
@@ -125,10 +125,11 @@ const dispatch=useDispatch()
                         Date d’expiration{" "}
                         <span className="text-red-500 text-[20px] ">*</span>
                       </label>
+
                       <input
-                        ref={numberRef}
+                        ref={expiredRef}
                         required
-                        type="text"
+                        type="month"
                         id="id"
                         className="h-[35px] mt-2 px-4 py-3 border border-gray-300 text-black"
                       />
@@ -139,6 +140,7 @@ const dispatch=useDispatch()
                         <span className="text-red-500 text-[20px] ">*</span>
                       </label>
                       <input
+                        placeholder="entrez le numéro de cvv."
                         required
                         type="tel"
                         id="id"

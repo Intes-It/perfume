@@ -7,8 +7,9 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWindowMaximize } from "@fortawesome/free-solid-svg-icons";
 import useCart from "@hooks/useCart";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ExProduct } from "@types";
+import { clearCart } from "@redux/slices/cart";
 const MyAccount = () => {
   const { user, loginAccount, registerAccount, isAuthenticated } = useUser();
 
@@ -17,15 +18,21 @@ const MyAccount = () => {
     message: "",
     color: "",
   });
+   const products = useSelector(
+    (state: any) => state.persistedReducer?.cart?.products
+  ) as ExProduct[];
 
   const { error, message, color } = state;
-
+const dispatch=useDispatch()
   const onLogin = async (data: any) => {
     const res = await loginAccount(data).catch((res) => {
       console.log(res);
     });
     if (res?.status === 200) {
       window.location.reload();
+      if(products!==null){
+        dispatch(clearCart())
+      }
     } else {
       setState((o) => ({
         ...o,
@@ -38,10 +45,18 @@ const MyAccount = () => {
 
   const onRegister = async (data: any) => {
     const res = await registerAccount(data);
+    
+    const loginData=JSON.parse(res.config.data);
+    const mail=loginData?.email
+    const password=loginData.password
     if (res?.status === 200) {
+      onLogin({
+        email:mail,
+        password:password
+      })
       if (res?.data?.message === "Email exists") {
         setState((o) => ({
-          ...o,
+          ...o, 
           error: true,
           message: "Un compte est déjà enregistré avec votre adresse e-mail",
           color: "#ed2805",
@@ -55,7 +70,6 @@ const MyAccount = () => {
         }));
       }
     } else {
-      console.log(res.status);
       setState((o) => ({
         ...o,
         error: true,
