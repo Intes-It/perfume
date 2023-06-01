@@ -133,17 +133,7 @@ const ProductDetail: React.FC<
   }
 
   const capacityName: any = ["one", "two"];
-  // let capacityName: any = [];
-  // if (product?.capacity) {
-  //   capacityName = Object?.values(product?.capacity)?.reduce(
-  //     (a: any[], item: any) => a.concat(item?.name || ''),
-  //     []
-  //   );
-  //   capacityName.forEach((item: any, index: number) => {
-  //     capacityName[index] = item.replace(/\s/g, '');
-  //   });
-  //   console.log(capacityName);
-  // }
+
   const DescriptionTabs = [
     {
       id: "tab-descriptions-tab",
@@ -390,11 +380,10 @@ const ProductDetail: React.FC<
           <div className="mt-4 mb-3 flex gap-1 ">
             {_.isEmpty(product?.packaging) ? null : (
               <div
-                // id={item?.newName}
-                // id={namePackaging[index]}
+              
                 role="tabpanel"
                 className={`mb-4  text-[#603813]    transition-opacity duration-150 ease-linear `}
-                // data-te-tab-active={index === 0 ? true : false}
+                
               >
                 Packaging : {packageName}
               </div>
