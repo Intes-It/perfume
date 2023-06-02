@@ -12,7 +12,7 @@ export const config = {
 export default (req: NextApiRequest, res: NextApiResponse) => {
     return httpProxyMiddleware(req, res, {
         // You can use the `http-proxy` option
-        target: 'http://34.163.185.96',
+        target: process.env.NEXT_PUBLIC_API_URL,
         // In addition, you can use the `pathRewrite` option provided by `next-http-proxy-middleware`
         pathRewrite: [ 
             {
