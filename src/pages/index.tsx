@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "@components";
 import NextLink from "next/link";
 
 import { BestSales } from "@components/best-sales";
 import { OurUniverse } from "@definitions/constants";
 import {
+  homeSlideInfo,
   BriefTextCreatrice,
   BriefTextNature,
   featuredComments,
@@ -84,6 +85,23 @@ const Home: React.FC = () => {
                 key={index}
                 className={`relative float-left -mr-[100%] w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none`}
               >
+                <div className="absolute z-0 top-1/2 left-1/2 -translate-y-2/4 -translate-x-2/4 w-[100%] text-center">
+                  {item?.caption && (
+                    <div>
+                      <span className="whitespace-pre-wrap xl:text-3xl text-2xl text-[#fdf6f1] drop-shadow-2xl shadow-2xl shadow-black">
+                        {item?.caption}
+                      </span>
+                    </div>
+                  )}
+                  {/*  {item?.text && (
+                    <button
+                      className="rounded-full h-12 bg-white text-lg min-w-[140px] border-white border hover:bg-transparent hover:text-white"
+                      ref={item?.ref}
+                    >
+                      {item?.text}
+                    </button>
+                  )}*/}
+                </div>
                 <img
                   src={item?.url}
                   className="block w-full object-fit "

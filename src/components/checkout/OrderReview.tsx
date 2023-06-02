@@ -307,6 +307,8 @@ const OrderReview: React.FC<OrderReviewProps> = ({
             <div>
               <CardElement options={CARD_ELEMENT_OPTIONS} />
             </div>
+          ) : (
+            <div></div>
           )}
           {/* PayPal */}
           <div className="flex mt-5 items-center">
