@@ -93,7 +93,7 @@ const csrfToken = getCookie('csrftoken');
         },
         body: JSON.stringify({
           paymentMethodType: 'card',
-          currency: 'EUR',
+          currency: 'usd',
           amount:totalMoney
         }),
       }
@@ -132,6 +132,7 @@ if(paymentIntent){
   return (
     <form id="payment-form" onSubmit={handleSubmit2}>
             <CardElement options={CARD_ELEMENT_OPTIONS} />
+            <button type="submit">Paynow</button>
     </form>
   );
 }
