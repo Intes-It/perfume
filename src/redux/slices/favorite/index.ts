@@ -15,10 +15,10 @@ const initialState: Favorite = {
 export const fetchFavoriteList = createAsyncThunk('favorite/fetchFavoriteList', async () => {
   try {
     const { data } = await axios.get(api.favouriteList);
-    // console.log(data);
+
     return data;
   } catch (error: any) {
-    console.log(error);
+    throw new  error;
   }
 });
 
@@ -41,7 +41,6 @@ const favoriteSlice = createSlice({
   },
   extraReducers: {
     [fetchFavoriteList.fulfilled.toString()]: (state, { payload }) => {
-      // console.log(payload);
       state.list = payload;
     },
   },

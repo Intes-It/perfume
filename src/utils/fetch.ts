@@ -12,3 +12,17 @@ export const PUT = async (url: string, data: Record<any, unknown>) => {
 export const DELETE = async (url: string, data: any) => {
   return await instance.delete(url, {data});
 };
+export function getCookie(name:string) {
+  if (!document.cookie) {
+    return null;
+  }
+
+  const xsrfCookies = document.cookie.split(';')
+    .map(c => c.trim())
+    .filter(c => c.startsWith(name + '='));
+
+  if (xsrfCookies.length === 0) {
+    return null;
+  }
+  return decodeURIComponent(xsrfCookies[0].split('=')[1]);
+}

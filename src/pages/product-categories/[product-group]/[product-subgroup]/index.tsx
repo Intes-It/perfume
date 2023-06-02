@@ -68,7 +68,7 @@ const ProductSubGroup = () => {
       else item.favorite = false;
     });
     setState((pre) => ({ ...pre, filterProducts }));
-    console.log(filterProducts);
+    
   }, [router.query, products, favoriteProducts]);
 
   useEffect(() => {

@@ -19,11 +19,6 @@ const Home: React.FC = () => {
   });
 
   const { homeSlideData } = state;
-
-  useEffect(() => {
-    // setTheme('light');
-  }, []);
-
   const { products } = useBestSallingProducts();
 
   return (

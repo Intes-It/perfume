@@ -15,7 +15,7 @@ const index = () => {
       searchValue: '',
     },
     onSubmit: (value) => {
-      console.log(value);
+  
       router.replace({ query: { result: value.searchValue } });
     },
   });

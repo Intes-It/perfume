@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container } from "@components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { clearCart } from "@redux/slices/cart";
 
 const StripeSuccess = () => {
   const router = useRouter();
-  
+ /*  const dispatch=useDispatch()
+  useEffect(()=>{
+    dispatch(clearCart)
+  },[]) */
   return (
     <Container>
       <div className="mx-auto p-5  grid ">
