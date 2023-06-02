@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3d439cb9-9f18-4b6e-bd95-e0ef07b47a03" name="Changes" comment="add payment stripe">
+      <change beforePath="$PROJECT_DIR$/src/components/checkout/OrderReview.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/checkout/OrderReview.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/checkout/stripe_form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/checkout/stripe_form.tsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="TypeScript JSX File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2QCJEcE72pTC0WlF19CMuwaMX2j" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "viet__add__stripe",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/nghoa/Work/Intes/Web/cfi_manage_work",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\nghoa\\WebstormProjects\\naturefeerique\\node_modules\\prettier",
+    "settings.editor.selected.configurable": "settings.javascript.prettier",
+    "show.migrate.to.gradle.popup": "false",
+    "ts.external.directory.path": "C:\\Users\\nghoa\\WebstormProjects\\naturefeerique\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="npm.dev">
+    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.dev" />
+        <item itemvalue="npm.start" />
+        <item itemvalue="npm.build" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3d439cb9-9f18-4b6e-bd95-e0ef07b47a03" name="Changes" comment="" />
+      <created>1684851518796</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1684851518796</updated>
+      <workItem from="1684851521336" duration="3531000" />
+      <workItem from="1684891663852" duration="2407000" />
+      <workItem from="1684895042720" duration="1148000" />
+      <workItem from="1684936181685" duration="5932000" />
+      <workItem from="1684985613575" duration="10663000" />
+      <workItem from="1685019118889" duration="1259000" />
+      <workItem from="1685020410391" duration="4660000" />
+      <workItem from="1685065900927" duration="13333000" />
+      <workItem from="1685343470003" duration="2619000" />
+      <workItem from="1685346908128" duration="17000" />
+      <workItem from="1685365500947" duration="4384000" />
+      <workItem from="1685458522296" duration="1285000" />
+      <workItem from="1685499316878" duration="1256000" />
+      <workItem from="1685519670729" duration="8784000" />
+      <workItem from="1685625923840" duration="168000" />
+      <workItem from="1685673654180" duration="8444000" />
+    </task>
+    <task id="LOCAL-00001" summary="commit">
+      <created>1684942610487</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1684942610487</updated>
+    </task>
+    <task id="LOCAL-00002" summary="fix tabs">
+      <created>1685008604643</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1685008604643</updated>
+    </task>
+    <task id="LOCAL-00003" summary="fix">
+      <created>1685024359375</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1685024359375</updated>
+    </task>
+    <task id="LOCAL-00004" summary="fix breadumb">
+      <created>1685075710749</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1685075710749</updated>
+    </task>
+    <task id="LOCAL-00005" summary="fix">
+      <created>1685086220679</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1685086220679</updated>
+    </task>
+    <task id="LOCAL-00006" summary="push code">
+      <created>1685345508013</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1685345508013</updated>
+    </task>
+    <task id="LOCAL-00007" summary="add checkout stripe">
+      <created>1685349472272</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1685349472272</updated>
+    </task>
+    <task id="LOCAL-00008" summary="add checkout stripe">
+      <created>1685350707959</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1685350707959</updated>
+    </task>
+    <task id="LOCAL-00009" summary="fix">
+      <created>1685523636119</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1685523636119</updated>
+    </task>
+    <task id="LOCAL-00010" summary="fix">
+      <created>1685540487564</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1685540487564</updated>
+    </task>
+    <task id="LOCAL-00011" summary="add payment stripe">
+      <created>1685679085782</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1685679085782</updated>
+    </task>
+    <task id="LOCAL-00012" summary="add payment stripe">
+      <created>1685680161815</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1685680161815</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="commit" />
+    <MESSAGE value="fix tabs" />
+    <MESSAGE value="fix breadumb" />
+    <MESSAGE value="push code" />
+    <MESSAGE value="add checkout stripe" />
+    <MESSAGE value="fix" />
+    <MESSAGE value="add payment stripe" />
+    <option name="LAST_COMMIT_MESSAGE" value="add payment stripe" />
+  </component>
+</project>

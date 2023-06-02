@@ -92,7 +92,7 @@ const ProductDetail: React.FC<
     0
   );
 
-  console.log("product-slug", product);
+  
   const breadCrumb = useMemo(() => {
     let res = [{ name: "Accueil", route: "/" }];
     const groupRoute = product?.category?.name?.toLowerCase();

@@ -1,10 +1,14 @@
 import useCheckout from "@hooks/useCheckout";
 import { ExProduct } from "@types";
 import { formatCurrency } from "@utils/formatNumber";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { clearCart } from "@redux/slices/cart";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import StripeForm from "@components/checkout/stripe_form";
+import { POST } from "@utils/fetch";
+import useCart from "@hooks/useCart";
 
 type OrderReviewProps = {
   onOderClicked?: () => void;
@@ -18,36 +22,40 @@ const OrderReview: React.FC<OrderReviewProps> = ({
   const [state, setState] = useState({
     carte: false,
     paypal: true,
+    clientSecret: "",
   });
-  const { carte, paypal } = state;
+  // const stripe=useStripe()
+  // const elements=useElements()
+  const { carte, paypal, clientSecret } = state;
+  const stripePromise = loadStripe(
+    "pk_test_51Mc4mkLl7R805p8J3t7dqoeBEGqXglTC8FiqLPmhobzxo9RDD9THPh2kMhECSAwFBlWhBqnY11HKHj8t2ZTEjoqP00Zm5l2381"
+  );
   const products = useSelector(
     (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
-  const dispatch = useDispatch();
+ 
   const totalMoney = products?.reduce(
     (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.price || "0"),
     0
   );
-  const cardRef = useRef<HTMLInputElement | null>(null);
-  const expiredRef = useRef<HTMLInputElement | null>(null);
-  const cvvRef = useRef<HTMLInputElement | null>(null);
-  const router = useRouter();
-  const { processStripe } = useCheckout();
-  async function handleStripePayment() {
-    const res = await processStripe({
-      order_id: orderID,
-      card_number: cardRef.current?.value,
-      card_expiry: expiredRef.current?.value,
-      card_cvv: cvvRef.current?.value,
-    });
-   
-    if (res.status === 200) {
-      dispatch(clearCart());
-      router.push("/stripe_success");
-    }
 
-    
+  async function handleStripePayment(e: React.FormEvent) {
+   console.log(e);
   }
+  const {cart}=useCart()
+  console.log(cart);
+  
+  // useEffect(() => {
+  //   fetch("/api/payment/stripe/create-payment-intent", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({products}),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) =>
+  //       setState((p) => ({ ...p, stripeSecret: data.clientSecret }))
+  //     );
+  // }, []);
   return (
     <div className="bg-[#FBFBFB]">
       <div className="grid">
@@ -100,7 +108,14 @@ const OrderReview: React.FC<OrderReviewProps> = ({
           {/* first form */}
           {carte ? (
             <div>
-              <form>
+              {stripePromise && (
+                <Elements
+                  stripe={stripePromise}
+                  // options={{ clientSecret}}
+                >
+                  <StripeForm />
+
+                  {/*<form>
                 <div className="grid gap-3 bg-[#efefef] ">
                   <div className="flex flex-col mt-6 mr-6 ml-6">
                     <label className="font-semibold">
@@ -153,7 +168,9 @@ const OrderReview: React.FC<OrderReviewProps> = ({
                     </div>
                   </div>
                 </div>
-              </form>
+              </form>*/}
+                </Elements>
+              )}
             </div>
           ) : (
             <div></div>

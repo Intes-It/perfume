@@ -61,9 +61,7 @@ const ProductSubSubGroup = () => {
     fetchProducts();
   }, [subsubCategories, router.query, sort, priceRange])
 
-  const handleChange = (value: any) => {
-    console.log(value);
-  };
+
 
   const handleSortChange = (value: any) => {
     setState((pre) => ({ ...pre, sort: value }))
