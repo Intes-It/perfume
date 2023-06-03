@@ -13,7 +13,7 @@ const Adress = () => {
 
   async function getProfile() {
     const res = await GET(api.getProfile);
-    console.log(res);
+   
     return res.data;
   }
 
@@ -26,7 +26,7 @@ const Adress = () => {
 
   const { user } = useUser();
 
-  console.log(user);
+
 
   const { facturation, livraison,  } = state;
   return (

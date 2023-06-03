@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3d439cb9-9f18-4b6e-bd95-e0ef07b47a03" name="Changes" comment="add payment stripe">
-      <change beforePath="$PROJECT_DIR$/src/components/checkout/OrderReview.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/checkout/OrderReview.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/checkout/stripe_form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/checkout/stripe_form.tsx" afterDir="false" />
+    <list default="true" id="3d439cb9-9f18-4b6e-bd95-e0ef07b47a03" name="Changes" comment="fix some">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +54,7 @@
     "prettierjs.PrettierConfiguration.Package": "C:\\Users\\nghoa\\WebstormProjects\\naturefeerique\\node_modules\\prettier",
     "settings.editor.selected.configurable": "settings.javascript.prettier",
     "show.migrate.to.gradle.popup": "false",
-    "ts.external.directory.path": "C:\\Users\\nghoa\\WebstormProjects\\naturefeerique\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "C:\\Users\\nghoa\\AppData\\Local\\JetBrains\\Toolbox\\apps\\IDEA-U\\ch-0\\231.9011.34\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -121,6 +121,7 @@
       <workItem from="1685519670729" duration="8784000" />
       <workItem from="1685625923840" duration="168000" />
       <workItem from="1685673654180" duration="8444000" />
+      <workItem from="1685756206810" duration="3579000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <created>1684942610487</created>
@@ -206,7 +207,21 @@
       <option name="project" value="LOCAL" />
       <updated>1685680161815</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="fix some">
+      <created>1685759451752</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1685759451752</updated>
+    </task>
+    <task id="LOCAL-00014" summary="fix some">
+      <created>1685759486461</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1685759486461</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -231,6 +246,7 @@
     <MESSAGE value="add checkout stripe" />
     <MESSAGE value="fix" />
     <MESSAGE value="add payment stripe" />
-    <option name="LAST_COMMIT_MESSAGE" value="add payment stripe" />
+    <MESSAGE value="fix some" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix some" />
   </component>
 </project>

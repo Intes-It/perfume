@@ -59,7 +59,7 @@ const Detail = () => {
               color: '#06e318',
             }));
           } else {
-            console.log(res.status);
+        
             setState((o) => ({
               ...o,
               error: true,

@@ -66,7 +66,7 @@ const AdditionalInformation: React.FC<AdditionalInfomationProps> = ({
       onError?.(errors);
     } else onError?.(null);
   }, [check]);
-  console.log(user);
+
   return (
     <div className="bg-[#FBFBFB] ">
       <div className="flex items-center">

@@ -15,7 +15,7 @@ const DropdownCheckbox: React.FC<DropdownProps> = ({ title, selections, onChange
   const { newArr } = state;
 
   useEffect(() => {
-    console.log('selections:%o',selections);
+   
     setState((o) => ({
       ...o,
       newArr: selections?.map((r: any, index: number) => {

@@ -26,7 +26,7 @@ const useUser = () => {
   {
     onSuccess:()=>{ 
       queryClient.invalidateQueries('get-profile');
-      console.log(queryClient)
+
     }
   }
   )
