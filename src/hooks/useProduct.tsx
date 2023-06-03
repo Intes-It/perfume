@@ -9,14 +9,14 @@ export const useProducts = () => {
   const [products, setProducts] = useState();
 
   async function getProducts() {
-    console.log('dsadsa')
+  
     const res = await queryClient.fetchQuery("get-product", () => GET(api.products));
     setProducts(res?.data?.data?.results)
   }
 
   async function getFilterProducts(query: ParsedUrlQuery){
     const res = await queryClient.fetchQuery("filter-product", () => GET(`${api.productByCategory}?${encode(query)}`));
-    console.log('producst:%o', res?.data?.data?.results)
+  
     setProducts(res?.data?.data?.results)
   }
 

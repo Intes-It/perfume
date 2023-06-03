@@ -16,11 +16,9 @@ const Favorite = () => {
   // favoriteProducts?.forEach((item: Product) => {
   //   item.favorite = true;
   // });
-  console.log(favoriteProducts);
+  
 
-  const handleChange = (value: any) => {
-    console.log(value);
-  };
+ 
   return (
     <div>
       <div className="flex flex-col items-center space-y-10 mx-5 my-5 ">

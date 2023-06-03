@@ -40,7 +40,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
     //   province: 'required',
     // },
     onSubmit: (value) => {
-      console.log(value);
+      
       PUT('/api/user/profile', value).then((res) => {
         if (res?.status === 200) {
           onBack();
@@ -51,7 +51,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
             color: '#06e318',
           }));
         } else {
-          console.log(res.status);
+      
           setState((o) => ({
             ...o,
             error: true,

@@ -18,8 +18,7 @@ const MobileMenu = ({ ...props }) => {
   subsubCategories?.forEach((item: any) => {
     item.newName = item.name.replace(/\s/g, '');
   });
-  console.log(subCategories);
-  console.log(subsubCategories);
+
   const exCategories = categories && [Routes.home, Routes.about, ...categories, Routes.contact];
   
   const dropdown = React.useRef(null);

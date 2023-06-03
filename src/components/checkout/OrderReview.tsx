@@ -4,16 +4,20 @@ import { formatCurrency } from "@utils/formatNumber";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { Elements } from "@stripe/react-stripe-js";
+import {CardElement, Elements, useElements, useStripe } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import StripeForm from "@components/checkout/stripe_form";
+
 import { POST } from "@utils/fetch";
 import useCart from "@hooks/useCart";
+import { clearCart } from "@redux/slices/cart";
+import {getCookie}from 'cookies-next'
 
 type OrderReviewProps = {
   onOderClicked?: () => void;
   orderID: number;
 };
+
+
 
 const OrderReview: React.FC<OrderReviewProps> = ({
   onOderClicked,
@@ -24,12 +28,10 @@ const OrderReview: React.FC<OrderReviewProps> = ({
     paypal: true,
     clientSecret: "",
   });
-  // const stripe=useStripe()
-  // const elements=useElements()
+
   const { carte, paypal, clientSecret } = state;
-  const stripePromise = loadStripe(
-    "pk_test_51Mc4mkLl7R805p8J3t7dqoeBEGqXglTC8FiqLPmhobzxo9RDD9THPh2kMhECSAwFBlWhBqnY11HKHj8t2ZTEjoqP00Zm5l2381"
-  );
+  const [message, setMessage] = React.useState('');
+
   const products = useSelector(
     (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
@@ -38,24 +40,105 @@ const OrderReview: React.FC<OrderReviewProps> = ({
     (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.price || "0"),
     0
   );
+  const stripe = useStripe();
+  const elements = useElements();
+  const CARD_ELEMENT_OPTIONS = {
+    style: {
+      base: {
+        color: "#32325d",
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: "antialiased",
+        fontSize: "16px",
+        "::placeholder": {
+          color: "#aab7c4",
+        },
+      },
+      invalid: {
+        color: "#fa755a",
+        iconColor: "#fa755a",
+      },
+    },
+  };
+  const dispatch=useDispatch()
+  const router=useRouter()
+  const csrfToken = getCookie('csrftoken');
 
   async function handleStripePayment(e: React.FormEvent) {
-   console.log(e);
+
+      e.preventDefault();
+      if (!stripe || !elements) {
+        return;
+      }
+      const {error: backendError, clientSecret} = await fetch(
+          '/api/payment/stripe/create-payment-intent',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken':`${csrfToken}`
+            },
+            body: JSON.stringify({
+              paymentMethodType: 'card',
+              currency: 'usd',
+              amount:totalMoney
+            }),
+          }
+      ).then((r) => r.json());
+
+      if (backendError) {
+        return;
+      }
+      const {error: stripeError, paymentIntent} = await stripe.confirmCardPayment(
+          clientSecret,
+          {
+            payment_method: {
+              card: elements.getElement(CardElement) as any,
+              billing_details: {
+                name: 'Jenny Rosen',
+              },
+            },
+          }
+      );
+      if (stripeError) {
+        return;
+      }
+      if(paymentIntent){
+        dispatch(clearCart())
+        router.push('/stripe_success')
+      }
+
+
   }
-  const {cart}=useCart()
-  console.log(cart);
-  
-  // useEffect(() => {
-  //   fetch("/api/payment/stripe/create-payment-intent", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({products}),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) =>
-  //       setState((p) => ({ ...p, stripeSecret: data.clientSecret }))
-  //     );
-  // }, []);
+  React.useEffect(() => {
+    if (!stripe) {
+      return;
+    }
+
+    const clientSecret = new URLSearchParams(window.location.search).get(
+        "payment_intent_client_secret"
+    );
+
+    if (!clientSecret) {
+      return;
+    }
+
+    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+      switch (paymentIntent?.status) {
+        case "succeeded":
+          setMessage("Payment succeeded!");
+          break;
+        case "processing":
+          setMessage("Your payment is processing.");
+          break;
+        case "requires_payment_method":
+          setMessage("Your payment was not successful, please try again.");
+          break;
+        default:
+          setMessage("Something went wrong.");
+          break;
+      }
+    });
+  }, [stripe]);
   return (
     <div className="bg-[#FBFBFB]">
       <div className="grid">
@@ -106,16 +189,62 @@ const OrderReview: React.FC<OrderReviewProps> = ({
         </div>
         <div className="mt-5">
           {/* first form */}
-          {carte ? (
+          {carte &&
             <div>
-              {stripePromise && (
-                <Elements
-                  stripe={stripePromise}
-                  // options={{ clientSecret}}
-                >
-                  <StripeForm />
+              <CardElement options={CARD_ELEMENT_OPTIONS} />
+            </div>
+         }
+          {/* PayPal */}
+          <div className="flex mt-5 items-center">
+            <input
+              checked={paypal}
+              onChange={() =>
+                setState((o) => ({ ...o, carte: false, paypal: true }))
+              }
+              type="radio"
+              id="remember"
+              className="w-4 h-4 mr-2 "
+            />
+            <span className="text-black text-[22px] font-semibold">PayPal</span>
+          </div>
+          <div className="mt-7">
+            {paypal ? (
+              <div className="grid bg-[#efefef]">Pay via PayPal.</div>
+            ) : (
+              <div></div>
+            )}
+          </div>
+          <div className="mt-6 flex items-center">
+            <input type="checkbox" id="remember" className="w-4 h-4  mr-2 " />
+            <span className="text-black  font-semibold">
+              Je voudrais recevoir des e-mails exclusifs avec des réductions et
+              des informations sur le produit (facultatif)
+            </span>
+          </div>
+          <div className="mt-6 flex items-center">
+            <span className="text-black  font-semibold">
+              Vos données personnelles seront utilisées pour le traitement de
+              votre commande, vous accompagner au cours de votre visite du site
+              web, et pour d’autres raisons décrites dans notre politique de
+              confidentialité.
+            </span>
+          </div>
+          <div className=" grid mt-2 items-center">
+            <button
+              onClick={carte ? handleStripePayment : onOderClicked}
+              className="h-[50px] rounded-md p-3 text-white hover:bg-black bg-[#603813] "
+            >
+              Commander
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-                  {/*<form>
+export default OrderReview;
+{/*<form>
                 <div className="grid gap-3 bg-[#efefef] ">
                   <div className="flex flex-col mt-6 mr-6 ml-6">
                     <label className="font-semibold">
@@ -169,59 +298,3 @@ const OrderReview: React.FC<OrderReviewProps> = ({
                   </div>
                 </div>
               </form>*/}
-                </Elements>
-              )}
-            </div>
-          ) : (
-            <div></div>
-          )}
-          {/* PayPal */}
-          <div className="flex mt-5 items-center">
-            <input
-              checked={paypal}
-              onChange={() =>
-                setState((o) => ({ ...o, carte: false, paypal: true }))
-              }
-              type="radio"
-              id="remember"
-              className="w-4 h-4 mr-2 "
-            />
-            <span className="text-black text-[22px] font-semibold">PayPal</span>
-          </div>
-          <div className="mt-7">
-            {paypal ? (
-              <div className="grid bg-[#efefef]">Pay via PayPal.</div>
-            ) : (
-              <div></div>
-            )}
-          </div>
-          <div className="mt-6 flex items-center">
-            <input type="checkbox" id="remember" className="w-4 h-4  mr-2 " />
-            <span className="text-black  font-semibold">
-              Je voudrais recevoir des e-mails exclusifs avec des réductions et
-              des informations sur le produit (facultatif)
-            </span>
-          </div>
-          <div className="mt-6 flex items-center">
-            <span className="text-black  font-semibold">
-              Vos données personnelles seront utilisées pour le traitement de
-              votre commande, vous accompagner au cours de votre visite du site
-              web, et pour d’autres raisons décrites dans notre politique de
-              confidentialité.
-            </span>
-          </div>
-          <div className=" grid mt-2 items-center">
-            <button
-              onClick={carte ? handleStripePayment : onOderClicked}
-              className="h-[50px] rounded-md p-3 text-white hover:bg-black bg-[#603813] "
-            >
-              Commander
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default OrderReview;

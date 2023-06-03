@@ -7,6 +7,8 @@ import { faWarning } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useCart from "@hooks/useCart";
 import useCheckout from "@hooks/useCheckout";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import _ from "lodash";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
@@ -49,7 +51,9 @@ const Checkout: React.FC = () => {
   });
   const { activeTab, inValidData, formErrors, formValues } = state;
   const errorDivRef = useRef<HTMLDivElement>(null);
-
+  const stripePromise = loadStripe(
+      "pk_test_51Mc4mkLl7R805p8J3t7dqoeBEGqXglTC8FiqLPmhobzxo9RDD9THPh2kMhECSAwFBlWhBqnY11HKHj8t2ZTEjoqP00Zm5l2381"
+  );
   const hasError = () => {
     switch (activeTab) {
       case 0:
@@ -108,7 +112,7 @@ const Checkout: React.FC = () => {
     });
     if (res?.status === 200 && res?.data?.link) router.push(res?.data?.link);
   };
-  console.log("order id", cart?.data?.cart?.id);
+  
   return (
     <Container>
       <div className=" mt-2 md:m-20">
@@ -216,10 +220,12 @@ const Checkout: React.FC = () => {
                 activeTab !== 2 && "hidden"
               } transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}
             >
+              <Elements stripe={stripePromise}>
               <OrderReview
                 onOderClicked={handleOder}
                 orderID={cart?.data?.cart?.id}
               />
+              </Elements>
             </div>
 
             <div className="flex float-right gap-3 mt-10 ">
