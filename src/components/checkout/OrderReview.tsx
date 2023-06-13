@@ -1,28 +1,25 @@
-import useCheckout from "@hooks/useCheckout";
 import { ExProduct } from "@types";
 import { formatCurrency } from "@utils/formatNumber";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import {CardElement, Elements, useElements, useStripe } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-
-import { POST } from "@utils/fetch";
-import useCart from "@hooks/useCart";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { clearCart } from "@redux/slices/cart";
-import {getCookie}from 'cookies-next'
+import { getCookie } from "cookies-next";
+import { api } from "@utils/apiRoute";
+import { instance } from "@utils/_axios";
+import { log } from "console";
 
 type OrderReviewProps = {
   onOderClicked?: () => void;
-  orderID: number;
 };
-
-
-
-const OrderReview: React.FC<OrderReviewProps> = ({
-  onOderClicked,
-  orderID,
-}) => {
+type weightCost = {
+  cost: number;
+};
+type voucherCost={
+discount:number
+}
+const OrderReview: React.FC<OrderReviewProps> = ({ onOderClicked }) => {
   const [state, setState] = useState({
     carte: false,
     paypal: true,
@@ -30,16 +27,32 @@ const OrderReview: React.FC<OrderReviewProps> = ({
   });
 
   const { carte, paypal, clientSecret } = state;
-  const [message, setMessage] = React.useState('');
-
+  const [message, setMessage] = React.useState("");
+  const [voucher, setVoucher] = useState<voucherCost[]>([]);
+  const [weight, setWeight] = useState<weightCost[]>([]);
   const products = useSelector(
     (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
- 
+
   const totalMoney = products?.reduce(
     (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.price || "0"),
     0
   );
+  const totalWeight = products?.reduce(
+    (pre, curr) =>
+      pre +
+      curr.quantity * Number.parseFloat(curr.product.weight?.toString() || "0"),
+    0
+  );
+  const totalDiscount=voucher.reduce((p,c)=>p+c.discount,0)
+  
+  
+  
+  const shippingCost = weight.reduce((pre, curr) => pre + curr.cost, 0);
+ 
+
+  const extraTotalMoney = totalMoney-(totalDiscount/100)+shippingCost
+
   const stripe = useStripe();
   const elements = useElements();
   const CARD_ELEMENT_OPTIONS = {
@@ -59,55 +72,50 @@ const OrderReview: React.FC<OrderReviewProps> = ({
       },
     },
   };
-  const dispatch=useDispatch()
-  const router=useRouter()
-  const csrfToken = getCookie('csrftoken');
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const csrfToken = getCookie("csrftoken");
 
   async function handleStripePayment(e: React.FormEvent) {
-
-      e.preventDefault();
-      if (!stripe || !elements) {
-        return;
+    e.preventDefault();
+    if (!stripe || !elements) {
+      return;
+    }
+    const { error: backendError, clientSecret } = await fetch(
+      "/api/payment/stripe/create-payment-intent",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": `${csrfToken}`,
+        },
+        body: JSON.stringify({
+          paymentMethodType: "card",
+          currency: "usd",
+          amount:extraTotalMoney?extraTotalMoney.toFixed(2): totalMoney,
+        }),
       }
-      const {error: backendError, clientSecret} = await fetch(
-          '/api/payment/stripe/create-payment-intent',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-CSRFToken':`${csrfToken}`
-            },
-            body: JSON.stringify({
-              paymentMethodType: 'card',
-              currency: 'usd',
-              amount:totalMoney
-            }),
-          }
-      ).then((r) => r.json());
+    ).then((r) => r.json());
 
-      if (backendError) {
-        return;
-      }
-      const {error: stripeError, paymentIntent} = await stripe.confirmCardPayment(
-          clientSecret,
-          {
-            payment_method: {
-              card: elements.getElement(CardElement) as any,
-              billing_details: {
-                name: 'Jenny Rosen',
-              },
-            },
-          }
-      );
-      if (stripeError) {
-        return;
-      }
-      if(paymentIntent){
-        dispatch(clearCart())
-        router.push('/stripe_success')
-      }
-
-
+    if (backendError) {
+      return;
+    }
+    const { error: stripeError, paymentIntent } =
+      await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement) as any,
+          billing_details: {
+            name: "Jenny Rosen",
+          },
+        },
+      });
+    if (stripeError) {
+      return;
+    }
+    if (paymentIntent) {
+      dispatch(clearCart());
+      router.push("/stripe_success");
+    }
   }
   React.useEffect(() => {
     if (!stripe) {
@@ -115,7 +123,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
     }
 
     const clientSecret = new URLSearchParams(window.location.search).get(
-        "payment_intent_client_secret"
+      "payment_intent_client_secret"
     );
 
     if (!clientSecret) {
@@ -139,6 +147,16 @@ const OrderReview: React.FC<OrderReviewProps> = ({
       }
     });
   }, [stripe]);
+
+  React.useEffect(() => {
+    instance
+      .get(`${api.shipping_weight}?weight=${totalWeight}`)
+      .then((data) => setWeight(data.data));
+  }, []);
+  React.useEffect(() => {
+    instance(api.product_voucher).then((data) => setVoucher(data.data));
+  }, []);
+
   return (
     <div className="bg-[#FBFBFB]">
       <div className="grid">
@@ -165,12 +183,27 @@ const OrderReview: React.FC<OrderReviewProps> = ({
         </div>
         <div className="grid grid-cols-2">
           <div className="border border-black">Expédition</div>
-          <div className="border border-black"></div>
+          <div className="border border-black">
+            <p>contenance:{totalWeight}g</p>
+            <p>frais de port :{shippingCost}€</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-2">
+          <div className="border border-black">Voucher</div>
+          {/* <input className='focus:border-none border border-black'/> */}
+          {voucher.map((item: any) => (
+            <div
+              className="focus:border-none border border-black"
+              key={item.id}
+            >
+              {item.name} discount {item.discount}%
+            </div>
+          ))}
         </div>
         <div className="grid grid-cols-2">
           <div className="border border-black">Total</div>
           <div className="border border-black">
-            {formatCurrency(String(totalMoney))} €
+            {formatCurrency(String(extraTotalMoney?extraTotalMoney.toFixed(2):totalMoney))} €
           </div>
         </div>
         <div className="flex mt-5 items-center">
@@ -189,11 +222,11 @@ const OrderReview: React.FC<OrderReviewProps> = ({
         </div>
         <div className="mt-5">
           {/* first form */}
-          {carte &&
+          {carte && (
             <div>
               <CardElement options={CARD_ELEMENT_OPTIONS} />
             </div>
-         }
+          )}
           {/* PayPal */}
           <div className="flex mt-5 items-center">
             <input
@@ -244,7 +277,8 @@ const OrderReview: React.FC<OrderReviewProps> = ({
 };
 
 export default OrderReview;
-{/*<form>
+{
+  /*<form>
                 <div className="grid gap-3 bg-[#efefef] ">
                   <div className="flex flex-col mt-6 mr-6 ml-6">
                     <label className="font-semibold">
@@ -297,4 +331,5 @@ export default OrderReview;
                     </div>
                   </div>
                 </div>
-              </form>*/}
+              </form>*/
+}

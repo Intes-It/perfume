@@ -223,7 +223,7 @@ const Checkout: React.FC = () => {
               <Elements stripe={stripePromise}>
               <OrderReview
                 onOderClicked={handleOder}
-                orderID={cart?.data?.cart?.id}
+              
               />
               </Elements>
             </div>
