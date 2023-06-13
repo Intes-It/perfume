@@ -19,4 +19,6 @@ export const api = {
   processYourOrder: "/api/payment/process/your_order",
   successOrder: "/api/payment/success",
   stripe_payment: "/api/payment/process/stripe-payment-credit",
+  product_voucher:'/api/voucher/all',
+  shipping_weight:'/api/delivery-cost/weight'
 };

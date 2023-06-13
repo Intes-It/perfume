@@ -15,6 +15,7 @@ export interface Product {
   name?: string;
   evaluate?: number | undefined;
   url_image?: string | undefined;
+  weight?:number
 }
 
 export interface ExProduct {
