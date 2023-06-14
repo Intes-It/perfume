@@ -91,8 +91,8 @@ const OrderReview: React.FC<OrderReviewProps> = ({ onOderClicked }) => {
         },
         body: JSON.stringify({
           paymentMethodType: "card",
-          currency: "usd",
-          amount: extraTotalMoney ? extraTotalMoney.toFixed(2) : totalMoney,
+          currency: "eur",
+          amount: extraTotalMoney ? +extraTotalMoney : +totalMoney,
         }),
       }
     ).then((r) => r.json());
