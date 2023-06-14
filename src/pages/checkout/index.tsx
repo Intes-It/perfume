@@ -221,7 +221,7 @@ const Checkout: React.FC = () => {
               } transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}
             >
               <Elements stripe={stripePromise}>
-                <OrderReview onOderClicked={handleOder} />
+                <OrderReview onOderClicked={handleOder} orderID={cart?.data?.cart?.id} />
               </Elements>
             </div>
 
