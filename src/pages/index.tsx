@@ -50,7 +50,7 @@ const Home: React.FC = () => {
             }
           >
             <Link href={"https://nature-feerique.sumupstore.com"}>
-              Je Sucummbe
+              Je Succombe
             </Link>
           </button>
         </div>
