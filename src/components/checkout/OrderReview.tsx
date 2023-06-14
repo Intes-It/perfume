@@ -8,7 +8,7 @@ import { clearCart } from "@redux/slices/cart";
 import { getCookie } from "cookies-next";
 import { api } from "@utils/apiRoute";
 import { instance } from "@utils/_axios";
-
+import { Badge, Button } from "flowbite-react";
 
 type OrderReviewProps = {
   onOderClicked?: () => void;
@@ -16,18 +16,19 @@ type OrderReviewProps = {
 type weightCost = {
   cost: number;
 };
-type voucherCost={
-discount:number
-}
+type voucherCost = {
+  discount: number;
+};
 const OrderReview: React.FC<OrderReviewProps> = ({ onOderClicked }) => {
   const [state, setState] = useState({
     carte: false,
     paypal: true,
     clientSecret: "",
-    openModal:''
+
+    voucherChoose: [] as voucherCost[],
   });
 
-  const { carte, paypal, openModal } = state;
+  const { carte, paypal, voucherChoose } = state;
   const [message, setMessage] = React.useState("");
   const [voucher, setVoucher] = useState<voucherCost[]>([]);
   const [weight, setWeight] = useState<weightCost[]>([]);
@@ -45,14 +46,12 @@ const OrderReview: React.FC<OrderReviewProps> = ({ onOderClicked }) => {
       curr.quantity * Number.parseFloat(curr.product.weight?.toString() || "0"),
     0
   );
-  const totalDiscount=voucher.reduce((p,c)=>p+c.discount,0)
-  
-  
-  
-  const shippingCost = weight.reduce((pre, curr) => pre + curr.cost, 0);
- 
+  const totalDiscount = voucherChoose.reduce((p, c) => p + c.discount, 0);
 
-  const extraTotalMoney = totalMoney-(totalDiscount/100)+shippingCost
+  const shippingCost = weight.reduce((pre, curr) => pre + curr.cost, 0);
+
+  const extraTotalMoney =
+    totalMoney - totalMoney * (totalDiscount / 100) + shippingCost;
 
   const stripe = useStripe();
   const elements = useElements();
@@ -93,7 +92,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({ onOderClicked }) => {
         body: JSON.stringify({
           paymentMethodType: "card",
           currency: "usd",
-          amount:extraTotalMoney?extraTotalMoney.toFixed(2): totalMoney,
+          amount: extraTotalMoney ? extraTotalMoney.toFixed(2) : totalMoney,
         }),
       }
     ).then((r) => r.json());
@@ -161,7 +160,24 @@ const OrderReview: React.FC<OrderReviewProps> = ({ onOderClicked }) => {
   return (
     <div className="bg-[#FBFBFB]">
       <div className="grid">
-      
+        <div className={"flex mb-2 align-middle"}>
+          <p>Choose voucher</p>{" "}
+          {voucher.map((item: any) => (
+            <Button
+              className="ml-1"
+              key={item.id}
+              onClick={() => {
+                setState((p) => ({
+                  ...p,
+                  voucherChoose: [...voucherChoose, item],
+                }));
+                setVoucher(voucher.filter((itemv: any) => itemv !== item));
+              }}
+            >
+              {item.name}
+            </Button>
+          ))}
+        </div>
         <div className="border border-black">Order Review</div>
         <div className="grid grid-cols-2">
           <div className="border border-black">Produit</div>
@@ -187,30 +203,39 @@ const OrderReview: React.FC<OrderReviewProps> = ({ onOderClicked }) => {
           <div className="border border-black">Expédition</div>
           <div className="border border-black">
             <p>contenance:{totalWeight}g</p>
-            <p>frais de port <span
-            className="rounded-full border-cyan-500"
-             onClick={()=>{
-              setState(p=>({...p,openModal:'default'}))
-            }}>?</span>:{shippingCost}€</p>
-
+            <p>frais de port:{shippingCost}€</p>
           </div>
         </div>
         <div className="grid grid-cols-2">
           <div className="border border-black">Voucher</div>
           {/* <input className='focus:border-none border border-black'/> */}
-          {voucher.map((item: any) => (
-            <div
-              className="focus:border-none border border-black"
-              key={item.id}
-            >
-              {item.name} discount {item.discount}%
-            </div>
-          ))}
+          <div className="focus:border-none border border-black flex py-2">
+            {voucherChoose.map((item: any, index: number) => (
+              <Badge
+                key={index}
+                className={"ml-1 cursor-pointer"}
+                onClick={() => {
+                  setState((p) => ({
+                    ...p,
+                    voucherChoose: voucherChoose.filter(
+                      (itemc: any) => itemc !== item
+                    ),
+                  }));
+                  setVoucher([...voucher, item]);
+                }}
+              >
+                {item.name} discount {item.discount}%
+              </Badge>
+            ))}
+          </div>
         </div>
         <div className="grid grid-cols-2">
           <div className="border border-black">Total</div>
           <div className="border border-black">
-            {formatCurrency(String(extraTotalMoney?extraTotalMoney.toFixed(2):totalMoney))} €
+            {formatCurrency(
+              String(extraTotalMoney ? extraTotalMoney.toFixed(2) : totalMoney)
+            )}{" "}
+            €
           </div>
         </div>
         <div className="flex mt-5 items-center">
@@ -284,4 +309,3 @@ const OrderReview: React.FC<OrderReviewProps> = ({ onOderClicked }) => {
 };
 
 export default OrderReview;
-
