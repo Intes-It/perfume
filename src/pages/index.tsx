@@ -5,7 +5,6 @@ import NextLink from "next/link";
 import { BestSales } from "@components/best-sales";
 import { OurUniverse } from "@definitions/constants";
 import {
-  homeSlideInfo,
   BriefTextCreatrice,
   BriefTextNature,
   featuredComments,
@@ -13,46 +12,84 @@ import {
 import { FeaturedComments } from "@components/featured-comment";
 import { useBestSallingProducts } from "@hooks/useProduct";
 import { Carousel } from "flowbite-react";
+import Link from "next/link";
 const Home: React.FC = () => {
-  const [state] = useState({
-    homeSlideData: homeSlideInfo,
-  });
   const [text, setText] = useState(BriefTextCreatrice);
-  const { homeSlideData } = state;
-  const { products } = useBestSallingProducts();
 
+  const { products } = useBestSallingProducts();
+  const homeSlideInfo = [
+    {
+      url: "https://naturefeerique.fr/wp-content/uploads/2022/03/slide1-1-scaled-1.jpg",
+      caption: "",
+      text: (
+        <div
+          className="absolute z-0 top-3/4   -translate-y-2/4 -translate-x-2/4 w-[100%] text-center"
+          style={{ left: "85%" }}
+        >
+          <button
+            style={{ padding: "10px 50px 10px 50px" }}
+            className={
+              "rounded-full h-12  text-center bg-[#ACD051] min-w-[140px] text-white border-transparent border hover:bg-transparent hover:text-black font-bold hover:border-black "
+            }
+          >
+            <Link href={"https://nature-feerique.sumupstore.com"}>J'ADORE</Link>
+          </button>
+        </div>
+      ),
+    },
+    {
+      url: "https://naturefeerique.fr/wp-content/uploads/2022/03/s3-1.png",
+      text: (
+        <div
+          className="absolute z-0 top-3/4   -translate-y-2/4 -translate-x-2/4 w-[100%] text-center"
+          style={{ left: "85%" }}
+        >
+          <button
+            className={
+              "rounded-full h-12  text-center bg-black min-w-[140px] text-white border-transparent border hover:bg-transparent hover:text-black font-bold hover:border-black "
+            }
+          >
+            <Link href={"https://nature-feerique.sumupstore.com"}>
+              Je Sucummbe
+            </Link>
+          </button>
+        </div>
+      ),
+    },
+    {
+      url: "https://naturefeerique.fr/wp-content/uploads/2022/03/mainof.jpg",
+      text: (
+        <div
+          className="absolute z-0 top-2/3  -translate-y-2/4 -translate-x-2/4 w-[100%] text-center"
+          style={{ left: "58%" }}
+        >
+          <button
+            className={
+              "rounded-full h-12  text-center bg-amber-950 min-w-[140px] text-white border-transparent border hover:bg-transparent hover:text-white font-bold hover:border-white "
+            }
+          >
+            <Link href={"https://nature-feerique.sumupstore.com"}>OUI</Link>
+          </button>
+        </div>
+      ),
+    },
+  ];
   return (
     <Container>
       <div className="right-0 bottom-0 left-0 z-[2] flex list-none justify-center p-0">
         <Carousel>
-          {homeSlideData?.map((item: any, index: number) => {
+          {homeSlideInfo?.map((item: any, index: number) => {
             return (
               <div
                 key={index}
                 className={`relative float-left -mr-[100%] w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none`}
               >
-                <div className="absolute z-0 top-1/2 left-1/2 -translate-y-2/4 -translate-x-2/4 w-[100%] text-center">
-                  {item?.caption && (
-                    <div>
-                      <span className="whitespace-pre-wrap xl:text-3xl text-2xl text-[#fdf6f1] drop-shadow-2xl shadow-2xl shadow-black">
-                        {item?.caption}
-                      </span>
-                    </div>
-                  )}
-                  {/*  {item?.text && (
-                    <button
-                      className="rounded-full h-12 bg-white text-lg min-w-[140px] border-white border hover:bg-transparent hover:text-white"
-                      ref={item?.ref}
-                    >
-                      {item?.text}
-                    </button>
-                  )}*/}
-                </div>
                 <img
                   src={item?.url}
                   className="block w-full object-cover md:h-[40vw] h-[60rem]"
                   alt="..."
                 />
+                {item?.text}
               </div>
             );
           })}
