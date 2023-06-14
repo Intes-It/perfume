@@ -27,7 +27,7 @@ const Contact = () => {
               </p>
             </div>
           </div>
-          <div className="flex mt-[40px] ">
+          {/* <div className="flex mt-[40px] ">
             <FontAwesomeIcon
               className="ml-4 mobile:ml-0 bg-[#EFF7CF] px-2 py-2 rounded-[50%] text-gray-700 "
               icon={faPhoneFlip}
@@ -38,7 +38,7 @@ const Contact = () => {
               </h5>
               <p className="text-[16px] text-[#603813] mobile:text-[14px]">07 81 55 41 55</p>
             </div>
-          </div>
+          </div> */}
           <div className="flex mt-[40px]">
             <FontAwesomeIcon
               className="ml-4 mobile:ml-0 bg-[#EFF7CF] px-2 py-2 rounded-[50%] text-gray-700 "
@@ -72,13 +72,13 @@ const Contact = () => {
                 />
                 contact@naturefeerique.fr
               </li>
-              <li>
+              {/* <li>
                 <FontAwesomeIcon
                   className="mr-4 text-sm text-gray-700"
                   icon={faPhoneFlip}
                 />
                 07 81 55 41 55
-              </li>
+              </li> */}
               <li>
                 <FontAwesomeIcon
                   className="mr-4 text-sm text-gray-700"

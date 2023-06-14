@@ -54,8 +54,8 @@ const index = () => {
             <div className="text-[32px]">Contact</div>
             <div className="text-[#603813] text-[15px]">
               Contact Nature Féerique 61 Montée Des Amandiers, 26110 Saint-Maurice Sur Eygues,
-              France Téléphone 07 81 55 41 55 E-mail contact@naturefeerique.fr Rester En Contact
-              Service Client contact@naturefeerique.fr 07 81 55 41 55 Lun- Ven: 09:00 – 18:00 Vous
+              France  E-mail contact@naturefeerique.fr Rester En Contact
+              Service Client contact@naturefeerique.fr  Lun- Ven: 09:00 – 18:00 Vous
               Avez Des Questions?
             </div>
           </div>

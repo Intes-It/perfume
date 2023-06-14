@@ -92,7 +92,6 @@ const ProductDetail: React.FC<
     0
   );
 
-  
   const breadCrumb = useMemo(() => {
     let res = [{ name: "Accueil", route: "/" }];
     const groupRoute = product?.category?.name?.toLowerCase();
@@ -131,8 +130,6 @@ const ProductDetail: React.FC<
       namePackaging[index] = item.replace(/\s/g, "");
     });
   }
-
-  const capacityName: any = ["one", "two"];
 
   const DescriptionTabs = [
     {
@@ -237,6 +234,9 @@ const ProductDetail: React.FC<
       );
     }
   };
+  console.log("====================================");
+  console.log(_.isEmpty(product?.capacity));
+  console.log("====================================");
   return (
     <Container>
       <div className="grid md:grid-cols-2 grid-cols-1 gap-6 md:mx-28 md:my-20 m-8">
@@ -286,7 +286,7 @@ const ProductDetail: React.FC<
             <Rating score={product?.evaluate || 0} />
             <span>{`( 0 avis client)`}</span>
           </div>
-          {_.isEmpty(product?.capacity) && (
+          {_.isEmpty(product?.capacity) ?null: (
             <div className="my-2">
               <span className="text-[#383e42] text-[24px] font-semibold">
                 {formatCurrency(String(product?.price))} €
@@ -328,12 +328,18 @@ const ProductDetail: React.FC<
           </div>
           {/* sub product */}
           <div className="mt-4 mb-3 flex gap-1 ">
-            {_.isEmpty(product?.capacity) ?  <div
+            {_.isEmpty(product?.capacity) ? (
+              <div
                 role="tabpanel"
                 className={` text-[#603813] transition-opacity duration-150 ease-linear `}
-            >
-              Contenance : {product?.weight}g
-            </div>: (
+              >
+                {product?.weight === 0 ? (
+                  ""
+                ) : (
+                  <span>Contenance:{product?.weight}g</span>
+                )}
+              </div>
+            ) : (
               <div
                 role="tabpanel"
                 className={` text-[#603813] transition-opacity duration-150 ease-linear `}
@@ -341,9 +347,6 @@ const ProductDetail: React.FC<
                 Contenance : {contenance}
               </div>
             )}
-
-
-
           </div>
           <div className="">
             <ul
@@ -387,10 +390,8 @@ const ProductDetail: React.FC<
           <div className="mt-4 mb-3 flex gap-1 ">
             {_.isEmpty(product?.packaging) ? null : (
               <div
-              
                 role="tabpanel"
                 className={`mb-4  text-[#603813]    transition-opacity duration-150 ease-linear `}
-                
               >
                 Packaging : {packageName}
               </div>
