@@ -32,6 +32,13 @@ export const Layout = ({ children }: Props) => {
   return (
     <div>
       <Head>
+       <meta charSet="utf8" />
+        <link
+            rel="shortcut icon"
+            href="/images/icon.png"
+            type="image/x-icon"
+        />
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
         <title>
           {title
             ? `${title}- Nature féerique`
