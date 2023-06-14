@@ -17,7 +17,7 @@ const Home: React.FC = () => {
   const [state] = useState({
     homeSlideData: homeSlideInfo,
   });
-
+  const [text, setText] = useState(BriefTextCreatrice);
   const { homeSlideData } = state;
   const { products } = useBestSallingProducts();
 
@@ -143,13 +143,7 @@ const Home: React.FC = () => {
               <h2>Avec la créatrice</h2>
             </div>
             <div>
-              {BriefTextCreatrice?.map((creatrice, index) => (
-                <h2 key={index}>{creatrice}</h2>
-              ))}
-              {/* <div className="flex justify-center my-10 mobile:my-5">
-                <h3>EMILIE</h3>
-                <img className="" src={"/images/about-mini-logo.webp"} alt="" />
-              </div> */}
+              <h2>{text}</h2>
             </div>
             <div className="mt-8 text-center my-2">
               <a href="/about/#RALC">
