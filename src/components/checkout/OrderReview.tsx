@@ -8,7 +8,7 @@ import { clearCart } from "@redux/slices/cart";
 import { getCookie } from "cookies-next";
 import { api } from "@utils/apiRoute";
 import { instance } from "@utils/_axios";
-import { log } from "console";
+
 
 type OrderReviewProps = {
   onOderClicked?: () => void;
@@ -24,9 +24,10 @@ const OrderReview: React.FC<OrderReviewProps> = ({ onOderClicked }) => {
     carte: false,
     paypal: true,
     clientSecret: "",
+    openModal:''
   });
 
-  const { carte, paypal, clientSecret } = state;
+  const { carte, paypal, openModal } = state;
   const [message, setMessage] = React.useState("");
   const [voucher, setVoucher] = useState<voucherCost[]>([]);
   const [weight, setWeight] = useState<weightCost[]>([]);
@@ -160,6 +161,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({ onOderClicked }) => {
   return (
     <div className="bg-[#FBFBFB]">
       <div className="grid">
+      
         <div className="border border-black">Order Review</div>
         <div className="grid grid-cols-2">
           <div className="border border-black">Produit</div>
@@ -185,7 +187,12 @@ const OrderReview: React.FC<OrderReviewProps> = ({ onOderClicked }) => {
           <div className="border border-black">Expédition</div>
           <div className="border border-black">
             <p>contenance:{totalWeight}g</p>
-            <p>frais de port :{shippingCost}€</p>
+            <p>frais de port <span
+            className="rounded-full border-cyan-500"
+             onClick={()=>{
+              setState(p=>({...p,openModal:'default'}))
+            }}>?</span>:{shippingCost}€</p>
+
           </div>
         </div>
         <div className="grid grid-cols-2">
@@ -277,59 +284,4 @@ const OrderReview: React.FC<OrderReviewProps> = ({ onOderClicked }) => {
 };
 
 export default OrderReview;
-{
-  /*<form>
-                <div className="grid gap-3 bg-[#efefef] ">
-                  <div className="flex flex-col mt-6 mr-6 ml-6">
-                    <label className="font-semibold">
-                      Numéro de carte{" "}
-                      <span className="text-red-500 text-[20px] ">*</span>
-                    </label>
-                    <input
-                      placeholder="4242 4242 4242 4242"
-                      required
-                      type="tel"
-                      inputMode={"numeric"}
-                      pattern={"[0-9s]{13,19}"}
-                      maxLength={19}
-                      id="id"
-                      ref={cardRef}
-                      className="h-[35px] mt-2 px-4 py-3 border border-gray-300 text-black"
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 mt-10 mb-10">
-                    <div className="flex flex-col mr-6 ml-6">
-                      <label className="font-semibold">
-                        Date d’expiration{" "}
-                        <span className="text-red-500 text-[20px] ">*</span>
-                      </label>
 
-                      <input
-                        ref={expiredRef}
-                        required
-                        type="month"
-                        id="id"
-                        className="h-[35px] mt-2 px-4 py-3 border border-gray-300 text-black"
-                      />
-                    </div>
-                    <div className="flex flex-col ml-6 mr-6">
-                      <label className="font-semibold">
-                        Cryptogramme visuel{" "}
-                        <span className="text-red-500 text-[20px] ">*</span>
-                      </label>
-                      <input
-                        placeholder="entrez le numéro de cvv."
-                        required
-                        type="tel"
-                        id="id"
-                        inputMode={"numeric"}
-                        pattern={"[0-9s]{13,19}"}
-                        maxLength={3}
-                        ref={cvvRef}
-                        className=" h-[35px] mt-2 px-4 py-3 border border-gray-300 text-black"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </form>*/
-}
