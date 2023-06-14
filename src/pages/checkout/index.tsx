@@ -52,7 +52,7 @@ const Checkout: React.FC = () => {
   const { activeTab, inValidData, formErrors, formValues } = state;
   const errorDivRef = useRef<HTMLDivElement>(null);
   const stripePromise = loadStripe(
-      "pk_live_51Mc4mkLl7R805p8JLhoVvkkN3QPMnPGIRWOEfZVuW6ZEQoL9bUmEiwcusKcVCXPNyzwWdayXXWA8Dc7KwCqiCqX600dz3hbcEv"
+    "pk_live_51KYt28C0l8GUGmRWXvWRL8Lc8foerzvfmXCInBVsTuFa4A0PfvTbyDgYE7S2OIEeKn9lMCXAjhULHPvWVowomRoN00ZgsBtInT"
   );
   const hasError = () => {
     switch (activeTab) {
@@ -112,7 +112,7 @@ const Checkout: React.FC = () => {
     });
     if (res?.status === 200 && res?.data?.link) router.push(res?.data?.link);
   };
-  
+
   return (
     <Container>
       <div className=" mt-2 md:m-20">
@@ -221,10 +221,7 @@ const Checkout: React.FC = () => {
               } transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}
             >
               <Elements stripe={stripePromise}>
-              <OrderReview
-                onOderClicked={handleOder}
-              
-              />
+                <OrderReview onOderClicked={handleOder} />
               </Elements>
             </div>
 
