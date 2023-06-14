@@ -238,24 +238,22 @@ export const featuredComments: MemberComment[] = [
 
 export const homeSlideInfo = [
   {
-    url: "https://mldn3w3pos1n.i.optimole.com/cb:453S~5a2d9/w:auto/h:auto/q:mauto/id:aea1de3b3657bf3ad37e5d772129bfc3/https://naturefeerique.fr/Slide1.0-scaled.jpg",
-    caption:
-      "Pour Noël, optez pour un cadeau 100% artisanal et local. \nDécouvrir notre sélection Noël",
-    text: "J'ADORE",
-    href: "",
-  },
-  {
-    url: "https://mldn3w3pos1n.i.optimole.com/cb:453S~5a2d9/w:auto/h:auto/q:mauto/id:aea1de3b3657bf3ad37e5d772129bfc3/https://naturefeerique.fr/Slide1.0-scaled.jpg",
-    text: "",
+    url: "https://naturefeerique.fr/wp-content/uploads/2022/03/slide1-1-scaled-1.jpg",
     caption: "",
-    href: "",
+    text: "J'ADORE",
+    href: "https://nature-feerique.sumupstore.com/",
   },
   {
-    url: "https://mldn3w3pos1n.i.optimole.com/cb:453S~5a2d9/w:auto/h:auto/q:mauto/id:7c31e1c30840e51557124a176e48f406/https://naturefeerique.fr/Box-a-composer1-scaled.jpg",
+    url: "https://naturefeerique.fr/wp-content/uploads/2022/03/s3-1.png",
+    text: "Je Sucummbe",
+    caption: "",
+    href: "https://nature-feerique.sumupstore.com/",
+  },
+  {
+    url: "https://naturefeerique.fr/wp-content/uploads/2022/03/mainof.jpg",
     text: "OUI",
-    caption:
-      "Un cadeau personnalisable avec nos \nbox à composer avec 2 ou 3 produits au choix.",
-    href: "",
+    caption: "",
+    href: "https://nature-feerique.sumupstore.com/",
   },
 ];
 
