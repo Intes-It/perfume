@@ -237,7 +237,6 @@ const ProductDetail: React.FC<
       );
     }
   };
-
   return (
     <Container>
       <div className="grid md:grid-cols-2 grid-cols-1 gap-6 md:mx-28 md:my-20 m-8">
@@ -329,7 +328,12 @@ const ProductDetail: React.FC<
           </div>
           {/* sub product */}
           <div className="mt-4 mb-3 flex gap-1 ">
-            {_.isEmpty(product?.capacity) ? null : (
+            {_.isEmpty(product?.capacity) ?  <div
+                role="tabpanel"
+                className={` text-[#603813] transition-opacity duration-150 ease-linear `}
+            >
+              Contenance : {product?.weight}g
+            </div>: (
               <div
                 role="tabpanel"
                 className={` text-[#603813] transition-opacity duration-150 ease-linear `}
@@ -337,6 +341,9 @@ const ProductDetail: React.FC<
                 Contenance : {contenance}
               </div>
             )}
+
+
+
           </div>
           <div className="">
             <ul
