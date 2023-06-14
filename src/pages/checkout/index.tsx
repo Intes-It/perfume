@@ -52,7 +52,7 @@ const Checkout: React.FC = () => {
   const { activeTab, inValidData, formErrors, formValues } = state;
   const errorDivRef = useRef<HTMLDivElement>(null);
   const stripePromise = loadStripe(
-    "pk_live_51KYt28C0l8GUGmRWXvWRL8Lc8foerzvfmXCInBVsTuFa4A0PfvTbyDgYE7S2OIEeKn9lMCXAjhULHPvWVowomRoN00ZgsBtInT"
+    "pk_live_51KYt28C0l8GUGmRWat1OQmGm0dQB1WG4RWWrRB2XWjFFaRxqATmJCV8h2KpoYMQeTBSs1ML9it21k4jfcwRd60Vk00LF78lSgm"
   );
   const hasError = () => {
     switch (activeTab) {
