@@ -86,7 +86,7 @@ const Home: React.FC = () => {
               >
                 <img
                   src={item?.url}
-                  className="block w-full object-cover md:h-[40vw] h-[60rem]"
+                  className="block w-full object-fit "
                   alt="..."
                 />
                 {item?.text}

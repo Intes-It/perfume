@@ -5,23 +5,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { clearCart } from "@redux/slices/cart";
-import { getCookie } from "cookies-next";
 import { api } from "@utils/apiRoute";
 import { instance } from "@utils/_axios";
 import { Badge, Button } from "flowbite-react";
-import { POST } from "@utils/fetch";
+import { GET, POST } from "@utils/fetch";
+
 
 type OrderReviewProps = {
   onOderClicked?: () => void;
-  orderID:number
+  orderID: number;
 };
 type weightCost = {
   cost: number;
 };
 type voucherCost = {
+  id: number;
   discount: number;
 };
-const OrderReview: React.FC<OrderReviewProps> = ({ onOderClicked,orderID }) => {
+const OrderReview: React.FC<OrderReviewProps> = ({
+  onOderClicked,
+  orderID,
+}) => {
   const [state, setState] = useState({
     carte: false,
     paypal: true,
@@ -76,14 +80,50 @@ const OrderReview: React.FC<OrderReviewProps> = ({ onOderClicked,orderID }) => {
   };
   const dispatch = useDispatch();
   const router = useRouter();
-  const csrfToken = getCookie("csrftoken");
+  // const csrfToken = getCookie("csrftoken");
 
   async function handleStripePayment(e: React.FormEvent) {
-    e.preventDefault();
-    if (!stripe || !elements) {
-      return;
+    try {
+      e.preventDefault();
+      if (!stripe || !elements) {
+        return;
+      }
+      const cardElement = elements.getElement(CardElement);
+      if (!cardElement) {
+        return;
+      }
+      const { error: stripeError, paymentMethod } =
+        await stripe.createPaymentMethod({
+          type: "card",
+          card: cardElement,
+        });
+      if (stripeError) {
+        return;
+      }
+      const res = await POST("/api/payment/stripe/create-payment-intent", {
+        paymentMethodType: "card",
+        currency: "eur",
+        amount: extraTotalMoney ? +extraTotalMoney : +totalMoney,
+      });
+      if (res.data?.actionRequired) {
+        const { error: stripeError, paymentIntent } =
+          await stripe?.confirmCardPayment(res.data?.clientSecret);
+        if (stripeError) {
+          return;
+        }
+        if (paymentIntent) {
+          POST(api.send_mail, {
+            order_id: orderID,
+          });
+          dispatch(clearCart());
+          router.push("/stripe_success");
+        }
+      }
+    } catch (e) {
+      alert(message);
     }
-    const { error: backendError, clientSecret } = await fetch(
+
+    /* const { error: backendError, clientSecret } = await fetch(
       "/api/payment/stripe/create-payment-intent",
       {
         method: "POST",
@@ -120,7 +160,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({ onOderClicked,orderID }) => {
       })
       dispatch(clearCart());
       router.push("/stripe_success");
-    }
+    }*/
   }
   React.useEffect(() => {
     if (!stripe) {
