@@ -19,7 +19,7 @@ const Home: React.FC = () => {
   const { products } = useBestSallingProducts();
   const homeSlideInfo = [
     {
-      url: "https://naturefeerique.fr/wp-content/uploads/2022/03/slide1-1-scaled-1.jpg",
+      url: "https://firebasestorage.googleapis.com/v0/b/securip-dev.appspot.com/o/naturefeerique%2Fslide1-1-scaled-1.webp?alt=media&token=2d469600-5784-4598-b167-49424e2ca81a",
       caption: "",
       text: (
         <div
@@ -38,7 +38,7 @@ const Home: React.FC = () => {
       ),
     },
     {
-      url: "https://naturefeerique.fr/wp-content/uploads/2022/03/s3-1.png",
+      url: "https://firebasestorage.googleapis.com/v0/b/securip-dev.appspot.com/o/naturefeerique%2Fs3-1.webp?alt=media&token=3c8530d4-b62b-4cfa-837f-70631fecc90d",
       text: (
         <div
           className="absolute z-0 top-3/4   -translate-y-2/4 -translate-x-2/4 w-[100%] text-center"
@@ -57,7 +57,7 @@ const Home: React.FC = () => {
       ),
     },
     {
-      url: "https://naturefeerique.fr/wp-content/uploads/2022/03/mainof.jpg",
+      url: "https://firebasestorage.googleapis.com/v0/b/securip-dev.appspot.com/o/naturefeerique%2Fmainof.webp?alt=media&token=6d48328f-d1b6-4efd-9b86-a0fd144cbdac",
       text: (
         <div
           className="absolute z-0 top-2/3  -translate-y-2/4 -translate-x-2/4 w-[100%] text-center"
