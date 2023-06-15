@@ -328,6 +328,7 @@ const ProductDetail: React.FC<
                           setState((o) => ({
                             ...o,
                             color,
+                            selectorImage: item.image
                           }));
                         }}
                         style={{
