@@ -12,7 +12,17 @@ import { loadStripe } from "@stripe/stripe-js";
 import _ from "lodash";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-
+type billingInfo = {
+  company_name: string;
+  country: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  phone: string;
+  province: string;
+  ward: string;
+  zip_code: string;
+};
 const StepTabs = [
   {
     id: "billing-infomation-tab",
@@ -44,7 +54,7 @@ const Checkout: React.FC = () => {
       orderReview: true,
     },
     formValues: {
-      billingInfomation: {},
+      billingInfomation: {} as billingInfo,
       additionalInfomation: {},
       orderReview: {},
     },
@@ -221,7 +231,11 @@ const Checkout: React.FC = () => {
               } transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}
             >
               <Elements stripe={stripePromise}>
-                <OrderReview onOderClicked={handleOder} orderID={cart?.data?.cart?.id} />
+                <OrderReview
+                  onOderClicked={handleOder}
+                  orderID={cart?.data?.cart?.id}
+                  email={formValues.billingInfomation.email}
+                />
               </Elements>
             </div>
 

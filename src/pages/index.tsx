@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Container } from "@components";
 import NextLink from "next/link";
 
@@ -14,7 +14,7 @@ import { useBestSallingProducts } from "@hooks/useProduct";
 import { Carousel } from "flowbite-react";
 import Link from "next/link";
 const Home: React.FC = () => {
-  const [text, setText] = useState(BriefTextCreatrice);
+
 
   const { products } = useBestSallingProducts();
   const homeSlideInfo = [
@@ -180,7 +180,7 @@ const Home: React.FC = () => {
               <h2>Avec la créatrice</h2>
             </div>
             <div>
-              <h2>{text}</h2>
+              <h2>{BriefTextCreatrice}</h2>
             </div>
             <div className="mt-8 text-center my-2">
               <a href="/about/#RALC">

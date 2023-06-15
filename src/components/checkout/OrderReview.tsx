@@ -10,10 +10,10 @@ import { instance } from "@utils/_axios";
 import { Badge, Button } from "flowbite-react";
 import { GET, POST } from "@utils/fetch";
 
-
 type OrderReviewProps = {
   onOderClicked?: () => void;
   orderID: number;
+  email?: string;
 };
 type weightCost = {
   cost: number;
@@ -25,6 +25,7 @@ type voucherCost = {
 const OrderReview: React.FC<OrderReviewProps> = ({
   onOderClicked,
   orderID,
+  email,
 }) => {
   const [state, setState] = useState({
     carte: false,
@@ -96,6 +97,9 @@ const OrderReview: React.FC<OrderReviewProps> = ({
         await stripe.createPaymentMethod({
           type: "card",
           card: cardElement,
+          billing_details: {
+            email: email,
+          },
         });
       if (stripeError) {
         return;
