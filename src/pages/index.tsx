@@ -182,7 +182,7 @@ const Home: React.FC = () => {
             </div>
             <div>
 
-                <h2 className={'sm:text-[1rem]'} >{BriefTextNature}</h2>
+                <h2 className={'sm:text-[1rem] xl:text-[1.2rem]'} >{BriefTextNature}</h2>
 
             </div>
             <div className="text-center my-2">
@@ -206,7 +206,7 @@ const Home: React.FC = () => {
             </div>
             <div>
 
-                <h2 className={'sm:text-[1rem]'} >{BriefTextCreatrice}</h2>
+                <h2 className={'sm:text-[1rem] xl:text-[1.2rem]'} >{BriefTextCreatrice}</h2>
 
             </div>
             <div className="text-center my-2">

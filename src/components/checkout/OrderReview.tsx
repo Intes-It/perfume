@@ -74,8 +74,8 @@ const OrderReview: React.FC<OrderReviewProps> = ({
         },
       },
       invalid: {
-        color: "#fa755a",
-        iconColor: "#fa755a",
+        color: "#ed2024",
+        iconColor: "#ed2024",
       },
     },
   };
@@ -116,7 +116,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
           return;
         }
         if (paymentIntent) {
-          POST(api.send_mail, {
+          await POST(api.send_mail, {
             order_id: orderID,
           });
           dispatch(clearCart());

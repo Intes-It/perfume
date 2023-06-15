@@ -19,7 +19,8 @@ const MobileMenu = ({ ...props }) => {
     item.newName = item.name.replace(/\s/g, '');
   });
 
-  const exCategories = categories && [Routes.home, Routes.about, ...categories, Routes.contact];
+
+  const exCategories = categories && [Routes.home, Routes.about, ...categories, Routes.faq,Routes.blog,Routes.contact];
   
   const dropdown = React.useRef(null);
 
@@ -34,7 +35,6 @@ const MobileMenu = ({ ...props }) => {
         }}>
           <button
             className="inline-flex items-center justify-center rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
-            data-te-sidenav-toggle-ref
             data-te-target="#sidenav-3"
             aria-controls="#sidenav-3"
             aria-haspopup="true"
@@ -84,7 +84,7 @@ const MobileMenu = ({ ...props }) => {
                             (subsubCategory: any, ssindex: number) =>
                               subsubCategory?.subcategory === subCategory?.id && (
                                 <div className="p-2.5 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-[#603813] text-white">
-                                  <span className="text-[13px] ml-7 text-gray-200">
+                                  <span className="text-[12.5px] ml-7 text-gray-200">
                                     <a
                                       href={`/product-categories/${item?.slug}/${subCategory?.slug}/${subsubCategory?.slug}`}>
                                       {subsubCategory?.name}

@@ -12,8 +12,8 @@ const CARD_ELEMENT_OPTIONS = {
             },
         },
         invalid: {
-            color: "#fa755a",
-            iconColor: "#fa755a",
+            color: "#ed2024",
+            iconColor: "#ed2024",
         },
     },
 };
