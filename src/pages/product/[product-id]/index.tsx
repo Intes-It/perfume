@@ -234,9 +234,7 @@ const ProductDetail: React.FC<
       );
     }
   };
-  console.log("====================================");
-  console.log(_.isEmpty(product?.capacity));
-  console.log("====================================");
+
   return (
     <Container>
       <div className="grid md:grid-cols-2 grid-cols-1 gap-6 md:mx-28 md:my-20 m-8">
@@ -286,7 +284,7 @@ const ProductDetail: React.FC<
             <Rating score={product?.evaluate || 0} />
             <span>{`( 0 avis client)`}</span>
           </div>
-          {_.isEmpty(product?.capacity) ?null: (
+          {_.isEmpty(product?.capacity) && (
             <div className="my-2">
               <span className="text-[#383e42] text-[24px] font-semibold">
                 {formatCurrency(String(product?.price))} €
