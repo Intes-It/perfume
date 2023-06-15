@@ -126,45 +126,6 @@ const OrderReview: React.FC<OrderReviewProps> = ({
     } catch (e) {
       alert(message);
     }
-
-    /* const { error: backendError, clientSecret } = await fetch(
-      "/api/payment/stripe/create-payment-intent",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": `${csrfToken}`,
-        },
-        body: JSON.stringify({
-          paymentMethodType: "card",
-          currency: "eur",
-          amount: extraTotalMoney ? +extraTotalMoney : +totalMoney,
-        }),
-      }
-    ).then((r) => r.json());
-
-    if (backendError) {
-      return;
-    }
-    const { error: stripeError, paymentIntent } =
-      await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: elements.getElement(CardElement) as any,
-          billing_details: {
-            name: "Jenny Rosen",
-          },
-        },
-      });
-    if (stripeError) {
-      return;
-    }
-    if (paymentIntent) {
-      POST(api.send_mail,{
-        order_id:orderID
-      })
-      dispatch(clearCart());
-      router.push("/stripe_success");
-    }*/
   }
   React.useEffect(() => {
     if (!stripe) {
@@ -307,9 +268,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
             <div>
               <CardElement options={CARD_ELEMENT_OPTIONS} />
             </div>
-          ) : (
-            <div></div>
-          )}
+          ) }
           {/* PayPal */}
           <div className="flex mt-5 items-center">
             <input

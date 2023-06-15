@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Container } from "@components";
 import NextLink from "next/link";
 
 import { BestSales } from "@components/best-sales";
 import { OurUniverse } from "@definitions/constants";
 import {
-  homeSlideInfo,
   BriefTextCreatrice,
   BriefTextNature,
   featuredComments,
@@ -14,18 +13,21 @@ import { FeaturedComments } from "@components/featured-comment";
 import { useBestSallingProducts } from "@hooks/useProduct";
 import { Carousel } from "flowbite-react";
 import Link from "next/link";
+import useScreenWidth from "@hooks/useScreen";
 const Home: React.FC = () => {
 
 
   const { products } = useBestSallingProducts();
+  const screenWidth=useScreenWidth()
+
   const homeSlideInfo = [
     {
       url: "https://firebasestorage.googleapis.com/v0/b/securip-dev.appspot.com/o/naturefeerique%2Fslide1-1-scaled-1.webp?alt=media&token=2d469600-5784-4598-b167-49424e2ca81a",
       caption: "",
       text: (
         <div
-          className="absolute z-0 top-3/4   -translate-y-2/4 -translate-x-2/4 w-[100%] text-center"
-          style={{ left: "85%" }}
+          className={`absolute z-0     -translate-y-2/4 -translate-x-2/4 w-[100%] text-center`}
+          style={{ left: `${screenWidth>400?'85%':'50%'}`,top:`${screenWidth>400?'75%':'85%'}` }}
         >
           <button
             style={{ padding: "10px 50px 10px 50px" }}
@@ -37,13 +39,15 @@ const Home: React.FC = () => {
           </button>
         </div>
       ),
+      mobile_img: 'https://firebasestorage.googleapis.com/v0/b/securip-dev.appspot.com/o/naturefeerique%2Fslide3-mobile.webp?alt=media&token=ed61195f-c3d0-4d33-8d6a-81ab87893af5'
     },
     {
       url: "https://firebasestorage.googleapis.com/v0/b/securip-dev.appspot.com/o/naturefeerique%2Fs3-1.webp?alt=media&token=3c8530d4-b62b-4cfa-837f-70631fecc90d",
       text: (
         <div
-          className="absolute z-0 top-3/4   -translate-y-2/4 -translate-x-2/4 w-[100%] text-center"
-          style={{ left: "85%" }}
+          className="absolute z-0   -translate-y-2/4 -translate-x-2/4 w-[100%] text-center"
+          style={{ left: `${screenWidth>400?'85%':'50%'}`,top:`${screenWidth>400?'75%':'85%'}` }}
+
         >
           <button
             className={
@@ -56,13 +60,15 @@ const Home: React.FC = () => {
           </button>
         </div>
       ),
+      mobile_img: 'https://firebasestorage.googleapis.com/v0/b/securip-dev.appspot.com/o/naturefeerique%2Fslide2-mobile.webp?alt=media&token=8f15472c-e871-4b1d-b563-4c6fd3ecf51c'
     },
     {
       url: "https://firebasestorage.googleapis.com/v0/b/securip-dev.appspot.com/o/naturefeerique%2Fmainof.webp?alt=media&token=6d48328f-d1b6-4efd-9b86-a0fd144cbdac",
       text: (
         <div
-          className="absolute z-0 top-2/3  -translate-y-2/4 -translate-x-2/4 w-[100%] text-center"
-          style={{ left: "58%" }}
+          className="absolute z-0  -translate-y-2/4 -translate-x-2/4 w-[100%] text-center"
+          style={{ left: `${screenWidth>400?'58%':'50%'}`,top:`${screenWidth>400?'75%':'85%'}` }}
+
         >
           <button
             className={
@@ -73,6 +79,8 @@ const Home: React.FC = () => {
           </button>
         </div>
       ),
+      mobile_img:'https://firebasestorage.googleapis.com/v0/b/securip-dev.appspot.com/o/naturefeerique%2Fslide1-mobile.webp?alt=media&token=b92e8a37-93c4-450a-9d40-ba20252c0090'
+
     },
   ];
   return (
@@ -86,13 +94,7 @@ const Home: React.FC = () => {
                 className={`relative float-left -mr-[100%] w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none`}
               >
                 <div className="absolute z-0 top-1/2 left-1/2 -translate-y-2/4 -translate-x-2/4 w-[100%] text-center">
-                  {item?.caption && (
-                    <div>
-                      <span className="whitespace-pre-wrap xl:text-3xl text-2xl text-[#fdf6f1] drop-shadow-2xl shadow-2xl shadow-black">
-                        {item?.caption}
-                      </span>
-                    </div>
-                  )}
+
                   {/*  {item?.text && (
                     <button
                       className="rounded-full h-12 bg-white text-lg min-w-[140px] border-white border hover:bg-transparent hover:text-white"
@@ -103,7 +105,7 @@ const Home: React.FC = () => {
                   )}*/}
                 </div>
                 <img
-                  src={item?.url}
+                  src={screenWidth>400?item.url:item?.mobile_img}
                   className="block w-full object-fit "
                   alt="..."
                 />
@@ -168,19 +170,20 @@ const Home: React.FC = () => {
 
       {/* about*/}
       <div className="flex flex-col justify-between items-center text-[19.2px] text-[#383E42] mobile:text-[16px]">
-        <div className="flex flex-row mobile:flex-col justify-between text-justify bg-[#F9F4EE] lg:mt-[100px] mt-[50px]">
-          <div className="animate-wiggle mobile:w-[100vw] w-1/2">
+        <div className="xl:flex flex-row mobile:block justify-between text-justify bg-[#F9F4EE] lg:mt-[100px] mt-[50px]">
+          <div className="animate-wiggle mobile:w-[100vw] xl:w-1/2">
             <img src={"/images/about-nature.webp"} alt="" />
           </div>
-          <div className="mobile:mx-5 mx-10 mobile:w-[100vw] w-1/2">
-            <div className="text-center text-[44.8px] mobile:text-[25.6px] font-bold text-[#383E42]">
-              <h2>A propos de </h2>
-              <h2> Nature Féerique</h2>
+          <div className=" xl:mx-10 sm:w-[100vw] xl:w-1/2">
+            <div className="text-center xl:text-[44.8px] text-[1.6rem] font-bold text-[#383E42]">
+              <h2>A propos de <br/>
+                Nature Féerique
+              </h2>
             </div>
             <div>
-              {BriefTextNature?.map((nature, index) => (
-                <h2 key={index}>{nature}</h2>
-              ))}
+
+                <h2 className={'sm:text-[1rem]'} >{BriefTextNature}</h2>
+
             </div>
             <div className="text-center my-2">
               <a href="/about/#apropos">
@@ -191,27 +194,31 @@ const Home: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-row mobile:flex-col-reverse justify-between text-justify bg-[#F7F7F7]  mobile:mt-4">
-          <div className="mobile:mx-5 mx-10 mobile:w-[100vw] w-1/2">
-            <div className="text-center text-[44.8px] mobile:text-[25.6px] font-bold text-[#383E42]">
-              <h2>Rencontre</h2>
-              <h2>Avec la créatrice</h2>
+        <div className="xl:flex flex-row mobile:block justify-between text-justify bg-[#F9F4EE] lg:mt-[100px] mt-[50px]">
+          <div className="animate-wiggle mobile:w-[100vw] xl:w-1/2">
+            <img src={"/images/about-creatrice.webp"} alt="" />
+          </div>
+          <div className=" xl:mx-10 sm:w-[100vw] xl:w-1/2">
+            <div className="text-center xl:text-[44.8px] text-[1.6rem] font-bold text-[#383E42]">
+              <h2>Rencontre <br/>
+                Avec la créatrice
+              </h2>
             </div>
             <div>
-              <h2>{BriefTextCreatrice}</h2>
+
+                <h2 className={'sm:text-[1rem]'} >{BriefTextCreatrice}</h2>
+
             </div>
-            <div className="mt-8 text-center my-2">
+            <div className="text-center my-2">
               <a href="/about/#RALC">
-                <button className="rounded-md hover:bg-[#603813] bg-[#383e42] text-white font-thin p-2 mobile:text-[2vw]">
+                <button className="mt-8 rounded-md bg-[#603813] hover:bg-[#383e42] text-white font-thin p-2 mobile:text-[2vw]">
                   En Savoir Plus
                 </button>
               </a>
             </div>
           </div>
-          <div className="animate-wiggle mobile:w-[100vw] w-1/2">
-            <img src={"/images/about-creatrice.webp"} alt="" />
-          </div>
         </div>
+
       </div>
 
       <div className="px-10">
