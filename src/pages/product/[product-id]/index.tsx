@@ -284,13 +284,32 @@ const ProductDetail: React.FC<
             <Rating score={product?.evaluate || 0} />
             <span>{`( 0 avis client)`}</span>
           </div>
-          {_.isEmpty(product?.capacity) && (
+           {_.isEmpty(product?.packaging) ? <div className="my-2">
+              <span className="text-[#383e42] text-[24px] font-semibold">
+                {formatCurrency(String(product?.price))} €
+              </span>
+            </div> : (
+            <span className="mb-4 text-[#383e42] text-[24px] font-semibold">
+              {packagePrice === 0
+                ? formatCurrency(String(product?.price))
+                : formatCurrency(
+                    String(
+                      parseFloat(String(contenancePrice)) +
+                        parseFloat(String(packagePrice)) +
+                        parseFloat(String(product?.price))
+                    )
+                  )}{" "}
+              €{" "}
+            </span>
+          )}
+
+          {/* {_.isEmpty(product?.capacity) && (
             <div className="my-2">
               <span className="text-[#383e42] text-[24px] font-semibold">
                 {formatCurrency(String(product?.price))} €
               </span>
             </div>
-          )}
+          )} */}
           {/* color */}
           <div className="my-3">
             {_.isEmpty(product?.color) ? null : (
@@ -433,21 +452,7 @@ const ProductDetail: React.FC<
                 : null}
             </ul>
           </div>
-          {_.isEmpty(product?.packaging) ? null : (
-            <span className="mb-4 text-[#383e42] text-[24px] font-semibold">
-              {packagePrice === 0
-                ? formatCurrency(String(product?.price))
-                : formatCurrency(
-                    String(
-                      parseFloat(String(contenancePrice)) +
-                        parseFloat(String(packagePrice)) +
-                        parseFloat(String(product?.price))
-                    )
-                  )}{" "}
-              €{" "}
-            </span>
-          )}
-
+         
           {/* add product to cart */}
           <div className="flex items-center gap-3">
             <input
