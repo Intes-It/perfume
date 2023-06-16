@@ -1,7 +1,7 @@
 import useUser from '@hooks/useUser';
 import { api } from '@utils/apiRoute';
 import { GET } from '@utils/fetch';
-import React, { useMemo, useState } from 'react';
+import React, {  useState } from 'react';
 import Facturation from './facturation';
 
 const Adress = () => {

@@ -9,7 +9,7 @@ import store from "@redux/store";
 import "tailwindcss/tailwind.css";
 import { Hydrate } from "react-query/hydration";
 import { Provider } from "react-redux";
-import Head from "next/head";
+
 import "@styles/styles.css";
 import LoadingIndicator from "@components/loading-indicator";
 import { Layout } from "@components";

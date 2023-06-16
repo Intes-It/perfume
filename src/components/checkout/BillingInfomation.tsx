@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import React, { useEffect } from "react";
-import _ from "lodash";
+
 import { Countries } from "@definitions/constants";
 import { useQuery } from "react-query";
 import useUser from "@hooks/useUser";
@@ -58,11 +58,11 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
       email: "required",
     },
     validationSchema: formSchema,
-    onSubmit: (value, { setSubmitting }) => {
+    onSubmit: (value) => {
       console.log(value);
     },
   });
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
+  const { errors, values } =
     formik;
   const countrys = useQuery("country", getCountry);
 

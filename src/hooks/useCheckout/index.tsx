@@ -1,9 +1,7 @@
 import { api } from "@utils/apiRoute";
-import { GET, POST, DELETE, PUT } from "@utils/fetch";
-import { instance } from "@utils/_axios";
+import { GET, POST } from "@utils/fetch";
 import { encode, ParsedUrlQuery } from "querystring";
-import React, { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 const useCheckout = () => {
   const queryClient = useQueryClient();

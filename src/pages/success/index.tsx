@@ -1,5 +1,5 @@
 import { Container } from '@components/container';
-import { faCancel, faCheck } from '@fortawesome/free-solid-svg-icons';
+import {  faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { api } from '@utils/apiRoute';
 import { GET } from '@utils/fetch';

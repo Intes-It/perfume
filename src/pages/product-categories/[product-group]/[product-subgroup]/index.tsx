@@ -1,11 +1,10 @@
-import { Container } from '@components/container';
 import DropdownCheckbox from '@components/dropdown-checkbox';
 import DropdownSelect from '@components/dropdown-select';
 import ProductItem from '@components/product-item';
 import { Product } from '@types';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
-import { productFilter, productPrice, totalProducts } from '@utils/fakeData';
+import { productFilter, productPrice } from '@utils/fakeData';
 import { useDispatch, useSelector } from 'react-redux';
 import { addFavoriteItem, removeFavoriteItem } from '@redux/slices/favorite';
 import { useProducts } from '@hooks/useProduct';
@@ -14,7 +13,7 @@ import { useAllCategory } from '@hooks/useCategory';
 const ProductSubGroup = () => {
   
   const dispatch = useDispatch();
-  const { categories, subCategories, subsubCategories } = useAllCategory();
+  const {  subCategories, subsubCategories } = useAllCategory();
   const router = useRouter();
   const { products, fetchFilterProducts } = useProducts();
   const [state, setState] = useState({
@@ -99,7 +98,7 @@ const ProductSubGroup = () => {
           <div className="flex  space-x-5 mobile:justify-between mobile:mt-5 ">
             <DropdownCheckbox
               title="Catégories"
-              selections={subsubCategoriesFilter?.map((item: any, index: number) => ({
+              selections={subsubCategoriesFilter?.map((item: any) => ({
                 name: item?.name || '',
                 value: item?.id || '',
               }))}

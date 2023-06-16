@@ -1,4 +1,4 @@
-import Footer from "@components/layout/footer";
+
 import { instance } from "@utils/_axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";

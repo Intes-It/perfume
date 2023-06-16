@@ -1,7 +1,7 @@
 import { Container } from '@components/container';
 import { useAllCategory } from '@hooks/useCategory';
 import { useRouter } from 'next/router';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import NextLink from 'next/link';
 import Parser from 'html-react-parser';
 import { useFormik } from 'formik';

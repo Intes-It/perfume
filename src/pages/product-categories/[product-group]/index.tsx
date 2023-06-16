@@ -5,14 +5,13 @@ import ProductItem from '@components/product-item';
 import { Product } from '@types';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
-import { productFilter, productPrice, totalProducts } from '@utils/fakeData';
+import { productFilter, productPrice } from '@utils/fakeData';
 import { useDispatch, useSelector } from 'react-redux';
 import { addFavoriteItem, removeFavoriteItem } from '@redux/slices/favorite';
 import { useProducts } from '@hooks/useProduct';
 import { useAllCategory } from '@hooks/useCategory';
 
 const ProductGroup = () => {
-  const server_link = process.env.NEXT_PUBLIC_API_URL;
   const dispatch = useDispatch();
   const { categories, subCategories } = useAllCategory();
   const router = useRouter();
@@ -97,7 +96,7 @@ const ProductGroup = () => {
           <div className="flex  space-x-5 mobile:justify-between mobile:mt-5 ">
             <DropdownCheckbox
               title="Catégories"
-              selections={subCategoriesFilter?.map((item: any, index: number) => ({
+              selections={subCategoriesFilter?.map((item: any) => ({
                 name: item?.name || '',
                 value: item?.id || '',
               }))}

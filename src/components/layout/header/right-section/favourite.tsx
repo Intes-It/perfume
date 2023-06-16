@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import NextLink from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { Routes } from '@definitions/constants';
-import useFavorite from '@hooks/useFavoriteProduct';
 import { useSelector } from 'react-redux';
 
 

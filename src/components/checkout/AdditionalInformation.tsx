@@ -1,9 +1,9 @@
 import { Countries } from "@definitions/constants";
 import { useFormik } from "formik";
-import _ from "lodash";
+
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import useUser from "@hooks/useUser";
+
 type AdditionalInfomationProps = {
   onError?: (errors: any) => void;
   onValueChange?: (values: any, expanded: boolean) => void;
@@ -17,7 +17,7 @@ const AdditionalInformation: React.FC<AdditionalInfomationProps> = ({
     check: false,
   });
   const { check } = state;
-  const { user, isAuthenticated } = useUser();
+  
 
   const formSchema = Yup.object().shape({
     dif_first_name: Yup.string().required(),
@@ -47,11 +47,11 @@ const AdditionalInformation: React.FC<AdditionalInfomationProps> = ({
       dif_province: "required",
     },
     validationSchema: formSchema,
-    onSubmit: (value, { setSubmitting }) => {
+    onSubmit: (value) => {
       console.log(value);
     },
   });
-  const { errors, values, handleSubmit, getFieldProps } = formik;
+  const { errors, values } = formik;
 
   useEffect(() => {
     if (check) onError?.(errors);

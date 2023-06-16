@@ -2,8 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { NavbarItems, Routes } from '@definitions/constants';
-import { useRouter } from 'next/router';
+import { Routes } from '@definitions/constants';
 import { useAllCategory } from '@hooks/useCategory'; 
 
 const MobileMenu = ({ ...props }) => {
@@ -29,7 +28,7 @@ const MobileMenu = ({ ...props }) => {
   return (
     <div>
       <div {...props}>
-        <div className="flex md:hidden" onClick={(event)=>{
+        <div className="flex md:hidden" onClick={()=>{
            if (dropdown.current) 
               setState((pre) => ({ ...pre, isShowMobileSidebar: false }))
         }}>
@@ -58,7 +57,7 @@ const MobileMenu = ({ ...props }) => {
                 }}>
                 X
               </button>
-              {exCategories?.map((item: any, index: number) => (
+              {exCategories?.map((item: any) => (
                 <div>
                   <div className="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-[#603813] text-white">
                     {/* <i className="bi bi-house-door-fill"></i> */}
@@ -69,7 +68,7 @@ const MobileMenu = ({ ...props }) => {
                     </span>
                   </div>
                   {subCategories?.map(
-                    (subCategory: any, sIndex: number) =>
+                    (subCategory: any) =>
                       subCategory?.category === item?.id && (
                         <div>
                           <div className="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-[#603813] text-white">
@@ -81,7 +80,7 @@ const MobileMenu = ({ ...props }) => {
                             </span>
                           </div>
                           {subsubCategories?.map(
-                            (subsubCategory: any, ssindex: number) =>
+                            (subsubCategory: any) =>
                               subsubCategory?.subcategory === subCategory?.id && (
                                 <div className="p-2.5 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-[#603813] text-white">
                                   <span className="text-[12.5px] ml-7 text-gray-200">

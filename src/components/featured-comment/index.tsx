@@ -1,5 +1,4 @@
-import React, { useMemo } from "react";
-import ProductItem from "@components/product-item";
+import React from "react";
 import { MemberComment } from "@types";
 import { Carousel } from "flowbite-react";
 

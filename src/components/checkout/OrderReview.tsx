@@ -8,7 +8,7 @@ import { clearCart } from "@redux/slices/cart";
 import { api } from "@utils/apiRoute";
 import { instance } from "@utils/_axios";
 import { Badge, Button } from "flowbite-react";
-import { GET, POST } from "@utils/fetch";
+import {  POST } from "@utils/fetch";
 
 type OrderReviewProps = {
   onOderClicked?: () => void;
@@ -93,7 +93,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
       if (!cardElement) {
         return;
       }
-      const { error: stripeError, paymentMethod } =
+      const { error: stripeError } =
         await stripe.createPaymentMethod({
           type: "card",
           card: cardElement,

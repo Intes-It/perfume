@@ -2,7 +2,7 @@ import React from "react";
 import NextLink from "next/link";
 import { Routes } from "@definitions/constants";
 import { useAllCategory } from "@hooks/useCategory";
-import CartPopover from "../header/right-section/cart-popover";
+
 
 function Navbar() {
   const { categories, subCategories, subsubCategories } = useAllCategory();

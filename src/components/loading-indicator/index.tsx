@@ -1,7 +1,5 @@
 import * as React from "react";
-import { useIsFetching, useIsMutating } from "react-query";
 import styled from "styled-components";
-import { useQueryClient } from 'react-query';
 const DivStyled = styled.div`
   width: 100%;
   height: 100%;

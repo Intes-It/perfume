@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ExProduct, Product } from "@types";
+import { ExProduct } from "@types";
 import { PURGE } from "redux-persist";
 
 interface ICart {
@@ -70,7 +70,7 @@ const cartSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(PURGE, (state) => {
+    builder.addCase(PURGE, () => {
       console.log("PURGE");
     });
   },

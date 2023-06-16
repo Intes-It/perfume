@@ -3,22 +3,13 @@ import ReCAPTCHA from "react-google-recaptcha";
 import Link from "next/link";
 import { Routes } from "@definitions/constants";
 import { useForm } from "react-hook-form";
-import { POST } from "@utils/fetch";
-import { api } from "@utils/apiRoute";
-import useUser from "@hooks/useUser";
-import { FieldValues } from "react-hook-form";
 import _ from "lodash";
-type loginData = {
-  email: string;
-  user_name: string;
-  password: string;
-} & FieldValues;
 type LoginProps = {
   submit: (value: any) => void;
   checkEmpty?: boolean;
 };
 
-const Login: React.FC<LoginProps> = ({ submit, checkEmpty }) => {
+const Login: React.FC<LoginProps> = ({ submit }) => {
   const { register, handleSubmit } = useForm();
   const [state, setState] = React.useState({
     captchaCode: "",

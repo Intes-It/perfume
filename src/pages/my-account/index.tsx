@@ -6,12 +6,11 @@ import Profile from "@components/profile";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWindowMaximize } from "@fortawesome/free-solid-svg-icons";
-import useCart from "@hooks/useCart";
 import { useDispatch, useSelector } from "react-redux";
 import { ExProduct } from "@types";
 import { clearCart } from "@redux/slices/cart";
 const MyAccount = () => {
-  const { user, loginAccount, registerAccount, isAuthenticated } = useUser();
+  const {  loginAccount, registerAccount, isAuthenticated } = useUser();
 
   const [state, setState] = useState({
     error: false,

@@ -1,8 +1,7 @@
 import * as React from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useForm } from 'react-hook-form';
-import { POST } from '@utils/fetch';
-import { api } from '@utils/apiRoute';
+
 import _ from 'lodash';
 
 type RegisterProps = {

@@ -16,7 +16,7 @@ export const BestSales: React.FC<BestSalesProps> = ({
 }) => {
   const { width } = useWindowSize();
   const stepProductSlide = useMemo(() => (width > 740 ? 4 : 1), [width]);
-  const server_link = process.env.NEXT_PUBLIC_API_URL;
+ 
 
   const productLeadGroup = products?.filter(
     (product: Product, index: number) => index % stepProductSlide == 0

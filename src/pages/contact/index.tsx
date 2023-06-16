@@ -6,7 +6,6 @@ import {
   faClock,
   faEnvelope,
   faLocationDot,
-  faPhoneFlip,
 } from "@fortawesome/free-solid-svg-icons";
 const Contact = () => {
   return (

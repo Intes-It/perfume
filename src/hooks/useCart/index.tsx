@@ -1,12 +1,9 @@
 import { api } from '@utils/apiRoute';
 import { GET, POST, DELETE, PUT } from '@utils/fetch';
-import { instance } from '@utils/_axios';
-import { encode } from 'querystring';
-import React, { useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 
 const useCart = () => {
-    const queryClient = useQueryClient();
+   
     const cart = useQuery("get-cart", getCart);
     const addProductToCart = useMutation('add-product', addProduct);
     const addExistProductToCart = useMutation('add-exist-product', addExistProduct);

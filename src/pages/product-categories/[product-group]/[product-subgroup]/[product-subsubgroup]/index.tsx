@@ -5,16 +5,16 @@ import ProductItem from "@components/product-item";
 import { Product } from "@types";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { productFilter, productPrice, totalProducts } from "@utils/fakeData";
+import { productFilter, productPrice } from "@utils/fakeData";
 import { useDispatch, useSelector } from "react-redux";
 import { addFavoriteItem, removeFavoriteItem } from "@redux/slices/favorite";
 import { useProducts } from "@hooks/useProduct";
 import { useAllCategory } from "@hooks/useCategory";
 
 const ProductSubSubGroup = () => {
-  const server_link = process.env.NEXT_PUBLIC_API_URL;
+  
   const dispatch = useDispatch();
-  const { categories, subCategories, subsubCategories } = useAllCategory();
+  const {  subsubCategories } = useAllCategory();
   const router = useRouter();
   const { products, fetchFilterProducts } = useProducts();
   const [state, setState] = useState({

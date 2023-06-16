@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useUser from '@hooks/useUser';
 import { PUT } from '@utils/fetch';
 import { useFormik } from 'formik';
-import React, { useEffect, useState } from 'react';
-import * as Yup from 'yup';
+import React, { useState } from 'react';
+
 
 type FacturationProps = {
   onBack: () => void;

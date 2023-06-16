@@ -1,24 +1,14 @@
-import NextLink from "next/link";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-
 import Rating from "@components/rating/rating";
-
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addFavoriteItem,
-  fetchFavoriteList,
-  removeFavoriteItem,
-  setList,
-} from "@redux/slices/favorite";
-import { instance } from "@utils/_axios";
 import { addProduct } from "@redux/actions";
 import { ExProduct, Product } from "@types";
 import { formatCurrency } from "@utils/formatNumber";
 import useCart from "@hooks/useCart";
 import useUser from "@hooks/useUser";
-
 type ProductProps = {
   onFavoriteChanged?: (state?: boolean) => void;
   favorite?: boolean;
@@ -41,7 +31,6 @@ const ProductItem: React.FC<ProductProps> = ({
   const { addProductToCart, addExistProductToCart, cart } = useCart();
   const { isAuthenticated } = useUser();
   const dispatch = useDispatch();
-  const server_link = process.env.NEXT_PUBLIC_API_URL;
   const totalMoney = localCart?.reduce(
     (pre, curr) =>
       pre + curr.quantity * Number.parseFloat(curr?.product?.price || "0"),

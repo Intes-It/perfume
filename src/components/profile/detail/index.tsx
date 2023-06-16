@@ -1,11 +1,10 @@
 import { faEyeSlash } from '@fortawesome/free-regular-svg-icons';
-import { faEye, faHeart, faWindowMaximize } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faWindowMaximize } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useUser from '@hooks/useUser';
-import { POST, PUT } from '@utils/fetch';
+import { PUT } from '@utils/fetch';
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
-import * as yup from 'yup';
 
 const Detail = () => {
   const [showOldPass, setShowOldPass] = useState(false);

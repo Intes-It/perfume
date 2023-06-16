@@ -20,9 +20,9 @@ import { useRouter } from "next/router";
 import useUser from "@hooks/useUser";
 import { ExProduct } from "@types";
 import useCart from "@hooks/useCart";
-import { useAllCategory } from "@hooks/useCategory";
+
 import _ from "lodash";
-import Link from "next/link";
+
 
 export const getServerSideProps: GetServerSideProps<{
   productId: string;
@@ -53,7 +53,6 @@ const ProductDetail: React.FC<
   const [tabs, setTabs] = useState(0);
   const { product } = useProductDetail({ id: productId });
   const { products } = useBestSallingProducts();
-  const { data } = useAllCategory();
   const [state, setState] = useState({
     isShowImageModal: false,
     quantity: 1,
