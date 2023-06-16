@@ -37,11 +37,11 @@ function MyApp({
         staleTime: 3000, // 5 minutes
       },
       mutations: {
-        onMutate: (variables: any) => {
+        onMutate: () => {
           mutationCount = mutationCount + 1;
           setState((pre) => ({ ...pre, mutations: mutationCount }));
         },
-        onError: (error, variables, rollback: any) => {
+        onError: () => {
           console.log("error");
           // Nếu bạn muốn xử lý các lỗi xảy ra trong quá trình mutation
         },
@@ -49,7 +49,7 @@ function MyApp({
           console.log("onSuccess");
           // Nếu bạn muốn xử lý các thành công xảy ra trong quá trình mutation
         },
-        onSettled: (data, error, onSettled) => {
+        onSettled: () => {
           mutationCount = mutationCount - 1;
           setState((pre) => ({ ...pre, mutations: mutationCount }));
         },
