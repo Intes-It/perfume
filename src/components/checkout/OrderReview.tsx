@@ -104,6 +104,8 @@ const OrderReview: React.FC<OrderReviewProps> = ({
             paymentMethodType: "card",
             currency: "eur",
             amount: extraTotalMoney ? +extraTotalMoney : +totalMoney,
+            fee_ship:shippingCost,
+            order_id:orderID
           }),
         }
       ).then((r) => r.json());
