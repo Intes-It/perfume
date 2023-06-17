@@ -173,8 +173,6 @@ const OrderReview: React.FC<OrderReviewProps> = ({
   React.useEffect(() => {
     instance(api.product_voucher).then((data) => setVoucher(data.data));
   }, []);
-  console.log(totalMoney);
-  console.log(extraTotalMoney);
   return (
     <div className="bg-[#FBFBFB]">
       <div className="grid">
@@ -270,12 +268,15 @@ const OrderReview: React.FC<OrderReviewProps> = ({
             Carte Bancaire
           </span>
         </div>
-        <div className="mt-5">
+        <form
+          className="mt-5"
+          onSubmit={carte ? handleStripePayment : () => console.log(stripe)}
+        >
           {/* first form */}
           {carte && (
-            <div>
+            <>
               <CardElement options={CARD_ELEMENT_OPTIONS} />
-            </div>
+            </>
           )}
           {/* PayPal */}
           <div className="flex mt-5 items-center">
@@ -314,13 +315,14 @@ const OrderReview: React.FC<OrderReviewProps> = ({
           </div>
           <div className=" grid mt-2 items-center">
             <button
-              onClick={carte ? handleStripePayment : onOderClicked}
+              type={carte ? "submit" : "reset"}
+              onClick={carte ? () => console.log("stripe") : onOderClicked}
               className="h-[50px] rounded-md p-3 text-white hover:bg-black bg-[#603813] "
             >
               Commander
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
