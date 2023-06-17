@@ -15,7 +15,7 @@ function Navbar() {
     ...categories,
     Routes.contact,
   ];
-  console.log("s", subCategories);
+
   return (
     <div className="bg-white sticky top-0 p-1 z-40  hidden md:block">
       <nav className=" w-full z-10">

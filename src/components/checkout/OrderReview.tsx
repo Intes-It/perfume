@@ -8,7 +8,7 @@ import { clearCart } from "@redux/slices/cart";
 import { api } from "@utils/apiRoute";
 import { instance } from "@utils/_axios";
 import { Badge, Button } from "flowbite-react";
-import {  POST } from "@utils/fetch";
+import { POST } from "@utils/fetch";
 
 type OrderReviewProps = {
   onOderClicked?: () => void;
@@ -93,21 +93,22 @@ const OrderReview: React.FC<OrderReviewProps> = ({
       if (!cardElement) {
         return;
       }
-      const { error: stripeError } =
-        await stripe.createPaymentMethod({
-          type: "card",
-          card: cardElement,
-          billing_details: {
-            email: email,
-          },
-        });
+      const { error: stripeError } = await stripe.createPaymentMethod({
+        type: "card",
+        card: cardElement,
+        billing_details: {
+          email: email,
+        },
+      });
       if (stripeError) {
         return;
       }
       const res = await POST("/api/payment/stripe/create-payment-intent", {
         paymentMethodType: "card",
         currency: "eur",
-        amount: extraTotalMoney ? +extraTotalMoney : +totalMoney,
+        amount: extraTotalMoney
+          ? +extraTotalMoney.toFixed(2)
+          : +totalMoney?.toFixed(2),
       });
       if (res.data?.actionRequired) {
         const { error: stripeError, paymentIntent } =
@@ -243,7 +244,11 @@ const OrderReview: React.FC<OrderReviewProps> = ({
           <div className="border border-black">Total</div>
           <div className="border border-black">
             {formatCurrency(
-              String(extraTotalMoney ? extraTotalMoney.toFixed(2) : totalMoney)
+              String(
+                extraTotalMoney
+                  ? extraTotalMoney.toFixed(2)
+                  : totalMoney?.toFixed(2)
+              )
             )}{" "}
             €
           </div>
@@ -268,7 +273,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
             <div>
               <CardElement options={CARD_ELEMENT_OPTIONS} />
             </div>
-          ) }
+          )}
           {/* PayPal */}
           <div className="flex mt-5 items-center">
             <input

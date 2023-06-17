@@ -48,7 +48,7 @@ const AdditionalInformation: React.FC<AdditionalInfomationProps> = ({
     },
     validationSchema: formSchema,
     onSubmit: (value) => {
-      console.log(value);
+      console.log(value)
     },
   });
   const { errors, values } = formik;
