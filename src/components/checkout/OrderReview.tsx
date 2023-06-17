@@ -171,7 +171,8 @@ const OrderReview: React.FC<OrderReviewProps> = ({
   React.useEffect(() => {
     instance(api.product_voucher).then((data) => setVoucher(data.data));
   }, []);
-
+  console.log(totalMoney);
+  console.log(extraTotalMoney);
   return (
     <div className="bg-[#FBFBFB]">
       <div className="grid">
@@ -247,13 +248,9 @@ const OrderReview: React.FC<OrderReviewProps> = ({
         <div className="grid grid-cols-2">
           <div className="border border-black">Total</div>
           <div className="border border-black">
-            {formatCurrency(
-              String(
-                extraTotalMoney
-                  ? extraTotalMoney.toFixed(2)
-                  : totalMoney?.toFixed(2)
-              )
-            )}{" "}
+            {extraTotalMoney
+              ? extraTotalMoney.toFixed(2)
+              : totalMoney?.toFixed(2)}
             €
           </div>
         </div>
