@@ -10,6 +10,7 @@ import { instance } from "@utils/_axios";
 import { Badge, Button } from "flowbite-react";
 import { POST } from "@utils/fetch";
 import { getCookie } from "cookies-next";
+import useUser from "@hooks/useUser";
 
 type OrderReviewProps = {
   onOderClicked?: () => void;
@@ -35,6 +36,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
 
     voucherChoose: [] as voucherCost[],
   });
+  const user = useUser();
 
   const { carte, paypal, voucherChoose } = state;
   const [message, setMessage] = React.useState("");
@@ -114,7 +116,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
           payment_method: {
             card: elements.getElement(CardElement) as any,
             billing_details: {
-              email: email,
+              email: user.user.email,
             },
           },
         });
@@ -122,9 +124,9 @@ const OrderReview: React.FC<OrderReviewProps> = ({
         return;
       }
       if (paymentIntent) {
-        // POST(api.send_mail,{
-        //   order_id:orderID
-        // })
+        POST(api.send_mail, {
+          order_id: orderID,
+        });
         dispatch(clearCart());
         router.push("/stripe_success");
       }
