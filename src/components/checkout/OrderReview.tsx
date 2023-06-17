@@ -35,10 +35,11 @@ const OrderReview: React.FC<OrderReviewProps> = ({
     clientSecret: "",
 
     voucherChoose: [] as voucherCost[],
+    loading: false,
   });
   const user = useUser();
 
-  const { carte, paypal, voucherChoose } = state;
+  const { carte, paypal, voucherChoose, loading } = state;
   const [message, setMessage] = React.useState("");
   const [voucher, setVoucher] = useState<voucherCost[]>([]);
   const [weight, setWeight] = useState<weightCost[]>([]);
@@ -92,6 +93,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
       if (!stripe || !elements) {
         return;
       }
+
       const { error: backendError, clientSecret } = await fetch(
         "/api/payment/stripe/create-payment-intent",
         {
@@ -104,8 +106,8 @@ const OrderReview: React.FC<OrderReviewProps> = ({
             paymentMethodType: "card",
             currency: "eur",
             amount: extraTotalMoney ? +extraTotalMoney : +totalMoney,
-            fee_ship:shippingCost,
-            order_id:orderID
+            fee_ship: shippingCost,
+            order_id: orderID,
           }),
         }
       ).then((r) => r.json());
@@ -113,16 +115,29 @@ const OrderReview: React.FC<OrderReviewProps> = ({
       if (backendError) {
         return;
       }
-      const { error: stripeError, paymentIntent } =
-        await stripe.confirmCardPayment(clientSecret, {
-          payment_method: {
-            card: elements.getElement(CardElement) as any,
-            billing_details: {
-              email: user.user.email,
-            },
+      setState(p=>({...p,loading:true}))
+      const res = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement) as any,
+          billing_details: {
+            email: user.user.email,
           },
+        },
+      });
+     
+      if (res.error) {
+        await POST("/api/payment/email-payment-fail", { order_id: orderID });
+        alert(res.error.message)
+      }
+      if(res.paymentIntent){
+       await POST(api.send_mail, {
+          order_id: orderID,
         });
-      if (stripeError) {
+        dispatch(clearCart());
+        router.push("/stripe_success");
+      }
+      setState(p=>({...p,loading:false}))
+      /* if (stripeError) {
         return;
       }
       if (paymentIntent) {
@@ -131,7 +146,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
         });
         dispatch(clearCart());
         router.push("/stripe_success");
-      }
+      } */
     } catch (e) {
       alert(e);
     }
@@ -316,13 +331,23 @@ const OrderReview: React.FC<OrderReviewProps> = ({
             </span>
           </div>
           <div className=" grid mt-2 items-center">
-            <button
-              type={carte ? "submit" : "reset"}
-              onClick={carte ? () => console.log("stripe") : onOderClicked}
-              className="h-[50px] rounded-md p-3 text-white hover:bg-black bg-[#603813] "
-            >
-              Commander
-            </button>
+            {carte ? (
+              <button
+                type={"submit"}
+                className="h-[50px] rounded-md p-3 text-white hover:bg-black bg-[#603813] "
+                disabled={loading}
+              >
+                {loading?'En Cours':'Comander'}
+              </button>
+            ) : (
+              <button
+                type={"button"}
+                onClick={onOderClicked}
+                className="h-[50px] rounded-md p-3 text-white hover:bg-black bg-[#603813] "
+              >
+                Commander
+              </button>
+            )}
           </div>
         </form>
       </div>
