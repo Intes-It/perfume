@@ -9,6 +9,7 @@ import { api } from "@utils/apiRoute";
 import { instance } from "@utils/_axios";
 import { Badge, Button } from "flowbite-react";
 import { POST } from "@utils/fetch";
+import { getCookie } from "cookies-next";
 
 type OrderReviewProps = {
   onOderClicked?: () => void;
@@ -81,7 +82,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
   };
   const dispatch = useDispatch();
   const router = useRouter();
-  // const csrfToken = getCookie("csrftoken");
+  const csrfToken = getCookie("csrftoken");
 
   async function handleStripePayment(e: React.FormEvent) {
     try {
@@ -89,43 +90,46 @@ const OrderReview: React.FC<OrderReviewProps> = ({
       if (!stripe || !elements) {
         return;
       }
-      const cardElement = elements.getElement(CardElement);
-      if (!cardElement) {
+      const { error: backendError, clientSecret } = await fetch(
+        "/api/payment/stripe/create-payment-intent",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": `${csrfToken}`,
+          },
+          body: JSON.stringify({
+            paymentMethodType: "card",
+            currency: "eur",
+            amount: extraTotalMoney ? +extraTotalMoney : +totalMoney,
+          }),
+        }
+      ).then((r) => r.json());
+
+      if (backendError) {
         return;
       }
-      const { error: stripeError } = await stripe.createPaymentMethod({
-        type: "card",
-        card: cardElement,
-        billing_details: {
-          email: email,
-        },
-      });
+      const { error: stripeError, paymentIntent } =
+        await stripe.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: elements.getElement(CardElement) as any,
+            billing_details: {
+              email: email,
+            },
+          },
+        });
       if (stripeError) {
         return;
       }
-      const res = await POST("/api/payment/stripe/create-payment-intent", {
-        paymentMethodType: "card",
-        currency: "eur",
-        amount: extraTotalMoney
-          ? +extraTotalMoney.toFixed(2)
-          : +totalMoney?.toFixed(2),
-      });
-      if (res.data?.actionRequired) {
-        const { error: stripeError, paymentIntent } =
-          await stripe?.confirmCardPayment(res.data?.clientSecret);
-        if (stripeError) {
-          return;
-        }
-        if (paymentIntent) {
-          await POST(api.send_mail, {
-            order_id: orderID,
-          });
-          dispatch(clearCart());
-          router.push("/stripe_success");
-        }
+      if (paymentIntent) {
+        // POST(api.send_mail,{
+        //   order_id:orderID
+        // })
+        dispatch(clearCart());
+        router.push("/stripe_success");
       }
     } catch (e) {
-      alert(message);
+      alert(e);
     }
   }
   React.useEffect(() => {
