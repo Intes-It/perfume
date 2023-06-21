@@ -9,6 +9,10 @@ import { formatCurrency } from "@utils/formatNumber";
 import useCart from "@hooks/useCart";
 import useUser from "@hooks/useUser";
 import React from "react";
+import { GET } from "@utils/fetch";
+import { api } from "@utils/apiRoute";
+import { useQuery } from "react-query";
+import useSWR from "swr";
 type ProductProps = {
   onFavoriteChanged?: (state?: boolean) => void;
   favorite?: boolean;
@@ -27,8 +31,13 @@ const ProductItem: React.FC<ProductProps> = ({
   const localCart = useSelector(
     (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
-
-  const { addProductToCart, addExistProductToCart, cart } = useCart();
+  async function getCart() {
+    const res = await GET(api.getCart);
+    return res.data;
+  }
+  const { data, mutate } = useSWR("get-server-cart", getCart);
+  const cart = data?.cart;
+  const { addProductToCart, addExistProductToCart } = useCart();
   const { isAuthenticated } = useUser();
   const dispatch = useDispatch();
   const totalMoney = localCart?.reduce(
@@ -48,20 +57,24 @@ const ProductItem: React.FC<ProductProps> = ({
       const existProduct = localCart?.find(
         (item: any) => item?.product?.id === product?.id
       );
+
       let res;
       if (existProduct) {
         const data = {
           order_item_id: existProduct?.orderId,
-          order_id: cart?.data?.cart?.id || null,
+          order_id: cart?.id || null,
           amount: 1,
           total_amount: totalProducts + 1,
           total_price:
             Number.parseFloat(existProduct?.product?.price || "0") + totalMoney,
         };
         res = await addExistProductToCart(data);
+        if (res) {
+          return await mutate("get-server-cart");
+        }
       } else {
         const data = {
-          order_id: cart?.data?.cart?.id || null,
+          order_id: cart?.id || null,
           product_id: product?.id,
           amount: 1,
           total_amount_cart: totalProducts + 1,
@@ -72,6 +85,9 @@ const ProductItem: React.FC<ProductProps> = ({
             Number.parseFloat(product?.price || "0") + totalMoney,
         };
         res = await addProductToCart(data);
+        if (res) {
+          await mutate("get-server-cart");
+        }
       }
       if (res?.status === 201 || res?.status === 200) {
         dispatch(
@@ -95,21 +111,7 @@ const ProductItem: React.FC<ProductProps> = ({
         })
       );
   };
-  const handleAddProductToServer = async () => {
-    if (isAuthenticated) {
-      const data = {
-        order_id: cart?.data?.cart?.id || null,
-        product_id: product?.id,
-        amount: 1,
-        total_amount_cart: totalProducts + 1,
-        price: product?.price,
-        image: product?.url_image,
-        total_price_item: Number.parseFloat(product?.price || "0"),
-        total_price_cart: Number.parseFloat(product?.price || "0") + totalMoney,
-      };
-      const res = await addProductToCart(data);
-    }
-  };
+
   return (
     <div className="relative flex flex-col  items-center text-[16px] mb-2 bg-white">
       {showFavorite && (

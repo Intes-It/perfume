@@ -22,6 +22,9 @@ import { ExProduct } from "@types";
 import useCart from "@hooks/useCart";
 
 import _ from "lodash";
+import useSWR from "swr";
+import { GET } from "@utils/fetch";
+import { api } from "@utils/apiRoute";
 
 export const getServerSideProps: GetServerSideProps<{
   productId: string;
@@ -48,7 +51,7 @@ const ProductDetail: React.FC<
   ) as ExProduct[];
 
   const { isAuthenticated } = useUser();
-  const { addProductToCart, addExistProductToCart, cart } = useCart();
+  const { addProductToCart, addExistProductToCart } = useCart();
   const [tabs, setTabs] = useState(0);
   const { product } = useProductDetail({ id: productId });
   const { products } = useBestSallingProducts();
@@ -89,7 +92,12 @@ const ProductDetail: React.FC<
     (pre, curr) => pre + curr.quantity,
     0
   );
-
+  async function getCart() {
+    const res = await GET(api.getCart);
+    return res.data;
+  }
+  const { data, mutate } = useSWR("get-server-cart", getCart);
+  const cart = data?.cart;
   const breadCrumb = useMemo(() => {
     let res = [{ name: "Accueil", route: "/" }];
     const groupRoute = product?.category?.name?.toLowerCase();
@@ -174,7 +182,7 @@ const ProductDetail: React.FC<
       if (existProduct) {
         const data = {
           order_item_id: existProduct?.orderId,
-          order_id: cart?.data?.cart?.id || null,
+          order_id: cart?.id || null,
           amount: quantity,
           packaging: packageName === undefined ? null : packageName,
           color: color === undefined ? null : color,
@@ -185,9 +193,12 @@ const ProductDetail: React.FC<
             totalMoney,
         };
         res = await addExistProductToCart(data);
+        if (res) {
+          return await mutate("get-server-cart");
+        }
       } else {
         const data = {
-          order_id: cart?.data?.cart?.id || null,
+          order_id: cart?.id || null,
           product_id: product?.id,
           amount: quantity,
           packaging: packageName === undefined ? null : packageName,
@@ -196,13 +207,14 @@ const ProductDetail: React.FC<
           image: selectorImage,
           total_amount_cart: totalProducts + quantity,
           price: sumChoice,
-          total_price_item: sumChoice || 0 * quantity,
+          total_price_item: sumChoice || 0,
           total_price_cart:
             Number.parseFloat(product?.price || "0") * quantity + totalMoney,
         };
         res = await addProductToCart(data);
       }
       if (res?.status === 201 || res?.status === 200) {
+        await mutate("get-server-cart");
         dispatch(
           addProduct({
             product,
