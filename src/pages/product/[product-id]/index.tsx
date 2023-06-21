@@ -366,7 +366,9 @@ const ProductDetail: React.FC<
                 {product?.weight === 0 ? (
                   ""
                 ) : (
-                  <span>Contenance:{product?.weight}g</span>
+                  <div>
+                    Contenance:<strong>{product?.weight}g</strong>
+                  </div>
                 )}
               </div>
             ) : (
@@ -374,7 +376,7 @@ const ProductDetail: React.FC<
                 role="tabpanel"
                 className={` text-[#603813] transition-opacity duration-150 ease-linear `}
               >
-                Contenance : {contenance}
+                Contenance :<strong>{contenance}</strong>
               </div>
             )}
           </div>
