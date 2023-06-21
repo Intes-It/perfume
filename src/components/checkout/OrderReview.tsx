@@ -115,7 +115,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
       if (backendError) {
         return;
       }
-      setState(p=>({...p,loading:true}))
+      setState((p) => ({ ...p, loading: true }));
       const res = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement) as any,
@@ -124,29 +124,19 @@ const OrderReview: React.FC<OrderReviewProps> = ({
           },
         },
       });
-     
+
       if (res.error) {
         await POST("/api/payment/email-payment-fail", { order_id: orderID });
-        alert(res.error.message)
+        alert(res.error.message);
       }
-      if(res.paymentIntent){
-       await POST(api.send_mail, {
+      if (res.paymentIntent) {
+        await POST(api.send_mail, {
           order_id: orderID,
         });
         dispatch(clearCart());
         router.push("/stripe_success");
       }
-      setState(p=>({...p,loading:false}))
-      /* if (stripeError) {
-        return;
-      }
-      if (paymentIntent) {
-        POST(api.send_mail, {
-          order_id: orderID,
-        });
-        dispatch(clearCart());
-        router.push("/stripe_success");
-      } */
+      setState((p) => ({ ...p, loading: false }));
     } catch (e) {
       alert(e);
     }
@@ -337,7 +327,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
                 className="h-[50px] rounded-md p-3 text-white hover:bg-black bg-[#603813] "
                 disabled={loading}
               >
-                {loading?'En Cours':'Comander'}
+                {loading ? "En Cours" : "Comander"}
               </button>
             ) : (
               <button

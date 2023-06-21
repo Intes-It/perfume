@@ -1,9 +1,9 @@
 export const api = {
   category: "/api/category/create",
-  products: "/api/product/create",
+  products: "/api/product/list",
   register: "/api/user/register",
   login: "/api/user/login",
-  forgotPassword:'/api/user/forget-password',
+  forgotPassword: "/api/user/forget-password",
   favouriteList: "/api/favourite/list",
   favouriteAdd: "/api/favourite/add",
   favouriteDelete: "/api/favourite/delete",
@@ -20,7 +20,7 @@ export const api = {
   processYourOrder: "/api/payment/process/your_order",
   successOrder: "/api/payment/success",
   stripe_payment: "/api/payment/process/stripe-payment-credit",
-  product_voucher:'/api/voucher/all',
-  shipping_weight:'/api/delivery-cost/weight',
-  send_mail:'/api/payment/email-payment'
+  product_voucher: "/api/voucher/all",
+  shipping_weight: "/api/delivery-cost/weight",
+  send_mail: "/api/payment/email-payment",
 };

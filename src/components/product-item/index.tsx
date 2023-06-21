@@ -1,4 +1,3 @@
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
@@ -9,6 +8,7 @@ import { ExProduct, Product } from "@types";
 import { formatCurrency } from "@utils/formatNumber";
 import useCart from "@hooks/useCart";
 import useUser from "@hooks/useUser";
+import React from "react";
 type ProductProps = {
   onFavoriteChanged?: (state?: boolean) => void;
   favorite?: boolean;
@@ -40,6 +40,7 @@ const ProductItem: React.FC<ProductProps> = ({
     (pre, curr) => pre + curr.quantity,
     0
   );
+  // console.log('cart%o',cart);
 
   const handleAddProduct = async () => {
     if (isAuthenticated) {
@@ -72,17 +73,17 @@ const ProductItem: React.FC<ProductProps> = ({
         };
         res = await addProductToCart(data);
       }
-      // console.log('res:%o', res)
       if (res?.status === 201 || res?.status === 200) {
         dispatch(
           addProduct({
             product,
             quantity: 1,
-            orderId: res?.data?.data?.id,
+            order_id: res?.data?.data?.order,
             price: product?.price,
             image: product?.url_image,
           })
         );
+        // console.log("res:%o", res?.data?.data);
       }
     } else
       dispatch(
@@ -94,7 +95,21 @@ const ProductItem: React.FC<ProductProps> = ({
         })
       );
   };
-
+  const handleAddProductToServer = async () => {
+    if (isAuthenticated) {
+      const data = {
+        order_id: cart?.data?.cart?.id || null,
+        product_id: product?.id,
+        amount: 1,
+        total_amount_cart: totalProducts + 1,
+        price: product?.price,
+        image: product?.url_image,
+        total_price_item: Number.parseFloat(product?.price || "0"),
+        total_price_cart: Number.parseFloat(product?.price || "0") + totalMoney,
+      };
+      const res = await addProductToCart(data);
+    }
+  };
   return (
     <div className="relative flex flex-col  items-center text-[16px] mb-2 bg-white">
       {showFavorite && (
@@ -108,7 +123,7 @@ const ProductItem: React.FC<ProductProps> = ({
         />
       )}
       <a href={`/product/${product?.id}`}>
-        <div >
+        <div>
           <img
             className="object-scale-down md:w-[20vw] md:h-[20vw] w-[80vw] h-[80vw]  cursor-pointer"
             // src={`${server_link}${product?.image}`}

@@ -13,6 +13,8 @@ import { formatCurrency } from "@utils/formatNumber";
 import useCart from "@hooks/useCart";
 import { updateFullCart } from "@redux/slices/cart";
 import useUser from "@hooks/useUser";
+import { GET } from "@utils/fetch";
+import useSWR from "swr";
 //
 const CartPopover: React.FC = () => {
   const router = useRouter();
@@ -21,30 +23,32 @@ const CartPopover: React.FC = () => {
     (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
   const { isAuthenticated } = useUser();
-  // console.log(products);
-
+  async function getCart() {
+    const res = await GET("/api/checkout/cart");
+    return res.data;
+  }
+  const { data } = useSWR("get-cart-server", getCart);
+  const cartItem = data?.order_item;
   const dispatch = useDispatch();
   const totalProducts = products?.reduce((pre, curr) => pre + curr.quantity, 0);
   const totalMoney = products?.reduce(
     (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.price || "0"),
     0
   );
-
+  console.log(products);
   const [showModal, setShowModal] = useState(false);
-
-  
-
+  // console.log(cart?.data?.order_item);
   const handleRemoveProduct = async (exProduct: ExProduct) => {
     if (isAuthenticated) {
       const totalPrice =
         exProduct.quantity * Number.parseFloat(exProduct.product.price || "0");
       const res = await removeProductToCart({
-        order_item_id: exProduct.orderId,
+        order_item_id: exProduct.id,
         total_amount: totalProducts - exProduct.quantity,
         total_price: totalMoney - totalPrice,
+        weight: exProduct.product.weight,
       });
       if (res.status === 200) dispatch(removeProduct(exProduct));
-      // console.log(quantity)
     } else dispatch(removeProduct(exProduct));
   };
 
@@ -62,7 +66,6 @@ const CartPopover: React.FC = () => {
       }
     }
   }, [cart]);
-
 
   return (
     <Fragment>
@@ -105,9 +108,9 @@ const CartPopover: React.FC = () => {
               {products.length > 0 ? (
                 <div>
                   <div className="overflow-y-auto max-h-[400px]">
-                    {products?.map((item: any, index: number) => (
+                    {products?.map((item: any) => (
                       <div
-                        key={index}
+                        key={item.id}
                         className="grid grid-cols-9 border-b-[1px] p-4 "
                       >
                         <NextLink href={`/product/${item?.product.id}`}>
@@ -167,9 +170,8 @@ const CartPopover: React.FC = () => {
                   <button
                     onClick={async () => {
                       isAuthenticated
-                        ? await router.replace("/checkout")
+                        ? await router.push("/checkout")
                         : await router.replace("/my-account");
-                      router.reload();
                     }}
                     className="bg-[#61CE70] w-full p-3 rounded-[5px] mt-5"
                   >
@@ -177,7 +179,7 @@ const CartPopover: React.FC = () => {
                   </button>
                 </div>
               ) : (
-                <div>No products in the cart</div>
+                <div></div>
               )}
               {/* <div>{products ? <>item</> : <>No products in the cart</>}</div> */}
             </div>

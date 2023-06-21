@@ -23,7 +23,6 @@ import useCart from "@hooks/useCart";
 
 import _ from "lodash";
 
-
 export const getServerSideProps: GetServerSideProps<{
   productId: string;
 }> = async (context: any) => {
@@ -283,11 +282,13 @@ const ProductDetail: React.FC<
             <Rating score={product?.evaluate || 0} />
             <span>{`( 0 avis client)`}</span>
           </div>
-           {_.isEmpty(product?.packaging) ? <div className="my-2">
+          {_.isEmpty(product?.packaging) ? (
+            <div className="my-2">
               <span className="text-[#383e42] text-[24px] font-semibold">
                 {formatCurrency(String(product?.price))} €
               </span>
-            </div> : (
+            </div>
+          ) : (
             <span className="mb-4 text-[#383e42] text-[24px] font-semibold">
               {packagePrice === 0
                 ? formatCurrency(String(product?.price))
@@ -327,7 +328,7 @@ const ProductDetail: React.FC<
                           setState((o) => ({
                             ...o,
                             color,
-                            selectorImage: item.image
+                            selectorImage: item.image,
                           }));
                         }}
                         style={{
@@ -452,9 +453,9 @@ const ProductDetail: React.FC<
                 : null}
             </ul>
           </div>
-         
+
           {/* add product to cart */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 mt-6">
             <input
               value={quantity}
               onChange={(e: any) => {

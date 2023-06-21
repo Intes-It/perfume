@@ -15,10 +15,11 @@ export interface Product {
   name?: string;
   evaluate?: number | undefined;
   url_image?: string | undefined;
-  weight?:number
+  weight?: number;
 }
 
 export interface ExProduct {
+  id?: number;
   orderId: number;
   product: Product;
   quantity: number;
@@ -26,6 +27,7 @@ export interface ExProduct {
   price?: any;
   color?: any;
   capacity?: any;
+  order_id?: number;
 }
 
 export interface MemberComment {
