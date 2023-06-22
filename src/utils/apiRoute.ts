@@ -8,7 +8,7 @@ export const api = {
   favouriteAdd: "/api/favourite/add",
   favouriteDelete: "/api/favourite/delete",
   getProfile: "/api/user/profile",
-  productDetail: "/api/product/detail",
+  productDetail: "/api/product/",
   productByCategory: "/api/product/filter",
   getAllCategory: "/api/all",
   getSubCategory: "/api/subcategory/list",

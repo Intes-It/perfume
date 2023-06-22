@@ -35,7 +35,7 @@ const CartPopover: React.FC = () => {
     (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.price || "0"),
     0
   );
-  console.log(products);
+
   const [showModal, setShowModal] = useState(false);
   // console.log(cart?.data?.order_item);
   const handleRemoveProduct = async (exProduct: ExProduct) => {
@@ -108,7 +108,7 @@ const CartPopover: React.FC = () => {
               {products.length > 0 ? (
                 <div>
                   <div className="overflow-y-auto max-h-[400px]">
-                    {products?.map((item: any) => (
+                    {products?.map((item: ExProduct) => (
                       <div
                         key={item.id}
                         className="grid grid-cols-9 border-b-[1px] p-4 "
