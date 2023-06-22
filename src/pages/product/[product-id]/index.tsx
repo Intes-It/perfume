@@ -183,7 +183,7 @@ const ProductDetail: React.FC<
         const data = {
           order_item_id: existProduct?.orderId,
           order_id: cart?.id || null,
-          amount: existProduct.quantity,
+          amount: existProduct.quantity + 1,
           packaging: packageName === undefined ? null : packageName,
           color: color === undefined ? null : color,
           capacity: contenance === undefined ? null : contenance,
@@ -193,9 +193,6 @@ const ProductDetail: React.FC<
             totalMoney,
         };
         res = await addExistProductToCart(data);
-        if (res) {
-          return await mutate("get-server-cart");
-        }
       } else {
         const data = {
           order_id: cart?.id || null,

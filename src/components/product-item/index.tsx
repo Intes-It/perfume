@@ -11,7 +11,7 @@ import useUser from "@hooks/useUser";
 import React from "react";
 import { GET } from "@utils/fetch";
 import { api } from "@utils/apiRoute";
-import { useQuery } from "react-query";
+
 import useSWR from "swr";
 type ProductProps = {
   onFavoriteChanged?: (state?: boolean) => void;
@@ -50,6 +50,14 @@ const ProductItem: React.FC<ProductProps> = ({
     0
   );
   // console.log('cart%o',cart);
+  const existProduct = localCart?.find(
+    (item: any) => item?.product?.id === product?.id
+  );
+  console.log("===============");
+  console.log("local", localCart);
+  console.log("expro", existProduct);
+  console.log("quan", existProduct?.quantity);
+  console.log("===============");
 
   const handleAddProduct = async () => {
     if (isAuthenticated) {
@@ -63,7 +71,7 @@ const ProductItem: React.FC<ProductProps> = ({
         const data = {
           order_item_id: existProduct?.orderId,
           order_id: cart?.id || null,
-          amount: existProduct.quantity,
+          amount: existProduct.quantity + 1,
         };
         res = await addExistProductToCart(data);
         // if (res) {
