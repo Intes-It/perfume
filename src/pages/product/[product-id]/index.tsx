@@ -367,7 +367,7 @@ const ProductDetail: React.FC<
                   ""
                 ) : (
                   <div>
-                    Contenance:<strong>{product?.weight}g</strong>
+                    <strong>Contenance</strong> :{product?.weight}g
                   </div>
                 )}
               </div>
@@ -376,7 +376,7 @@ const ProductDetail: React.FC<
                 role="tabpanel"
                 className={` text-[#603813] transition-opacity duration-150 ease-linear `}
               >
-                Contenance :<strong>{contenance}</strong>
+                <strong>Contenance</strong> :{contenance}
               </div>
             )}
           </div>
@@ -425,7 +425,7 @@ const ProductDetail: React.FC<
                 role="tabpanel"
                 className={`mb-4  text-[#603813]    transition-opacity duration-150 ease-linear `}
               >
-                Packaging : {packageName}
+                <strong>Packaging</strong> : {packageName}
               </div>
             )}
           </div>

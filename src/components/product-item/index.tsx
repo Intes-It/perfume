@@ -69,9 +69,9 @@ const ProductItem: React.FC<ProductProps> = ({
             Number.parseFloat(existProduct?.product?.price || "0") + totalMoney,
         };
         res = await addExistProductToCart(data);
-        if (res) {
-          return await mutate("get-server-cart");
-        }
+        // if (res) {
+        //   return await mutate("get-server-cart");
+        // }
       } else {
         const data = {
           order_id: cart?.id || null,
@@ -94,7 +94,7 @@ const ProductItem: React.FC<ProductProps> = ({
           addProduct({
             product,
             quantity: 1,
-            order_id: res?.data?.data?.order,
+            orderId: res?.data?.data?.id,
             price: product?.price,
             image: product?.url_image,
           })
