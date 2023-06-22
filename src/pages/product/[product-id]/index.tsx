@@ -183,7 +183,7 @@ const ProductDetail: React.FC<
         const data = {
           order_item_id: existProduct?.orderId,
           order_id: cart?.id || null,
-          amount: quantity,
+          amount: existProduct.quantity,
           packaging: packageName === undefined ? null : packageName,
           color: color === undefined ? null : color,
           capacity: contenance === undefined ? null : contenance,

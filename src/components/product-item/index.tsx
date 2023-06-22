@@ -63,10 +63,7 @@ const ProductItem: React.FC<ProductProps> = ({
         const data = {
           order_item_id: existProduct?.orderId,
           order_id: cart?.id || null,
-          amount: 1,
-          total_amount: totalProducts + 1,
-          total_price:
-            Number.parseFloat(existProduct?.product?.price || "0") + totalMoney,
+          amount: existProduct.quantity,
         };
         res = await addExistProductToCart(data);
         // if (res) {
