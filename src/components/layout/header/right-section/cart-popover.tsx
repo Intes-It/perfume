@@ -15,6 +15,7 @@ import { updateFullCart } from "@redux/slices/cart";
 import useUser from "@hooks/useUser";
 import { GET } from "@utils/fetch";
 import useSWR from "swr";
+import { api } from "@utils/apiRoute";
 //
 const CartPopover: React.FC = () => {
   const router = useRouter();
@@ -24,11 +25,12 @@ const CartPopover: React.FC = () => {
   ) as ExProduct[];
   const { isAuthenticated } = useUser();
   async function getCart() {
-    const res = await GET("/api/checkout/cart");
+    const res = await GET(api.getCart);
     return res.data;
   }
-  const { data } = useSWR("get-cart-server", getCart);
+  const { data, mutate } = useSWR("get-cart-server", getCart);
   const cartItem = data?.order_item;
+
   const dispatch = useDispatch();
   const totalProducts = products?.reduce((pre, curr) => pre + curr.quantity, 0);
   const totalMoney = products?.reduce(
@@ -43,7 +45,7 @@ const CartPopover: React.FC = () => {
       const totalPrice =
         exProduct.quantity * Number.parseFloat(exProduct.product.price || "0");
       const res = await removeProductToCart({
-        order_item_id: exProduct.id,
+        order_item_id: exProduct.orderId,
         total_amount: totalProducts - exProduct.quantity,
         total_price: totalMoney - totalPrice,
         weight: exProduct.product.weight,
@@ -70,7 +72,7 @@ const CartPopover: React.FC = () => {
   return (
     <Fragment>
       <div>
-        <NextLink href="#">
+        <NextLink href="#" onMouseOver={() => mutate("get-server-cart")}>
           <a>
             <span className={"relative inline-flex"}>
               <FontAwesomeIcon

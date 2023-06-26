@@ -49,19 +49,11 @@ const ProductItem: React.FC<ProductProps> = ({
     (pre, curr) => pre + curr.quantity,
     0
   );
-  // console.log('cart%o',cart);
-  const existProduct = localCart?.find(
-    (item: any) => item?.product?.id === product?.id
-  );
-  console.log("===============");
-  console.log("local", localCart);
-  console.log("expro", existProduct);
-  console.log("quan", existProduct?.quantity);
-  console.log("===============");
 
   const handleAddProduct = async () => {
     if (isAuthenticated) {
       //check exist product
+
       const existProduct = localCart?.find(
         (item: any) => item?.product?.id === product?.id
       );

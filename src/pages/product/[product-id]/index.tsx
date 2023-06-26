@@ -248,7 +248,7 @@ const ProductDetail: React.FC<
         {/* product image */}
         <div className="overflow-clip relative">
           <img
-            className="hover:scale-125 transition duration-100 w-full object-cover h-full  "
+            className="hover:scale-125 transition duration-100 w-full object-fill h-full  "
             // src={product?.url_image}
             src={
               selectorImage === undefined ? product?.url_image : selectorImage
