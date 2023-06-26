@@ -129,7 +129,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
         await POST("/api/payment/email-payment-fail", { order_id: orderID });
         alert(res.error.message);
       }
-      if (res.paymentIntent) {
+      if (res.paymentIntent?.status === "succeeded") {
         await POST(api.send_mail, {
           order_id: orderID,
         });
