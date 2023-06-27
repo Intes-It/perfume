@@ -12,6 +12,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import _ from "lodash";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { clearCart } from "@redux/slices/cart";
 type billingInfo = {
   company_name: string;
   country: string;
@@ -59,6 +61,7 @@ const Checkout: React.FC = () => {
       orderReview: {},
     },
   });
+  const dispatch = useDispatch();
   const { activeTab, inValidData, formErrors, formValues } = state;
   const errorDivRef = useRef<HTMLDivElement>(null);
   const stripePromise = loadStripe(
@@ -120,7 +123,10 @@ const Checkout: React.FC = () => {
     const res = await processYourOrder({
       order_id: cart?.data?.cart?.id || null,
     });
-    if (res?.status === 200 && res?.data?.link) router.push(res?.data?.link);
+    if (res?.status === 200 && res?.data?.link) {
+      dispatch(clearCart());
+      router.push(res?.data?.link);
+    }
   };
 
   return (
