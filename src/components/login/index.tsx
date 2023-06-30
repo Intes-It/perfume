@@ -53,16 +53,16 @@ const Login: React.FC<LoginProps> = ({ submit }) => {
             <label>Se souvenir de moi</label>
           </div>
         </div>
-        <ReCAPTCHA
+        {/* <ReCAPTCHA
           sitekey="6LfAUlsmAAAAAJhiDuM15XtkE1VUnAOOchhh9UGb"
           onChange={(captchaCode) => {
             setState((pre) => ({ ...pre, captchaCode: captchaCode || "" }));
           }}
-        />
+        /> */}
         <div>
           <button
             type="submit"
-            disabled={_.isEmpty(captchaCode)}
+            // disabled={_.isEmpty(captchaCode)}
             className="w-[200px] px-4 py-3 text-[16px] uppercase font-semibold text-white  bg-[#603813] rounded-md shadow hover:bg-black disabled:bg-gray-300"
           >
             Identification

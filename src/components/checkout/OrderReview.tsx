@@ -1,13 +1,13 @@
 import { ExProduct } from "@types";
 import { formatCurrency } from "@utils/formatNumber";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { clearCart } from "@redux/slices/cart";
 import { api } from "@utils/apiRoute";
 import { instance } from "@utils/_axios";
-import { Badge, Button } from "flowbite-react";
+import { Button } from "flowbite-react";
 import { POST } from "@utils/fetch";
 import { getCookie } from "cookies-next";
 import useUser from "@hooks/useUser";
@@ -46,7 +46,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
   const products = useSelector(
     (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
-
+  const voucherRef = useRef<HTMLInputElement | null>(null);
   const totalMoney = products?.reduce(
     (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.price || "0"),
     0
@@ -171,6 +171,13 @@ const OrderReview: React.FC<OrderReviewProps> = ({
       }
     });
   }, [stripe]);
+  async function applyVoucher() {
+    const res = await POST("/api/orders/apply_voucher", {
+      order_id: orderID,
+      voucher_code: voucherRef.current?.value,
+    });
+    console.log(res);
+  }
 
   React.useEffect(() => {
     instance
@@ -183,24 +190,6 @@ const OrderReview: React.FC<OrderReviewProps> = ({
   return (
     <div className="bg-[#FBFBFB]">
       <div className="grid">
-        <div className={"flex mb-2 align-middle"}>
-          <p>Choose voucher</p>{" "}
-          {voucher.map((item: any) => (
-            <Button
-              className="ml-1"
-              key={item.id}
-              onClick={() => {
-                setState((p) => ({
-                  ...p,
-                  voucherChoose: [...voucherChoose, item],
-                }));
-                setVoucher(voucher.filter((itemv: any) => itemv !== item));
-              }}
-            >
-              {item.name}
-            </Button>
-          ))}
-        </div>
         <div className="border border-black">Order Review</div>
         <div className="grid grid-cols-2">
           <div className="border border-black">Produit</div>
@@ -231,25 +220,14 @@ const OrderReview: React.FC<OrderReviewProps> = ({
         </div>
         <div className="grid grid-cols-2">
           <div className="border border-black">Voucher</div>
-          {/* <input className='focus:border-none border border-black'/> */}
-          <div className="focus:border-none border border-black flex py-2">
-            {voucherChoose.map((item: any, index: number) => (
-              <Badge
-                key={index}
-                className={"ml-1 cursor-pointer"}
-                onClick={() => {
-                  setState((p) => ({
-                    ...p,
-                    voucherChoose: voucherChoose.filter(
-                      (itemc: any) => itemc !== item
-                    ),
-                  }));
-                  setVoucher([...voucher, item]);
-                }}
-              >
-                {item.name} discount {item.discount}%
-              </Badge>
-            ))}
+          <div className="focus:border-none border border-black flex py-2 pl-1">
+            <input
+              className="border-none  pl-2 focus:outline-none uppercase"
+              ref={voucherRef}
+            />
+            <Button color="success" onClick={applyVoucher}>
+              Apply Voucher
+            </Button>
           </div>
         </div>
         <div className="grid grid-cols-2">
