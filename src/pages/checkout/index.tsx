@@ -67,6 +67,9 @@ const Checkout: React.FC = () => {
   const stripePromise = loadStripe(
     "pk_live_51KYt28C0l8GUGmRWat1OQmGm0dQB1WG4RWWrRB2XWjFFaRxqATmJCV8h2KpoYMQeTBSs1ML9it21k4jfcwRd60Vk00LF78lSgm"
   );
+  // const stripePromise = loadStripe(
+  //   "pk_test_51KYt28C0l8GUGmRWbYWrL7q2ilEEsGudgTJV2G7Bor9FGdLIXdEIuFl95Zm212ZtvTNQ3NWKqYUCP6pfRGSnHz4900i7iL8U5H"
+  // );
   const hasError = () => {
     switch (activeTab) {
       case 0:
