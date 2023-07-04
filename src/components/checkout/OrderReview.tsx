@@ -4,13 +4,15 @@ import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { clearCart } from "@redux/slices/cart";
+import { clearCart, updateFullCart } from "@redux/slices/cart";
 import { api } from "@utils/apiRoute";
 import { instance } from "@utils/_axios";
 import { Button } from "flowbite-react";
-import { POST } from "@utils/fetch";
+import { GET, POST } from "@utils/fetch";
 import { getCookie } from "cookies-next";
 import useUser from "@hooks/useUser";
+import useSWR, { mutate } from "swr";
+import useCart from "@hooks/useCart";
 
 type OrderReviewProps = {
   onOderClicked?: () => void;
@@ -33,13 +35,21 @@ const OrderReview: React.FC<OrderReviewProps> = ({
     carte: false,
     paypal: true,
     clientSecret: "",
-
+    voucherDiscount: 0,
     voucherChoose: [] as voucherCost[],
     loading: false,
+    discountType: "",
   });
   const user = useUser();
 
-  const { carte, paypal, voucherChoose, loading } = state;
+  const {
+    carte,
+    paypal,
+    voucherChoose,
+    loading,
+    voucherDiscount,
+    discountType,
+  } = state;
   const [message, setMessage] = React.useState("");
   const [voucher, setVoucher] = useState<voucherCost[]>([]);
   const [weight, setWeight] = useState<weightCost[]>([]);
@@ -51,6 +61,13 @@ const OrderReview: React.FC<OrderReviewProps> = ({
     (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.price || "0"),
     0
   );
+  async function getCart() {
+    const res = await GET(api.getCart);
+    return res.data;
+  }
+  const { data, mutate } = useSWR("get-server-cart", getCart);
+  const cart = data?.cart;
+  console.log(cart);
   const totalWeight = products?.reduce(
     (pre, curr) =>
       pre +
@@ -60,9 +77,6 @@ const OrderReview: React.FC<OrderReviewProps> = ({
   const totalDiscount = voucherChoose.reduce((p, c) => p + c.discount, 0);
 
   const shippingCost = weight.reduce((pre, curr) => pre + curr.cost, 0);
-
-  const extraTotalMoney =
-    totalMoney - totalMoney * (totalDiscount / 100) + shippingCost;
 
   const stripe = useStripe();
   const elements = useElements();
@@ -105,8 +119,8 @@ const OrderReview: React.FC<OrderReviewProps> = ({
           body: JSON.stringify({
             paymentMethodType: "card",
             currency: "eur",
-            amount: extraTotalMoney ? +extraTotalMoney : +totalMoney,
-            fee_ship: shippingCost,
+            amount: cart.total_price_payment,
+            fee_ship: cart.fee_ship,
             order_id: orderID,
           }),
         }
@@ -141,6 +155,28 @@ const OrderReview: React.FC<OrderReviewProps> = ({
       alert(e);
     }
   }
+  async function applyVoucher() {
+    try {
+      const res = await POST("/api/orders/apply_voucher", {
+        order_id: orderID,
+        voucher_code: voucherRef.current?.value,
+      });
+      console.log(res);
+      if (res.status === 200) {
+        await mutate("get-cart-server");
+        setState((p) => ({
+          ...p,
+          voucherDiscount: res.data?.voucher?.discount,
+          discountType: res.data?.voucher?.discount_type,
+        }));
+      }
+      if (res.data.message) {
+        alert(res.data.message);
+      }
+    } catch (e) {
+      alert(e);
+    }
+  }
   React.useEffect(() => {
     if (!stripe) {
       return;
@@ -171,13 +207,6 @@ const OrderReview: React.FC<OrderReviewProps> = ({
       }
     });
   }, [stripe]);
-  async function applyVoucher() {
-    const res = await POST("/api/orders/apply_voucher", {
-      order_id: orderID,
-      voucher_code: voucherRef.current?.value,
-    });
-    console.log(res);
-  }
 
   React.useEffect(() => {
     instance
@@ -205,38 +234,54 @@ const OrderReview: React.FC<OrderReviewProps> = ({
             </div>
           </div>
         ))}
+
         <div className="grid grid-cols-2">
           <div className="border border-black">Sous-total</div>
           <div className="border border-black">
-            {formatCurrency(String(totalMoney))} €
+            {formatCurrency(String(cart?.total_price_cart))} €
           </div>
         </div>
         <div className="grid grid-cols-2">
-          <div className="border border-black">Expédition</div>
-          <div className="border border-black">
-            <p>contenance:{totalWeight}g</p>
-            <p>frais de port:{shippingCost}€</p>
-          </div>
-        </div>
-        <div className="grid grid-cols-2">
-          <div className="border border-black">Voucher</div>
+          <div className="border border-black">Bon</div>
           <div className="focus:border-none border border-black flex py-2 pl-1">
             <input
               className="border-none  pl-2 focus:outline-none uppercase"
               ref={voucherRef}
             />
-            <Button color="success" onClick={applyVoucher}>
-              Apply Voucher
-            </Button>
+            <button className={"border-0"} onClick={applyVoucher}>
+              <span className={"text-blue-500"}>Appliquer le Bon</span>
+            </button>
           </div>
         </div>
         <div className="grid grid-cols-2">
+          <div className="border border-black">Expédition</div>
+          <div className="border border-black flex">
+            <p>
+              Contenance:<strong>{cart?.total_weight}g</strong>
+            </p>
+            /
+            <p>
+              Frais de port:<strong>{cart?.fee_ship}€</strong>
+            </p>
+            /
+            <p>
+              bon de réduction:
+              <strong>
+                {voucherDiscount}
+                {discountType === ""
+                  ? ""
+                  : discountType === "percentage"
+                  ? "%"
+                  : "€"}
+              </strong>
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2">
           <div className="border border-black">Total</div>
           <div className="border border-black">
-            {extraTotalMoney
-              ? extraTotalMoney.toFixed(2)
-              : totalMoney?.toFixed(2)}
-            €
+            {formatCurrency(String(cart?.total_price_payment))}€
           </div>
         </div>
         <div className="flex mt-5 items-center">
