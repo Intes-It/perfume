@@ -3,19 +3,19 @@ import * as Yup from "yup";
 import React, { useEffect } from "react";
 
 import { Countries } from "@definitions/constants";
-import { useQuery } from "react-query";
+// import { useQuery } from "react-query";
 import useUser from "@hooks/useUser";
 
 type BillingInfomationProps = {
   onError?: (errors: any) => void;
   onValueChange?: (values: any) => void;
 };
-async function getCountry() {
+/* async function getCountry() {
   const res = await fetch(
     "https://restcountries.com/v3.1/all?fields=name,flags"
   );
   return res.json();
-}
+} */
 const BillingInfomation: React.FC<BillingInfomationProps> = ({
   onError,
   onValueChange,
@@ -32,6 +32,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
     phone: Yup.number().required(),
     email: Yup.string().required(),
   });
+const {user}=useUser()
 
   const formik = useFormik({
     initialValues: {
@@ -44,7 +45,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
       province: "",
       zip_code: "",
       phone: "",
-      email: "",
+      email: user?.email,
     },
     initialErrors: {
       first_name: "required",
@@ -63,8 +64,13 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
     },
   });
   const { errors, values } = formik;
-  const countrys = useQuery("country", getCountry);
+const countrys=[
+  {value:'France'},
+  {value:'Viet Nam'},
+  {value:'United Kingdom'},
+  {value:'Dubai'},
 
+]
   useEffect(() => {
     onError?.(errors);
   }, [errors]);
@@ -141,10 +147,10 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                   formik.setFieldValue("country", event.target.value);
                 }}
               >
-                {countrys?.data?.map(
-                  (c: { name: { common: string } }, index: number) => (
-                    <option key={index} value={c?.name?.common}>
-                      {c?.name?.common}
+                {countrys.map(
+                  (c, index: number) => (
+                    <option key={index} value={c.value}>
+                      {c.value}
                     </option>
                   )
                 )}

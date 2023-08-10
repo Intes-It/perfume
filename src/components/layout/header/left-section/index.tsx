@@ -3,6 +3,7 @@ import SearchPopover from "../seach-popover";
 import MobileMenu from "./mobile-menu";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Language from "@components/layout/header/left-section/language";
 
 const LeftSection = () => {
   const router = useRouter();
@@ -34,6 +35,10 @@ const LeftSection = () => {
                 FAQ
               </a>
             </Link>
+            <div className={'px-3 py-2'}>
+
+            <Language/>
+            </div>
           </nav>
         </div>
         <MobileMenu className="mr-6 " />
