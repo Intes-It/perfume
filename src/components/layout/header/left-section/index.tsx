@@ -4,9 +4,14 @@ import MobileMenu from "./mobile-menu";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Language from "@components/layout/header/left-section/language";
+// import { useLocale } from "@hooks/useLocale";
+import { useTranslation } from "react-i18next";
+import { translations } from '@utils/i18n';
 
 const LeftSection = () => {
   const router = useRouter();
+
+
   return (
     <div className="grid gap-4 mt-5 ">
       <div className="flex mr-auto ml-2">
@@ -35,10 +40,8 @@ const LeftSection = () => {
                 FAQ
               </a>
             </Link>
-            <div className={'px-3 py-2'}>
-
             <Language/>
-            </div>
+         
           </nav>
         </div>
         <MobileMenu className="mr-6 " />

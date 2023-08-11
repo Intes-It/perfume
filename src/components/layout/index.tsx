@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ReactNode,useMemo } from "react";
-
+import '@utils/i18n'
 import Navbar from "./navbar";
 import Header from "./header";
 import Footer from "./footer";

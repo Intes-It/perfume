@@ -26,9 +26,9 @@ class CustomDocument extends Document {
     } finally {
       sheet.seal();
     }
-    const initialProps = await Document.getInitialProps(ctx);
+    // const initialProps = await Document.getInitialProps(ctx);
 
-    return initialProps;
+    // return initialProps;
   }
 }
 

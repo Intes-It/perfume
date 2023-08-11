@@ -2,17 +2,9 @@
 const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
-  rewrites: async () => {
-    return [
-      // {
-      //   source: "/api/:path*",
-      //   destination: `${process.env.NEXT_PUBLIC_API_URL}/api/:path*`,
-      // },
-      // {
-      //   source: "/payment/:path*",
-      //   destination: `${process.env.NEXT_PUBLIC_API_URL}/payment/:path*`,
-      // },
-    ];
+  i18n: {
+    locales: ["fr", "en", "vn", "ae"],
+    defaultLocale: "fr",
   },
   output: "standalone",
 };

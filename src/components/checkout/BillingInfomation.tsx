@@ -30,7 +30,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
     zip_code: Yup.string().required(),
     province: Yup.string().required(),
     phone: Yup.number().required(),
-    email: Yup.string().required(),
+    email: Yup.string().required().email(),
   });
 const {user}=useUser()
 
@@ -136,8 +136,7 @@ const countrys=[
                 Pays/région <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <select
-                data-te-select-init
-                data-te-select-filter="true"
+            
                 {...formik.getFieldProps("country")}
                 id="country"
                 className={`px-4 py-3 border ${
@@ -147,6 +146,7 @@ const countrys=[
                   formik.setFieldValue("country", event.target.value);
                 }}
               >
+              <option hidden></option>
                 {countrys.map(
                   (c, index: number) => (
                     <option key={index} value={c.value}>
