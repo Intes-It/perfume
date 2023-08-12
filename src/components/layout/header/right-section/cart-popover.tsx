@@ -110,9 +110,9 @@ const CartPopover: React.FC = () => {
               {products.length > 0 ? (
                 <div>
                   <div className="overflow-y-auto max-h-[400px]">
-                    {products?.map((item: ExProduct) => (
+                    {products?.map((item: ExProduct,index:number) => (
                       <div
-                        key={item.id}
+                        key={item.id||index}
                         className="grid grid-cols-9 border-b-[1px] p-4 "
                       >
                         <NextLink href={`/product/${item?.product.id}`}>

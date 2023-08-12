@@ -39,16 +39,19 @@ const OrderReview: React.FC<OrderReviewProps> = ({
     voucherChoose: [] as voucherCost[],
     loading: false,
     discountType: "",
+    totalPayment: 0,
+    fee_ship: 0,
   });
   const user = useUser();
 
   const {
     carte,
     paypal,
-    voucherChoose,
     loading,
     voucherDiscount,
     discountType,
+    totalPayment,
+    fee_ship,
   } = state;
   const [message, setMessage] = React.useState("");
   const [voucher, setVoucher] = useState<voucherCost[]>([]);
@@ -67,7 +70,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
   }
   const { data, mutate } = useSWR("get-server-cart", getCart);
   const cart = data?.cart;
- 
+
   const totalWeight = products?.reduce(
     (pre, curr) =>
       pre +
@@ -119,8 +122,8 @@ const OrderReview: React.FC<OrderReviewProps> = ({
           body: JSON.stringify({
             paymentMethodType: "card",
             currency: "eur",
-            amount: cart.total_price_payment,
-            fee_ship: cart.fee_ship,
+            amount:totalPayment?totalPayment: cart.total_price_payment,
+            fee_ship: fee_ship?fee_ship:cart.fee_ship,
             order_id: orderID,
           }),
         }
@@ -168,6 +171,8 @@ const OrderReview: React.FC<OrderReviewProps> = ({
           ...p,
           voucherDiscount: res.data?.voucher?.discount,
           discountType: res.data?.voucher?.discount_type,
+          totalPayment: res.data?.cart?.total_price_payment,
+          fee_ship: res.data?.cart?.fee_ship,
         }));
       }
       if (res.data.message) {
@@ -261,7 +266,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
             </p>
             /
             <p>
-              Frais de port:<strong>{cart?.fee_ship}€</strong>
+              Frais de port:<strong>{fee_ship?fee_ship:cart?.fee_ship}€</strong>
             </p>
             /
             <p>
@@ -281,7 +286,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
         <div className="grid grid-cols-2">
           <div className="border border-black">Total</div>
           <div className="border border-black">
-            {formatCurrency(String(cart?.total_price_payment))}€
+            {formatCurrency(String(totalPayment?totalPayment:cart?.total_price_payment ))}€
           </div>
         </div>
         <div className="flex mt-5 items-center">
