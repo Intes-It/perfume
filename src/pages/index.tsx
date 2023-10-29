@@ -22,7 +22,7 @@ const Home: React.FC = () => {
 
   const homeSlideInfo = [
     {
-      url: "https://firebasestorage.googleapis.com/v0/b/secu-rip-ad662.appspot.com/o/naturefeerique%2Fslide1-1-scaled-1.webp?alt=media&token=20f8ac0b-f5b5-47d3-a82d-50ac43b1ef1b_gl=1*ccc7c0*_ga*MjA1MzU1MTI1NS4xNjgzODExNTg1*_ga_CW55HF8NVT*MTY5ODU4MzkxNy40MS4xLjE2OTg1ODQ3MDcuNjAuMC4w",
+      url: "/images/slide1.webp",
       caption: "",
       text: (
         <div
@@ -39,10 +39,10 @@ const Home: React.FC = () => {
           </button>
         </div>
       ),
-      mobile_img: 'https://firebasestorage.googleapis.com/v0/b/secu-rip-ad662.appspot.com/o/naturefeerique%2F8.webp?alt=media&token=d2f22501-0aab-4da1-96bd-bd6cf0261125&_gl=1*np5r2p*_ga*MjA1MzU1MTI1NS4xNjgzODExNTg1*_ga_CW55HF8NVT*MTY5ODU4MzkxNy40MS4xLjE2OTg1ODQ3OTYuNDMuMC4w'
+      mobile_img: '/images/8.webp'
     },
     {
-      url: "https://firebasestorage.googleapis.com/v0/b/secu-rip-ad662.appspot.com/o/naturefeerique%2Fs3-1.webp?alt=media&token=1ece2091-85e6-4550-bb73-f91e93deb792_gl=1*9kzw9i*_ga*MjA1MzU1MTI1NS4xNjgzODExNTg1*_ga_CW55HF8NVT*MTY5ODU4MzkxNy40MS4xLjE2OTg1ODQ2NTIuMy4wLjA.",
+      url: "/images/slide3.webp",
       text: (
         <div
           className="absolute z-0   -translate-y-2/4 -translate-x-2/4 w-[100%] text-center"
@@ -60,10 +60,10 @@ const Home: React.FC = () => {
           </button>
         </div>
       ),
-      mobile_img: 'https://firebasestorage.googleapis.com/v0/b/secu-rip-ad662.appspot.com/o/naturefeerique%2F8.webp?alt=media&token=d2f22501-0aab-4da1-96bd-bd6cf0261125_gl=1*10q6dwr*_ga*MjA1MzU1MTI1NS4xNjgzODExNTg1*_ga_CW55HF8NVT*MTY5ODU4MzkxNy40MS4xLjE2OTg1ODUwMjMuNjAuMC4w'
+      mobile_img: '/images/9.webp'
     },
     {
-      url: "https://firebasestorage.googleapis.com/v0/b/secu-rip-ad662.appspot.com/o/naturefeerique%2Fmainof.webp?alt=media&token=251400bb-308e-468e-a68a-d7ebb013d050&_gl=1*w4d886*_ga*MjA1MzU1MTI1NS4xNjgzODExNTg1*_ga_CW55HF8NVT*MTY5ODU4MzkxNy40MS4xLjE2OTg1ODQxMTEuMTMuMC4w",
+      url: "/images/slide2.webp",
       text: (
         <div
           className="absolute z-0  -translate-y-2/4 -translate-x-2/4 w-[100%] text-center"
@@ -79,10 +79,11 @@ const Home: React.FC = () => {
           </button>
         </div>
       ),
-      mobile_img:'https://firebasestorage.googleapis.com/v0/b/secu-rip-ad662.appspot.com/o/naturefeerique%2F10.webp?alt=media&token=64dd0cbd-fce9-4796-bec5-8591fa9d7ce8_gl=1*q1notb*_ga*MjA1MzU1MTI1NS4xNjgzODExNTg1*_ga_CW55HF8NVT*MTY5ODU4MzkxNy40MS4xLjE2OTg1ODQ4ODIuNjAuMC4w'
+      mobile_img:'10.webp'
 
     },
   ];
+
   return (
     <Container>
       <div className="right-0 bottom-0 left-0 z-[2] flex list-none justify-center p-0">
