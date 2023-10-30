@@ -79,7 +79,7 @@ const Home: React.FC = () => {
           </button>
         </div>
       ),
-      mobile_img:'10.webp'
+      mobile_img:'/images/10.webp'
 
     },
   ];
