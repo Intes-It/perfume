@@ -15,13 +15,6 @@ import { Carousel } from "flowbite-react";
 import Link from "next/link";
 import useScreenWidth from "@hooks/useScreen";
 const Home: React.FC = () => {
-const [test,setTest]=React.useState([])
-React.useEffect(()=>{
-  const getTest=async()=>{
-    return await fetch('http://34.142.187.25/api/category/list_tree/').then(res=>res.json())
-  }
-  getTest().then(data=>console.log(data))
-},[])
 
   const { products } = useBestSallingProducts();
   const screenWidth=useScreenWidth()
