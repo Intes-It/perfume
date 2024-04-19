@@ -79,7 +79,7 @@ const AdditionalInformation: React.FC<AdditionalInfomationProps> = ({
         />
         {/* <label>Expédier à une adresse différente ?</label> */}
         <span className="text-black text-[32px] font-semibold">
-          Expédier à une adresse différente ?
+          Ship to a different address ?
         </span>
       </div>
       {/* form */}
@@ -92,7 +92,7 @@ const AdditionalInformation: React.FC<AdditionalInfomationProps> = ({
                 <div className="grid grid-cols-2">
                   <div className="flex flex-col mr-6">
                     <label className="font-semibold">
-                      Prénom{" "}
+                      First Name{" "}
                       <span className="text-red-500 text-[20px] ">*</span>
                     </label>
                     <input
@@ -108,7 +108,7 @@ const AdditionalInformation: React.FC<AdditionalInfomationProps> = ({
                   </div>
                   <div className="flex flex-col ml-6">
                     <label className="font-semibold">
-                      Nom <span className="text-red-500 text-[20px] ">*</span>
+                      Last Name <span className="text-red-500 text-[20px] ">*</span>
                     </label>
                     <input
                       {...formik.getFieldProps("dif_last_name")}
@@ -124,7 +124,7 @@ const AdditionalInformation: React.FC<AdditionalInfomationProps> = ({
                 </div>
                 <div className="flex flex-col">
                   <label className="font-semibold">
-                    Nom de l’entreprise (facultatif)
+                    Company name (optional)
                   </label>
                   <input
                     {...formik.getFieldProps("dif_company_name")}
@@ -135,7 +135,7 @@ const AdditionalInformation: React.FC<AdditionalInfomationProps> = ({
                 </div>
                 <div className="flex flex-col">
                   <label className="font-semibold">
-                    Pays/région{" "}
+                    Region{" "}
                     <span className="text-red-500 text-[20px] ">*</span>
                   </label>
                   <select
@@ -159,7 +159,7 @@ const AdditionalInformation: React.FC<AdditionalInfomationProps> = ({
                 </div>
                 <div className="flex flex-col">
                   <label className="font-semibold">
-                    Numéro et nom de rue{" "}
+                    Street number and name{" "}
                     <span className="text-red-500 text-[20px] ">*</span>
                   </label>
                   <input
@@ -181,7 +181,7 @@ const AdditionalInformation: React.FC<AdditionalInfomationProps> = ({
                 </div>
                 <div className="flex flex-col">
                   <label className="font-semibold">
-                    Ville <span className="text-red-500 text-[20px] ">*</span>
+                    City <span className="text-red-500 text-[20px] ">*</span>
                   </label>
                   <input
                     {...formik.getFieldProps("dif_province")}
@@ -198,10 +198,10 @@ const AdditionalInformation: React.FC<AdditionalInfomationProps> = ({
             )}
             <div className="flex flex-col">
               <label className="font-semibold">
-                Notes de commande (facultatif)
+                Order Notes (optional)
               </label>
               <textarea
-                placeholder="Commentaires concervant botre commande, ex: consignes de livraison"
+                placeholder="Comments regarding your order, e.g. delivery instructions"
                 {...formik.getFieldProps("note")}
                 id="id"
                 className="px-4 py-2 h-[60px] mt-2 border border-gray-300 text-black bg-white"

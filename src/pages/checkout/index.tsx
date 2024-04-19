@@ -28,12 +28,12 @@ type billingInfo = {
 const StepTabs = [
   {
     id: "billing-infomation-tab",
-    header: "Détails de Facturation",
+    header: "Billing Information",
     href: "#billing-infomation-tab",
   },
   {
     id: "shipping-details-tab",
-    header: "Détails D’expédition",
+    header: "SHIPPING DETAILS",
     href: "#shipping-details-tab",
   },
   {
@@ -135,7 +135,7 @@ const Checkout: React.FC = () => {
   return (
     <Container>
       <div className=" mt-2 md:m-20">
-        <div className="border-t-[3px] border-[#603813] bg-[#F7F6F7] p-5">
+        {/* <div className="border-t-[3px] border-[#603813] bg-[#F7F6F7] p-5">
           <FontAwesomeIcon
             className="mr-3"
             fontSize={"1.2rem"}
@@ -144,7 +144,7 @@ const Checkout: React.FC = () => {
           <span>
             Avez-vous un code promo ? Cliquez ici pour saisir votre code
           </span>
-        </div>
+        </div> */}
 
         {/* tabs */}
         <div className=" items-start mt-7 md:flex">
@@ -264,7 +264,7 @@ const Checkout: React.FC = () => {
                   }
                 }}
               >
-                PRÉC
+                Previous
               </button>
               {activeTab !== 2 && (
                 <button
@@ -273,7 +273,7 @@ const Checkout: React.FC = () => {
                     handlNextStep();
                   }}
                 >
-                  SUIV
+                  Next
                 </button>
               )}
             </div>

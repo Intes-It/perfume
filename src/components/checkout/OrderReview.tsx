@@ -4,15 +4,13 @@ import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { clearCart, updateFullCart } from "@redux/slices/cart";
+import { clearCart } from "@redux/slices/cart";
 import { api } from "@utils/apiRoute";
 import { instance } from "@utils/_axios";
-import { Button } from "flowbite-react";
 import { GET, POST } from "@utils/fetch";
 import { getCookie } from "cookies-next";
 import useUser from "@hooks/useUser";
-import useSWR, { mutate } from "swr";
-import useCart from "@hooks/useCart";
+import useSWR from "swr";
 
 type OrderReviewProps = {
   onOderClicked?: () => void;
@@ -29,7 +27,7 @@ type voucherCost = {
 const OrderReview: React.FC<OrderReviewProps> = ({
   onOderClicked,
   orderID,
-  email,
+  // email,
 }) => {
   const [state, setState] = useState({
     carte: false,
@@ -122,8 +120,8 @@ const OrderReview: React.FC<OrderReviewProps> = ({
           body: JSON.stringify({
             paymentMethodType: "card",
             currency: "eur",
-            amount:totalPayment?totalPayment: cart.total_price_payment,
-            fee_ship: fee_ship?fee_ship:cart.fee_ship,
+            amount: totalPayment ? totalPayment : cart.total_price_payment,
+            fee_ship: fee_ship ? fee_ship : cart.fee_ship,
             order_id: orderID,
           }),
         }
@@ -226,8 +224,8 @@ const OrderReview: React.FC<OrderReviewProps> = ({
       <div className="grid">
         <div className="border border-black">Order Review</div>
         <div className="grid grid-cols-2">
-          <div className="border border-black">Produit</div>
-          <div className="border border-black">Sous-total</div>
+          <div className="border border-black">Product</div>
+          <div className="border border-black">Sub-total</div>
         </div>
         {products?.map((item: ExProduct, index: number) => (
           <div key={index} className="grid grid-cols-2">
@@ -241,12 +239,12 @@ const OrderReview: React.FC<OrderReviewProps> = ({
         ))}
 
         <div className="grid grid-cols-2">
-          <div className="border border-black">Sous-total</div>
+          <div className="border border-black">Sub-total</div>
           <div className="border border-black">
             {formatCurrency(String(cart?.total_price_cart))} €
           </div>
         </div>
-        <div className="grid grid-cols-2">
+        {/* <div className="grid grid-cols-2">
           <div className="border border-black">Bon</div>
           <div className="focus:border-none border border-black flex py-2 pl-1">
             <input
@@ -257,8 +255,8 @@ const OrderReview: React.FC<OrderReviewProps> = ({
               <span className={"text-blue-500"}>Appliquer le Bon</span>
             </button>
           </div>
-        </div>
-        <div className="grid grid-cols-2">
+        </div> */}
+        {/* <div className="grid grid-cols-2">
           <div className="border border-black">Expédition</div>
           <div className="border border-black flex">
             <p>
@@ -266,7 +264,8 @@ const OrderReview: React.FC<OrderReviewProps> = ({
             </p>
             /
             <p>
-              Frais de port:<strong>{fee_ship?fee_ship:cart?.fee_ship}€</strong>
+              Frais de port:
+              <strong>{fee_ship ? fee_ship : cart?.fee_ship}€</strong>
             </p>
             /
             <p>
@@ -281,12 +280,15 @@ const OrderReview: React.FC<OrderReviewProps> = ({
               </strong>
             </p>
           </div>
-        </div>
+        </div> */}
 
         <div className="grid grid-cols-2">
           <div className="border border-black">Total</div>
           <div className="border border-black">
-            {formatCurrency(String(totalPayment?totalPayment:cart?.total_price_payment ))}€
+            {formatCurrency(
+              String(totalPayment ? totalPayment : cart?.total_price_payment)
+            )}
+            €
           </div>
         </div>
         <div className="flex mt-5 items-center">
@@ -300,7 +302,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
             className="w-4 h-4 mr-2 "
           />
           <span className="text-black text-[22px] font-semibold">
-            Carte Bancaire
+            Card 
           </span>
         </div>
         <form
@@ -336,16 +338,12 @@ const OrderReview: React.FC<OrderReviewProps> = ({
           <div className="mt-6 flex items-center">
             <input type="checkbox" id="remember" className="w-4 h-4  mr-2 " />
             <span className="text-black  font-semibold">
-              Je voudrais recevoir des e-mails exclusifs avec des réductions et
-              des informations sur le produit (facultatif)
+             I would like to receive exclusive emails with discounts and product information (optional)
             </span>
           </div>
           <div className="mt-6 flex items-center">
             <span className="text-black  font-semibold">
-              Vos données personnelles seront utilisées pour le traitement de
-              votre commande, vous accompagner au cours de votre visite du site
-              web, et pour d’autres raisons décrites dans notre politique de
-              confidentialité.
+            Your personal data will be used to process your order, accompany you during your visit to the website, and for other reasons described in our privacy policy.
             </span>
           </div>
           <div className=" grid mt-2 items-center">
@@ -363,7 +361,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
                 onClick={onOderClicked}
                 className="h-[50px] rounded-md p-3 text-white hover:bg-black bg-[#603813] "
               >
-                Commander
+                CheckOut
               </button>
             )}
           </div>

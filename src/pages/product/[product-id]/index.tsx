@@ -485,7 +485,7 @@ const ProductDetail: React.FC<
                 onClick={handleAddProduct}
                 className="ml-3 rounded-md p-5 bg-[#acd051] hover:bg-black text-white font-semibold"
               >
-                AJOUTER AU PANIER
+                Add To Cart
               </button>
               <button
                 className="rounded-md bg-[#603813] p-5  hover:bg-black text-white font-semibold"
@@ -494,7 +494,7 @@ const ProductDetail: React.FC<
                   router.push("/checkout");
                 }}
               >
-                ACHETER
+                BUY
               </button>
             </div>
           </div>

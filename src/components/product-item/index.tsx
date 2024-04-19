@@ -144,7 +144,7 @@ const ProductItem: React.FC<ProductProps> = ({
               type="submit"
               className=" p-3 text-[14.4px] font-semibold text-[#262238]  bg-[#ACD051] rounded-md shadow hover:bg-[#603813] hover:text-white"
             >
-              Ajouter au panier
+              Add To Cart
             </button>
           )}
         </div>

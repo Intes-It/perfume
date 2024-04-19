@@ -84,7 +84,7 @@ const countrys=[
       {/* form */}
       <div>
         <span className="text-[#26222f] text-[32px] font-semibold">
-          Détails de facturation
+         Billing Information
         </span>
         <form
           onInvalidCapture={() => {
@@ -95,7 +95,7 @@ const countrys=[
             <div className="grid grid-cols-2">
               <div className="flex flex-col mr-6">
                 <label className="font-semibold">
-                  Prénom <span className="text-red-500 text-[20px] ">*</span>
+                  First Name <span className="text-red-500 text-[20px] ">*</span>
                 </label>
                 <input
                   {...formik.getFieldProps("first_name")}
@@ -108,7 +108,7 @@ const countrys=[
               </div>
               <div className="flex flex-col ml-6">
                 <label className="font-semibold">
-                  Nom <span className="text-red-500 text-[20px] ">*</span>
+                  Last Name <span className="text-red-500 text-[20px] ">*</span>
                 </label>
                 <input
                   {...formik.getFieldProps("last_name")}
@@ -122,7 +122,7 @@ const countrys=[
             </div>
             <div className="flex flex-col">
               <label className="font-semibold">
-                Nom de l’entreprise (facultatif)
+               Company name (optional)
               </label>
               <input
                 {...formik.getFieldProps("company_name")}
@@ -133,7 +133,7 @@ const countrys=[
             </div>
             <div className="flex flex-col">
               <label className="font-semibold">
-                Pays/région <span className="text-red-500 text-[20px] ">*</span>
+                Region <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <select
             
@@ -158,7 +158,7 @@ const countrys=[
             </div>
             <div className="flex flex-col">
               <label className="font-semibold">
-                Numéro et nom de rue{" "}
+                Street number and name{" "}
                 <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
@@ -180,7 +180,7 @@ const countrys=[
             </div>
             <div className="flex flex-col">
               <label className="font-semibold">
-                Ville <span className="text-red-500 text-[20px] ">*</span>
+                City <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
                 {...formik.getFieldProps("province")}
@@ -193,7 +193,7 @@ const countrys=[
             </div>
             <div className="flex flex-col">
               <label className="font-semibold">
-                Code postal <span className="text-red-500 text-[20px] ">*</span>
+                Postal Code<span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
                 {...formik.getFieldProps("zip_code")}

@@ -12,7 +12,7 @@ export const Routes = {
     route: "/faqs",
   },
   checkout: {
-    title: "Paiement",
+    title: "Payment",
     route: "/checkout",
   },
   blog: {
