@@ -353,7 +353,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
                 className="h-[50px] rounded-md p-3 text-white hover:bg-black bg-[#603813] "
                 disabled={loading}
               >
-                {loading ? "En Cours" : "Comander"}
+                {loading ? "Loading" : "Check out"}
               </button>
             ) : (
               <button
