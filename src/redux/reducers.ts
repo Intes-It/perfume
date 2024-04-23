@@ -5,8 +5,8 @@ import user from '@redux/slices/user';
 import { store } from './store';
 import cart from './slices/cart';
 import favorite from './slices/favorite';
-
-const rootReducer = combineReducers({ counter, user, cart, favorite });
+import toast from './slices/toast/toastSlice'
+const rootReducer = combineReducers({ counter, user, cart, favorite ,toast});
 
 export type RootState = ReturnType<typeof store.getState>;
 

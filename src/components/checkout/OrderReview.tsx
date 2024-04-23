@@ -11,6 +11,7 @@ import { GET, POST } from "@utils/fetch";
 import { getCookie } from "cookies-next";
 import useUser from "@hooks/useUser";
 import useSWR from "swr";
+import { log } from "console";
 
 type OrderReviewProps = {
   onOderClicked?: () => void;
@@ -58,10 +59,12 @@ const OrderReview: React.FC<OrderReviewProps> = ({
     (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
   const voucherRef = useRef<HTMLInputElement | null>(null);
-  const totalMoney = useMemo(()=>{products?.reduce(
-    (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.price || "0"),
-    0
-  )},[products]);
+  const totalMoney = useMemo(() => {
+    products?.reduce(
+      (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.price || "0"),
+      0
+    );
+  }, [products]);
   async function getCart() {
     const res = await GET(api.getCart);
     return res.data;
@@ -69,12 +72,12 @@ const OrderReview: React.FC<OrderReviewProps> = ({
   const { data, mutate } = useSWR("get-server-cart", getCart);
   const cart = data?.cart;
 
-  const totalWeight =useMemo(()=>{ products?.reduce(
+  const totalWeight = products?.reduce(
     (pre, curr) =>
       pre +
       curr.quantity * Number.parseFloat(curr.product.weight?.toString() || "0"),
     0
-  )},[products]);
+  );
   // const totalDiscount = voucherChoose.reduce((p, c) => p + c.discount, 0);
 
   // const shippingCost = weight.reduce((pre, curr) => pre + curr.cost, 0);
@@ -101,6 +104,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
   const dispatch = useDispatch();
   const router = useRouter();
   const csrfToken = getCookie("csrftoken");
+ 
 
   async function handleStripePayment(e: React.FormEvent) {
     try {
@@ -119,7 +123,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
           },
           body: JSON.stringify({
             paymentMethodType: "card",
-            currency: "eur",
+            currency: "usd",
             amount: totalPayment ? totalPayment : cart.total_price_payment,
             fee_ship: fee_ship ? fee_ship : cart.fee_ship,
             order_id: orderID,
@@ -139,7 +143,6 @@ const OrderReview: React.FC<OrderReviewProps> = ({
           },
         },
       });
- console.log(res);
 
       // if (res.error) {
       //   await POST("/api/payment/email-payment-fail", { order_id: orderID });
@@ -299,9 +302,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
             id="remember"
             className="w-4 h-4 mr-2 "
           />
-          <span className="text-black text-[22px] font-semibold">
-            Card 
-          </span>
+          <span className="text-black text-[22px] font-semibold">Card</span>
         </div>
         <form
           className="mt-5"
@@ -336,12 +337,15 @@ const OrderReview: React.FC<OrderReviewProps> = ({
           <div className="mt-6 flex items-center">
             <input type="checkbox" id="remember" className="w-4 h-4  mr-2 " />
             <span className="text-black  font-semibold">
-             I would like to receive exclusive emails with discounts and product information (optional)
+              I would like to receive exclusive emails with discounts and
+              product information (optional)
             </span>
           </div>
           <div className="mt-6 flex items-center">
             <span className="text-black  font-semibold">
-            Your personal data will be used to process your order, accompany you during your visit to the website, and for other reasons described in our privacy policy.
+              Your personal data will be used to process your order, accompany
+              you during your visit to the website, and for other reasons
+              described in our privacy policy.
             </span>
           </div>
           <div className=" grid mt-2 items-center">

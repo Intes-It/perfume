@@ -1,6 +1,6 @@
 import * as React from "react";
-import { ReactNode,useMemo } from "react";
-import '@utils/i18n'
+import { ReactNode, useMemo } from "react";
+import "@utils/i18n";
 import Navbar from "./navbar";
 import Header from "./header";
 import Footer from "./footer";
@@ -32,12 +32,8 @@ export const Layout = ({ children }: Props) => {
   return (
     <div>
       <Head>
-       <meta charSet="utf8" />
-        <link
-            rel="shortcut icon"
-            href="/images/icon.png"
-            type="image/x-icon"
-        />
+        <meta charSet="utf8" />
+        <link rel="shortcut icon" href="/images/icon.png" type="image/x-icon" />
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <title>
           {title
@@ -48,6 +44,7 @@ export const Layout = ({ children }: Props) => {
       <Header />
       <Navbar />
       <Title />
+    
       {children}
       <Footer />
     </div>

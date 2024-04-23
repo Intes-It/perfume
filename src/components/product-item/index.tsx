@@ -13,6 +13,7 @@ import { GET } from "@utils/fetch";
 import { api } from "@utils/apiRoute";
 
 import useSWR from "swr";
+import { showToast } from "@redux/slices/toast/toastSlice";
 type ProductProps = {
   onFavoriteChanged?: (state?: boolean) => void;
   favorite?: boolean;
@@ -66,6 +67,8 @@ const ProductItem: React.FC<ProductProps> = ({
           amount: existProduct.quantity + 1,
         };
         res = await addExistProductToCart(data);
+        dispatch(showToast('Add To Cart'))
+
         // if (res) {
         //   return await mutate("get-server-cart");
         // }
@@ -84,6 +87,8 @@ const ProductItem: React.FC<ProductProps> = ({
         res = await addProductToCart(data);
         if (res) {
           await mutate("get-server-cart");
+        dispatch(showToast('Add To Cart'))
+
         }
       }
       if (res?.status === 201 || res?.status === 200) {
@@ -96,6 +101,7 @@ const ProductItem: React.FC<ProductProps> = ({
             image: product?.url_image,
           })
         );
+     
         // console.log("res:%o", res?.data?.data);
       }
     } else
@@ -107,6 +113,7 @@ const ProductItem: React.FC<ProductProps> = ({
           price: product?.price,
         })
       );
+
   };
 
   return (

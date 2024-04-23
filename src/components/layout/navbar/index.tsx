@@ -1,23 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NextLink from "next/link";
 import { Routes } from "@definitions/constants";
 import { useAllCategory } from "@hooks/useCategory";
-
+import { useSelector } from "react-redux";
+import Toast from "@components/toast";
+import { showToast } from "@redux/slices/toast/toastSlice";
+import { useAppDispatch } from "@redux/store";
 
 function Navbar() {
   const { categories, subCategories, subsubCategories } = useAllCategory();
-  // const {subCategories} =  useSubCategory();
-
-  // console.log('subcategory:%o', subCategories)
+  const toast = useSelector((state: any) => state?.persistedReducer.toast);
   const exCategories = categories && [
     Routes.home,
     Routes.about,
     ...categories,
     Routes.contact,
   ];
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      toast.show && dispatch(showToast(""));
+    }, 3000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [toast, dispatch]);
 
   return (
     <div className="bg-white sticky top-0 p-1 z-40  hidden md:block">
+      {toast.show && <Toast message={toast.message} />}
+
       <nav className=" w-full z-10">
         <div className="w-full">
           <div className="flex items-center w-full">

@@ -83,6 +83,7 @@ function MyApp({
             <Provider store={store}>
               {/* <PersistGate loading={null} persistor={persistor}> */}
               <Layout>
+              
                 <Component {...pageProps} />
               </Layout>
               {/* </PersistGate> */}
