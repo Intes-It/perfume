@@ -1,6 +1,6 @@
 import { ExProduct } from "@types";
 import { formatCurrency } from "@utils/formatNumber";
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
@@ -58,10 +58,10 @@ const OrderReview: React.FC<OrderReviewProps> = ({
     (state: any) => state.persistedReducer?.cart?.products
   ) as ExProduct[];
   const voucherRef = useRef<HTMLInputElement | null>(null);
-  const totalMoney = products?.reduce(
+  const totalMoney = useMemo(()=>{products?.reduce(
     (pre, curr) => pre + curr.quantity * Number.parseFloat(curr.price || "0"),
     0
-  );
+  )},[products]);
   async function getCart() {
     const res = await GET(api.getCart);
     return res.data;
