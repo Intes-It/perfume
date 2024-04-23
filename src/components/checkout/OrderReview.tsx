@@ -69,12 +69,12 @@ const OrderReview: React.FC<OrderReviewProps> = ({
   const { data, mutate } = useSWR("get-server-cart", getCart);
   const cart = data?.cart;
 
-  const totalWeight = products?.reduce(
+  const totalWeight =useMemo(()=>{ products?.reduce(
     (pre, curr) =>
       pre +
       curr.quantity * Number.parseFloat(curr.product.weight?.toString() || "0"),
     0
-  );
+  )},[products]);
   // const totalDiscount = voucherChoose.reduce((p, c) => p + c.discount, 0);
 
   // const shippingCost = weight.reduce((pre, curr) => pre + curr.cost, 0);
