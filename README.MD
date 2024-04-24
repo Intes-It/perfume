@@ -4,7 +4,18 @@ created by nhatdn
 
 ## Available Scripts
 
+## Language
+
+```js
+    import useLocale from '@hooks/useLocale'
+
+    const t=useLocale()
+
+     <p>{t.name_of_lang_key}</p>
+```
+
 ### exporting svg components.
+
 copy svg image to `/public/icons` and run command:
 
 ```bash

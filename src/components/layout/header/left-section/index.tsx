@@ -4,12 +4,12 @@ import MobileMenu from "./mobile-menu";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Language from "@components/layout/header/left-section/language";
-// import { useLocale } from "@hooks/useLocale";
-import { useTranslation } from "react-i18next";
-import { translations } from '@utils/i18n';
 
+import useLocale from "@hooks/useLocale";
 const LeftSection = () => {
   const router = useRouter();
+const t=useLocale()
+
 
 
   return (
