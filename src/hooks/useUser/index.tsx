@@ -11,7 +11,6 @@ const useUser = () => {
   //fetch data
   async function getProfile() {
     const res = await GET(api.getProfile);
-    // console.log(res);
     return res.data;
   }
 

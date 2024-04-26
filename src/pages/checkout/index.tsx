@@ -67,9 +67,7 @@ const Checkout: React.FC = () => {
   // const stripePromise = loadStripe(
   //  "pk_live_51Mc4mkLl7R805p8JLhoVvkkN3QPMnPGIRWOEfZVuW6ZEQoL9bUmEiwcusKcVCXPNyzwWdayXXWA8Dc7KwCqiCqX600dz3hbcEv"
   //  );
- const stripePromise = loadStripe(
-    "pk_test_51Mc4mkLl7R805p8J3t7dqoeBEGqXglTC8FiqLPmhobzxo9RDD9THPh2kMhECSAwFBlWhBqnY11HKHj8t2ZTEjoqP00Zm5l2381"
-  );
+  const stripePromise = loadStripe(process.env.STRIPE_KEY as string);
   const hasError = () => {
     switch (activeTab) {
       case 0:
@@ -126,6 +124,7 @@ const Checkout: React.FC = () => {
     const res = await processYourOrder({
       order_id: cart?.data?.cart?.id || null,
     });
+
     if (res?.status === 200 && res?.data?.link) {
       dispatch(clearCart());
       router.push(res?.data?.link);
