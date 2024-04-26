@@ -67,7 +67,7 @@ const Checkout: React.FC = () => {
   // const stripePromise = loadStripe(
   //  "pk_live_51Mc4mkLl7R805p8JLhoVvkkN3QPMnPGIRWOEfZVuW6ZEQoL9bUmEiwcusKcVCXPNyzwWdayXXWA8Dc7KwCqiCqX600dz3hbcEv"
   //  );
-  const stripePromise = loadStripe(process.env.STRIPE_KEY as string);
+  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY as string);
   const hasError = () => {
     switch (activeTab) {
       case 0:
