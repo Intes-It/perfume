@@ -1,3 +1,4 @@
+
 import Input from "@components/input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { api } from "@utils/apiRoute";
@@ -54,6 +55,7 @@ const ForgotPassword = () => {
   };
   return (
     <div>
+
       <div className="grid h-28 content-center text-center bg-[#eff7cf]">
         <h1 className="mb-2 text-4xl font-extrabold">Mon Compte</h1>
       </div>
@@ -73,6 +75,7 @@ const ForgotPassword = () => {
           field_name={"email"}
           name={"E-mail"}
         />
+
         <div className="mt-12">
           <button
             className="bg-[#603813] rounded-lg w-[320px] transition duration-300 ease-in-out h-12 gra3 flex items-center justify-center font-bold text-white cursor-pointer"

@@ -8,9 +8,7 @@ import Language from "@components/layout/header/left-section/language";
 import useLocale from "@hooks/useLocale";
 const LeftSection = () => {
   const router = useRouter();
-const t=useLocale()
-
-
+  const text = useLocale();
 
   return (
     <div className="grid gap-4 mt-5 ">
@@ -26,7 +24,7 @@ const t=useLocale()
                     : "px-3 py-2 text-black-500"
                 }
               >
-                Journal
+                {text.homePageScreen.journal}
               </a>
             </Link>
             <Link href="/faqs">
@@ -37,11 +35,10 @@ const t=useLocale()
                     : "px-3 py-2 text-black-500"
                 }
               >
-                FAQ
+                {text.homePageScreen.faq}
               </a>
             </Link>
-            <Language/>
-         
+            <Language />
           </nav>
         </div>
         <MobileMenu className="mr-6 " />
