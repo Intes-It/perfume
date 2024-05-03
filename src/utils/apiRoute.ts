@@ -23,5 +23,6 @@ export const api = {
   product_voucher: "/api/voucher/all",
   shipping_weight: "/api/delivery-cost/weight",
   send_mail: "/api/payment/email-payment",
-  checkCountry:'/api/country-availability/'
+  checkCountry: "/api/country-availability/",
+  reset_password: "/api/reset-password/",
 };
