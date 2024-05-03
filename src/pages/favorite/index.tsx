@@ -2,8 +2,9 @@ import ProductItem from "@components/product-item";
 import { addFavoriteItem, removeFavoriteItem } from "@redux/slices/favorite";
 import { Product } from "@types";
 import { useDispatch, useSelector } from "react-redux";
-
+import useLocale from "@hooks/useLocale";
 const Favorite = () => {
+  const text = useLocale();
   const dispatch = useDispatch();
   const favoriteProducts = useSelector(
     (state: any) => state.persistedReducer?.favorite?.list
@@ -16,9 +17,7 @@ const Favorite = () => {
   // favoriteProducts?.forEach((item: Product) => {
   //   item.favorite = true;
   // });
-  
 
- 
   return (
     <div>
       <div className="flex flex-col items-center space-y-10 mx-5 my-5 ">
@@ -54,7 +53,7 @@ const Favorite = () => {
           </div>
         ) : (
           <span className="text-[20px] text-[#603813]">
-            Aucun Produits Ajoutés Aux Favoris
+            {text.favoriteScreen.noProduct}
           </span>
         )}
       </div>

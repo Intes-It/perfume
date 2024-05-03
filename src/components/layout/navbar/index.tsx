@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import NextLink from "next/link";
 import { Routes } from "@definitions/constants";
 import { useAllCategory } from "@hooks/useCategory";
@@ -16,6 +16,7 @@ function Navbar() {
     ...categories,
     Routes.contact,
   ];
+  const [active, setActive] = useState<number>(-1);
   const dispatch = useAppDispatch();
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -40,8 +41,15 @@ function Navbar() {
                   <ul className="flex justify-center mb-2 text-[2px] text-gray-700 tracking-wider">
                     {exCategories?.map((item: any, pIndex: number) => (
                       <li
+                        onClick={() => {
+                          setActive(pIndex);
+                        }}
                         key={pIndex}
                         className="group p-5 px-7 py-3 text-base font-light border-b-2 border-transparent hover:border-black transition hover:duration-75 hover:ease-in-out"
+                        style={{
+                          borderBottom:
+                            active === pIndex ? "2px solid #000" : "none",
+                        }}
                       >
                         <div>
                           {/* categories */}

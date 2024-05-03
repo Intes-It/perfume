@@ -1,3 +1,4 @@
+import useLocale from "@hooks/useLocale";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 type SearchProps = {
@@ -7,7 +8,7 @@ type SearchProps = {
 const SearchModal: React.FC<SearchProps> = ({ isVisible, onClose }) => {
   const [value, setValue] = useState("");
   const router = useRouter();
-
+  const text = useLocale();
   if (!isVisible) return null;
   const handleClose = (e: any) => {
     if (e.target.id === "wrapper") onClose();
@@ -41,7 +42,7 @@ const SearchModal: React.FC<SearchProps> = ({ isVisible, onClose }) => {
         onKeyDown={handleKeyDown}
         type="search"
         className="form input px-4 py-4 w-[60vw] bg-black bg-opacity-0 focus:outline-none text-white lg:text-[50px] text-center border-b-2 sm:text-[30px]"
-        placeholder="Recherche..."
+        placeholder={text.homePageScreen.Search}
       />
     </div>
   );

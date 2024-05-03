@@ -1,9 +1,10 @@
-import {  TwitterIcon, FacebookIcon,InstagramIcon } from "@components/icons";
+import { TwitterIcon, FacebookIcon, InstagramIcon } from "@components/icons";
 import * as React from "react";
 import { FooterRoutes } from "@definitions/constants";
 import LogoSection from "../header/logo-section";
-
+import useLocale from "@hooks/useLocale";
 const Footer = () => {
+  const text = useLocale();
   return (
     <div className="h-fit bg-[#eff7cf]">
       <div className="grid grid-cols-1 lg:grid-cols-4 py-14">
@@ -41,7 +42,7 @@ const Footer = () => {
           ))}
           <div className="text-center md:text-left">
             <div className="text-lg font-bold tracking-wide">
-              Notre Localisation
+              {text.homePageScreen.notreLocal}
             </div>
             <div className="text-base font-Light tracking-wide mt-2">
               Nature Féerique <br />

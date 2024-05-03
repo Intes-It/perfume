@@ -7,7 +7,10 @@ import {
   faEnvelope,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
+import useLocale from "@hooks/useLocale";
+
 const Contact = () => {
+  const text = useLocale();
   return (
     <Container>
       <div className="flex flex-col items-center my-[40px] space-y-10 ">
@@ -19,7 +22,7 @@ const Contact = () => {
             />
             <div className="mx-5">
               <h5 className="text-[20px] mobile:text-[16px] text-[#383E42] pt-1 pb-3">
-                Nature Féerique
+                {text.contactScreen.naFeerique}
               </h5>
               <p className="text-[16px] text-[#603813] mobile:text-[14px]">
                 61 Montée Des Amandiers, 26110 Saint-Maurice Sur Eygues, France
@@ -44,7 +47,9 @@ const Contact = () => {
               icon={faEnvelope}
             />
             <div className="mx-5">
-              <h5 className="text-[20px] text-[#383E42] pt-1 pb-3 mobile:text-[16px]">E-mail</h5>
+              <h5 className="text-[20px] text-[#383E42] pt-1 pb-3 mobile:text-[16px]">
+                {text.contactScreen.email}
+              </h5>
               <p className="text-[16px] text-[#603813] mobile:text-[14px]">
                 contact@naturefeerique.fr
               </p>
@@ -55,14 +60,20 @@ const Contact = () => {
           <Map
             googleMapURL={`https://maps.googleapis.com/maps/api/js?key&callback=initMap`}
             loadingElement={<div style={{ height: `100%` }} />}
-            containerElement={<div style={{ height: `400px`, margin: `auto` }} />}
+            containerElement={
+              <div style={{ height: `400px`, margin: `auto` }} />
+            }
             mapElement={<div style={{ height: `100%` }} />}
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:w-[1200px] w-[80vw] my-[40px]  mobile:divide-x-0 mobile:divide-y mobile:space-y-8 ">
           <div className="">
-            <h3 className="text-[32px] text-[#603813] mobile:text-[24px] font-bold">Rester En Contact</h3>
-            <h5 className="py-2 text-[20px] mobile:text-[16px] text-[#383E42]">Service Client</h5>
+            <h3 className="text-[32px] text-[#603813] mobile:text-[24px] font-bold">
+              {text.contactScreen.resEnContact}
+            </h3>
+            <h5 className="py-2 text-[20px] mobile:text-[16px] text-[#383E42]">
+              Service Client
+            </h5>
             <ul className="flex flex-col space-y-2 text-[16px] text-[#383E42] mobile:text-[14px]">
               <li>
                 <FontAwesomeIcon
@@ -89,7 +100,9 @@ const Contact = () => {
             </ul>
           </div>
           <div className="text-[16px] text-[#603813]">
-            <h5 className="mb-8 font-semibold text-[20px] mobile:text-[16px] mobile:ml-0 mobile:my-5" >Vous Avez Des Questions?</h5>
+            <h5 className="mb-8 font-semibold text-[20px] mobile:text-[16px] mobile:ml-0 mobile:my-5">
+              {text.contactScreen.vousADQues}
+            </h5>
 
             <form
               action="#"
@@ -97,38 +110,38 @@ const Contact = () => {
             >
               <div className="flex flex-col space-y-1">
                 <label>
-                  Nom{" "}
+                  {text.contactScreen.nom}{" "}
                   <span className="text-red-500 text-[20px] ">*</span>
                 </label>
                 <input
                   required
                   type="nom"
                   id="nom"
-                  className="px-4 py-3 border border-gray-300 text-black bg-[#FAFAFA]"
+                  className="px-4 py-3 border border-gray-300 text-black bg-[#FAFAFA] focus:outline-none focus:border-[#1C64F2] focus:rounded focus:border-2 "
                 />
               </div>
               <div className="flex flex-col space-y-1">
                 <label>
-                  E-mail{" "}
+                  {text.accountScreen.email}{" "}
                   <span className="text-red-500 text-[20px] ">*</span>
                 </label>
                 <input
                   required
                   type="mail"
                   id="mail"
-                  className="px-4 py-3 border border-gray-300 text-black bg-[#FAFAFA]"
+                  className="px-4 py-3 border border-gray-300 text-black bg-[#FAFAFA] focus:outline-none focus:border-[#1C64F2] focus:rounded focus:border-2 "
                 />
               </div>
-              <div className="flex flex-col space-y-1" >
+              <div className="flex flex-col space-y-1">
                 <label>
-                  Message{" "}
+                  {text.contactScreen.message}{" "}
                   <span className="text-red-500 text-[20px] ">*</span>
                 </label>
                 <textarea
-                  placeholder="Écrivez ici…"
+                  placeholder={text.contactScreen.ecriveIci}
                   required
                   id="id"
-                  className="px-4 py-2 h-[150px] border border-gray-300 text-black bg-[#FAFAFA]"
+                  className="px-4 py-2 h-[150px] border border-gray-300 text-black bg-[#FAFAFA] focus:rounded outline-none"
                 />
               </div>
               <div>
@@ -136,7 +149,7 @@ const Contact = () => {
                   type="submit"
                   className="w-[120px] px-4 py-3 text-[13px] text-[#26222F] font-semibold uppercase border border-black  rounded-md hover:bg-black hover:text-white"
                 >
-                  Envoyer
+                  {text.contactScreen.envoyer}
                 </button>
               </div>
             </form>
