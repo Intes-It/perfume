@@ -4,9 +4,9 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 const DynamicComponentWithNoSSR = dynamic(
-  () => import("../../../components/confirm-pass/index"),
+  () => import("../../../components/confirm-pass/index") as any,
   { ssr: false }
-);
+) as any;
 const ResetPassword = () => {
   const router = useRouter();
   const [tab, setTab] = useState(1);
