@@ -51,11 +51,15 @@ const Adress = () => {
                 {user?.first_name} {user?.last_name}
               </span>
               <span>{user?.company_name}</span>
-              <span>{user?.district}</span>
-              <span>{user?.wards}</span>
+              <span>{user?.country}</span>
+              <span>
+                {" "}
+                {user?.wards} {user?.district}
+              </span>
               <span>{user?.province}</span>
               <span>{user?.zip_code}</span>
-              <span>{user?.country}</span>
+              <span>{user?.phone}</span>
+              <span>{user?.email}</span>
             </div>
           </div>
         </div>
