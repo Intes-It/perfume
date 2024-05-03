@@ -2,37 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 @font-face {
-    font-family: 'Objektiv';
-    src: url('../../public/fonts/Trial_objektiv-1/ObjektivMk2_Trial_Lt.ttf');
-    
+  font-family: "Objektiv";
+  src: url("../../public/fonts/Trial_objektiv-1/ObjektivMk2_Trial_Lt.ttf");
 }
-html,body{
-    font-family: 'Objektiv',sans-serif;
-  
+html,
+body {
+  font-family: "Objektiv", sans-serif;
 }
-.top-badge{
-    top:-6px;
-    right:-5px
+.top-badge {
+  top: -6px;
+  right: -5px;
 }
 
 .StripeElement {
-    height: 40px;
-    padding: 10px 12px;
-    width: 100%;
-    color: #32325d;
-    background-color: white;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px 0 #e6ebf1;
-    -webkit-transition: box-shadow 150ms ease;
-    transition: box-shadow 150ms ease;
+  height: 40px;
+  padding: 10px 12px;
+  width: 100%;
+  color: #32325d;
+  background-color: white;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
 }
 .StripeElement--focus {
-    box-shadow: 0 1px 3px 0 #cfd7df;
+  box-shadow: 0 1px 3px 0 #cfd7df;
 }
 .StripeElement--invalid {
-    border-color: #fa755a;
+  border-color: #fa755a;
 }
 .StripeElement--webkit-autofill {
-    background-color: #fefde5 !important;
+  background-color: #fefde5 !important;
+}
+
+.no-arrow::-webkit-outer-spin-button,
+.no-arrow::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.no-arrow {
+  -moz-appearance: textfield;
 }
