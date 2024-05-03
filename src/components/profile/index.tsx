@@ -1,6 +1,8 @@
-
+import { updateFullCart } from "@redux/slices/cart";
+import { setList } from "@redux/slices/favorite";
 import { instance } from "@utils/_axios";
-import React, { useState } from "react";
+import { deleteCookie } from "cookies-next";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Container } from "..";
 import Adress from "./adress";
@@ -9,8 +11,6 @@ import Detail from "./detail";
 import Order from "./order";
 import Payment from "./payment";
 import UserProfile from "./user-profile";
-import { updateFullCart } from "@redux/slices/cart";
-import { setList } from "@redux/slices/favorite";
 
 const Tabs = [
   {
@@ -57,6 +57,7 @@ const Profile = () => {
     await instance.post("/api/user/logout").then(() => {
       dispatch(updateFullCart([]));
       dispatch(setList([]));
+      deleteCookie("csrftoken");
       window.location.reload();
     });
   };
@@ -65,7 +66,7 @@ const Profile = () => {
       <div className="m-5 ">
         <div className="items-start md:flex ">
           <ul
-            className="mr-4 flex list-none flex-col flex-wrap pl-0 col-span-2 "
+            className="flex flex-col flex-wrap col-span-2 pl-0 mr-4 list-none "
             role="tablist"
           >
             {Tabs?.map((item: any, index: number) => (
@@ -85,10 +86,10 @@ const Profile = () => {
               </li>
             ))}
           </ul>
-          <div className="my-2 w-full col-span-5 mb-10  ">
+          <div className="w-full col-span-5 my-2 mb-10 ">
             {tabs === 0 && (
               <div
-                className=" transition-opacity duration-150 ease-linear "
+                className="transition-opacity duration-150 ease-linear "
                 id="profile-tab"
                 role="tabpanel"
               >
@@ -106,7 +107,7 @@ const Profile = () => {
             )}
             {tabs === 2 && (
               <div
-                className=" transition-opacity duration-150 ease-linear "
+                className="transition-opacity duration-150 ease-linear "
                 id="delivery-tab"
                 role="tabpanel"
               >
@@ -115,7 +116,7 @@ const Profile = () => {
             )}
             {tabs === 3 && (
               <div
-                className=" transition-opacity duration-150 ease-linear "
+                className="transition-opacity duration-150 ease-linear "
                 id="adress-tab"
                 role="tabpanel"
               >
@@ -124,7 +125,7 @@ const Profile = () => {
             )}
             {tabs === 4 && (
               <div
-                className=" transition-opacity duration-150 ease-linear"
+                className="transition-opacity duration-150 ease-linear "
                 id="payment-tab"
                 role="tabpanel"
               >
