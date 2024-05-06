@@ -14,10 +14,7 @@ import { showToast } from "@redux/slices/toast/toastSlice";
 const Contact = () => {
   const text = useLocale();
   const dispatch = useDispatch();
-  const handleSubmit = (e: {
-    preventDefault: () => void;
-    target: { reset: () => void };
-  }) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     e.target.reset();
     dispatch(showToast("submitted successfully"));
@@ -117,7 +114,7 @@ const Contact = () => {
 
             <form
               action="#"
-              onSubmit={handleSubmit}
+              onSubmit={(e) => handleSubmit(e)}
               className="flex flex-col space-y-5 mobile:ml-0 font-semibold mobile:mt-4 "
             >
               <div className="flex flex-col space-y-1">
