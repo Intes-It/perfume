@@ -8,9 +8,17 @@ import {
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 import useLocale from "@hooks/useLocale";
+import { useDispatch, useSelector } from "react-redux";
+import { showToast } from "@redux/slices/toast/toastSlice";
 
 const Contact = () => {
   const text = useLocale();
+  const dispatch = useDispatch();
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    e.target.reset();
+    dispatch(showToast("submitted successfully"));
+  };
   return (
     <Container>
       <div className="flex flex-col items-center my-[40px] space-y-10 ">
@@ -106,6 +114,7 @@ const Contact = () => {
 
             <form
               action="#"
+              onSubmit={(e) => handleSubmit(e)}
               className="flex flex-col space-y-5 mobile:ml-0 font-semibold mobile:mt-4 "
             >
               <div className="flex flex-col space-y-1">
