@@ -11,10 +11,7 @@ type LoginProps = {
 
 const Login: React.FC<LoginProps> = ({ submit }) => {
   const { register, handleSubmit } = useForm();
-  const [state, setState] = React.useState({
-    captchaCode: "",
-  });
-  const { captchaCode } = state;
+
 
   return (
     <>
@@ -47,18 +44,7 @@ const Login: React.FC<LoginProps> = ({ submit }) => {
             className="px-4 py-3 border border-gray-300 text-black"
           />
         </div>
-        <div className="flex justify-between">
-          <div className="flex items-center space-x-2">
-            <input type="checkbox" id="remember" className="w-4 h-4 " />
-            <label>Se souvenir de moi</label>
-          </div>
-        </div>
-        {/* <ReCAPTCHA
-          sitekey="6LfAUlsmAAAAAJhiDuM15XtkE1VUnAOOchhh9UGb"
-          onChange={(captchaCode) => {
-            setState((pre) => ({ ...pre, captchaCode: captchaCode || "" }));
-          }}
-        /> */}
+        
         <div>
           <button
             type="submit"
