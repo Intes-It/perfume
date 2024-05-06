@@ -5,7 +5,7 @@ import useUser from "@hooks/useUser";
 import { PUT } from "@utils/fetch";
 import axios from "axios";
 import { useFormik } from "formik";
-// import * as Yup from "yup";
+import * as Yup from "yup";
 import React, { useEffect, useState } from "react";
 type FacturationProps = {
   onBack: () => void;
@@ -20,16 +20,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
   });
   const [countries, setCountries] = useState<any[]>([]);
   const { error, message, color } = state;
-  // const formSchema = Yup.object().shape({
-  //   country: Yup.string().required(),
-  //   province: Yup.string().required(),
-  //   wards: Yup.string().required(),
-  //   district: Yup.string().required(),
-  //   zip_code: Yup.string().required(),
-  //   phone: Yup.string().required(),
-  //   last_name: Yup.string().required(),
-  //   first_name: Yup.string().required(),
-  // });
+
   const formik = useFormik({
     initialValues: {
       first_name: user?.first_name,
@@ -42,21 +33,19 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
       zip_code: user?.zip_code,
       phone: user?.phone,
     },
-    // initialErrors: {
-    //   first_name: "required",
-    //   last_name: "required",
-    //   country: "required",
-    //   province: "required",
-    //   wards: "required",
-    //   district: "required",
-    //   zip_code: "required",
-    //   phone: "required",
-    // },
-    // validationSchema: formSchema,
+
+    validationSchema: Yup.object().shape({
+      first_name: Yup.string().required("First name is required"),
+      last_name: Yup.string().required("Last name is required"),
+      province: Yup.string().required("Province is required"),
+      wards: Yup.string().required("Wards is required"),
+      district: Yup.string().required("District is required"),
+      zip_code: Yup.string().required("Zip code is required"),
+      phone: Yup.string().required("Phone is required"),
+    }),
     onSubmit: (value) => {
       PUT("/api/user/profile", value).then((res) => {
         if (res?.status === 200) {
-          window.location.reload();
           setState((o) => ({
             ...o,
             error: true,
@@ -94,7 +83,9 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
   };
   useEffect(() => {
     getCountries();
-  }, []);
+    formik.setValues(user);
+  }, [user]);
+
   return (
     <div className="">
       {error ? (
@@ -137,10 +128,13 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                   onChange={formik.handleChange}
                   required
                   type="text"
-                  defaultValue={user?.first_name}
+                  value={formik.values?.first_name}
                   id="first_name"
                   className={"px-4 py-3 border border-gray-300 text-black"}
                 />
+                {formik.errors.first_name ? (
+                  <div>{formik.errors.first_name.toString()}</div>
+                ) : null}
               </div>
               <div className="flex flex-col ml-6">
                 <label className="font-semibold">
@@ -149,11 +143,14 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 </label>
                 <input
                   onChange={formik.handleChange}
-                  defaultValue={user?.last_name}
+                  value={formik.values?.last_name}
                   type="text"
                   id="last_name"
                   className={"px-4 py-3 border border-gray-300 text-black"}
                 />
+                {formik.errors.last_name ? (
+                  <div>{formik.errors.last_name.toString()}</div>
+                ) : null}
               </div>
             </div>
             <div className="flex flex-col">
@@ -163,10 +160,13 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
               <input
                 onChange={formik.handleChange}
                 type="text"
-                defaultValue={user?.company_name}
+                value={formik.values?.company_name}
                 id="company_name"
                 className="px-4 py-3 border border-gray-300 text-black"
               />
+              {formik.errors.company_name ? (
+                <div>{formik.errors.company_name.toString()}</div>
+              ) : null}
             </div>
             <div className="flex flex-col">
               <label className="font-semibold">
@@ -181,11 +181,14 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 className={`px-4 py-3 border ${
                   errors.country ? "border-red-700" : "border-gray-300"
                 } text-black`}
-                defaultValue={"France"}
               >
                 {countries &&
                   countries?.map((item: any, index: number) => (
-                    <option key={index} value={item?.country}>
+                    <option
+                      key={index}
+                      value={item?.country}
+                      selected={user?.country === item?.country}
+                    >
                       {item?.country}
                     </option>
                   ))}
@@ -200,20 +203,26 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 placeholder={text.accountScreen.numeroDe}
                 onChange={formik.handleChange}
                 type="text"
-                defaultValue={user?.wards}
+                value={formik.values?.wards}
                 id="wards"
                 className={"px-4 py-3 border  border-gray-300 text-black"}
               />
+              {formik.errors.wards ? (
+                <div>{formik.errors.wards.toString()}</div>
+              ) : null}
               <input
                 onChange={formik.handleChange}
                 placeholder={text.accountScreen.batiAppar}
                 type="text"
                 id="district"
-                defaultValue={user?.district}
+                value={formik.values?.district}
                 className={`px-4 py-3 mt-4 border ${
                   errors.district ? "border-red-700" : "border-gray-300"
                 } text-black`}
               />
+              {formik.errors.district ? (
+                <div>{formik.errors.district.toString()}</div>
+              ) : null}
             </div>
             <div className="flex flex-col">
               <label className="font-semibold">
@@ -223,12 +232,15 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
               <input
                 onChange={formik.handleChange}
                 type="text"
-                defaultValue={user?.province}
+                value={formik.values?.province}
                 id="province"
                 className={`px-4 py-3 border ${
                   errors.province ? "border-red-700" : "border-gray-300"
                 } text-black`}
               />
+              {formik.errors.province ? (
+                <div>{formik.errors.province.toString()}</div>
+              ) : null}
             </div>
             <div className="flex flex-col">
               <label className="font-semibold">
@@ -242,11 +254,14 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                   handleKeyDown(e);
                 }}
                 id="zip_code"
-                defaultValue={user?.zip_code}
+                value={formik.values?.zip_code}
                 className={`px-4 py-3  border ${
                   errors.zip_code ? "border-red-700" : "border-gray-300"
                 } text-black`}
               />
+              {formik.errors.zip_code ? (
+                <div>{formik.errors.zip_code.toString()}</div>
+              ) : null}
             </div>
             <div className="flex flex-col">
               <label className="font-semibold">
@@ -256,7 +271,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
               <input
                 onChange={formik.handleChange}
                 type="number"
-                defaultValue={user?.phone}
+                value={formik.values?.phone}
                 id="phone"
                 onKeyDown={(e) => {
                   handleKeyDown(e);
@@ -264,6 +279,9 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 className={`px-4 py-3  border border-gray-300
                  text-black`}
               />
+              {formik.errors.phone ? (
+                <div>{formik.errors.phone.toString()}</div>
+              ) : null}
             </div>
             <div className="flex flex-col">
               <label className="font-semibold">
@@ -280,7 +298,8 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
             </div>
             <button
               type="submit"
-              className="w-[200px] p-3 mt-3 text-black rounded-md border border-black bg-white hover:bg-[#603813] hover:text-white "
+              disabled={!formik.dirty}
+              className="w-[200px] p-3 mt-3 text-black rounded-md border border-black bg-white hover:bg-[#603813] hover:text-white  disabled:bg-[#F5F5F5] disabled:cursor-not-allowed disabled:text-black"
             >
               <div className="text-[15px]   ">
                 {text.accountScreen.sauvegarder}

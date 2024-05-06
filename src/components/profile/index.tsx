@@ -30,7 +30,7 @@ const Tabs = [
   },
   {
     id: "adress-tab",
-    header: "Adresses",
+    header: "Address",
     href: "#adress-tab",
   },
   {
