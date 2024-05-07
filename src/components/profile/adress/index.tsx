@@ -1,7 +1,7 @@
 import useUser from "@hooks/useUser";
 import { api } from "@utils/apiRoute";
 import { GET } from "@utils/fetch";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Facturation from "./facturation";
 import useLocale from "@hooks/useLocale";
 
@@ -9,15 +9,12 @@ const Adress = () => {
   const [state, setState] = useState({
     facturation: false,
     livraison: false,
-    // user: [],
   });
 
   async function getProfile() {
     const res = await GET(api.getProfile);
-
-    return res.data;
+    setProfile(res?.data);
   }
-
   const backFacturation = () => {
     setState((pre) => ({ ...pre, facturation: false }));
     getProfile();
@@ -25,6 +22,10 @@ const Adress = () => {
 
   const { user } = useUser();
 
+  const [profile, setProfile] = useState(user);
+  useEffect(() => {
+    setProfile(user);
+  }, [user]);
   const { facturation, livraison } = state;
   const text = useLocale();
   return (
@@ -43,23 +44,25 @@ const Adress = () => {
                 }
                 className="p-2 rounded-md border border-black hover:bg-[#603813] hover:text-white"
               >
-                {!user?.zip_code && !user?.first_name ? "Ajouter" : "Modifier"}
+                {!profile?.zip_code && !profile?.first_name
+                  ? "Ajouter"
+                  : "Modify"}
               </button>
             </div>
             <div className="mt-3 grid text-[#603813]">
               <span>
-                {user?.first_name} {user?.last_name}
+                {profile?.first_name} {profile?.last_name}
               </span>
-              <span>{user?.company_name}</span>
-              <span>{user?.country}</span>
+              <span>{profile?.company_name}</span>
+              <span>{profile?.country}</span>
               <span>
                 {" "}
-                {user?.wards} {user?.district}
+                {profile?.wards} {profile?.district}
               </span>
-              <span>{user?.province}</span>
-              <span>{user?.zip_code}</span>
-              <span>{user?.phone}</span>
-              <span>{user?.email}</span>
+              <span>{profile?.province}</span>
+              <span>{profile?.zip_code}</span>
+              <span>{profile?.phone}</span>
+              <span>{profile?.email}</span>
             </div>
           </div>
         </div>
