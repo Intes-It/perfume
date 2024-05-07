@@ -5,6 +5,7 @@ import useUser from "@hooks/useUser";
 import { PUT } from "@utils/fetch";
 import { useFormik } from "formik";
 import { useState } from "react";
+import { twMerge } from "tailwind-merge";
 import * as yup from "yup";
 
 const schema = yup.object().shape({
@@ -64,8 +65,8 @@ const Detail = () => {
     initialValues: {
       first_name: user?.first_name,
       last_name: user?.last_name,
-      name: "",
-      email: "",
+      name: user?.name,
+      email: user?.email,
       password: undefined,
       new_password: undefined,
       confirm_password: undefined,
@@ -92,7 +93,6 @@ const Detail = () => {
     },
   });
 
-  console.log("123", formik.errors);
   return (
     <div>
       {error ? (
@@ -132,7 +132,7 @@ const Detail = () => {
                 id="last_name"
                 defaultValue={user?.last_name}
                 onChange={formik.handleChange}
-                className={`px-4 py-3 border  text-black`}
+                className={`px-4 py-3 border  text-black `}
               />
             </div>
           </div>
@@ -144,7 +144,7 @@ const Detail = () => {
               id="name"
               readOnly
               onChange={formik.handleChange}
-              className="px-4 py-3 text-black bg-gray-200 border border-gray-100 focus:border-transparent focus:outline-none focus:ring-0"
+              className="px-4 py-3 text-black bg-gray-200 border border-gray-100 cursor-not-allowed focus:border-transparent focus:outline-none focus:ring-0"
             />
           </div>
           <div className="flex flex-col">
@@ -154,7 +154,7 @@ const Detail = () => {
               readOnly
               defaultValue={user?.email}
               id="email"
-              className="px-4 py-3 text-black bg-gray-200 border border-gray-100 focus:border-transparent focus:outline-none focus:ring-0"
+              className="px-4 py-3 text-black bg-gray-200 border border-gray-100 cursor-not-allowed focus:border-transparent focus:outline-none focus:ring-0"
             />
           </div>
           <div className="flex flex-col ">
@@ -235,7 +235,11 @@ const Detail = () => {
           </div>
           <button
             type="submit"
-            className="w-[250px] p-3 rounded-md bg-[#603813] "
+            className={twMerge(
+              "w-[250px] p-3 rounded-md bg-[#603813] cursor-pointer transition-all duration-300 ease-in-out",
+              !formik.dirty && "opacity-60 bg-gray-300"
+            )}
+            disabled={!formik.dirty}
           >
             <div className="text-[15px]  text-white">
               Enregister les modifications

@@ -1,12 +1,12 @@
-import React, { useMemo, useState } from "react";
-import NextLink from "next/link";
+import { BestSales } from "@components/best-sales";
+import { Container } from "@components/container";
+import Rating from "@components/rating/rating";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatCurrency } from "@utils/formatNumber";
-import { Container } from "@components/container";
-import { BestSales } from "@components/best-sales";
-import Rating from "@components/rating/rating";
 import Parser from "html-react-parser";
+import NextLink from "next/link";
+import React, { useMemo, useState } from "react";
 
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 // import { Product } from "@types";
@@ -15,16 +15,16 @@ import { addProduct } from "@redux/slices/cart";
 import { useDispatch, useSelector } from "react-redux";
 
 import ImageModal from "@components/image-modal";
-import { useProductDetail, useBestSallingProducts } from "@hooks/useProduct";
-import { useRouter } from "next/router";
+import useCart from "@hooks/useCart";
+import { useBestSallingProducts, useProductDetail } from "@hooks/useProduct";
 import useUser from "@hooks/useUser";
 import { ExProduct } from "@types";
-import useCart from "@hooks/useCart";
+import { useRouter } from "next/router";
 
+import { api } from "@utils/apiRoute";
+import { GET } from "@utils/fetch";
 import _ from "lodash";
 import useSWR from "swr";
-import { GET } from "@utils/fetch";
-import { api } from "@utils/apiRoute";
 
 export const getServerSideProps: GetServerSideProps<{
   productId: string;
@@ -53,7 +53,8 @@ const ProductDetail: React.FC<
   const { isAuthenticated } = useUser();
   const { addProductToCart, addExistProductToCart } = useCart();
   const [tabs, setTabs] = useState(0);
-  const { product } = useProductDetail({ id: productId });
+  const [isError, setIsError] = useState(false);
+  const { product, isLoading } = useProductDetail({ id: productId });
   const { products } = useBestSallingProducts();
   const [state, setState] = useState({
     isShowImageModal: false,
@@ -64,8 +65,8 @@ const ProductDetail: React.FC<
     contenance: "30 perles",
     color: undefined,
     selectorImage: undefined,
-    packageChoice: 0,
-    contenanceChoice: 0,
+    packageChoice: undefined,
+    contenanceChoice: undefined,
   });
 
   const router = useRouter();
@@ -169,8 +170,13 @@ const ProductDetail: React.FC<
     parseFloat(String(contenancePrice));
 
   const handleAddProduct = async () => {
+    if (!packageChoice || !contenanceChoice) {
+      setIsError(true);
+      return;
+    }
     if (isAuthenticated) {
       //check exist product
+      router.push("/checkout");
       const existProduct = localCart?.find(
         (item: any) =>
           item?.product?.id === product?.id &&
@@ -227,28 +233,20 @@ const ProductDetail: React.FC<
         );
       }
     } else {
-      dispatch(
-        addProduct({
-          product,
-          quantity,
-          packageName: packageName,
-          color: color,
-          capacity: contenance,
-          price: sumChoice,
-          image:
-            selectorImage === undefined ? product?.url_image : selectorImage,
-        })
-      );
+      router.push("/my-account");
     }
   };
 
+  if (isLoading) {
+    return <div className="min-h-[80vh]" />;
+  }
   return (
     <Container>
-      <div className="grid md:grid-cols-2 grid-cols-1 gap-6 md:mx-28 md:my-20 m-8">
+      <div className="grid grid-cols-1 gap-6 m-8 md:grid-cols-2 md:mx-28 md:my-20">
         {/* product image */}
-        <div className="overflow-clip relative">
+        <div className="relative overflow-clip">
           <img
-            className="hover:scale-125 transition duration-100 w-full object-fill h-full  "
+            className="object-fill w-full h-full transition duration-100 hover:scale-125 "
             // src={product?.url_image}
             src={
               selectorImage === undefined ? product?.url_image : selectorImage
@@ -272,7 +270,7 @@ const ProductDetail: React.FC<
               return (
                 <div className="flex" key={index}>
                   <NextLink href={item?.route}>
-                    <a className="cursor-pointer text-[#603813] hover:text-[#777777]">
+                    <a className="cursor-pointer capitalize text-[#603813] hover:text-[#777777]">
                       {item?.name}
                     </a>
                   </NextLink>
@@ -299,7 +297,7 @@ const ProductDetail: React.FC<
             </div>
           ) : (
             <span className="mb-4 text-[#383e42] text-[24px] font-semibold">
-              {packagePrice === 0
+              {packagePrice === 0 && contenancePrice === 0
                 ? formatCurrency(String(product?.price))
                 : formatCurrency(
                     String(
@@ -326,7 +324,7 @@ const ProductDetail: React.FC<
                 Color : {color}{" "}
               </span>
             )}
-            <div className="mt-4 flex gap-3">
+            <div className="flex gap-3 mt-4">
               {product?.color
                 ? Object.values(product.color)?.map(
                     (item: any, index: number) => (
@@ -354,7 +352,7 @@ const ProductDetail: React.FC<
             </div>
           </div>
           {/* sub product */}
-          <div className="mt-4 mb-3 flex gap-1 ">
+          <div className="flex gap-1 mt-4 mb-3 ">
             {_.isEmpty(product?.capacity) ? (
               <div
                 role="tabpanel"
@@ -379,7 +377,7 @@ const ProductDetail: React.FC<
           </div>
           <div className="">
             <ul
-              className=" flex gap-2 list-none flex-col flex-wrap border-b-0 pl-0 md:flex-row"
+              className="flex flex-col flex-wrap gap-2 pl-0 list-none border-b-0 md:flex-row"
               id="tabs-tab"
               role="tablist"
             >
@@ -397,12 +395,12 @@ const ProductDetail: React.FC<
                           onClick={() => {
                             const contenancePrice = parseFloat(item?.price);
                             const contenance = item?.name;
-
+                            if (isError) setIsError(false);
                             setState((o) => ({
                               ...o,
                               contenancePrice,
                               contenance,
-                              contenanceChoice: index,
+                              contenanceChoice: index as any,
                             }));
                           }}
                         >
@@ -416,7 +414,7 @@ const ProductDetail: React.FC<
           </div>
 
           {/* packaging */}
-          <div className="mt-4 mb-3 flex gap-1 ">
+          <div className="flex gap-1 mt-4 mb-3 ">
             {_.isEmpty(product?.packaging) ? null : (
               <div
                 role="tabpanel"
@@ -428,7 +426,7 @@ const ProductDetail: React.FC<
           </div>
           <div>
             <ul
-              className=" flex gap-2 list-none flex-col flex-wrap border-b-0 pl-0 md:flex-row"
+              className="flex flex-col flex-wrap gap-2 pl-0 list-none border-b-0 md:flex-row"
               id="tabs-tab"
               role="tablist"
             >
@@ -446,12 +444,13 @@ const ProductDetail: React.FC<
                             const packagePrice = parseFloat(item?.price);
                             const packageName = item?.name;
                             const selectorImage = item?.image;
+                            if (isError) setIsError(false);
                             setState((o) => ({
                               ...o,
                               packagePrice,
                               packageName,
                               selectorImage,
-                              packageChoice: index,
+                              packageChoice: index as any,
                             }));
                           }}
                           role="tab"
@@ -466,18 +465,27 @@ const ProductDetail: React.FC<
           </div>
 
           {/* add product to cart */}
+          {isError && (
+            <div className="mt-3 text-[#FF2626] font-semibold">
+              Please choose the properties
+            </div>
+          )}
           <div className="flex items-center gap-3 mt-6">
             <input
               value={quantity}
               onChange={(e: any) => {
-                setState((pre) => ({
-                  ...pre,
-                  quantity: Number.parseInt(e.target.value),
-                }));
+                const newValue = Number.parseInt(e.target.value);
+                if (newValue <= 999) {
+                  setState((pre) => ({
+                    ...pre,
+                    quantity: newValue,
+                  }));
+                }
               }}
               type="number"
-              className="border border-gray outline-none p-1 text-center w-14 h-10"
+              className="h-10 p-1 text-center border outline-none border-gray w-14"
               min={1}
+              max={999}
               placeholder={"1"}
             />
             <div className="flex gap-3">
@@ -491,7 +499,6 @@ const ProductDetail: React.FC<
                 className="rounded-md bg-[#603813] p-5  hover:bg-black text-white font-semibold"
                 onClick={() => {
                   handleAddProduct();
-                  router.push("/checkout");
                 }}
               >
                 BUY
@@ -504,7 +511,7 @@ const ProductDetail: React.FC<
       {/* description tabs */}
 
       <div className="mx-16">
-        <ul className="mb-5 flex list-none flex-col flex-wrap border-b-0 pl-0 md:flex-row">
+        <ul className="flex flex-col flex-wrap pl-0 mb-5 list-none border-b-0 md:flex-row">
           {DescriptionTabs?.map((item, index) => (
             <li role="presentation" key={index}>
               <button
@@ -519,15 +526,15 @@ const ProductDetail: React.FC<
             </li>
           ))}
         </ul>
-        <div className="my-2 w-full">
+        <div className="w-full my-2">
           {DescriptionTabs.map(
             (item, index) =>
               tabs === index && (
-                <div className=" opacity-100 transition-opacity duration-150 ease-linear ">
-                  <span
-                    className="text-[#603813] whitespace-pre-line"
-                    key={index}
-                  >
+                <div
+                  key={index}
+                  className="transition-opacity duration-150 ease-linear opacity-100 "
+                >
+                  <span className="text-[#603813] whitespace-pre-line">
                     {item.content}
                   </span>
                 </div>
