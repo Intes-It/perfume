@@ -51,7 +51,7 @@ const Adress = () => {
             </div>
             <div className="mt-3 grid text-[#603813]">
               {!profile?.zip_code && !profile?.first_name ? (
-                <div>You have not yet defined this type of address.</div>
+                <div>You have not yet defined this type of address.</div>
               ) : (
                 <div>
                   <span>
