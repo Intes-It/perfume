@@ -45,24 +45,30 @@ const Adress = () => {
                 className="p-2 rounded-md border border-black hover:bg-[#603813] hover:text-white"
               >
                 {!profile?.zip_code && !profile?.first_name
-                  ? "Ajouter"
+                  ? "Create"
                   : "Modify"}
               </button>
             </div>
             <div className="mt-3 grid text-[#603813]">
-              <span>
-                {profile?.first_name} {profile?.last_name}
-              </span>
-              <span>{profile?.company_name}</span>
-              <span>{profile?.country}</span>
-              <span>
-                {" "}
-                {profile?.wards} {profile?.district}
-              </span>
-              <span>{profile?.province}</span>
-              <span>{profile?.zip_code}</span>
-              <span>{profile?.phone}</span>
-              <span>{profile?.email}</span>
+              {!profile?.zip_code && !profile?.first_name ? (
+                <div>You have not yet defined this type of address.</div>
+              ) : (
+                <div>
+                  <span>
+                    {profile?.first_name} {profile?.last_name}
+                  </span>
+                  <span>{profile?.company_name}</span>
+                  <span>{profile?.country}</span>
+                  <span>
+                    {" "}
+                    {profile?.wards} {profile?.district}
+                  </span>
+                  <span>{profile?.province}</span>
+                  <span>{profile?.zip_code}</span>
+                  <span>{profile?.phone}</span>
+                  <span>{profile?.email}</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
