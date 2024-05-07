@@ -93,7 +93,7 @@ const Profile = () => {
                 id="profile-tab"
                 role="tabpanel"
               >
-                <UserProfile />
+                <UserProfile setTabs={setTabs} />
               </div>
             )}
             {tabs === 1 && (
