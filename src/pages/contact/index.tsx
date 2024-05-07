@@ -17,7 +17,7 @@ const Contact = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     e.target.reset();
-    dispatch(showToast("submitted successfully"));
+    dispatch(showToast("Your contact sent!"));
   };
   return (
     <Container>
