@@ -7,6 +7,8 @@ import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { showToast } from "@redux/slices/toast/toastSlice";
 import { twMerge } from "tailwind-merge";
 type FacturationProps = {
   onBack: () => void;
@@ -21,18 +23,18 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
   });
   const [countries, setCountries] = useState<any[]>([]);
   const { error, message, color } = state;
-
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
-      first_name: user?.first_name,
-      last_name: user?.last_name,
-      company_name: user?.company_name,
-      country: user?.country,
-      wards: user?.wards,
-      district: user?.district,
-      province: user?.province,
-      zip_code: user?.zip_code,
-      phone: user?.phone,
+      first_name: user?.first_name ? user?.first_name : "",
+      last_name: user?.last_name ? user?.last_name : "",
+      company_name: user?.company_name ? user?.company_name : "",
+      country: user?.country ? user?.country : "",
+      wards: user?.wards ? user?.wards : "",
+      district: user?.district ? user?.district : "",
+      province: user?.province ? user?.province : "",
+      zip_code: user?.zip_code ? user?.zip_code : "",
+      phone: user?.phone ? user?.phone : "",
     },
 
     validationSchema: Yup.object().shape({
@@ -54,7 +56,8 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
             message: "Mise à jour réussie",
             color: "#06e318",
           }));
-        } else {
+        } else if (res?.status === 500) {
+          dispatch(showToast("System disruption. Please try again"));
           setState((o) => ({
             ...o,
             error: true,
@@ -86,9 +89,9 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
   useEffect(() => {
     getCountries();
     formik.setValues(user);
+    console.log(123);
+    console.log(formik.dirty);
   }, [user]);
-  console.log(formik.submitCount);
-  console.log(formik.errors);
 
   return (
     <div className="">
@@ -135,14 +138,14 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                   value={formik.values?.first_name}
                   id="first_name"
                   className={twMerge(
-                    "px-4 py-3 ring-[0.5px]  text-black ",
+                    "px-4 py-3 ring-[0.5px]  text-black border-none ",
                     formik.errors.first_name && formik.submitCount
-                      ? "ring-red-800"
+                      ? "ring-red-500"
                       : "ring-gray-300"
                   )}
                 />
                 {formik.errors.first_name && formik.submitCount != 0 ? (
-                  <div className="text-[12px] text-red">
+                  <div className="text-[12px] text-red-500">
                     {formik.errors.first_name.toString()}
                   </div>
                 ) : null}
@@ -158,14 +161,14 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                   type="text"
                   id="last_name"
                   className={twMerge(
-                    "px-4 py-3 ring-[0.5px]  text-black ",
+                    "px-4 py-3 ring-[0.5px]  text-black border-none ",
                     formik.errors.last_name && formik.submitCount
-                      ? "ring-red-800"
+                      ? "ring-red-500"
                       : "ring-gray-300"
                   )}
                 />
                 {formik.errors.last_name && formik.submitCount != 0 ? (
-                  <div className="text-[12px] text-red">
+                  <div className="text-[12px] text-red-500">
                     {formik.errors.last_name.toString()}
                   </div>
                 ) : null}
@@ -181,9 +184,9 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 value={formik.values?.company_name}
                 id="company_name"
                 className={twMerge(
-                  "px-4 py-3 ring-[0.5px]  text-black ",
+                  "px-4 py-3 ring-[0.5px]  text-black border-none ",
                   formik.errors.company_name && formik.submitCount
-                    ? "ring-red-800"
+                    ? "ring-red-500"
                     : "ring-gray-300"
                 )}
               />
@@ -202,21 +205,18 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 data-te-select-init
                 data-te-select-filter="true"
                 onChange={formik.handleChange}
+                value={formik.values?.country}
                 id="country"
                 className={twMerge(
-                  "px-4 py-3 ring-[0.5px]  text-black ",
+                  "px-4 py-3 ring-[0.5px]  text-black border-none ",
                   formik.errors.country && formik.submitCount
-                    ? "ring-red-800"
+                    ? "ring-red-500"
                     : "ring-gray-300"
                 )}
               >
                 {countries &&
                   countries?.map((item: any, index: number) => (
-                    <option
-                      key={index}
-                      value={item?.country}
-                      selected={user?.country === item?.country}
-                    >
+                    <option key={index} value={item?.country}>
                       {item?.country}
                     </option>
                   ))}
@@ -234,9 +234,9 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 value={formik.values?.wards}
                 id="wards"
                 className={twMerge(
-                  "px-4 py-3 ring-[0.5px]  text-black ",
+                  "px-4 py-3 ring-[0.5px]  text-black border-none ",
                   formik.errors.wards && formik.submitCount
-                    ? "ring-red-800"
+                    ? "ring-red-500"
                     : "ring-gray-300"
                 )}
               />
@@ -247,15 +247,15 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 id="district"
                 value={formik.values?.district}
                 className={twMerge(
-                  "px-4 py-3 ring-[0.5px]  text-black  mt-3",
+                  "px-4 py-3 ring-[0.5px]  text-black  mt-3 border-none",
                   formik.errors.district && formik.submitCount
-                    ? "ring-red-800"
+                    ? "ring-red-500"
                     : "ring-gray-300"
                 )}
               />
               {(formik.errors.district || formik.errors.wards) &&
               formik.submitCount != 0 ? (
-                <div className="text-[12px] text-red">
+                <div className="text-[12px] text-red-500">
                   {"Street number and name is required"}
                 </div>
               ) : null}
@@ -271,14 +271,14 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 value={formik.values?.province}
                 id="province"
                 className={twMerge(
-                  "px-4 py-3 ring-[0.5px]  text-black ",
+                  "px-4 py-3 ring-[0.5px]  text-black border-none ",
                   formik.errors.province && formik.submitCount
-                    ? "ring-red-800"
+                    ? "ring-red-500"
                     : "ring-gray-300"
                 )}
               />
               {formik.errors.province && formik.submitCount != 0 ? (
-                <div className="text-[12px] text-red">
+                <div className="text-[12px] text-red-500">
                   {formik.errors.province.toString()}
                 </div>
               ) : null}
@@ -297,14 +297,14 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 id="zip_code"
                 value={formik.values?.zip_code}
                 className={twMerge(
-                  "px-4 py-3 ring-[0.5px]  text-black ",
+                  "px-4 py-3 ring-[0.5px]  text-black border-none",
                   formik.errors.zip_code && formik.submitCount
-                    ? "ring-red-800"
+                    ? "ring-red-500"
                     : "ring-gray-300"
                 )}
               />
               {formik.errors.zip_code && formik.submitCount != 0 ? (
-                <div className="text-[12px] text-red">
+                <div className="text-[12px] text-red-500">
                   {formik.errors.zip_code.toString()}
                 </div>
               ) : null}
@@ -323,14 +323,14 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                   handleKeyDown(e);
                 }}
                 className={twMerge(
-                  "px-4 py-3 ring-[0.5px]  text-black ",
+                  "px-4 py-3 ring-[0.5px]  text-black border-none",
                   formik.errors.phone && formik.submitCount
-                    ? "ring-red-800"
+                    ? "ring-red-500"
                     : "ring-gray-300"
                 )}
               />
               {formik.errors.phone && formik.submitCount != 0 ? (
-                <div className="text-[12px] text-red">
+                <div className="text-[12px] text-red-500">
                   {formik.errors.phone.toString()}
                 </div>
               ) : null}
@@ -342,11 +342,11 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
               </label>
               <input
                 readOnly
-                defaultValue={user?.email}
+                defaultValue={user?.email ? user?.email : ""}
                 type="email"
                 id="id"
                 className={twMerge(
-                  "px-4 py-3 ring-[0.5px]  text-black ring-gray-300"
+                  "px-4 py-3 ring-[0.5px]  text-black ring-gray-300 border-none"
                 )}
               />
             </div>
