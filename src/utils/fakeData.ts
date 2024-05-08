@@ -22,8 +22,6 @@ export const colourOptions = [
   { value: "silver", label: "Silver" },
 ];
 
-
-
 export const featuredComments: MemberComment[] = [
   {
     id: "1",
@@ -109,3 +107,43 @@ export const blog = [
     date: "septembre 15, 2021",
   },
 ];
+export const fakeList = {
+  id: 0,
+  created_time: "2024-05-08T08:08:40.843Z",
+  modified_time: "2024-05-08T08:08:40.843Z",
+  id_order: "032932",
+  payment_id: "23423432",
+  status: "Pending",
+  user_name: "tets",
+  company_name: "cdd",
+  dif_company_name: "dada",
+  first_name: "asdas",
+  dif_first_name: "sadad",
+  last_name: "sadqwq",
+  dif_last_name: "asdas",
+  phone_number: "asdasd",
+  dif_phone_number: "sdasda",
+  country: "sadas",
+  dif_country: "sadas",
+  province: "sadas",
+  dif_province: "sadas",
+  district: "sadas",
+  dif_district: "sadas",
+  ward: "sadas",
+  dif_ward: "sadas",
+  address: "sadas",
+  real_price: 2147483647,
+  fee_ship: 0,
+  total_weight: 0,
+  total: 2147483647,
+  total_price_cart: 0,
+  total_price_payment: 0,
+  sub_total: 0,
+  zip_code: 2147483647,
+  dif_zip_code: 2147483647,
+  note: "asdas",
+  email: "user@example.com",
+  dif_email: "user@example.com",
+  applied_voucher: "string",
+  user: 0,
+};

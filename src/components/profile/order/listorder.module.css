@@ -1,0 +1,11 @@
+.th {
+    color: #603813;
+    width: 150px;
+    text-align: center;
+}
+
+.thead {
+    background: #F6F6F6;
+    display: block;
+    padding: .5em 3em;
+}
