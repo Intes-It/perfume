@@ -53,7 +53,7 @@ const Adress = () => {
               {!profile?.zip_code && !profile?.first_name ? (
                 <div>You have not yet defined this type of address.</div>
               ) : (
-                <div>
+                <div className="flex flex-col">
                   <span>
                     {profile?.first_name} {profile?.last_name}
                   </span>
