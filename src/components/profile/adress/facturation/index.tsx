@@ -75,7 +75,13 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
     if (value.length >= 20 && e.key !== "Backspace" && e.key !== "Delete") {
       e.preventDefault();
     }
-    if (e.key === "e" || e.key === ".") {
+    if (
+      e.key === "e" ||
+      e.key === "." ||
+      e.key === "+" ||
+      e.key === "-" ||
+      e.key === ","
+    ) {
       e.preventDefault();
     }
   };
