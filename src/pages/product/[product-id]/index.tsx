@@ -25,6 +25,7 @@ import { api } from "@utils/apiRoute";
 import { GET } from "@utils/fetch";
 import _ from "lodash";
 import useSWR from "swr";
+import { twMerge } from "tailwind-merge";
 
 export const getServerSideProps: GetServerSideProps<{
   productId: string;
@@ -61,8 +62,8 @@ const ProductDetail: React.FC<
     quantity: 1,
     packagePrice: 0,
     contenancePrice: 0,
-    packageName: "Recharge",
-    contenance: "30 perles",
+    packageName: "",
+    contenance: "",
     color: undefined,
     selectorImage: undefined,
     packageChoice: undefined,
@@ -169,14 +170,20 @@ const ProductDetail: React.FC<
     parseFloat(String(product?.price)) +
     parseFloat(String(contenancePrice));
 
-  const handleAddProduct = async () => {
-    if (!packageChoice || !contenanceChoice) {
+  const handleAddProduct = async (type?: string) => {
+    if (
+      (typeof packageChoice === "undefined" && product?.packaging.length > 0) ||
+      (typeof contenanceChoice === "undefined" &&
+        product?.capacity.length > 0) ||
+      (typeof color === "undefined" && product?.color.length > 0)
+    ) {
       setIsError(true);
       return;
     }
+    if (isError) setIsError(false);
     if (isAuthenticated) {
       //check exist product
-      router.push("/checkout");
+      if (type === "CHECKOUT") router.push("/checkout");
       const existProduct = localCart?.find(
         (item: any) =>
           item?.product?.id === product?.id &&
@@ -341,7 +348,10 @@ const ProductDetail: React.FC<
                         style={{
                           background: `${item.color}`,
                         }}
-                        className={`mb-3 border p-2 text-white border-black `}
+                        className={twMerge(
+                          "mb-3 border p-2 text-white outline-none",
+                          color === item?.name && "border-black"
+                        )}
                       >
                         {/* //  className={`mb-3 border p-2 text-white border-black bg-[#50d71e]`}>  */}
                         {item?.name}
@@ -490,7 +500,7 @@ const ProductDetail: React.FC<
             />
             <div className="flex gap-3">
               <button
-                onClick={handleAddProduct}
+                onClick={() => handleAddProduct()}
                 className="ml-3 rounded-md p-5 bg-[#acd051] hover:bg-black text-white font-semibold"
               >
                 Add To Cart
@@ -498,7 +508,7 @@ const ProductDetail: React.FC<
               <button
                 className="rounded-md bg-[#603813] p-5  hover:bg-black text-white font-semibold"
                 onClick={() => {
-                  handleAddProduct();
+                  handleAddProduct("CHECKOUT");
                 }}
               >
                 BUY

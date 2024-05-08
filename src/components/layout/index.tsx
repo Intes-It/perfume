@@ -1,13 +1,12 @@
-import * as React from "react";
-import { ReactNode, useMemo } from "react";
+import { VisibleTitleRoutes } from "@definitions/constants";
 import "@utils/i18n";
-import Navbar from "./navbar";
-import Header from "./header";
-import Footer from "./footer";
-import Title from "./title";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { VisibleTitleRoutes } from "@definitions/constants";
+import { ReactNode, useMemo } from "react";
+import Footer from "./footer";
+import Header from "./header";
+import Navbar from "./navbar";
+import Title from "./title";
 interface Props {
   children?: ReactNode;
   // any props that come into the component
@@ -30,7 +29,7 @@ export const Layout = ({ children }: Props) => {
   }, [router.asPath]);
 
   return (
-    <div>
+    <div className="flex flex-col min-h-[100svh]">
       <Head>
         <meta charSet="utf8" />
         <link rel="shortcut icon" href="/images/icon.png" type="image/x-icon" />
@@ -44,8 +43,8 @@ export const Layout = ({ children }: Props) => {
       <Header />
       <Navbar />
       <Title />
-    
-      {children}
+
+      <div className="flex-1">{children}</div>
       <Footer />
     </div>
   );

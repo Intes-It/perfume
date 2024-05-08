@@ -87,7 +87,7 @@ const MyAccount = () => {
     const loginData = JSON.parse(res.config.data);
     const mail = loginData?.email;
     const password = loginData.password;
-    if (res?.status === 200) {
+    if (res?.status === 200 || res.status === 201) {
       onLogin({
         email: mail,
         password: password,

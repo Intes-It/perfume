@@ -10,4 +10,18 @@ instance.defaults.headers.common["Access-Control-Allow-Methods"] = "*";
 instance.defaults.headers.common["Access-Control-Allow-Headers"] = "*";
 instance.defaults.headers.common["Access-Control-Allow-Credentials"] = "*";
 
+// Intercept errors and silently handle them (for specific cases)
+instance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 400) {
+      // Handle specific 400 errors silently (e.g., validation errors)
+      console.error("API error (400):", error.response.data);
+      return Promise.resolve({ data: error.response.data }); // Provide a generic response
+    } else {
+      // Re-throw unhandled errors
+      return Promise.reject(error);
+    }
+  }
+);
 export { instance };
