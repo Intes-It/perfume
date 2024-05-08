@@ -86,11 +86,10 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
       result = error;
     }
   };
+
   useEffect(() => {
     getCountries();
-    formik.setValues(user);
-    console.log(123);
-    console.log(formik.dirty);
+    formik.resetForm({ values: user });
   }, [user]);
 
   return (
