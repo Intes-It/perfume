@@ -83,10 +83,9 @@ const MyAccount = () => {
     }
 
     const res = await registerAccount(data);
-
-    const loginData = JSON.parse(res.config.data);
+    const loginData = res?.config?.data && JSON.parse(res?.config?.data);
     const mail = loginData?.email;
-    const password = loginData.password;
+    const password = loginData?.password;
     if (res?.status === 200 || res.status === 201) {
       onLogin({
         email: mail,
@@ -111,7 +110,7 @@ const MyAccount = () => {
       setState((o) => ({
         ...o,
         error: true,
-        message: "Quelque chose s'est mal passé",
+        message: res.data?.message,
         color: "#ed2805",
       }));
     }
