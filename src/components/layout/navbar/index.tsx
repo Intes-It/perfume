@@ -20,7 +20,7 @@ function Navbar() {
   const dispatch = useAppDispatch();
   useEffect(() => {
     const timer = setTimeout(() => {
-      toast.show && dispatch(showToast(""));
+      toast.show && dispatch(showToast({ message: "", error: false }));
     }, 3000);
 
     return () => {
@@ -30,7 +30,7 @@ function Navbar() {
 
   return (
     <div className="bg-white sticky top-0 p-1 z-40  hidden md:block">
-      {toast.show && <Toast message={toast.message} />}
+      {toast.show && <Toast />}
 
       <nav className=" w-full z-10">
         <div className="w-full">
