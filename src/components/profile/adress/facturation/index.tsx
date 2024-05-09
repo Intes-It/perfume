@@ -58,17 +58,28 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
               color: "#06e318",
             }));
           } else if (res?.status === 500) {
-            dispatch(showToast("System disruption. Please try again"));
+            dispatch(
+              showToast({
+                message: "System disruption. Please try again",
+                error: true,
+              })
+            );
             setState((o) => ({
               ...o,
               error: true,
               message: "Quelque chose s'est mal passé",
               color: "#ed2805",
             }));
+            console.log(dispatch);
           }
         })
         .catch(() => {
-          dispatch(showToast("System disruption. Please try again"));
+          dispatch(
+            showToast({
+              message: "System disruption. Please try again",
+              error: true,
+            })
+          );
         });
     },
   });
@@ -91,7 +102,6 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
   };
   const handleKeyDownPhone = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
-    console.log(value);
     if (
       isNaN(Number(e.key)) &&
       e.key !== "Backspace" &&

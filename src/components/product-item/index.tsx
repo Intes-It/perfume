@@ -67,7 +67,7 @@ const ProductItem: React.FC<ProductProps> = ({
           amount: existProduct.quantity + 1,
         };
         res = await addExistProductToCart(data);
-        dispatch(showToast('Add To Cart'))
+        dispatch(showToast({ message: "Add To Cart", error: false }));
 
         // if (res) {
         //   return await mutate("get-server-cart");
@@ -87,8 +87,7 @@ const ProductItem: React.FC<ProductProps> = ({
         res = await addProductToCart(data);
         if (res) {
           await mutate("get-server-cart");
-        dispatch(showToast('Add To Cart'))
-
+          dispatch(showToast({ message: "Add To Cart", error: false }));
         }
       }
       if (res?.status === 201 || res?.status === 200) {
@@ -101,7 +100,7 @@ const ProductItem: React.FC<ProductProps> = ({
             image: product?.url_image,
           })
         );
-     
+
         // console.log("res:%o", res?.data?.data);
       }
     } else
@@ -113,7 +112,6 @@ const ProductItem: React.FC<ProductProps> = ({
           price: product?.price,
         })
       );
-
   };
 
   return (
