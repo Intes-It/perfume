@@ -47,30 +47,34 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
       phone: Yup.string().required("Phone is required"),
     }),
     onSubmit: (value) => {
-      PUT("/api/user/profile", value).then((res) => {
-        if (res?.status === 200) {
-          onBack();
-          setState((o) => ({
-            ...o,
-            error: true,
-            message: "Mise à jour réussie",
-            color: "#06e318",
-          }));
-        } else if (res?.status === 500) {
+      PUT("/api/user/profile", value)
+        .then((res) => {
+          if (res?.status === 200) {
+            onBack();
+            setState((o) => ({
+              ...o,
+              error: true,
+              message: "Mise à jour réussie",
+              color: "#06e318",
+            }));
+          } else if (res?.status === 500) {
+            dispatch(showToast("System disruption. Please try again"));
+            setState((o) => ({
+              ...o,
+              error: true,
+              message: "Quelque chose s'est mal passé",
+              color: "#ed2805",
+            }));
+          }
+        })
+        .catch(() => {
           dispatch(showToast("System disruption. Please try again"));
-          setState((o) => ({
-            ...o,
-            error: true,
-            message: "Quelque chose s'est mal passé",
-            color: "#ed2805",
-          }));
-        }
-      });
+        });
     },
   });
 
   const text = useLocale();
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDownZCode = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     if (value.length >= 20 && e.key !== "Backspace" && e.key !== "Delete") {
       e.preventDefault();
@@ -82,6 +86,34 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
       e.key === "-" ||
       e.key === ","
     ) {
+      e.preventDefault();
+    }
+  };
+  const handleKeyDownPhone = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    console.log(value);
+    if (
+      isNaN(Number(e.key)) &&
+      e.key !== "Backspace" &&
+      e.key !== "Delete" &&
+      e.key !== "+" &&
+      e.key !== "ArrowLeft" &&
+      e.key !== "ArrowRight"
+    ) {
+      e.preventDefault();
+      return;
+    }
+    if (
+      (value.includes("+") || e.currentTarget.selectionStart !== 0) &&
+      e.key === "+"
+    ) {
+      e.preventDefault();
+    }
+
+    if (value.length >= 20 && e.key !== "Backspace" && e.key !== "Delete") {
+      e.preventDefault();
+    }
+    if (e.key === "e" || e.key === "." || e.key === "-" || e.key === ",") {
       e.preventDefault();
     }
   };
@@ -300,7 +332,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 onChange={formik.handleChange}
                 type="number"
                 onKeyDown={(e) => {
-                  handleKeyDown(e);
+                  handleKeyDownZCode(e);
                 }}
                 id="zip_code"
                 value={formik.values?.zip_code}
@@ -324,11 +356,11 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
               </label>
               <input
                 onChange={formik.handleChange}
-                type="number"
+                type="text"
                 value={formik.values?.phone}
                 id="phone"
                 onKeyDown={(e) => {
-                  handleKeyDown(e);
+                  handleKeyDownPhone(e);
                 }}
                 className={twMerge(
                   "px-4 py-3 ring-[0.5px]  text-black border-none",
