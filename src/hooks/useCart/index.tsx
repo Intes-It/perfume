@@ -1,5 +1,5 @@
 import { api } from "@utils/apiRoute";
-import { GET, POST, DELETE, PUT } from "@utils/fetch";
+import { DELETE, GET, POST, PUT } from "@utils/fetch";
 import { useMutation, useQuery } from "react-query";
 
 const useCart = () => {
@@ -31,6 +31,8 @@ const useCart = () => {
 
   return {
     cart: cart.data,
+    refresh: cart.refetch,
+    isLoading: cart.isLoading,
     addProductToCart: addProductToCart.mutateAsync,
     addExistProductToCart: addExistProductToCart.mutateAsync,
     removeProductToCart: removeProductToCart.mutateAsync,

@@ -1,6 +1,6 @@
 import { api } from "@utils/apiRoute";
 import { GET, POST } from "@utils/fetch";
-import { getCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 const useUser = () => {
@@ -10,8 +10,17 @@ const useUser = () => {
   const user = csrfToken ? useQuery("get-profile", getProfile) : { data: null };
   //fetch data
   async function getProfile() {
-    const res = await GET(api.getProfile);
-    return res.data;
+    try {
+      if (!csrfToken) return;
+      const res = await GET(api.getProfile);
+      if (res.status === 403 && csrfToken) deleteCookie("csrftoken");
+
+      return res.data;
+    } catch (error: any) {
+      if (error.status === 403 && csrfToken) {
+        deleteCookie("csrftoken");
+      }
+    }
   }
 
   async function login(data: any) {

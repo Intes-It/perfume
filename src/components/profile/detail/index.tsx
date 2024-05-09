@@ -2,7 +2,8 @@ import { faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { faEye, faWindowMaximize } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useUser from "@hooks/useUser";
-import { PUT } from "@utils/fetch";
+import { POST, PUT } from "@utils/fetch";
+import { deleteCookie } from "cookies-next";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -61,10 +62,30 @@ const Detail = () => {
   const { message, color, error } = state;
   const { user } = useUser();
 
+  const handleChangePass = (payload: any) => {
+    POST("/api/user/change-password", payload).then((res) => {
+      if (res?.status === 200) {
+        setState((o) => ({
+          ...o,
+          error: true,
+          message: "Mise à jour réussie",
+          color: "#06e318",
+        }));
+        deleteCookie("csrftoken");
+        window.location.reload();
+      } else {
+        setState((o) => ({
+          ...o,
+          error: true,
+          message: res?.data?.message,
+          color: "#ed2805",
+        }));
+      }
+    });
+  };
+
   const formik = useFormik({
     initialValues: {
-      first_name: user?.first_name,
-      last_name: user?.last_name,
       name: user?.name,
       email: user?.email,
       password: undefined,
@@ -73,23 +94,27 @@ const Detail = () => {
     },
     validationSchema: schema,
     onSubmit: (value) => {
-      PUT("/api/user/profile", value).then((res) => {
-        if (res?.status === 200) {
-          setState((o) => ({
-            ...o,
-            error: true,
-            message: "Mise à jour réussie",
-            color: "#06e318",
-          }));
-        } else {
-          setState((o) => ({
-            ...o,
-            error: true,
-            message: "Quelque chose s'est mal passé",
-            color: "#ed2805",
-          }));
-        }
-      });
+      if (value?.password) handleChangePass(value as any);
+
+      if (value.name)
+        PUT("/api/user/profile", { name: value.name }).then((res) => {
+          if (res?.status === 200) {
+            setState((o) => ({
+              ...o,
+              error: true,
+              message: "Mise à jour réussie",
+              color: "#06e318",
+            }));
+            formik.resetForm(value as any);
+          } else {
+            setState((o) => ({
+              ...o,
+              error: true,
+              message: "Quelque chose s'est mal passé",
+              color: "#ed2805",
+            }));
+          }
+        });
     },
   });
 
@@ -114,37 +139,14 @@ const Detail = () => {
       )}
       <form onSubmit={formik.handleSubmit}>
         <div className="grid gap-3">
-          <div className="grid grid-cols-2">
-            <div className="flex flex-col mr-6">
-              <label className="font-semibold">Prénom</label>
-              <input
-                type="text"
-                id="first_name"
-                defaultValue={user?.first_name}
-                onChange={formik.handleChange}
-                className={`px-4 py-3 border  text-black`}
-              />
-            </div>
-            <div className="flex flex-col ml-6">
-              <label className="font-semibold">Nom</label>
-              <input
-                type="text"
-                id="last_name"
-                defaultValue={user?.last_name}
-                onChange={formik.handleChange}
-                className={`px-4 py-3 border  text-black `}
-              />
-            </div>
-          </div>
           <div className="flex flex-col">
             <label className="font-semibold">Nom affiché</label>
             <input
               defaultValue={user?.name}
               type="text"
               id="name"
-              readOnly
               onChange={formik.handleChange}
-              className="px-4 py-3 text-black bg-gray-200 border border-gray-100 cursor-not-allowed focus:border-transparent focus:outline-none focus:ring-0"
+              className="px-4 py-3 text-black border border-gray-100 focus:border-transparent focus:outline-none focus:ring-0"
             />
           </div>
           <div className="flex flex-col">
@@ -176,12 +178,12 @@ const Detail = () => {
                 onChange={formik.handleChange}
                 className="px-4 py-3 text-black border border-gray-300"
               />
-              {formik.errors?.password && (
-                <span className="text-sm text-[#FF2626]">
-                  {formik.errors?.password}
-                </span>
-              )}
             </div>
+            {formik.errors?.password && (
+              <span className="text-sm text-[#FF2626] mt-1">
+                {formik.errors?.password}
+              </span>
+            )}
           </div>
           <div className="flex flex-col">
             <label className="font-semibold">
@@ -201,12 +203,12 @@ const Detail = () => {
                 onChange={formik.handleChange}
                 className="px-4 py-3 text-black border border-gray-300"
               />
-              {formik.errors?.new_password && (
-                <span className="text-sm text-[#FF2626]">
-                  {formik.errors?.new_password}
-                </span>
-              )}
             </div>
+            {formik.errors?.new_password && (
+              <span className="text-sm text-[#FF2626] mt-1">
+                {formik.errors?.new_password}
+              </span>
+            )}
           </div>
           <div className="flex flex-col">
             <label className="font-semibold">
@@ -227,7 +229,7 @@ const Detail = () => {
                 className="px-4 py-3 mt-4 border"
               />
               {formik.errors?.confirm_password && (
-                <span className="text-sm text-[#FF2626]">
+                <span className="text-sm text-[#FF2626] mt-1 ">
                   {formik.errors?.confirm_password}
                 </span>
               )}
