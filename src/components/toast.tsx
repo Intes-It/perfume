@@ -13,8 +13,8 @@ const Toast = () => {
       role="alert"
     >
       {toast && toast?.error ? (
-        <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
-          <img className="w-5 tablet:h-5" src={"/icons/Warning.png"} alt="" />
+        <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-200 bg-red-800 rounded-lg">
+          <img className="w-5 h-5" src={"/icons/Warning.png"} alt="warning" />
           <span className="sr-only">Check icon</span>
         </div>
       ) : (
