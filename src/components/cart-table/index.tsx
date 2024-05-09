@@ -23,8 +23,7 @@ const CartTable = () => {
     }
     dispatch(removeProduct(exProduct));
   };
-  console.log("cart", cart);
-  if (cart?.data?.message === 0) {
+  if (!cart?.data?.order_item) {
     return <EmptyCart />;
   }
   return (
