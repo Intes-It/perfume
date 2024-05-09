@@ -13,8 +13,21 @@ const Toast = () => {
       role="alert"
     >
       {toast && toast?.error ? (
-        <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-200 bg-red-800 rounded-lg">
-          <img className="w-5 h-5" src={"/icons/Warning.png"} alt="warning" />
+        <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-200 bg-red-100 rounded-lg">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect width="16" height="16" rx="8" fill="#E03D3D" />
+            <path
+              d="M8.5 3V10.25H7.5V3H8.5ZM7.5 11.5H8.502V12.502H7.5V11.5Z"
+              fill="white"
+            />
+          </svg>
+
           <span className="sr-only">Check icon</span>
         </div>
       ) : (
