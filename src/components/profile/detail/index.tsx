@@ -93,7 +93,11 @@ const Detail = () => {
       confirm_password: undefined,
     },
     validationSchema: schema,
-    onSubmit: (value) => {
+    validateOnChange: false,
+    validateOnBlur: false,
+    validateOnMount: false,
+    onSubmit: (value, { validate }: any) => {
+      validate(value);
       if (value?.password) handleChangePass(value as any);
 
       if (value.name)

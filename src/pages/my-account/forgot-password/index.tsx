@@ -1,4 +1,3 @@
-
 import Input from "@components/input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { api } from "@utils/apiRoute";
@@ -34,7 +33,7 @@ const ForgotPassword = () => {
 
     try {
       const res = await POST(api.forgotPassword, data);
-      if (res.data?.message?.includes("sent")) {
+      if (res.status === 200) {
         route.push(`/my-account/reset-password?email=${data.email}`);
       } else {
         if (res.data?.detail) {
@@ -55,7 +54,6 @@ const ForgotPassword = () => {
   };
   return (
     <div>
-
       <div className="grid h-28 content-center text-center bg-[#eff7cf]">
         <h1 className="mb-2 text-4xl font-extrabold">Mon Compte</h1>
       </div>
