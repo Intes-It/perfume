@@ -93,7 +93,15 @@ const Detail = () => {
       confirm_password: undefined,
     },
     validationSchema: schema,
-    onSubmit: (value) => {
+    validateOnChange: false,
+    validateOnBlur: false,
+    validateOnMount: false,
+    onSubmit: (value, { validate }: any) => {
+      if ((value.new_password || value.new_password) && !value.password) {
+        formik.setFieldError("password", "Password is required");
+        return;
+      }
+      if (validate) validate(value);
       if (value?.password) handleChangePass(value as any);
 
       if (value.name)
@@ -176,7 +184,10 @@ const Detail = () => {
                 type={showOldPass ? "text" : "password"}
                 id="password"
                 onChange={formik.handleChange}
-                className="px-4 py-3 text-black border border-gray-300"
+                className={twMerge(
+                  "px-4 py-3 text-black border border-gray-300",
+                  formik?.errors?.password && "border-[#FF2626]"
+                )}
               />
             </div>
             {formik.errors?.password && (
@@ -216,7 +227,7 @@ const Detail = () => {
             </label>
             <div className="relative grid items-center">
               <FontAwesomeIcon
-                className="absolute right-0 mr-2 "
+                className="absolute right-0 mr-2 top-1/2 "
                 icon={showConfPass ? faEye : faEyeSlash}
                 onClick={() => {
                   setShowConfPass(!showConfPass);
@@ -228,12 +239,12 @@ const Detail = () => {
                 onChange={formik.handleChange}
                 className="px-4 py-3 mt-4 border"
               />
-              {formik.errors?.confirm_password && (
-                <span className="text-sm text-[#FF2626] mt-1 ">
-                  {formik.errors?.confirm_password}
-                </span>
-              )}
             </div>
+            {formik.errors?.confirm_password && (
+              <span className="text-sm text-[#FF2626] mt-1 ">
+                {formik.errors?.confirm_password}
+              </span>
+            )}
           </div>
           <button
             type="submit"
