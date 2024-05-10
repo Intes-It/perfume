@@ -106,7 +106,7 @@ const Order = () => {
                 : "text-[#374151] font-normal",
               "w-32 py-2 h-10"
             )}
-            onClick={() => setState((p) => ({ ...p, status: item.value }))}
+            onClick={() => setState((p) => ({ ...p, status: item.value,page:1 }))}
           >
             {item.title}
           </button>
