@@ -1,7 +1,7 @@
 import Input from "@components/input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { api } from "@utils/apiRoute";
-import { POST } from "@utils/fetch";
+import { POST, PUT } from "@utils/fetch";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -106,36 +106,23 @@ const ConfirmOtp = ({ changeTab, email }: ConfirmOtpProps) => {
     const payload = {
       email: email,
       new_password: data.new_password,
-      code: data.code,
+      auth_code: data.code,
     };
 
     if (isLoading || !isValidSubmit) return;
     setIsLoading(true);
     try {
-      const res = await POST(api.reset_password, payload);
+      const res = await PUT(api.reset_password, payload);
 
-      if (res.data?.message?.includes("successful")) {
+      if (res.status === 200) {
         changeTab();
         setIsLoading(false);
         return;
       }
 
-      if (res.data?.detail) {
-        const entriesData = Object.entries(res.data.detail) as any;
-        for (const [key, value] of entriesData) {
-          if (key === "code") {
-            setError("code", {
-              message: "Incorrect or Expired OTP code. Please try again.",
-            });
-            setIsLoading(false);
-            return;
-          }
-
-          setError(key, {
-            message: value,
-          });
-        }
-      }
+      setError("code", {
+        message: res.data?.message,
+      });
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);

@@ -140,7 +140,7 @@ const Detail = () => {
             className="mr-3"
             fontSize={"1.2rem"}
           />
-          <span>{message}</span>
+          <span className="text-[#ed2805]">{message}</span>
         </div>
       ) : (
         <div></div>

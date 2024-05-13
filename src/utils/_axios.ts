@@ -1,4 +1,5 @@
 import axios from "axios";
+import { deleteCookie } from "cookies-next";
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
 });
@@ -19,7 +20,12 @@ instance.interceptors.response.use(
       console.error("API error (400):", error.response.data);
       return Promise.resolve({ data: error.response.data }); // Provide a generic response
     } else {
+      {
+        deleteCookie("csrftoken");
+      }
+      // if(error?.response)
       // Re-throw unhandled errors
+
       return Promise.reject(error);
     }
   }

@@ -16,49 +16,40 @@ const cartSlice = createSlice({
     addProduct: (state, actions) => {
       const exProduct = actions.payload;
 
-      const existExProduct = state.products?.find(
-        (item) =>
-          item.product.id === exProduct.product.id &&
-          item.packageName === exProduct.packageName &&
-          item?.color === exProduct.color &&
-          item?.capacity === exProduct.capacity
-      );
+      // const existExProduct = state.products?.find(
+      //   (item) =>
+      //     item.product.id === exProduct.product.id &&
+      //     item.packageName === exProduct.packageName &&
+      //     item?.color === exProduct.color &&
+      //     item?.capacity === exProduct.capacity
+      // );
 
-      if (existExProduct) {
-        existExProduct.quantity += Number.parseInt(exProduct.quantity);
-      } else {
-        state.products = [...state.products, exProduct];
-      }
+      // if (existExProduct) {
+      //   existExProduct.quantity += Number.parseInt(exProduct.quantity);
+      // } else {
+      //   state.products = [...state.products, exProduct];
+      // }
+      state.products = [...state.products, exProduct];
+    },
+    updateProduct: (state, actions) => {
+      const product = actions.payload;
+      const currProduct = [...state.products];
+      const newProducts = currProduct?.map((item) => {
+        if (item.id && +item.id === +product.id) {
+          return {
+            ...item,
+            amount: product?.amount,
+          };
+        }
+
+        return { ...item };
+      });
+      state.products = newProducts;
     },
     removeProduct: (state, actions) => {
       const exProduct = actions.payload;
-      // console.log(exProduct);
       let products;
-      if (exProduct.packageName && !exProduct.capacity)
-        products = state.products?.filter(
-          (item) =>
-            item?.product?.id !== exProduct?.id &&
-            item?.packageName !== exProduct.packageName
-        );
-      else if (exProduct.color)
-        products = state.products?.filter(
-          (item) =>
-            item?.product?.id !== exProduct?.id &&
-            item?.color !== exProduct.color
-        );
-      else if (exProduct.capacity) {
-        products = state.products?.filter(
-          (item) =>
-            item?.product?.id !== exProduct?.id &&
-            item?.packageName !== exProduct.packageName &&
-            item?.capacity !== exProduct.capacity
-        );
-        // console.log(products);
-      } else {
-        products = state.products?.filter(
-          (item) => item.product.id !== exProduct.product.id
-        );
-      }
+      products = state.products.filter((item) => item.id !== exProduct?.id);
       if (products) state.products = products;
     },
     updateFullCart: (state, actions) => {
@@ -76,6 +67,11 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addProduct, removeProduct, updateFullCart, clearCart } =
-  cartSlice.actions;
+export const {
+  addProduct,
+  removeProduct,
+  updateFullCart,
+  clearCart,
+  updateProduct,
+} = cartSlice.actions;
 export default cartSlice.reducer;

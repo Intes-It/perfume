@@ -24,5 +24,5 @@ export const api = {
   shipping_weight: "/api/delivery-cost/weight",
   send_mail: "/api/payment/email-payment",
   checkCountry: "/api/country-availability/",
-  reset_password: "/api/reset-password/",
+  reset_password: "/api/user/forget-password-otp/",
 };

@@ -1,9 +1,11 @@
-import * as React from "react";
+import Link from "next/link";
 
-const LogoSection = ({...props}) => {
+const LogoSection = ({ ...props }) => {
   return (
-    <div>
-      <img {...props} src="/images/logo.png" alt="logo" />
+    <div className="mx-auto cursor-pointer w-fit">
+      <Link href={"/"} className="cursor-pointer">
+        <img {...props} src="/images/logo.png" alt="logo" />
+      </Link>
     </div>
   );
 };

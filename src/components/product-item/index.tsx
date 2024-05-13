@@ -1,19 +1,21 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Rating from "@components/rating/rating";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import Rating from "@components/rating/rating";
-import { useDispatch, useSelector } from "react-redux";
-import { addProduct } from "@redux/actions";
-import { ExProduct, Product } from "@types";
-import { formatCurrency } from "@utils/formatNumber";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useCart from "@hooks/useCart";
 import useUser from "@hooks/useUser";
-import React from "react";
-import { GET } from "@utils/fetch";
+import { addProduct } from "@redux/actions";
+import { ExProduct, Product } from "@types";
 import { api } from "@utils/apiRoute";
+import { GET } from "@utils/fetch";
+import { formatCurrency } from "@utils/formatNumber";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import useSWR from "swr";
+import { updateProduct } from "@redux/slices/cart";
 import { showToast } from "@redux/slices/toast/toastSlice";
+import { useRouter } from "next/router";
+import useSWR from "swr";
 type ProductProps = {
   onFavoriteChanged?: (state?: boolean) => void;
   favorite?: boolean;
@@ -43,30 +45,47 @@ const ProductItem: React.FC<ProductProps> = ({
   const dispatch = useDispatch();
   const totalMoney = localCart?.reduce(
     (pre, curr) =>
-      pre + curr.quantity * Number.parseFloat(curr?.product?.price || "0"),
+      pre + curr.amount * Number.parseFloat(curr?.product?.price || "0"),
     0
   );
-  const totalProducts = localCart?.reduce(
-    (pre, curr) => pre + curr.quantity,
-    0
-  );
+  const totalProducts = localCart?.reduce((pre, curr) => pre + curr.amount, 0);
 
+  const route = useRouter();
   const handleAddProduct = async () => {
+    if (
+      product &&
+      (product?.color?.length > 0 ||
+        Object.values(product.packaging)?.length > 0 ||
+        product?.capacity?.length > 0)
+    ) {
+      route.push(`/product/${product.id}`);
+      return;
+    }
+    if (!isAuthenticated) {
+      route.push("/my-account");
+      return;
+    }
     if (isAuthenticated) {
       //check exist product
 
       const existProduct = localCart?.find(
-        (item: any) => item?.product?.id === product?.id
+        (item: any) =>
+          item?.product?.id === product?.id || item?.product?.id === product?.id
       );
 
       let res;
       if (existProduct) {
         const data = {
-          order_item_id: existProduct?.orderId,
+          order_item_id: existProduct?.id,
           order_id: cart?.id || null,
-          amount: existProduct.quantity + 1,
+          amount: existProduct.amount + 1,
         };
         res = await addExistProductToCart(data);
+        dispatch(
+          updateProduct({
+            ...res?.data,
+          })
+        );
         dispatch(showToast({ message: "Add To Cart", error: false }));
 
         // if (res) {
@@ -94,24 +113,17 @@ const ProductItem: React.FC<ProductProps> = ({
         dispatch(
           addProduct({
             product,
-            quantity: 1,
-            orderId: res?.data?.data?.id,
+            amount: 1,
+            id: res?.data?.data?.id,
             price: product?.price,
             image: product?.url_image,
+            ...res.data,
           })
         );
 
         // console.log("res:%o", res?.data?.data);
       }
-    } else
-      dispatch(
-        addProduct({
-          product,
-          quantity: 1,
-          image: product?.url_image,
-          price: product?.price,
-        })
-      );
+    }
   };
 
   return (
@@ -137,7 +149,7 @@ const ProductItem: React.FC<ProductProps> = ({
         </div>
       </a>
       <h5 className="text-[#603813] text-center">{product?.name}</h5>
-      <div className="flex flex-col mt-5 items-center space-y-2">
+      <div className="flex flex-col items-center mt-5 space-y-2">
         <Rating score={product?.evaluate || 0} />
         <p className="font-semibold">
           {formatCurrency(String(product?.price))}€

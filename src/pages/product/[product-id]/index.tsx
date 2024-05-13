@@ -11,7 +11,7 @@ import React, { useMemo, useState } from "react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 // import { Product } from "@types";
 
-import { addProduct } from "@redux/slices/cart";
+import { addProduct, updateProduct } from "@redux/slices/cart";
 import { useDispatch, useSelector } from "react-redux";
 
 import ImageModal from "@components/image-modal";
@@ -59,7 +59,7 @@ const ProductDetail: React.FC<
   const { products } = useBestSallingProducts();
   const [state, setState] = useState({
     isShowImageModal: false,
-    quantity: 1,
+    amount: 1,
     packagePrice: 0,
     contenancePrice: 0,
     packageName: "",
@@ -74,7 +74,7 @@ const ProductDetail: React.FC<
 
   const {
     isShowImageModal,
-    quantity,
+    amount,
     packagePrice,
     packageName,
     contenance,
@@ -87,17 +87,15 @@ const ProductDetail: React.FC<
 
   const totalMoney = localCart?.reduce(
     (pre, curr) =>
-      pre + curr.quantity * Number.parseFloat(curr?.product?.price || "0"),
+      pre + curr.amount * Number.parseFloat(curr?.product?.price || "0"),
     0
   );
-  const totalProducts = localCart?.reduce(
-    (pre, curr) => pre + curr.quantity,
-    0
-  );
+  const totalProducts = localCart?.reduce((pre, curr) => pre + curr.amount, 0);
   async function getCart() {
     const res = await GET(api.getCart);
     return res.data;
   }
+
   const { data, mutate } = useSWR("get-server-cart", getCart);
   const cart = data?.cart;
   const breadCrumb = useMemo(() => {
@@ -172,10 +170,12 @@ const ProductDetail: React.FC<
 
   const handleAddProduct = async (type?: string) => {
     if (
-      (typeof packageChoice === "undefined" && product?.packaging.length > 0) ||
+      (typeof packageChoice === "undefined" &&
+        Object.values(product.packaging)?.length > 0) ||
       (typeof contenanceChoice === "undefined" &&
-        product?.capacity.length > 0) ||
-      (typeof color === "undefined" && product?.color.length > 0)
+        product?.capacity?.length > 0) ||
+      (typeof color === "undefined" && product?.color?.length > 0) ||
+      amount < 1
     ) {
       setIsError(true);
       return;
@@ -184,25 +184,30 @@ const ProductDetail: React.FC<
     if (isAuthenticated) {
       //check exist product
       if (type === "CHECKOUT") router.push("/checkout");
-      const existProduct = localCart?.find(
-        (item: any) =>
+      const existProduct = localCart?.find((item: any) => {
+        return (
           item?.product?.id === product?.id &&
-          item?.packageName === packageName &&
-          item?.color === color &&
-          item?.capacity === contenance
-      );
+          (item?.packaging === packageName ||
+            (!item.packaging && packageName === "")) &&
+          (item?.color === color || (!item.color && !color)) &&
+          (item?.capacity === contenance ||
+            (!item?.capacity && contenance === ""))
+        );
+      });
+
       let res;
+
       if (existProduct) {
         const data = {
-          order_item_id: existProduct?.orderId,
+          order_item_id: existProduct?.id,
           order_id: cart?.id || null,
-          amount: existProduct.quantity + 1,
+          amount: existProduct.amount + 1,
           packaging: packageName === undefined ? null : packageName,
           color: color === undefined ? null : color,
           capacity: contenance === undefined ? null : contenance,
-          total_amount: totalProducts + quantity,
+          total_amount: totalProducts + amount,
           total_price:
-            Number.parseFloat(existProduct?.product?.price || "0") * quantity +
+            Number.parseFloat(existProduct?.product?.price || "0") * amount +
             totalMoney,
         };
         res = await addExistProductToCart(data);
@@ -210,34 +215,34 @@ const ProductDetail: React.FC<
         const data = {
           order_id: cart?.id || null,
           product_id: product?.id,
-          amount: quantity,
+          amount: amount,
           packaging: packageName === undefined ? null : packageName,
           color: color === undefined ? null : color,
           capacity: contenance === undefined ? null : contenance,
           image: selectorImage,
-          total_amount_cart: totalProducts + quantity,
+          total_amount_cart: totalProducts + amount,
           price: sumChoice,
           total_price_item: sumChoice || 0,
           total_price_cart:
-            Number.parseFloat(product?.price || "0") * quantity + totalMoney,
+            Number.parseFloat(product?.price || "0") * amount + totalMoney,
         };
         res = await addProductToCart(data);
       }
       if (res?.status === 201 || res?.status === 200) {
         await mutate("get-server-cart");
-        dispatch(
-          addProduct({
-            product,
-            quantity,
-            orderId: res?.data?.data?.id,
-            packageName: packageName,
-            color: color,
-            capacity: contenance,
-            price: sumChoice,
-            image:
-              selectorImage === undefined ? product?.url_image : selectorImage,
-          })
-        );
+        if (existProduct) {
+          dispatch(
+            updateProduct({
+              ...res?.data,
+            })
+          );
+        } else {
+          dispatch(
+            addProduct({
+              ...res?.data?.data,
+            })
+          );
+        }
       }
     } else {
       router.push("/my-account");
@@ -253,7 +258,7 @@ const ProductDetail: React.FC<
         {/* product image */}
         <div className="relative overflow-clip">
           <img
-            className="object-fill w-full h-full transition duration-100 hover:scale-125 "
+            className="object-fill w-full h-full max-h-[700px] transition duration-100 hover:scale-125 "
             // src={product?.url_image}
             src={
               selectorImage === undefined ? product?.url_image : selectorImage
@@ -477,14 +482,19 @@ const ProductDetail: React.FC<
           {/* add product to cart */}
           {isError && (
             <div className="mt-3 text-[#FF2626] font-semibold">
-              Please choose the properties
+              {amount < 1
+                ? "Please enter the quantity "
+                : "Please choose the properties"}
             </div>
           )}
           <div className="flex items-center gap-3 mt-6">
             <input
-              value={quantity}
+              value={amount}
               onChange={(e: any) => {
-                const newValue = Number.parseInt(e.target.value);
+                if (+e.target.value.charAt(0) === 0) {
+                  e.target.value = e.target.value.substring(1);
+                }
+                const newValue = Number.parseInt(e.target.value) || 0;
                 if (newValue <= 999) {
                   setState((pre) => ({
                     ...pre,
@@ -494,7 +504,7 @@ const ProductDetail: React.FC<
               }}
               type="number"
               className="h-10 p-1 text-center border outline-none border-gray w-14"
-              min={1}
+              min={0}
               max={999}
               placeholder={"1"}
             />

@@ -43,7 +43,7 @@ const ResetPassword = () => {
                   </svg>
                   <div>Change password successfully. You can sign in now</div>
                 </div>
-                <Link href="/">
+                <Link href="/my-account">
                   <button className="bg-[#09C505] mx-auto  rounded-lg w-[320px] transition duration-300 ease-in-out h-12 gra3 flex items-center justify-center font-bold text-white cursor-pointer">
                     SIGN IN NOW
                   </button>

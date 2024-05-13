@@ -1,11 +1,24 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
-
+import * as yup from "yup";
 type RegisterProps = {
   submit: (value: any) => void;
   error?: boolean;
 };
+
+const schema = yup.object().shape({
+  name: yup.string().required("Field is required."),
+  email: yup
+    .string()
+    .required("Field is required.")
+    .matches(
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      "Invalid email address" // Optional: Customize error message
+    ),
+  password: yup.string().required("Field is required."),
+});
 
 const Register: React.FC<RegisterProps> = ({ submit, error }) => {
   const [check, setCheck] = React.useState<boolean>(true);
@@ -13,7 +26,15 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
     captchaCode: "",
   });
 
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  console.log("errors", errors);
 
   const { captchaCode } = state;
 
@@ -42,10 +63,17 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
           <input
             {...register("email")}
             required
-            type="email"
             id="email"
-            className={twMerge("px-4 py-3 text-black border border-gray-300")}
+            className={twMerge(
+              "px-4 py-3 text-black border border-gray-300",
+              errors.email && "border-[#ed2805]"
+            )}
           />
+          {errors.email && (
+            <span className="text-sm text-[#ed2805]">
+              {errors.email?.message}
+            </span>
+          )}
         </div>
         <div className="flex flex-col space-y-1">
           <label>

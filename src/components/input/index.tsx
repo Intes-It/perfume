@@ -87,7 +87,7 @@ const Input = ({
               className={twMerge(
                 " w-full border-[#E9E9E9] ring-transparent custom-date-input transition-all rounded duration-300 outline-none focus:outline-none focus:ring-1 ease-in-out focus:ring-[#1C64F2] focus:border-[#1C64F2]",
                 fieldState.error &&
-                  "ring-[#FF2626] focus:ring-[#FF2626] focus:border-[#FF2626]",
+                  "ring-[#FF2626] focus:ring-[#FF2626] focus:border-[#FF2626] border-[#FF2626]",
                 !showArrow && "no-arrow",
                 !field.value && "has-value show-placeholder",
                 sizeInput === "medium" ? "input-md" : "input-sm h-9",

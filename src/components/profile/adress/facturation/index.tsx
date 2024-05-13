@@ -2,14 +2,14 @@ import { faWindowMaximize } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useLocale from "@hooks/useLocale";
 import useUser from "@hooks/useUser";
+import { showToast } from "@redux/slices/toast/toastSlice";
 import { PUT } from "@utils/fetch";
 import axios from "axios";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { showToast } from "@redux/slices/toast/toastSlice";
 import { twMerge } from "tailwind-merge";
+import * as Yup from "yup";
 type FacturationProps = {
   onBack: () => void;
 };
@@ -157,7 +157,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
             className="mr-3"
             fontSize={"1.2rem"}
           />
-          <span>{message}</span>
+          <span className="text-[#ed2805]">{message}</span>
         </div>
       ) : (
         <div></div>

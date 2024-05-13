@@ -28,7 +28,7 @@ const MyAccount = () => {
       console.log(res);
     });
     if (res?.status === 200) {
-      window.location.reload();
+      window.history.back();
       if (products !== null) {
         dispatch(clearCart());
       }
@@ -130,7 +130,7 @@ const MyAccount = () => {
             className="mr-3"
             fontSize={"1.2rem"}
           />
-          <span>{message}</span>
+          <span className="text-[#ed2805]">{message}</span>
         </div>
       ) : (
         <></>

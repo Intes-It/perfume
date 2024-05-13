@@ -11,6 +11,8 @@ const useCart = () => {
   );
   const removeProductToCart = useMutation("remove-product", removeProduct);
 
+  const updateProductToCart = useMutation("update-product", updateProduct);
+
   //fetch data
   async function getCart() {
     return await GET(api.getCart);
@@ -29,6 +31,10 @@ const useCart = () => {
     return await DELETE(api.addProduct, data);
   }
 
+  async function updateProduct(data: any) {
+    return await PUT(api.changeProduct, data);
+  }
+
   return {
     cart: cart.data,
     refresh: cart.refetch,
@@ -36,6 +42,7 @@ const useCart = () => {
     addProductToCart: addProductToCart.mutateAsync,
     addExistProductToCart: addExistProductToCart.mutateAsync,
     removeProductToCart: removeProductToCart.mutateAsync,
+    updateProductToCart: updateProductToCart.mutateAsync,
   };
 };
 

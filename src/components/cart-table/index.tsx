@@ -1,14 +1,14 @@
 import useCart from "@hooks/useCart";
 import { removeProduct } from "@redux/actions";
+import { updateProduct } from "@redux/slices/cart";
 import { ExProduct } from "@types";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import EmptyCart from "./EmptyCart";
 
 const CartTable = () => {
-  const { cart, removeProductToCart, refresh } = useCart();
+  const { cart, removeProductToCart, refresh, updateProductToCart } = useCart();
 
   const dispatch = useDispatch();
 
@@ -23,6 +23,23 @@ const CartTable = () => {
     }
     dispatch(removeProduct(exProduct));
   };
+
+  const handleUpdateQuantity = (exProduct: ExProduct, quantity: number) => {
+    exProduct.amount = quantity;
+    try {
+      updateProductToCart({
+        order_item_id: exProduct.id,
+        order_id: exProduct.order,
+        color: exProduct.color,
+        packaging: exProduct.packageName,
+        capacity: exProduct.capacity,
+        amount: exProduct.amount,
+      });
+    } catch (error) {}
+    dispatch(updateProduct(exProduct));
+    refresh();
+  };
+
   if (!cart?.data?.order_item) {
     return <EmptyCart />;
   }
@@ -86,7 +103,7 @@ const CartTable = () => {
 
                 <td className="px-6 py-2 border">
                   {item?.image && (
-                    <Image
+                    <img
                       src={item?.image}
                       alt="thumbnail"
                       width={60}
@@ -106,7 +123,11 @@ const CartTable = () => {
                 <td className="px-6 py-2 border ">
                   <input
                     type="number"
-                    className="max-w-14 border-[#BFBFBF]"
+                    className="max-w-16 w-fit border-[#BFBFBF]"
+                    min={1}
+                    onChange={(e) =>
+                      handleUpdateQuantity(item, +e.target.value)
+                    }
                     defaultValue={item?.amount}
                   />
                 </td>
@@ -172,11 +193,11 @@ const CartTable = () => {
                 </div>
               </td>
             </tr>
-            <tr className="border-b border-[#BFBFBF] bg-[#f6f6f6]">
+            {/* <tr className="border-b border-[#BFBFBF] bg-[#f6f6f6]">
               <td className="px-2 py-3 font-bold">Voucher</td>
               <td className="px-2 py-3">0</td>
-            </tr>
-            <tr className="border-b border-[#BFBFBF]">
+            </tr> */}
+            <tr className="border-b border-[#BFBFBF] ">
               <td className="px-2 py-3 font-bold">Total</td>
               <td className="px-2 py-3">
                 {cart?.data?.cart?.total_price_payment &&
