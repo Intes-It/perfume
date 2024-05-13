@@ -18,7 +18,7 @@ const schema = yup.object().shape({
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       "Invalid email address" // Optional: Customize error message
     ),
-  password: yup.string().required("Field is required."),
+  password: yup.string().required("Field is required.").trim(),
 });
 
 const Register: React.FC<RegisterProps> = ({ submit, error }) => {
@@ -66,7 +66,7 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
             required
             id="email"
             className={twMerge(
-              "px-4 py-3 text-black border border-gray-300",
+              "px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
               errors.email && "border-[#ed2805]"
             )}
           />
@@ -85,8 +85,16 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
             required
             type="password"
             id="password"
-            className="px-4 py-3 text-black border border-gray-300"
+            className={twMerge(
+              "px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
+              errors.password && "border-[#ed2805]"
+            )}
           />
+          {errors.password && (
+            <span className="text-sm text-[#ed2805]">
+              {errors.password.message}
+            </span>
+          )}
         </div>
         <div className="flex items-center space-x-2">
           <input
