@@ -2,6 +2,7 @@ import useCart from "@hooks/useCart";
 import { removeProduct } from "@redux/actions";
 import { updateProduct } from "@redux/slices/cart";
 import { ExProduct } from "@types";
+import debounce from "lodash/debounce";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import EmptyCart from "./EmptyCart";
@@ -24,22 +25,29 @@ const CartTable = () => {
     dispatch(removeProduct(exProduct));
   };
 
+  const debouncedHandleUpdateQuantity = debounce(
+    (exProduct: ExProduct, quantity: number) => {
+      exProduct.amount = quantity;
+      try {
+        updateProductToCart({
+          order_item_id: exProduct.id,
+          order_id: exProduct.order,
+          color: exProduct.color,
+          packaging: exProduct.packageName,
+          capacity: exProduct.capacity,
+          amount: exProduct.amount,
+        });
+      } catch (error) {
+        console.log("error", error);
+      }
+      dispatch(updateProduct(exProduct));
+      refresh();
+    },
+    300
+  ); // Adjust debounce delay as needed (e.g., 300ms)
+
   const handleUpdateQuantity = (exProduct: ExProduct, quantity: number) => {
-    exProduct.amount = quantity;
-    try {
-      updateProductToCart({
-        order_item_id: exProduct.id,
-        order_id: exProduct.order,
-        color: exProduct.color,
-        packaging: exProduct.packageName,
-        capacity: exProduct.capacity,
-        amount: exProduct.amount,
-      });
-    } catch (error) {
-      console.log("error", error);
-    }
-    dispatch(updateProduct(exProduct));
-    refresh();
+    debouncedHandleUpdateQuantity(exProduct, quantity);
   };
 
   if (!cart?.data?.order_item) {
