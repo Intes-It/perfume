@@ -3,7 +3,6 @@ import { removeProduct } from "@redux/actions";
 import { updateProduct } from "@redux/slices/cart";
 import { ExProduct } from "@types";
 import Link from "next/link";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import EmptyCart from "./EmptyCart";
 
@@ -12,7 +11,8 @@ const CartTable = () => {
 
   const dispatch = useDispatch();
 
-  const [priceVoucher, setPriceVoucher] = useState(0);
+  // const [priceVoucher, setPriceVoucher] = useState(0);
+  const priceVoucher = 0;
 
   const handleRemoveProduct = async (exProduct: ExProduct) => {
     const res = await removeProductToCart({
@@ -35,7 +35,9 @@ const CartTable = () => {
         capacity: exProduct.capacity,
         amount: exProduct.amount,
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log("error", error);
+    }
     dispatch(updateProduct(exProduct));
     refresh();
   };

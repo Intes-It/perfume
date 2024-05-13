@@ -48,8 +48,10 @@ const cartSlice = createSlice({
     },
     removeProduct: (state, actions) => {
       const exProduct = actions.payload;
-      let products;
-      products = state.products.filter((item) => item.id !== exProduct?.id);
+
+      const products = state.products.filter(
+        (item) => item.id !== exProduct?.id
+      );
       if (products) state.products = products;
     },
     updateFullCart: (state, actions) => {

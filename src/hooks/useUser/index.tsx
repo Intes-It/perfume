@@ -10,9 +10,10 @@ const useUser = () => {
   async function getProfile() {
     try {
       const res = await GET(api.getProfile);
-
       return res.data;
-    } catch (error: any) {}
+    } catch (error: any) {
+      console.log("error?.response", error?.response);
+    }
   }
 
   async function login(data: any) {
