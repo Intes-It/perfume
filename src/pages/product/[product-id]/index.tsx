@@ -201,7 +201,7 @@ const ProductDetail: React.FC<
         const data = {
           order_item_id: existProduct?.id,
           order_id: cart?.id || null,
-          amount: existProduct.amount + 1,
+          amount: amount + existProduct.amount,
           packaging: packageName === undefined ? null : packageName,
           color: color === undefined ? null : color,
           capacity: contenance === undefined ? null : contenance,
@@ -498,7 +498,7 @@ const ProductDetail: React.FC<
                 if (newValue <= 999) {
                   setState((pre) => ({
                     ...pre,
-                    quantity: newValue,
+                    amount: newValue,
                   }));
                 }
               }}
