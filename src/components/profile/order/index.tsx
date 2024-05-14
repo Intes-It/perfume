@@ -54,7 +54,7 @@ const Order = () => {
           {dayjs(item.created_time).format("HH:MM")}
         </td>
         <td className="pl-12 py-4 font-medium text-[#374151]  ">
-          {item.total}
+          {item.total} {item.total===1?'item':'items'}
         </td>
         <td className="px-6 py-4 font-medium text-[#374151] ">
           {item.total_price_payment} USD

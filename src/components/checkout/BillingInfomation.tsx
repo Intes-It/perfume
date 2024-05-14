@@ -10,29 +10,31 @@ type BillingInfomationProps = {
   onError?: (errors: any) => void;
   onValueChange?: (values: any) => void;
 };
-/* async function getCountry() {
-  const res = await fetch(
-    "https://restcountries.com/v3.1/all?fields=name,flags"
-  );
-  return res.json();
-} */
 const BillingInfomation: React.FC<BillingInfomationProps> = ({
   onError,
   onValueChange,
 }) => {
   const { isAuthenticated } = useUser();
+  const countrys = [
+    { value: "France" },
+    { value: "Viet Nam" },
+    { value: "United Kingdom" },
+    { value: "Dubai" },
+  ];
   const formSchema = Yup.object().shape({
-    first_name: Yup.string().required(),
-    last_name: Yup.string().required(),
-    // country: Yup.tuple().required(),
+    first_name: Yup.string().required().max(50).label('First Name'),
+    last_name: Yup.string().required().max(50).label('Last Name'),
+    country: Yup.mixed()
+      .required()
+      .oneOf(countrys.map((v) => v.value)).label('Region'),
     ward: Yup.string().required(),
     // district: Yup.string().required(),
-    zip_code: Yup.string().required(),
+    zip_code: Yup.number().required(),
     province: Yup.string().required(),
     phone: Yup.number().required(),
     email: Yup.string().required().email(),
   });
-const {user}=useUser()
+  const { user } = useUser();
 
   const formik = useFormik({
     initialValues: {
@@ -41,22 +43,10 @@ const {user}=useUser()
       company_name: "",
       country: Countries[0].value,
       ward: "",
-
       province: "",
       zip_code: "",
       phone: "",
       email: user?.email,
-    },
-    initialErrors: {
-      first_name: "required",
-      last_name: "required",
-      // country: Yup.tuple().required(),
-      ward: "required",
-
-      zip_code: "required",
-      province: "required",
-      phone: "required",
-      email: "required",
     },
     validationSchema: formSchema,
     onSubmit: (value) => {
@@ -64,13 +54,6 @@ const {user}=useUser()
     },
   });
   const { errors, values } = formik;
-const countrys=[
-  {value:'France'},
-  {value:'Viet Nam'},
-  {value:'United Kingdom'},
-  {value:'Dubai'},
-
-]
   useEffect(() => {
     onError?.(errors);
   }, [errors]);
@@ -84,18 +67,15 @@ const countrys=[
       {/* form */}
       <div>
         <span className="text-[#26222f] text-[32px] font-semibold">
-         Billing Information
+          Billing Information
         </span>
-        <form
-          onInvalidCapture={() => {
-            console.log("re");
-          }}
-        >
+        <form onSubmit={formik.handleSubmit}>
+
           <div className="grid gap-3">
             <div className="grid grid-cols-2">
               <div className="flex flex-col mr-6">
                 <label className="font-semibold">
-                  First Name <span className="text-red-500 text-[20px] ">*</span>
+                  First Name<span className="text-red-500 text-[20px] ">*</span>
                 </label>
                 <input
                   {...formik.getFieldProps("first_name")}
@@ -105,6 +85,7 @@ const countrys=[
                     errors.first_name ? "border-red-700" : "border-gray-300"
                   } text-black`}
                 />
+                {errors.first_name && <small className={'text-red-500'}>{errors.first_name}</small>}
               </div>
               <div className="flex flex-col ml-6">
                 <label className="font-semibold">
@@ -118,12 +99,12 @@ const countrys=[
                     errors.last_name ? "border-red-700" : "border-gray-300"
                   } text-black`}
                 />
+                {errors.last_name && <small className={'text-red-500'}>{errors.last_name}</small>}
+
               </div>
             </div>
             <div className="flex flex-col">
-              <label className="font-semibold">
-               Company name (optional)
-              </label>
+              <label className="font-semibold">Company name (optional)</label>
               <input
                 {...formik.getFieldProps("company_name")}
                 type="text"
@@ -136,25 +117,23 @@ const countrys=[
                 Region <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <select
-            
                 {...formik.getFieldProps("country")}
                 id="country"
                 className={`px-4 py-3 border ${
                   errors.country ? "border-red-700" : "border-gray-300"
                 } text-black`}
-                onChange={(event) => {
-                  formik.setFieldValue("country", event.target.value);
-                }}
+                // onChange={(event) => {
+                //   formik.setFieldValue("country", event.target.value);
+                // }}
               >
-              <option hidden></option>
-                {countrys.map(
-                  (c, index: number) => (
-                    <option key={index} value={c.value}>
-                      {c.value}
-                    </option>
-                  )
-                )}
+                <option hidden></option>
+                {countrys.map((c, index: number) => (
+                  <option key={index} value={c.value}>
+                    {c.value}
+                  </option>
+                ))}
               </select>
+              {errors.country&&<small className={'text-red-500'}>{errors.country}</small>}
             </div>
             <div className="flex flex-col">
               <label className="font-semibold">
@@ -210,7 +189,7 @@ const countrys=[
               </label>
               <input
                 {...formik.getFieldProps("phone")}
-                type="text"
+                type="number"
                 id="phone"
                 className={`px-4 py-3 mt-4 border ${
                   errors.phone ? "border-red-700" : "border-gray-300"
@@ -230,7 +209,7 @@ const countrys=[
                 } text-black`}
               />
             </div>
-            {!isAuthenticated && (
+            {/*{isAuthenticated && (
               <>
                 <div className="flex justify-between font-semibold">
                   <div className="flex items-center space-x-2">
@@ -261,7 +240,7 @@ const countrys=[
                   </div>
                 </div>
               </>
-            )}
+            )}*/}
           </div>
         </form>
       </div>

@@ -11,7 +11,7 @@ import { GET, POST } from "@utils/fetch";
 import { getCookie } from "cookies-next";
 import useUser from "@hooks/useUser";
 import useSWR from "swr";
-import { log } from "console";
+
 
 type OrderReviewProps = {
   onOderClicked?: () => void;
