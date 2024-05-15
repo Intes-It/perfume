@@ -1,3 +1,5 @@
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -26,6 +28,7 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
   const [state, setState] = React.useState({
     captchaCode: "",
   });
+  const [showPass, setShowPass] = React.useState(false);
 
   const {
     register,
@@ -76,26 +79,37 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
             </span>
           )}
         </div>
-        <div className="flex flex-col space-y-1">
-          <label>
-            Mot de passe <span className="text-red-500 text-[20px] ">*</span>
+        <div className="flex flex-col gap-2">
+          <label className="font-semibold">
+            Mot de passe actuel (laisser vide pour le conserver)
           </label>
-          <input
-            {...register("password")}
-            required
-            type="password"
-            id="password"
-            className={twMerge(
-              "px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
-              errors.password && "border-[#ed2805]"
-            )}
-          />
+          <div className="relative grid items-center">
+            <FontAwesomeIcon
+              className="absolute right-0 mr-2 cursor-pointer "
+              icon={showPass ? faEye : faEyeSlash}
+              onClick={() => {
+                setShowPass(!showPass);
+              }}
+            />
+            {/* <FontAwesomeIcon icon={faEyeSlash}/> */}
+            <input
+              {...register("password")}
+              required
+              type={showPass ? "text" : "password"}
+              id="password"
+              className={twMerge(
+                "px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
+                errors.password && "border-[#ed2805]"
+              )}
+            />
+          </div>
           {errors.password && (
             <span className="text-sm text-[#ed2805]">
               {errors.password.message}
             </span>
           )}
         </div>
+
         <div className="flex items-center space-x-2">
           <input
             type="checkbox"

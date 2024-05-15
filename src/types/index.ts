@@ -24,6 +24,7 @@ export interface Product {
 }
 
 export interface ExProduct {
+  packaging: string;
   id?: number;
   orderId: number;
   product: Product;
