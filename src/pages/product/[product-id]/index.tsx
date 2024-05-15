@@ -173,8 +173,9 @@ const ProductDetail: React.FC<
       (typeof packageChoice === "undefined" &&
         Object.values(product.packaging)?.length > 0) ||
       (typeof contenanceChoice === "undefined" &&
-        product?.capacity?.length > 0) ||
-      (typeof color === "undefined" && product?.color?.length > 0) ||
+        Object.values(product?.capacity)?.length > 0) ||
+      (typeof color === "undefined" &&
+        Object.values(product?.color)?.length > 0) ||
       amount < 1
     ) {
       setIsError(true);
@@ -495,6 +496,7 @@ const ProductDetail: React.FC<
                   e.target.value = e.target.value.substring(1);
                 }
                 const newValue = Number.parseInt(e.target.value) || 0;
+                if (newValue > 0 && isError) setIsError(false);
                 if (newValue <= 999) {
                   setState((pre) => ({
                     ...pre,
