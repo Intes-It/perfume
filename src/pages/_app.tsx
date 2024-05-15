@@ -58,9 +58,16 @@ function MyApp({
   });
 
   queryClient.getQueryCache().subscribe((event: any) => {
+    console.log(typeof window !== "undefined" ? window.location.pathname : "");
+
     if (event?.["action"]?.type === "fetch") {
-      queryCount = queryCount + 1;
-      setState((pre) => ({ ...pre, queries: queryCount }));
+      if (
+        event.query.queryKey !== "get-profile" &&
+        event.query.queryKey !== "get-cart"
+      ) {
+        queryCount = queryCount + 1;
+        setState((pre) => ({ ...pre, queries: queryCount }));
+      }
     } else if (
       event?.["action"]?.type === "success" ||
       event?.["action"]?.type === "error"
@@ -83,7 +90,6 @@ function MyApp({
             <Provider store={store}>
               {/* <PersistGate loading={null} persistor={persistor}> */}
               <Layout>
-              
                 <Component {...pageProps} />
               </Layout>
               {/* </PersistGate> */}
