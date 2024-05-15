@@ -505,7 +505,7 @@ const ProductDetail: React.FC<
                 }
               }}
               type="number"
-              className="h-10 p-1 text-center border outline-none border-gray w-14"
+              className="w-16 h-10 p-1 text-center border outline-none border-gray"
               min={0}
               max={999}
               placeholder={"1"}

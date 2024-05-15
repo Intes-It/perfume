@@ -67,7 +67,7 @@ const CartTable = () => {
                 <tr>
                   <th
                     scope="col"
-                    className="px-6 py-2 border whitespace-nowrap "
+                    className="px-6 py-2 border whitespace-nowrap min-w-[80px] "
                     key={1}
                   ></th>
                   <th
@@ -163,7 +163,7 @@ const CartTable = () => {
                           min={1}
                           max={999}
                           onChange={(e) => {
-                            if (+e.target.value > 999) return;
+                            if (+e.target.value > 1000) return;
                             handleUpdateQuantity(item, +e.target.value);
                           }}
                           defaultValue={item?.amount}
