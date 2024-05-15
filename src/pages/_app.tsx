@@ -26,7 +26,8 @@ function MyApp({
 }: AppProps<{ dehydratedState: DehydratedState }>): JSX.Element {
   const [state, setState] = useState({ queries: 0, mutations: 0 });
   const { queries, mutations } = state;
-
+  const pathname =
+    typeof window !== "undefined" ? window.location.pathname : "";
   let queryCount = 0,
     mutationCount = 0;
 
@@ -58,12 +59,12 @@ function MyApp({
   });
 
   queryClient.getQueryCache().subscribe((event: any) => {
-    console.log(typeof window !== "undefined" ? window.location.pathname : "");
-
     if (event?.["action"]?.type === "fetch") {
       if (
         event.query.queryKey !== "get-profile" &&
-        event.query.queryKey !== "get-cart"
+        event.query.queryKey !== "get-cart" &&
+        pathname !== "my-account" &&
+        pathname !== "cart"
       ) {
         queryCount = queryCount + 1;
         setState((pre) => ({ ...pre, queries: queryCount }));
