@@ -6,11 +6,17 @@ import { VisibleTitleRoutes } from "@definitions/constants";
 const Title = () => {
   const router = useRouter();
   const title = useMemo(() => {
-    const pathName = router.pathname.replace('[product-group]', router.query['product-group'] as string || '')
-                                    .replace('[product-subgroup]', router.query['product-subgroup'] as string || '')
-    const item = VisibleTitleRoutes.find(
-      (item) => item?.route === pathName
-    );
+    const pathName = router.pathname
+      .replace(
+        "[product-group]",
+        (router.query["product-group"] as string) || ""
+      )
+      .replace(
+        "[product-subgroup]",
+        (router.query["product-subgroup"] as string) || ""
+      );
+
+    const item = VisibleTitleRoutes.find((item) => item?.route === pathName);
     return item?.title;
   }, [router.asPath]);
 
