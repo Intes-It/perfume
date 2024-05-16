@@ -59,8 +59,6 @@ function MyApp({
   });
 
   queryClient.getQueryCache().subscribe((event: any) => {
-    console.log(pathname);
-
     if (event?.["action"]?.type === "fetch") {
       if (
         event.query.queryKey !== "get-profile" &&
