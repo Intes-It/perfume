@@ -9,22 +9,27 @@ export const useProducts = () => {
   const [products, setProducts] = useState();
 
   async function getProducts() {
-  
-    const res = await queryClient.fetchQuery("get-product", () => GET(api.products));
-    setProducts(res?.data?.data?.results)
+    const res = await queryClient.fetchQuery("get-product", () =>
+      GET(api.products)
+    );
+    setProducts(res?.data?.data?.results);
   }
 
-  async function getFilterProducts(query: ParsedUrlQuery){
-    const res = await queryClient.fetchQuery("filter-product", () => GET(`${api.productByCategory}?${encode(query)}`));
-  
-    setProducts(res?.data?.data?.results)
+  async function getFilterProducts(query: ParsedUrlQuery) {
+    const res = await queryClient.fetchQuery("filter-product", () =>
+      GET(`${api.productByCategory}?${encode(query)}`)
+    );
+
+    setProducts(res?.data?.data?.results);
   }
 
-  // const { data } = useQuery("get-products", getProducts);
+  const { isLoading } = useQuery("get-products", getProducts);
+
   return {
-    products:  products as any,
+    products: products as any,
+    isLoading: isLoading,
     fetchFilterProducts: getFilterProducts,
-    fetchProducts: getProducts
+    fetchProducts: getProducts,
   };
 };
 
@@ -39,15 +44,14 @@ export const useBestSallingProducts = () => {
   };
 };
 
-export const useProductDetail = ({id}:{id:string}) => {
+export const useProductDetail = ({ id }: { id: string }) => {
   async function getProductDetail() {
     const res = await GET(`${api.productDetail}/${id}`);
     return res.data;
   }
-  const { data,isLoading } = useQuery("get-product-detail", getProductDetail);
+  const { data, isLoading } = useQuery("get-product-detail", getProductDetail);
   return {
     product: data,
     isLoading: isLoading,
   };
 };
-
