@@ -59,13 +59,16 @@ function MyApp({
   });
 
   queryClient.getQueryCache().subscribe((event: any) => {
+    console.log(pathname);
+
     if (event?.["action"]?.type === "fetch") {
       if (
         event.query.queryKey !== "get-profile" &&
-        event.query.queryKey !== "get-cart" &&
-        pathname !== "my-account" &&
-        pathname !== "cart"
+        event.query.queryKey !== "get-cart"
       ) {
+        queryCount = queryCount + 1;
+        setState((pre) => ({ ...pre, queries: queryCount }));
+      } else if (pathname === "/my-account" || pathname === "/cart") {
         queryCount = queryCount + 1;
         setState((pre) => ({ ...pre, queries: queryCount }));
       }

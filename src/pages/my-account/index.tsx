@@ -10,7 +10,8 @@ import { ExProduct } from "@types";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 const MyAccount = () => {
-  const { loginAccount, registerAccount, isAuthenticated } = useUser();
+  const { loginAccount, registerAccount, isAuthenticated, isUserLoading } =
+    useUser();
 
   const [state, setState] = useState({
     error: false,
@@ -135,7 +136,9 @@ const MyAccount = () => {
       ) : (
         <></>
       )}
-      {isAuthenticated ? (
+      {isUserLoading ? (
+        <div></div>
+      ) : isAuthenticated ? (
         <div>
           <Profile />
         </div>
