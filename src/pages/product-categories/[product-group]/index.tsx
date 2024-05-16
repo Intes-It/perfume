@@ -15,7 +15,7 @@ const ProductGroup = () => {
   const dispatch = useDispatch();
   const { categories, subCategories } = useAllCategory();
   const router = useRouter();
-  const { products, fetchFilterProducts } = useProducts();
+  const { products, fetchFilterProducts, isLoading } = useProducts();
   const [state, setState] = useState({
     filterProducts: [] as Product[] | undefined,
     copy: [] as Product[] | undefined,
@@ -124,7 +124,9 @@ const ProductGroup = () => {
           </div>
         </div>
         <div className="grid md:grid-cols-4 grid-flow-row gap-10 tablet:grid-cols-3 grid-cols-2">
-          {products?.length > 0 ? (
+          {isLoading ? (
+            <div></div>
+          ) : products?.length > 0 ? (
             filterProducts?.map((item: Product, index: number) => (
               <div key={index}>
                 <ProductItem
@@ -139,7 +141,7 @@ const ProductGroup = () => {
               </div>
             ))
           ) : (
-            <div className="ml-20 text-[20px]"></div>
+            <div className="ml-20 text-[20px]">Aucun Produit trouvé</div>
           )}
         </div>
       </div>
