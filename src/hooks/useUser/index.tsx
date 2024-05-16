@@ -34,6 +34,7 @@ const useUser = () => {
   return {
     user: user.data,
     isAuthenticated: Boolean(user?.data?.id),
+    isUserLoading: user.isLoading,
     loginAccount: loginAccount.mutateAsync,
     registerAccount: registerAccount.mutateAsync,
   };
