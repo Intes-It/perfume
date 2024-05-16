@@ -6,7 +6,7 @@ import { useState } from "react";
 
 export const useProducts = () => {
   const queryClient = useQueryClient();
-  const [products, setProducts] = useState();
+  const [products, setProducts] = useState(null);
 
   async function getProducts() {
     const res = await queryClient.fetchQuery("get-product", () =>

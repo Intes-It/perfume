@@ -36,7 +36,7 @@ export const Routes = {
     },
   },
   productCategories: {
-    cosmetics: { 
+    cosmetics: {
       id: 6,
       title: "Cosmétiques",
       route: "/product-categories/cosmetiques",
@@ -150,7 +150,7 @@ export const Routes = {
   },
   boxes: {
     title: "Coffrets",
-    route: "#",
+    route: "/product-categories/coffrets",
     image:
       "https://mldn3w3pos1n.i.optimole.com/cb:453S~5a2d9/w:auto/h:auto/q:mauto/id:bc473c5bdb3bd5a52d20679306c31fd7/https://naturefeerique.fr/Presentation-Gamme-Amour1-scaled.jpg",
     children: {
@@ -170,11 +170,11 @@ export const Routes = {
             title: "Kit Beauté Soin",
             route: "/product/beauty-care-kit",
           },
-          discoveryKit : {
+          discoveryKit: {
             title: "Kit Découverte (Bientôt Disponible)",
             route: "#",
           },
-          customizableBeautyCase : {
+          customizableBeautyCase: {
             title: "Trousse Beauté Personnalisable (Bientôt Disponible)",
             route: "#",
           },
@@ -239,15 +239,15 @@ export const FooterRoutes = [
 
 export const Countries = [
   {
-    name: 'Vietnam',
-    value: 'Vietnam'
+    name: "Vietnam",
+    value: "Vietnam",
   },
   {
-    name: 'France',
-    value: 'France'
+    name: "France",
+    value: "France",
   },
   {
-    name: 'Chinese',
-    value: 'Chinese'
-  }
-]
+    name: "Chinese",
+    value: "Chinese",
+  },
+];
