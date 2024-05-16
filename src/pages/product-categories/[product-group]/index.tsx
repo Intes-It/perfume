@@ -1,15 +1,15 @@
-import { Container } from '@components/container';
-import DropdownCheckbox from '@components/dropdown-checkbox';
-import DropdownSelect from '@components/dropdown-select';
-import ProductItem from '@components/product-item';
-import { Product } from '@types';
-import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
-import { productFilter, productPrice } from '@utils/fakeData';
-import { useDispatch, useSelector } from 'react-redux';
-import { addFavoriteItem, removeFavoriteItem } from '@redux/slices/favorite';
-import { useProducts } from '@hooks/useProduct';
-import { useAllCategory } from '@hooks/useCategory';
+import { Container } from "@components/container";
+import DropdownCheckbox from "@components/dropdown-checkbox";
+import DropdownSelect from "@components/dropdown-select";
+import ProductItem from "@components/product-item";
+import { Product } from "@types";
+import { useRouter } from "next/router";
+import { useEffect, useMemo, useState } from "react";
+import { productFilter, productPrice } from "@utils/fakeData";
+import { useDispatch, useSelector } from "react-redux";
+import { addFavoriteItem, removeFavoriteItem } from "@redux/slices/favorite";
+import { useProducts } from "@hooks/useProduct";
+import { useAllCategory } from "@hooks/useCategory";
 
 const ProductGroup = () => {
   const dispatch = useDispatch();
@@ -19,8 +19,8 @@ const ProductGroup = () => {
   const [state, setState] = useState({
     filterProducts: [] as Product[] | undefined,
     copy: [] as Product[] | undefined,
-    categories: '',
-    price: '',
+    categories: "",
+    price: "",
     selection: [] as string[],
     sort: null,
     priceRange: null,
@@ -33,11 +33,15 @@ const ProductGroup = () => {
   ) as Product[];
 
   const selectedCategory = useMemo(() => {
-    return categories?.find((item: any) => item?.slug === router.query['product-group']);
+    return categories?.find(
+      (item: any) => item?.slug === router.query["product-group"]
+    );
   }, [categories, router.query]);
 
   const subCategoriesFilter = useMemo(() => {
-    return subCategories?.filter((item: any) => item?.category === selectedCategory?.id);
+    return subCategories?.filter(
+      (item: any) => item?.category === selectedCategory?.id
+    );
   }, [subCategories, selectedCategory]);
 
   // console.log('subsubCategoriesFilter:%o', subsubCategoriesFilter)
@@ -61,7 +65,9 @@ const ProductGroup = () => {
       ...product,
     }));
     filterProducts?.forEach((item: Product) => {
-      const existItem = favoriteProducts?.find((itemFavorite) => itemFavorite.id === item.id);
+      const existItem = favoriteProducts?.find(
+        (itemFavorite) => itemFavorite.id === item.id
+      );
       if (existItem) item.favorite = true;
       else item.favorite = false;
     });
@@ -73,7 +79,8 @@ const ProductGroup = () => {
   }, [selectedCategory, sort, priceRange, categoriesSort]);
 
   const handleSortByCategoryChange = (value: any) => {
-    if (value === categoriesSort) setState((pre) => ({ ...pre, categoriesSort: null }));
+    if (value === categoriesSort)
+      setState((pre) => ({ ...pre, categoriesSort: null }));
     else setState((pre) => ({ ...pre, categoriesSort: value }));
   };
   const handleSortChange = (value: any) => {
@@ -97,8 +104,8 @@ const ProductGroup = () => {
             <DropdownCheckbox
               title="Catégories"
               selections={subCategoriesFilter?.map((item: any) => ({
-                name: item?.name || '',
-                value: item?.id || '',
+                name: item?.name || "",
+                value: item?.id || "",
               }))}
               onChange={handleSortByCategoryChange}
             />
@@ -110,7 +117,10 @@ const ProductGroup = () => {
             />
           </div>
           <div className="md:flex justify-end">
-            <DropdownSelect selections={productFilter} onChange={handleSortChange} />
+            <DropdownSelect
+              selections={productFilter}
+              onChange={handleSortChange}
+            />
           </div>
         </div>
         <div className="grid md:grid-cols-4 grid-flow-row gap-10 tablet:grid-cols-3 grid-cols-2">
@@ -129,7 +139,7 @@ const ProductGroup = () => {
               </div>
             ))
           ) : (
-            <div className="ml-20 text-[20px]">Aucun Produit trouvé</div>
+            <div className="ml-20 text-[20px]"></div>
           )}
         </div>
       </div>
