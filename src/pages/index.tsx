@@ -1,24 +1,22 @@
-import React from "react";
 import { Container } from "@components";
 import NextLink from "next/link";
+import React from "react";
 
 import { BestSales } from "@components/best-sales";
+import { FeaturedComments } from "@components/featured-comment";
 import { OurUniverse } from "@definitions/constants";
+import { useBestSallingProducts } from "@hooks/useProduct";
+import useScreenWidth from "@hooks/useScreen";
+import { Carousel } from "flowbite-react";
+import Link from "next/link";
 import {
   BriefTextCreatrice,
   BriefTextNature,
   featuredComments,
 } from "src/utils/fakeData";
-import { FeaturedComments } from "@components/featured-comment";
-import { useBestSallingProducts } from "@hooks/useProduct";
-import { Carousel } from "flowbite-react";
-import Link from "next/link";
-import useScreenWidth from "@hooks/useScreen";
 const Home: React.FC = () => {
-
   const { products } = useBestSallingProducts();
-  const screenWidth=useScreenWidth()
-
+  const screenWidth = useScreenWidth();
   const homeSlideInfo = [
     {
       url: "/images/slide1.webp",
@@ -26,7 +24,10 @@ const Home: React.FC = () => {
       text: (
         <div
           className={`absolute z-0     -translate-y-2/4 -translate-x-2/4 w-[100%] text-center`}
-          style={{ left: `${screenWidth>400?'85%':'50%'}`,top:`${screenWidth>400?'75%':'85%'}` }}
+          style={{
+            left: `${screenWidth > 400 ? "85%" : "50%"}`,
+            top: `${screenWidth > 400 ? "75%" : "85%"}`,
+          }}
         >
           <button
             style={{ padding: "10px 50px 10px 50px" }}
@@ -38,15 +39,17 @@ const Home: React.FC = () => {
           </button>
         </div>
       ),
-      mobile_img: '/images/8.webp'
+      mobile_img: "/images/8.webp",
     },
     {
       url: "/images/slide3.webp",
       text: (
         <div
           className="absolute z-0   -translate-y-2/4 -translate-x-2/4 w-[100%] text-center"
-          style={{ left: `${screenWidth>400?'85%':'50%'}`,top:`${screenWidth>400?'75%':'85%'}` }}
-
+          style={{
+            left: `${screenWidth > 400 ? "85%" : "50%"}`,
+            top: `${screenWidth > 400 ? "75%" : "85%"}`,
+          }}
         >
           <button
             className={
@@ -59,15 +62,17 @@ const Home: React.FC = () => {
           </button>
         </div>
       ),
-      mobile_img: '/images/9.webp'
+      mobile_img: "/images/9.webp",
     },
     {
       url: "/images/slide2.webp",
       text: (
         <div
           className="absolute z-0  -translate-y-2/4 -translate-x-2/4 w-[100%] text-center"
-          style={{ left: `${screenWidth>400?'58%':'50%'}`,top:`${screenWidth>400?'75%':'85%'}` }}
-
+          style={{
+            left: `${screenWidth > 400 ? "58%" : "50%"}`,
+            top: `${screenWidth > 400 ? "75%" : "85%"}`,
+          }}
         >
           <button
             className={
@@ -78,8 +83,7 @@ const Home: React.FC = () => {
           </button>
         </div>
       ),
-      mobile_img:'/images/10.webp'
-
+      mobile_img: "/images/10.webp",
     },
   ];
 
@@ -94,7 +98,6 @@ const Home: React.FC = () => {
                 className={`relative float-left -mr-[100%] w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none`}
               >
                 <div className="absolute z-0 top-1/2 left-1/2 -translate-y-2/4 -translate-x-2/4 w-[100%] text-center">
-
                   {/*  {item?.text && (
                     <button
                       className="rounded-full h-12 bg-white text-lg min-w-[140px] border-white border hover:bg-transparent hover:text-white"
@@ -105,7 +108,7 @@ const Home: React.FC = () => {
                   )}*/}
                 </div>
                 <img
-                  src={screenWidth>400?item.url:item?.mobile_img}
+                  src={screenWidth > 400 ? item.url : item?.mobile_img}
                   className="block w-full object-fit "
                   alt="..."
                 />
@@ -125,7 +128,7 @@ const Home: React.FC = () => {
 
       {/* best sales */}
       <div>
-        <div className="w-full grid">
+        <div className="grid w-full">
           <span className="text-center text-[32px] font-semibold tracking-wide text-[#383e42] mb-5">
             NOS MEILLEURES VENTES
           </span>
@@ -135,7 +138,7 @@ const Home: React.FC = () => {
 
       {/* Our Universe */}
       <div>
-        <div className="w-full grid my-10">
+        <div className="grid w-full my-10">
           <span className="text-center text-[32px] font-semibold tracking-wide text-[#383e42]">
             AU CŒUR DE NOTRE UNIVERS
           </span>
@@ -149,15 +152,15 @@ const Home: React.FC = () => {
                   src={item?.image}
                   alt={item?.title}
                 />
-                <div className="absolute top-0 left-0 bg-black opacity-30 w-full h-full" />
+                <div className="absolute top-0 left-0 w-full h-full bg-black opacity-30" />
                 <div className="absolute z-0 top-1/2 left-1/2 -translate-y-2/4 -translate-x-2/4 w-[100%] text-center">
-                  <div className="md:my-20 my-1">
+                  <div className="my-1 md:my-20">
                     <span className="text-xl md:text-[38.8px] text-white">
                       {(item?.title as string)?.toUpperCase()}
                     </span>
                   </div>
                   <NextLink href={item?.route} key={item?.title} passHref>
-                    <button className="rounded-md px-5 py-2 hover:bg-white text-lg  border-white border bg-transparent hover:text-black text-white">
+                    <button className="px-5 py-2 text-lg text-white bg-transparent border border-white rounded-md hover:bg-white hover:text-black">
                       EXPLORER
                     </button>
                   </NextLink>
@@ -176,16 +179,17 @@ const Home: React.FC = () => {
           </div>
           <div className=" xl:mx-10 sm:w-[100vw] xl:w-1/2">
             <div className="text-center xl:text-[44.8px] text-[1.6rem] font-bold text-[#383E42]">
-              <h2>A propos de <br/>
+              <h2>
+                A propos de <br />
                 Nature Féerique
               </h2>
             </div>
             <div>
-
-                <h2 className={'sm:text-[1rem] xl:text-[1.2rem]'} >{BriefTextNature}</h2>
-
+              <h2 className={"sm:text-[1rem] xl:text-[1.2rem]"}>
+                {BriefTextNature}
+              </h2>
             </div>
-            <div className="text-center my-2">
+            <div className="my-2 text-center">
               <a href="/about/#apropos">
                 <button className="mt-8 rounded-md bg-[#603813] hover:bg-[#383e42] text-white font-thin p-2 mobile:text-[2vw]">
                   En Savoir Plus
@@ -200,16 +204,17 @@ const Home: React.FC = () => {
           </div>
           <div className=" xl:mx-10 sm:w-[100vw] xl:w-1/2">
             <div className="text-center xl:text-[44.8px] text-[1.6rem] font-bold text-[#383E42]">
-              <h2>Rencontre <br/>
+              <h2>
+                Rencontre <br />
                 Avec la créatrice
               </h2>
             </div>
             <div>
-
-                <h2 className={'sm:text-[1rem] xl:text-[1.2rem]'} >{BriefTextCreatrice}</h2>
-
+              <h2 className={"sm:text-[1rem] xl:text-[1.2rem]"}>
+                {BriefTextCreatrice}
+              </h2>
             </div>
-            <div className="text-center my-2">
+            <div className="my-2 text-center">
               <a href="/about/#RALC">
                 <button className="mt-8 rounded-md bg-[#603813] hover:bg-[#383e42] text-white font-thin p-2 mobile:text-[2vw]">
                   En Savoir Plus
@@ -218,11 +223,10 @@ const Home: React.FC = () => {
             </div>
           </div>
         </div>
-
       </div>
 
       <div className="px-10">
-        <div className="w-full grid my-12">
+        <div className="grid w-full my-12">
           <span className="text-center text-[32px] font-semibold tracking-wide text-[#383e42]">
             L’ART DE VOUS SÉDUIRE
           </span>

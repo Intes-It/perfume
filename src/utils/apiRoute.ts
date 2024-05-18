@@ -1,6 +1,6 @@
 export const api = {
   category: "/api/category/create",
-  products: "/api/product/",
+  products: "/api/product",
   register: "/api/user/register",
   login: "/api/user/login",
   forgotPassword: "/api/user/forget-password",
@@ -12,8 +12,8 @@ export const api = {
   productByCategory: "/api/product/filter",
   getAllCategory: "/api/category/list_tree",
   getSubCategory: "/api/subcategory/list",
-  getCart: "/api/checkout/cart",
-  addProduct: "/api/orders/add",
+  getCart: "/api/cart",
+  addProduct: "/api/cart/add/",
   changeProduct: "/api/orders/change",
   processBilling: "/api/payment/process/billing",
   processShipping: "/api/payment/process/shipping",

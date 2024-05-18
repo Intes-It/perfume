@@ -21,6 +21,7 @@ export interface Product {
   capacity?: any;
   color: any;
   packaging: any;
+  thumbnail?: any;
 }
 
 export interface ExProduct {

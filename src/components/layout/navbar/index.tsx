@@ -1,23 +1,29 @@
-import React, { useEffect, useState } from "react";
-import NextLink from "next/link";
+import Toast from "@components/toast";
 import { Routes } from "@definitions/constants";
 import { useAllCategory } from "@hooks/useCategory";
-import { useSelector } from "react-redux";
-import Toast from "@components/toast";
 import { showToast } from "@redux/slices/toast/toastSlice";
 import { useAppDispatch } from "@redux/store";
+import { default as Link } from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 function Navbar() {
-  const { categories, subCategories, subsubCategories } = useAllCategory();
+  const { data } = useAllCategory();
+
+  const router = useRouter();
+  const category = router.query;
+  const category_id = category["product-group"];
+
   const toast = useSelector((state: any) => state?.persistedReducer.toast);
-  const exCategories = categories && [
+  const exCategories = data && [
     Routes.home,
     Routes.about,
-    ...categories,
+    ...data,
     Routes.contact,
   ];
-  const [active, setActive] = useState<number>(-1);
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     const timer = setTimeout(() => {
       toast.show && dispatch(showToast({ message: "", error: false }));
@@ -29,96 +35,84 @@ function Navbar() {
   }, [toast, dispatch]);
 
   return (
-    <div className="bg-white sticky top-0 p-1 z-40  hidden md:block">
+    <div className="sticky top-0 z-40 hidden p-1 bg-white md:block">
       {toast.show && <Toast />}
 
-      <nav className=" w-full z-10">
+      <nav className="z-10 w-full ">
         <div className="w-full">
           <div className="flex items-center w-full">
-            <div className="block items-center  justify-between w-full">
+            <div className="items-center justify-between block w-full">
               <div className="mx-auto">
                 <nav>
                   <ul className="flex justify-center mb-2 text-[2px] text-gray-700 tracking-wider">
                     {exCategories?.map((item: any, pIndex: number) => (
                       <li
-                        onClick={() => {
-                          setActive(pIndex);
-                        }}
                         key={pIndex}
-                        className="group p-5 px-7 py-3 text-base font-light border-b-2 border-transparent hover:border-black transition hover:duration-75 hover:ease-in-out"
+                        className="p-5 py-3 text-base font-light transition border-b-2 border-transparent group px-7 hover:border-black hover:duration-75 hover:ease-in-out"
                         style={{
                           borderBottom:
-                            active === pIndex ? "2px solid #000" : "none",
+                            category_id && +category_id === +item?.id
+                              ? "2px solid #000"
+                              : "none",
                         }}
                       >
                         <div>
                           {/* categories */}
-                          {item?.slug && (
-                            <NextLink
-                              href={`/product-categories/${item?.slug}`}
+                          {item?.id && (
+                            <Link
+                              href={`/product-categories/${item?.id}`}
                               key={item?.name}
                               passHref
                             >
                               <a className={"text-sm"}>
                                 {item?.name?.toUpperCase()}
                               </a>
-                            </NextLink>
+                            </Link>
                           )}
                           {item?.route && (
-                            <NextLink
-                              href={item?.route}
-                              key={item?.title}
-                              passHref
-                            >
+                            <Link href={item?.route} key={item?.title} passHref>
                               <a className={"text-sm"}>
                                 {item?.title?.toUpperCase()}
                               </a>
-                            </NextLink>
+                            </Link>
                           )}
                           {/* subcategories */}
                           <div className="grid grid-flow-col w-full left-0 mt-[0.85rem] overflow-hidden bg-[#603813] absolute invisible  group-hover:animate-bottomToTop group-hover:visible">
-                            {subCategories?.map(
-                              (subCategory: any, sindex: number) =>
-                                subCategory?.category === item?.id && (
-                                  <div
-                                    key={sindex}
-                                    className="m-3 text-white font-[600] tracking-wide mx-auto"
-                                  >
-                                    <div
-                                      className="transition duration-500
-                                          border-b-2 border-transparent hover:border-white"
+                            {item?.subcategories?.map(
+                              (subCategory: any, sub_index: number) => (
+                                <div
+                                  key={sub_index}
+                                  className="m-3 text-white font-[600] tracking-wide mx-auto"
+                                >
+                                  <div className="transition duration-500 border-b-2 border-transparent hover:border-white">
+                                    <Link
+                                      href={`/product-categories/${item?.id}/${subCategory?.id}`}
                                     >
-                                      <a
-                                        href={`/product-categories/${item?.slug}/${subCategory?.slug}`}
-                                      >
-                                        {subCategory?.name?.toUpperCase()}
-                                      </a>
-                                    </div>
-                                    <div className="text-base font-extralight tracking-wide">
-                                      {subsubCategories?.map(
-                                        (
-                                          subsubCategory: any,
-                                          ssindex: number
-                                        ) =>
-                                          subsubCategory?.subcategory ===
-                                            subCategory?.id && (
-                                            <div
-                                              key={ssindex}
-                                              className="my-1 transition duration-500
-                                              border-b-2 border-transparent hover:border-white"
-                                            >
-                                              <a
-                                                href={`/product-categories/${item?.slug}/${subCategory?.slug}/${subsubCategory?.slug}`}
-                                              >
-                                                {subsubCategory?.name}
-                                              </a>
-                                              <br />
-                                            </div>
-                                          )
-                                      )}
-                                    </div>
+                                      {subCategory?.name?.toUpperCase()}
+                                    </Link>
                                   </div>
-                                )
+                                  <div className="text-base tracking-wide font-extralight">
+                                    {subCategory?.sub_subcategories?.map(
+                                      (
+                                        subsubCategory: any,
+                                        sub_sub_index: number
+                                      ) => (
+                                        <div
+                                          key={sub_sub_index}
+                                          className="my-1 transition duration-500 border-b-2 border-transparent hover:border-white"
+                                        >
+                                          <Link
+                                            href={`/product-categories/${item?.id}/${subCategory?.id}/${subsubCategory?.id}`}
+                                          >
+                                            {subsubCategory?.name}
+                                          </Link>
+                                          <br />
+                                        </div>
+                                      )
+                                    )}
+                                  </div>
+                                </div>
+                              )
                             )}
                           </div>
                         </div>
