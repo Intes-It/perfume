@@ -1,6 +1,6 @@
 export const api = {
   category: "/api/category/create",
-  products: "/api/product/list",
+  products: "/api/product/",
   register: "/api/user/register",
   login: "/api/user/login",
   forgotPassword: "/api/user/forget-password",
@@ -10,7 +10,7 @@ export const api = {
   getProfile: "/api/user/profile",
   productDetail: "/api/product/",
   productByCategory: "/api/product/filter",
-  getAllCategory: "/api/all",
+  getAllCategory: "/api/category/list_tree",
   getSubCategory: "/api/subcategory/list",
   getCart: "/api/checkout/cart",
   addProduct: "/api/orders/add",

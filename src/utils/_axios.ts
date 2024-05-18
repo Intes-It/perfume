@@ -22,10 +22,15 @@ instance.interceptors.response.use(
     } else {
       {
         deleteCookie("csrftoken");
+        const pastDate = new Date(0);
+
+        // Set the cookie name, value as empty string, and expired date
+        document.cookie =
+          "csrftoken" + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        console.log("document.cookie ", document.cookie);
       }
       // if(error?.response)
       // Re-throw unhandled errors
-
       return Promise.reject(error);
     }
   }
