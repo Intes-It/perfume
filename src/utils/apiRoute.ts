@@ -7,7 +7,7 @@ export const api = {
   favouriteList: "/api/favourite/list",
   favouriteAdd: "/api/favourite/add",
   favouriteDelete: "/api/favourite/delete",
-  getProfile: "/api/user/profile",
+  getProfile: "/api/user/info/",
   productDetail: "/api/product/",
   productByCategory: "/api/product/filter",
   getAllCategory: "/api/category/list_tree",
