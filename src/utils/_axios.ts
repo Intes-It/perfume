@@ -1,15 +1,12 @@
 import axios from "axios";
 import { deleteCookie } from "cookies-next";
 const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  // baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
-
-instance.defaults.xsrfHeaderName = "X-CSRFToken";
-instance.defaults.xsrfCookieName = "csrftoken";
-instance.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
-instance.defaults.headers.common["Access-Control-Allow-Methods"] = "*";
-instance.defaults.headers.common["Access-Control-Allow-Headers"] = "*";
-instance.defaults.headers.common["Access-Control-Allow-Credentials"] = "*";
 
 // Intercept errors and silently handle them (for specific cases)
 instance.interceptors.response.use(
