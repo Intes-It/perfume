@@ -11,7 +11,7 @@ import React, { useMemo, useState } from "react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 // import { Product } from "@types";
 
-import { addProduct, updateProduct } from "@redux/slices/cart";
+import { addProduct } from "@redux/slices/cart";
 import { useDispatch, useSelector } from "react-redux";
 
 import ImageModal from "@components/image-modal";
@@ -24,7 +24,6 @@ import { useRouter } from "next/router";
 import { api } from "@utils/apiRoute";
 import { GET } from "@utils/fetch";
 import _ from "lodash";
-import useSWR from "swr";
 import { twMerge } from "tailwind-merge";
 
 export const getServerSideProps: GetServerSideProps<{
@@ -99,8 +98,6 @@ const ProductDetail: React.FC<
     return res.data;
   }
 
-  const { data, mutate } = useSWR("get-server-cart", getCart);
-  const cart = data?.cart;
   const breadCrumb = useMemo(() => {
     let res = [{ name: "Accueil", route: "/" }];
     const groupRoute = product?.category?.name?.toLowerCase();
@@ -204,73 +201,27 @@ const ProductDetail: React.FC<
     if (isAuthenticated) {
       //check exist product
       if (type === "CHECKOUT") router.push("/checkout");
-      const existProduct = localCart?.find((item: any) => {
-        return (
-          item?.product?.id === product?.id &&
-          (item?.packaging === packageName ||
-            (!item.packaging && packageName === "")) &&
-          (item?.color === color || (!item.color && !color)) &&
-          (item?.capacity === contenance ||
-            (!item?.capacity && contenance === ""))
-        );
-      });
 
-      let res;
-
-      if (existProduct?.amount && existProduct?.amount > 998) {
-        setIsError({
-          type: "amount",
-          message: "Product quantity has reached the maximum.",
-        });
-        return;
-      }
-
-      if (existProduct) {
-        const data = {
-          order_item_id: existProduct?.id,
-          order_id: cart?.id || null,
-          amount: amount + existProduct.amount,
-          packaging: packageName === undefined ? null : packageName,
-          color: color === undefined ? null : color,
-          capacity: contenance === undefined ? null : contenance,
-          total_amount: totalProducts + amount,
-          total_price:
-            Number.parseFloat(existProduct?.product?.price || "0") * amount +
-            totalMoney,
-        };
-        res = await addExistProductToCart(data);
-      } else {
-        const data = {
-          order_id: cart?.id || null,
-          product_id: product?.id,
-          amount: amount,
-          packaging: packageName === undefined ? null : packageName,
-          color: color === undefined ? null : color,
-          capacity: contenance === undefined ? null : contenance,
-          image: selectorImage,
-          total_amount_cart: totalProducts + amount,
-          price: sumChoice,
-          total_price_item: sumChoice || 0,
-          total_price_cart:
-            Number.parseFloat(product?.price || "0") * amount + totalMoney,
-        };
-        res = await addProductToCart(data);
-      }
+      const payload = {
+        product_id: product?.id,
+        amount: amount,
+        packaging: packageName === undefined ? null : packageName,
+        color: color === undefined ? null : color,
+        capacity: contenance === undefined ? null : contenance,
+        image: selectorImage,
+        total_amount_cart: totalProducts + amount,
+        price: sumChoice,
+        total_price_item: sumChoice || 0,
+        total_price_cart:
+          Number.parseFloat(product?.price || "0") * amount + totalMoney,
+      };
+      const res = await addProductToCart(payload);
       if (res?.status === 201 || res?.status === 200) {
-        await mutate("get-server-cart");
-        if (existProduct) {
-          dispatch(
-            updateProduct({
-              ...res?.data,
-            })
-          );
-        } else {
-          dispatch(
-            addProduct({
-              ...res?.data?.data,
-            })
-          );
-        }
+        dispatch(
+          addProduct({
+            ...res?.data?.data,
+          })
+        );
       }
     } else {
       router.push("/my-account");
@@ -289,7 +240,9 @@ const ProductDetail: React.FC<
             className="object-fill w-full h-full max-h-[700px] transition duration-100 hover:scale-125 "
             // src={product?.url_image}
             src={
-              selectorImage === undefined ? product?.url_image : selectorImage
+              selectorImage === undefined
+                ? product?.images[0]?.url
+                : selectorImage
             }
             alt={product?.name}
           />

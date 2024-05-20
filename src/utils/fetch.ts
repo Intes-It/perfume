@@ -1,4 +1,4 @@
-import { instance } from '@utils/_axios';
+import { instance } from "@utils/_axios";
 
 export const GET = async (url: string) => {
   return await instance.get(url);
@@ -10,5 +10,8 @@ export const PUT = async (url: string, data: Record<any, unknown>) => {
   return await instance.put(url, data);
 };
 export const DELETE = async (url: string, data: any) => {
-  return await instance.delete(url, {data});
+  return await instance.delete(url, { data });
+};
+export const PATCH = async (url: string, data: Record<any, unknown>) => {
+  return await instance.patch(url, data);
 };

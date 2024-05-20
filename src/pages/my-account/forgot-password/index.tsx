@@ -1,10 +1,12 @@
 import Input from "@components/input";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { showToast } from "@redux/slices/toast/toastSlice";
 import { api } from "@utils/apiRoute";
 import { POST } from "@utils/fetch";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import * as yup from "yup";
 const schema = yup.object().shape({
   email: yup.string().email("Email incorrect!").required("Email is required"),
@@ -26,6 +28,7 @@ const ForgotPassword = () => {
   });
 
   const route = useRouter();
+  const dispatch = useDispatch();
 
   const onSubmit = async (data: { email: string }) => {
     if (isLoading) return;
@@ -34,6 +37,9 @@ const ForgotPassword = () => {
     try {
       const res = await POST(api.forgotPassword, data);
       if (res.status === 200) {
+        dispatch(
+          showToast({ message: "Your OTP has been sent!", error: false })
+        );
         route.push(`/my-account/reset-password?email=${data.email}`);
       } else {
         if (res.data?.detail) {
@@ -43,6 +49,10 @@ const ForgotPassword = () => {
               message: value,
             });
           }
+        } else {
+          dispatch(
+            showToast({ message: "something went wrong!", error: true })
+          );
         }
       }
 

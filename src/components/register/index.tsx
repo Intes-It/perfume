@@ -11,7 +11,7 @@ type RegisterProps = {
 };
 
 const schema = yup.object().shape({
-  name: yup.string().required("Field is required."),
+  username: yup.string().required("Field is required.").trim(),
   email: yup
     .string()
     .required("Field is required.")
@@ -25,9 +25,7 @@ const schema = yup.object().shape({
 
 const Register: React.FC<RegisterProps> = ({ submit, error }) => {
   const [check, setCheck] = React.useState<boolean>(true);
-  const [state, setState] = React.useState({
-    captchaCode: "",
-  });
+
   const [showPass, setShowPass] = React.useState(false);
 
   const {
@@ -37,10 +35,6 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-
-  console.log("errors", errors);
-
-  const { captchaCode } = state;
 
   return (
     <div>
@@ -53,10 +47,10 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
             Identifiant <span className="text-red-500 text-[20px] ">*</span>
           </label>
           <input
-            {...register("name")}
+            {...register("username")}
             required
             type="text"
-            id="name"
+            id="username"
             className="px-4 py-3 text-black border border-gray-300"
           />
         </div>

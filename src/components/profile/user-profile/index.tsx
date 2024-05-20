@@ -5,7 +5,7 @@ const UserProfile = ({ setTabs }: { setTabs: (value: number) => void }) => {
   return (
     <div>
       <div className="text-[#603813]">
-        Bonjour <span className="font-bold text-black">{user?.name}</span>
+        Bonjour <span className="font-bold text-black">{user?.username}</span>
       </div>
       <div className="text-[#603813]">
         À partir du tableau de bord de votre compte, vous pouvez visualiser vos

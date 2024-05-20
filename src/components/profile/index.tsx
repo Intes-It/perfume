@@ -57,7 +57,8 @@ const Profile = () => {
     await instance.post("/api/user/logout").then(() => {
       dispatch(updateFullCart([]));
       dispatch(setList([]));
-      deleteCookie("csrftoken");
+      deleteCookie("access_token");
+      deleteCookie("refresh_token");
       window.location.reload();
     });
   };

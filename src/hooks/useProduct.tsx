@@ -46,7 +46,7 @@ export const useBestSallingProducts = () => {
 
 export const useProductDetail = ({ id }: { id: string }) => {
   async function getProductDetail() {
-    const res = await GET(`${api.productDetail}/${id}`);
+    const res = await GET(`${api.productDetail + id}`);
     return res.data;
   }
   const { data, isLoading } = useQuery("get-product-detail", getProductDetail);

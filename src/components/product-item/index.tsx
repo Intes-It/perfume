@@ -10,6 +10,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { showToast } from "@redux/slices/toast/toastSlice";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 type ProductProps = {
@@ -89,7 +90,7 @@ const ProductItem: React.FC<ProductProps> = ({
           onClick={() => onFavoriteChanged?.(favorite)}
         />
       )}
-      <a href={`/product/${product?.id}`}>
+      <Link href={`/product/${product?.id}`}>
         <div>
           <img
             className="object-scale-down md:w-[20vw] md:h-[20vw] w-[80vw] h-[80vw]  cursor-pointer"
@@ -98,7 +99,7 @@ const ProductItem: React.FC<ProductProps> = ({
             alt="{title}"
           />
         </div>
-      </a>
+      </Link>
       <h5 className="text-[#603813] text-center">{product?.name}</h5>
       <div className="flex flex-col items-center mt-5 space-y-2">
         <Rating score={product?.evaluate || 0} />

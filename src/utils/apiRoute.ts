@@ -1,9 +1,8 @@
 export const api = {
   category: "/api/category/create",
   products: "/api/product",
-  register: "/api/user/register",
-  login: "/api/user/login",
-  forgotPassword: "/api/user/forget-password",
+  register: "/api/auth/signup/",
+  login: "/api/auth/login/",
   favouriteList: "/api/favourite/list",
   favouriteAdd: "/api/favourite/add",
   favouriteDelete: "/api/favourite/delete",
@@ -24,5 +23,8 @@ export const api = {
   shipping_weight: "/api/delivery-cost/weight",
   send_mail: "/api/payment/email-payment",
   checkCountry: "/api/country-availability/",
-  reset_password: "/api/user/forget-password-otp/",
+  reset_password: "/api/auth/reset-password/",
+  change_password: "/api/auth/change-password/",
+  forgotPassword: "/api/auth/forgot-password/",
+  update_user: "/api/user/update/",
 };

@@ -2,7 +2,8 @@ import { faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { faEye, faWindowMaximize } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useUser from "@hooks/useUser";
-import { POST, PUT } from "@utils/fetch";
+import { api } from "@utils/apiRoute";
+import { PATCH, PUT } from "@utils/fetch";
 import { deleteCookie } from "cookies-next";
 import { useFormik } from "formik";
 import { useState } from "react";
@@ -63,7 +64,12 @@ const Detail = () => {
   const { user } = useUser();
 
   const handleChangePass = (payload: any) => {
-    POST("/api/user/change-password", payload).then((res) => {
+    payload = {
+      old_password: payload?.password,
+      new_password: payload?.new_password,
+    };
+
+    PUT(api.change_password, payload).then((res) => {
       if (res?.status === 200) {
         setState((o) => ({
           ...o,
@@ -71,7 +77,8 @@ const Detail = () => {
           message: "Mise à jour réussie",
           color: "#06e318",
         }));
-        deleteCookie("csrftoken");
+        deleteCookie("access_token");
+        deleteCookie("refresh_token");
         window.location.reload();
       } else {
         setState((o) => ({
@@ -86,7 +93,7 @@ const Detail = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: user?.name,
+      username: user?.username,
       email: user?.email,
       password: undefined,
       new_password: undefined,
@@ -104,8 +111,8 @@ const Detail = () => {
       if (validate) validate(value);
       if (value?.password) handleChangePass(value as any);
 
-      if (value.name)
-        PUT("/api/user/profile", { name: value.name }).then((res) => {
+      if (value.username)
+        PATCH(api.update_user, { username: value.username }).then((res) => {
           if (res?.status === 200) {
             setState((o) => ({
               ...o,
@@ -140,7 +147,11 @@ const Detail = () => {
             className="mr-3"
             fontSize={"1.2rem"}
           />
-          <span className="text-[#ed2805]">{message}</span>
+          <span
+            className={twMerge("text-[#06e318]", error && "text-[#ed2805]")}
+          >
+            {message}
+          </span>
         </div>
       ) : (
         <div></div>
@@ -150,9 +161,9 @@ const Detail = () => {
           <div className="flex flex-col">
             <label className="font-semibold">Nom affiché</label>
             <input
-              defaultValue={user?.name}
+              defaultValue={user?.username}
               type="text"
-              id="name"
+              id="username"
               onChange={formik.handleChange}
               className="px-4 py-3 text-black border border-gray-100 focus:border-transparent focus:outline-none focus:ring-0"
             />

@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useUser from "@hooks/useUser";
 import { clearCart } from "@redux/slices/cart";
 import { ExProduct } from "@types";
+import { setCookie } from "cookies-next";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 const MyAccount = () => {
@@ -25,10 +26,11 @@ const MyAccount = () => {
   const { error, message, color } = state;
   const dispatch = useDispatch();
   const onLogin = async (data: any) => {
-    const res = await loginAccount(data).catch((res) => {
-      console.log(res);
-    });
+    const res = await loginAccount(data);
     if (res?.status === 200) {
+      setCookie("access_token", res.data?.access);
+      setCookie("refresh_token", res.data?.refresh);
+
       window.history.back();
       if (products !== null) {
         dispatch(clearCart());
@@ -38,26 +40,16 @@ const MyAccount = () => {
         ...o,
         error: true,
         color: "#ed2805",
-        message: "Quelque chose s'est mal passé",
+        message: "Incorrect authentication credentials.",
       }));
     }
   };
 
   const onRegister = async (data: {
-    name: string;
+    username: string;
     email: string;
     password: string;
   }) => {
-    if (data.name.trim() === "") {
-      setState((o) => ({
-        ...o,
-        error: true,
-        message: "Name is required",
-        color: "#ed2805",
-      }));
-      return;
-    }
-
     const isEmailValid =
       /^[a-zA-Z0-9]+([._-][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.-][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/.test(
         data.email
@@ -73,16 +65,6 @@ const MyAccount = () => {
       return;
     }
 
-    if (data.name.trim() === "") {
-      setState((o) => ({
-        ...o,
-        error: true,
-        message: "Name is required",
-        color: "#ed2805",
-      }));
-      return;
-    }
-
     const res = await registerAccount(data);
     const loginData = res?.config?.data && JSON.parse(res?.config?.data);
     const mail = loginData?.email;
@@ -92,27 +74,22 @@ const MyAccount = () => {
         email: mail,
         password: password,
       });
-      if (res?.data?.message === "Email exists") {
-        setState((o) => ({
-          ...o,
-          error: true,
-          message: "Un compte est déjà enregistré avec votre adresse e-mail",
-          color: "#ed2805",
-        }));
-      } else {
-        setState((o) => ({
-          ...o,
-          error: true,
-          message: "L'enregistrement fut un succès",
-          color: "#06e318",
-        }));
-      }
+
+      return;
+    }
+    if (res?.data?.detail?.email) {
+      setState((o) => ({
+        ...o,
+        error: true,
+        message: "Email already exists.",
+        color: "#ed2805",
+      }));
     } else {
       setState((o) => ({
         ...o,
         error: true,
-        message: res.data?.message,
-        color: "#ed2805",
+        message: "Something went wrong.",
+        color: "#06e318",
       }));
     }
   };

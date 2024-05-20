@@ -22,6 +22,11 @@ export interface Product {
   color: any;
   packaging: any;
   thumbnail?: any;
+  images: {
+    id: number;
+    name: string;
+    url: string;
+  }[];
 }
 
 export interface ExProduct {
