@@ -14,6 +14,7 @@ import {
   BriefTextNature,
   featuredComments,
 } from "src/utils/fakeData";
+import useLocale from "@hooks/useLocale";
 const Home: React.FC = () => {
   const { products } = useBestSallingProducts();
   const screenWidth = useScreenWidth();
@@ -86,7 +87,7 @@ const Home: React.FC = () => {
       mobile_img: "/images/10.webp",
     },
   ];
-
+  const text = useLocale();
   return (
     <Container>
       <div className="right-0 bottom-0 left-0 z-[2] flex list-none justify-center p-0">
@@ -121,8 +122,7 @@ const Home: React.FC = () => {
 
       <div className="my-16 md:min-h-[15vw] min-h-[12rem] w-full grid content-center bg-[#cec2b9]">
         <span className="text-center md:text-[36px] text-[24px] m-2 text-white font-bold">
-          CHOISISSEZ DES PRODUITS NATURELS QUI FAVORISENT VOTRE BIEN-ÊTRE ET
-          VOUS FONT VOUS SENTIR BIEN
+          {text.homePageScreen.description}
         </span>
       </div>
 
@@ -130,7 +130,7 @@ const Home: React.FC = () => {
       <div>
         <div className="grid w-full">
           <span className="text-center text-[32px] font-semibold tracking-wide text-[#383e42] mb-5">
-            NOS MEILLEURES VENTES
+            {text.homePageScreen.bestseller}
           </span>
         </div>
         <BestSales products={products} showButton={true} />
@@ -140,7 +140,7 @@ const Home: React.FC = () => {
       <div>
         <div className="grid w-full my-10">
           <span className="text-center text-[32px] font-semibold tracking-wide text-[#383e42]">
-            AU CŒUR DE NOTRE UNIVERS
+            {text.homePageScreen.place}
           </span>
         </div>
         <div className="grid grid-cols-2 gap-5 text-center">
@@ -192,7 +192,7 @@ const Home: React.FC = () => {
             <div className="my-2 text-center">
               <a href="/about/#apropos">
                 <button className="mt-8 rounded-md bg-[#603813] hover:bg-[#383e42] text-white font-thin p-2 mobile:text-[2vw]">
-                  En Savoir Plus
+                  {text.homePageScreen.seemore}
                 </button>
               </a>
             </div>
@@ -217,7 +217,7 @@ const Home: React.FC = () => {
             <div className="my-2 text-center">
               <a href="/about/#RALC">
                 <button className="mt-8 rounded-md bg-[#603813] hover:bg-[#383e42] text-white font-thin p-2 mobile:text-[2vw]">
-                  En Savoir Plus
+                  {text.homePageScreen.seemore}
                 </button>
               </a>
             </div>
@@ -228,7 +228,7 @@ const Home: React.FC = () => {
       <div className="px-10">
         <div className="grid w-full my-12">
           <span className="text-center text-[32px] font-semibold tracking-wide text-[#383e42]">
-            L’ART DE VOUS SÉDUIRE
+            {text.homePageScreen.art}
           </span>
         </div>
         <FeaturedComments comments={featuredComments} />
