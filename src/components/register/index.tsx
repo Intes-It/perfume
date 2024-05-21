@@ -11,7 +11,7 @@ type RegisterProps = {
 };
 
 const schema = yup.object().shape({
-  name: yup.string().required("Field is required."),
+  name: yup.string().required("Field is required.").trim(),
   email: yup
     .string()
     .required("Field is required.")
@@ -20,14 +20,25 @@ const schema = yup.object().shape({
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       "Invalid email address" // Optional: Customize error message
     ),
-  password: yup.string().required("Field is required.").trim(),
+  password: yup
+    .string()
+    .required("Field is required")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z]).+$/,
+      "At least one lower-case letter, one upper-case letter. "
+    )
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).+$/,
+      "At least one special character"
+    )
+    .matches(/.*[0-9].*/, "At least one number (0-9).")
+    .matches(/^.{8,}$/, "At least 8 characters in length.")
+    .trim(),
 });
 
 const Register: React.FC<RegisterProps> = ({ submit, error }) => {
   const [check, setCheck] = React.useState<boolean>(true);
-  const [state, setState] = React.useState({
-    captchaCode: "",
-  });
+
   const [showPass, setShowPass] = React.useState(false);
 
   const {
@@ -37,10 +48,6 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-
-  console.log("errors", errors);
-
-  const { captchaCode } = state;
 
   return (
     <div>
@@ -67,7 +74,7 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
           <input
             {...register("email")}
             required
-            id="email"
+            id="email-register"
             className={twMerge(
               "px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
               errors.email && "border-[#ed2805]"
@@ -96,7 +103,7 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
               {...register("password")}
               required
               type={showPass ? "text" : "password"}
-              id="password"
+              id="password-register"
               className={twMerge(
                 "px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
                 errors.password && "border-[#ed2805]"
