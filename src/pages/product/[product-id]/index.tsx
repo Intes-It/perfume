@@ -54,10 +54,7 @@ const ProductDetail: React.FC<
   const { isAuthenticated } = useUser();
   const { addProductToCart, addExistProductToCart } = useCart();
   const [tabs, setTabs] = useState(0);
-  const [isError, setIsError] = useState({
-    type: "",
-    message: "",
-  });
+  const [isError, setIsError] = useState(false);
   const { product, isLoading } = useProductDetail({ id: productId });
   const { products } = useBestSallingProducts();
   const [state, setState] = useState({
@@ -178,29 +175,13 @@ const ProductDetail: React.FC<
       (typeof contenanceChoice === "undefined" &&
         Object.values(product?.capacity)?.length > 0) ||
       (typeof color === "undefined" &&
-        product?.color &&
-        Object.values(product?.color)?.length > 0)
+        Object.values(product?.color)?.length > 0) ||
+      amount < 1
     ) {
-      setIsError({
-        type: "option",
-        message: "Please select the attributes of the product.",
-      });
+      setIsError(true);
       return;
     }
-
-    if (amount < 1) {
-      setIsError({
-        type: "option",
-        message: "Please enter the quantity.",
-      });
-      return;
-    }
-
-    if (isError.type)
-      setIsError({
-        ...isError,
-        type: "",
-      });
+    if (isError) setIsError(false);
     if (isAuthenticated) {
       //check exist product
       if (type === "CHECKOUT") router.push("/checkout");
@@ -216,14 +197,6 @@ const ProductDetail: React.FC<
       });
 
       let res;
-
-      if (existProduct?.amount && existProduct?.amount > 998) {
-        setIsError({
-          type: "amount",
-          message: "Product quantity has reached the maximum.",
-        });
-        return;
-      }
 
       if (existProduct) {
         const data = {
@@ -360,8 +333,8 @@ const ProductDetail: React.FC<
           {/* color */}
           <div className="my-3">
             {_.isEmpty(product?.color) ? null : (
-              <span className="flex font-semibold text-[#603813] ">
-                Color :<span className="grid mb-4 font-medium">{color} </span>
+              <span className="grid mb-4 text-[#603813] font-semibold">
+                Color : {color}{" "}
               </span>
             )}
             <div className="flex gap-3 mt-4">
@@ -412,7 +385,7 @@ const ProductDetail: React.FC<
             ) : (
               <div
                 role="tabpanel"
-                className={` text-[#603813] font-medium transition-opacity duration-150 ease-linear `}
+                className={` text-[#603813] transition-opacity duration-150 ease-linear `}
               >
                 <strong>Contenance</strong> :{contenance}
               </div>
@@ -438,11 +411,7 @@ const ProductDetail: React.FC<
                           onClick={() => {
                             const contenancePrice = parseFloat(item?.price);
                             const contenance = item?.name;
-                            if (isError.type)
-                              setIsError({
-                                ...isError,
-                                type: "",
-                              });
+                            if (isError) setIsError(false);
                             setState((o) => ({
                               ...o,
                               contenancePrice,
@@ -491,11 +460,7 @@ const ProductDetail: React.FC<
                             const packagePrice = parseFloat(item?.price);
                             const packageName = item?.name;
                             const selectorImage = item?.image;
-                            if (isError.type)
-                              setIsError({
-                                ...isError,
-                                type: "",
-                              });
+                            if (isError) setIsError(false);
                             setState((o) => ({
                               ...o,
                               packagePrice,
@@ -516,9 +481,11 @@ const ProductDetail: React.FC<
           </div>
 
           {/* add product to cart */}
-          {isError.type && (
+          {isError && (
             <div className="mt-3 text-[#FF2626] font-semibold">
-              {isError.message}
+              {amount < 1
+                ? "Please enter the quantity "
+                : "Please choose the properties"}
             </div>
           )}
           <div className="flex items-center gap-3 mt-6">
@@ -529,8 +496,7 @@ const ProductDetail: React.FC<
                   e.target.value = e.target.value.substring(1);
                 }
                 const newValue = Number.parseInt(e.target.value) || 0;
-                if (newValue > 0 && isError.type)
-                  setIsError({ ...isError, type: "" });
+                if (newValue > 0 && isError) setIsError(false);
                 if (newValue <= 999) {
                   setState((pre) => ({
                     ...pre,
@@ -549,7 +515,7 @@ const ProductDetail: React.FC<
                 onClick={() => handleAddProduct()}
                 className="ml-3 rounded-md p-5 bg-[#acd051] hover:bg-black text-white font-semibold"
               >
-                Add to cart
+                Add To Cart
               </button>
               <button
                 className="rounded-md bg-[#603813] p-5  hover:bg-black text-white font-semibold"
@@ -557,7 +523,7 @@ const ProductDetail: React.FC<
                   handleAddProduct("CHECKOUT");
                 }}
               >
-                Buy
+                BUY
               </button>
             </div>
           </div>
