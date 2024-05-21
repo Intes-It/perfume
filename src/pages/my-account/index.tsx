@@ -45,9 +45,15 @@ const MyAccount = () => {
 
   const onRegister = async (data: {
     name: string;
-    email: string;
-    password: string;
+    emailRegister: string;
+    passwordRegister: string;
   }) => {
+    const payload = {
+      name: data.name,
+      email: data.emailRegister,
+      password: data.passwordRegister,
+    };
+
     if (data.name.trim() === "") {
       setState((o) => ({
         ...o,
@@ -60,7 +66,7 @@ const MyAccount = () => {
 
     const isEmailValid =
       /^[a-zA-Z0-9]+([._-][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.-][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/.test(
-        data.email
+        data.emailRegister
       );
     if (!isEmailValid) {
       setState((o) => ({
@@ -83,7 +89,7 @@ const MyAccount = () => {
       return;
     }
 
-    const res = await registerAccount(data);
+    const res = await registerAccount(payload);
     const loginData = res?.config?.data && JSON.parse(res?.config?.data);
     const mail = loginData?.email;
     const password = loginData?.password;

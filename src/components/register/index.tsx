@@ -12,15 +12,16 @@ type RegisterProps = {
 
 const schema = yup.object().shape({
   name: yup.string().required("Field is required.").trim(),
-  email: yup
+  emailRegister: yup
     .string()
     .required("Field is required.")
+    .email()
     .matches(
       //eslint-disable-next-line
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       "Invalid email address" // Optional: Customize error message
     ),
-  password: yup
+  passwordRegister: yup
     .string()
     .required("Field is required")
     .matches(
@@ -72,17 +73,17 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
             E-mail <span className="text-red-500 text-[20px] ">*</span>
           </label>
           <input
-            {...register("email")}
+            {...register("emailRegister")}
             required
             id="email-register"
             className={twMerge(
               "px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
-              errors.email && "border-[#ed2805]"
+              errors.emailRegister && "border-[#ed2805]"
             )}
           />
-          {errors.email && (
+          {errors.emailRegister && (
             <span className="text-sm text-[#ed2805]">
-              {errors.email?.message}
+              {errors.emailRegister?.message}
             </span>
           )}
         </div>
@@ -100,19 +101,19 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
             />
             {/* <FontAwesomeIcon icon={faEyeSlash}/> */}
             <input
-              {...register("password")}
+              {...register("passwordRegister")}
               required
               type={showPass ? "text" : "password"}
               id="password-register"
               className={twMerge(
                 "px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
-                errors.password && "border-[#ed2805]"
+                errors.passwordRegister && "border-[#ed2805]"
               )}
             />
           </div>
-          {errors.password && (
+          {errors.passwordRegister && (
             <span className="text-sm text-[#ed2805]">
-              {errors.password.message}
+              {errors.passwordRegister.message}
             </span>
           )}
         </div>
