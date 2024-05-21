@@ -1,11 +1,11 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import React, { useEffect,useState } from "react";
+import React, { useEffect } from "react";
 
 import { Countries } from "@definitions/constants";
 // import { useQuery } from "react-query";
 import useUser from "@hooks/useUser";
-import Image from "next/image";
+
 
 type BillingInfomationProps = {
   onError?: (errors: any) => void;
@@ -17,7 +17,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
   onError,
   onValueChange,
 }) => {
-  const { isAuthenticated } = useUser();
+
   const countrys = [
     { value: "France" },
     { value: "Viet Nam" },
@@ -32,7 +32,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
       .oneOf(countrys.map((v) => v.value)).label('Region'),
     ward: Yup.string().required(),
     // district: Yup.string().required(),
-    zip_code: Yup.number().required(),
+    zip_code: Yup.string().required().max(5).label('Postal Code'),
     province: Yup.string().required(),
     phone: Yup.number().required(),
     email: Yup.string().required().email(),
@@ -98,7 +98,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                   id="first_name"
                   className={`px-4 py-3 border ${
                     errors.first_name ? "border-red-700" : "border-gray-300"
-                  } text-black`}
+                  } text-black rounded`}
                 />
                 {errors.first_name && <small className={'text-red-500'}>{errors.first_name}</small>}
               </div>
@@ -112,7 +112,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                   id="last_name"
                   className={`px-4 py-3 border ${
                     errors.last_name ? "border-red-700" : "border-gray-300"
-                  } text-black`}
+                  } text-black rounded`}
                 />
                 {errors.last_name && <small className={'text-red-500'}>{errors.last_name}</small>}
 
@@ -124,7 +124,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                 {...formik.getFieldProps("company_name")}
                 type="text"
                 id="company_name"
-                className="px-4 py-3 border border-gray-300 text-black"
+                className="px-4 py-3 border border-gray-300 text-black rounded"
               />
             </div>
             <div className="flex flex-col">
@@ -136,7 +136,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                 id="country"
                 className={`px-4 py-3 border ${
                   errors.country ? "border-red-700" : "border-gray-300"
-                } text-black`}
+                } text-black rounded`}
                 // onChange={(event) => {
                 //   formik.setFieldValue("country", event.target.value);
                 // }}
@@ -150,7 +150,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
               </select>
               {errors.country&&<small className={'text-red-500'}>{errors.country}</small>}
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-y-5">
               <label className="font-semibold">
                 Street number and name{" "}
                 <span className="text-red-500 text-[20px] ">*</span>
@@ -161,7 +161,14 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                 id="ward"
                 className={`px-4 py-3 border ${
                   errors.ward ? "border-red-700" : "border-gray-300"
-                } text-black`}
+                } text-black rounded`}
+              /><input
+                {...formik.getFieldProps("ward")}
+                type="text"
+                id="ward"
+                className={`px-4 py-3 border ${
+                  errors.ward ? "border-red-700" : "border-gray-300"
+                } text-black rounded`}
               />
               {/* <input
                 {...formik.getFieldProps("district")}
@@ -172,6 +179,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                 } text-black`}
               /> */}
             </div>
+
             <div className="flex flex-col">
               <label className="font-semibold">
                 City <span className="text-red-500 text-[20px] ">*</span>
@@ -182,7 +190,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                 id="province"
                 className={`px-4 py-3 border ${
                   errors.province ? "border-red-700" : "border-gray-300"
-                } text-black`}
+                } text-black rounded`}
               />
             </div>
             <div className="flex flex-col">
@@ -195,7 +203,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                 id="zip_code"
                 className={`px-4 py-3 mt-4 border ${
                   errors.zip_code ? "border-red-700" : "border-gray-300"
-                } text-black`}
+                } text-black rounded`}
               />
             </div>
             <div className="flex flex-col">
@@ -208,7 +216,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                 id="phone"
                 className={`px-4 py-3 mt-4 border ${
                   errors.phone ? "border-red-700" : "border-gray-300"
-                } text-black`}
+                } text-black rounded`}
               />
             </div>
             <div className="flex flex-col">
@@ -221,7 +229,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                 id="id"
                 className={`px-4 py-3 mt-4 border ${
                   errors.email ? "border-red-700" : "border-gray-300"
-                } text-black`}
+                } text-black rounded`}
               />
             </div>
             {/*{isAuthenticated && (
