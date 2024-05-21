@@ -1,15 +1,12 @@
 import axios from "axios";
 import { deleteCookie } from "cookies-next";
 const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  // baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
-
-instance.defaults.xsrfHeaderName = "X-CSRFToken";
-instance.defaults.xsrfCookieName = "csrftoken";
-instance.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
-instance.defaults.headers.common["Access-Control-Allow-Methods"] = "*";
-instance.defaults.headers.common["Access-Control-Allow-Headers"] = "*";
-instance.defaults.headers.common["Access-Control-Allow-Credentials"] = "*";
 
 // Intercept errors and silently handle them (for specific cases)
 instance.interceptors.response.use(
@@ -22,10 +19,15 @@ instance.interceptors.response.use(
     } else {
       {
         deleteCookie("csrftoken");
+        const pastDate = new Date(0);
+
+        // Set the cookie name, value as empty string, and expired date
+        document.cookie =
+          "csrftoken" + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        console.log("document.cookie ", document.cookie);
       }
       // if(error?.response)
       // Re-throw unhandled errors
-
       return Promise.reject(error);
     }
   }
