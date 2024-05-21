@@ -21,10 +21,17 @@ import useUser from "@hooks/useUser";
 import { ExProduct } from "@types";
 import { useRouter } from "next/router";
 
-import { api } from "@utils/apiRoute";
-import { GET } from "@utils/fetch";
 import _ from "lodash";
 import { twMerge } from "tailwind-merge";
+
+type optionType = {
+  current_price?: number;
+  id: number;
+  name: string;
+  price: number;
+  weight?: number;
+  color?: string;
+};
 
 export const getServerSideProps: GetServerSideProps<{
   productId: string;
@@ -51,7 +58,7 @@ const ProductDetail: React.FC<
   ) as ExProduct[];
 
   const { isAuthenticated } = useUser();
-  const { addProductToCart, addExistProductToCart } = useCart();
+  const { addProductToCart } = useCart();
   const [tabs, setTabs] = useState(0);
   const [isError, setIsError] = useState({
     type: "",
@@ -59,83 +66,49 @@ const ProductDetail: React.FC<
   });
   const { product, isLoading } = useProductDetail({ id: productId });
   const { products } = useBestSallingProducts();
+
+  const [packageSelected, setPackageSelected] = useState<optionType | null>(
+    null
+  );
+  const [contenanceSelected, setContenanceSelected] =
+    useState<optionType | null>(null);
+  const [colorSelected, setColorSelected] = useState<optionType | null>(null);
+
   const [state, setState] = useState({
     isShowImageModal: false,
     amount: 1,
-    packagePrice: 0,
-    contenancePrice: 0,
-    packageName: "",
-    contenance: "",
-    color: undefined,
     selectorImage: undefined,
-    packageChoice: undefined,
-    contenanceChoice: undefined,
   });
 
   const router = useRouter();
 
-  const {
-    isShowImageModal,
-    amount,
-    packagePrice,
-    packageName,
-    contenance,
-    contenancePrice,
-    color,
-    selectorImage,
-    packageChoice,
-    contenanceChoice,
-  } = state;
-
-  const totalMoney = localCart?.reduce(
-    (pre, curr) =>
-      pre + curr.amount * Number.parseFloat(curr?.product?.price || "0"),
-    0
-  );
-  const totalProducts = localCart?.reduce((pre, curr) => pre + curr.amount, 0);
-  async function getCart() {
-    const res = await GET(api.getCart);
-    return res.data;
-  }
+  const { isShowImageModal, amount, selectorImage } = state;
 
   const breadCrumb = useMemo(() => {
-    let res = [{ name: "Accueil", route: "/" }];
-    const groupRoute = product?.category?.name?.toLowerCase();
+    const listCategories = [];
 
-    const subGroupRoute = product?.subcategory?.name?.toLowerCase();
+    const category = product?.category;
+    const subCategory = product?.subcategory;
+    const sub_subcategory = product?.sub_subcategory;
 
-    if (groupRoute) {
-      // const group = VisibleTitleRoutes?.find((item) => item?.route?.includes(groupRoute));
-      res = [
-        ...res,
-        {
-          name: product?.category?.name?.toLowerCase(),
-          route: `/product-categories/${product?.category?.slug?.toLowerCase()}`,
-        },
-      ];
-    }
-    if (subGroupRoute) {
-      res = [
-        ...res,
-        {
-          name: product?.subcategory?.name?.toLowerCase(),
-          route: `\\product-categories\\${product?.category?.slug}\\${product?.subcategory?.slug}`,
-        },
-      ];
-    }
-    return res;
+    if (category)
+      listCategories.push({
+        name: category?.name?.toLowerCase(),
+        route: `/product-categories/${category?.id}`,
+      });
+    if (subCategory)
+      listCategories.push({
+        name: subCategory?.name?.toLowerCase(),
+        route: `/product-categories/${category?.id}/${subCategory?.id}`,
+      });
+    if (sub_subcategory)
+      listCategories.push({
+        name: sub_subcategory?.name?.toLowerCase(),
+        route: `/product-categories/${category?.id}/${subCategory?.id}/${sub_subcategory?.id}`,
+      });
+
+    return listCategories;
   }, [product]);
-
-  let namePackaging: any = [];
-  if (product?.packaging) {
-    namePackaging = Object?.values(product?.packaging)?.reduce(
-      (a: any[], item: any) => a.concat(item?.name || ""),
-      []
-    );
-    namePackaging.forEach((item: any, index: number) => {
-      namePackaging[index] = item.replace(/\s/g, "");
-    });
-  }
 
   const DescriptionTabs = [
     {
@@ -163,20 +136,20 @@ const ProductDetail: React.FC<
     setState((pre) => ({ ...pre, isShowImageModal: isOpen }));
   };
 
-  const sumChoice =
-    parseFloat(String(packagePrice)) +
-    parseFloat(String(product?.price)) +
-    parseFloat(String(contenancePrice));
+  const sumChoice = useMemo(() => {
+    return (
+      (product?.current_price || product?.price) +
+      (packageSelected?.price || 0) +
+      (contenanceSelected?.price || 0) +
+      (colorSelected?.price || 0)
+    );
+  }, [packageSelected, contenanceSelected, colorSelected, product]);
 
   const handleAddProduct = async (type?: string) => {
     if (
-      (typeof packageChoice === "undefined" &&
-        Object.values(product.packaging)?.length > 0) ||
-      (typeof contenanceChoice === "undefined" &&
-        Object.values(product?.capacity)?.length > 0) ||
-      (typeof color === "undefined" &&
-        product?.color &&
-        Object.values(product?.color)?.length > 0)
+      (!packageSelected && product.package?.length > 0) ||
+      (!contenanceSelected && product?.capacity?.length > 0) ||
+      (!colorSelected && product?.color?.length > 0)
     ) {
       setIsError({
         type: "option",
@@ -205,15 +178,9 @@ const ProductDetail: React.FC<
       const payload = {
         product_id: product?.id,
         amount: amount,
-        packaging: packageName === undefined ? null : packageName,
-        color: color === undefined ? null : color,
-        capacity: contenance === undefined ? null : contenance,
-        image: selectorImage,
-        total_amount_cart: totalProducts + amount,
-        price: sumChoice,
-        total_price_item: sumChoice || 0,
-        total_price_cart:
-          Number.parseFloat(product?.price || "0") * amount + totalMoney,
+        package: packageSelected,
+        color: colorSelected,
+        capacity: contenanceSelected,
       };
       const res = await addProductToCart(payload);
       if (res?.status === 201 || res?.status === 200) {
@@ -282,26 +249,9 @@ const ProductDetail: React.FC<
             <Rating score={product?.evaluate || 0} />
             <span>{`( 0 avis client)`}</span>
           </div>
-          {_.isEmpty(product?.packaging) ? (
-            <div className="my-2">
-              <span className="text-[#383e42] text-[24px] font-semibold">
-                {formatCurrency(String(product?.price))} €
-              </span>
-            </div>
-          ) : (
-            <span className="mb-4 text-[#383e42] text-[24px] font-semibold">
-              {packagePrice === 0 && contenancePrice === 0
-                ? formatCurrency(String(product?.price))
-                : formatCurrency(
-                    String(
-                      parseFloat(String(contenancePrice)) +
-                        parseFloat(String(packagePrice)) +
-                        parseFloat(String(product?.price))
-                    )
-                  )}{" "}
-              €{" "}
-            </span>
-          )}
+          <span className="mb-4 text-[#383e42] text-[24px] font-semibold">
+            {formatCurrency(sumChoice.toString())} €{" "}
+          </span>
 
           {/* {_.isEmpty(product?.capacity) && (
             <div className="my-2">
@@ -314,7 +264,10 @@ const ProductDetail: React.FC<
           <div className="my-3">
             {_.isEmpty(product?.color) ? null : (
               <span className="flex font-semibold text-[#603813] ">
-                Color :<span className="grid mb-4 font-medium">{color} </span>
+                Color :
+                <span className="grid mb-4 font-medium">
+                  {colorSelected?.name}{" "}
+                </span>
               </span>
             )}
             <div className="flex gap-3 mt-4">
@@ -324,19 +277,18 @@ const ProductDetail: React.FC<
                       <button
                         key={index}
                         onClick={() => {
-                          const color = item?.name;
                           setState((o) => ({
                             ...o,
-                            color,
                             selectorImage: item.image,
                           }));
+                          setColorSelected(item);
                         }}
                         style={{
                           background: `${item.color}`,
                         }}
                         className={twMerge(
                           "mb-3 border p-2 text-white outline-none",
-                          color === item?.name && "border-black"
+                          colorSelected?.id === item?.id && "border-black"
                         )}
                       >
                         {/* //  className={`mb-3 border p-2 text-white border-black bg-[#50d71e]`}>  */}
@@ -354,11 +306,11 @@ const ProductDetail: React.FC<
                 role="tabpanel"
                 className={` text-[#603813] transition-opacity duration-150 ease-linear `}
               >
-                {product?.weight === 0 ? (
+                {contenanceSelected?.weight === 0 ? (
                   ""
                 ) : (
                   <div>
-                    <strong>Contenance</strong> :{product?.weight}g
+                    <strong>Contenance</strong> :{contenanceSelected?.weight}g
                   </div>
                 )}
               </div>
@@ -367,7 +319,7 @@ const ProductDetail: React.FC<
                 role="tabpanel"
                 className={` text-[#603813] font-medium transition-opacity duration-150 ease-linear `}
               >
-                <strong>Contenance</strong> :{contenance}
+                <strong>Contenance</strong> :{contenanceSelected?.name}
               </div>
             )}
           </div>
@@ -378,37 +330,26 @@ const ProductDetail: React.FC<
               role="tablist"
             >
               {product?.capacity
-                ? Object.values(product.capacity)?.map(
-                    (item: any, index: number) => (
-                      <li role="presentation" key={index}>
-                        <button
-                          // href={"#" + capacityName[index]}
-                          className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate ${
-                            contenanceChoice === index && "border-[#6A5950]"
-                          } "
-                          
-                          `}
-                          onClick={() => {
-                            const contenancePrice = parseFloat(item?.price);
-                            const contenance = item?.name;
-                            if (isError.type)
-                              setIsError({
-                                ...isError,
-                                type: "",
-                              });
-                            setState((o) => ({
-                              ...o,
-                              contenancePrice,
-                              contenance,
-                              contenanceChoice: index as any,
-                            }));
-                          }}
-                        >
-                          {item?.name}
-                        </button>
-                      </li>
-                    )
-                  )
+                ? product.capacity?.map((item: any, index: number) => (
+                    <li role="presentation" key={index}>
+                      <button
+                        // href={"#" + capacityName[index]}
+                        className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate ${
+                          contenanceSelected === item?.id && "border-[#6A5950]"
+                        } " `}
+                        onClick={() => {
+                          if (isError.type)
+                            setIsError({
+                              ...isError,
+                              type: "",
+                            });
+                          setContenanceSelected(item);
+                        }}
+                      >
+                        {item?.name}
+                      </button>
+                    </li>
+                  ))
                 : null}
             </ul>
           </div>
@@ -420,7 +361,7 @@ const ProductDetail: React.FC<
                 role="tabpanel"
                 className={`mb-4  text-[#603813]    transition-opacity duration-150 ease-linear `}
               >
-                <strong>Packaging</strong> : {packageName}
+                <strong>Packaging</strong> : {packageSelected?.name}
               </div>
             )}
           </div>
@@ -430,40 +371,35 @@ const ProductDetail: React.FC<
               id="tabs-tab"
               role="tablist"
             >
-              {product?.packaging
-                ? Object.values(product.packaging)?.map(
-                    (item: any, index: number) => (
-                      <li role="presentation" key={index}>
-                        <button
-                          // href={"#" + namePackaging[index]}
-                          className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate focus:isolate hover:border-transparent hover:bg-neutral-100   ${
-                            packageChoice === index ? "border-[#6A5950]" : ""
-                          } `}
-                          id={namePackaging[index]}
-                          onClick={() => {
-                            const packagePrice = parseFloat(item?.price);
-                            const packageName = item?.name;
-                            const selectorImage = item?.image;
-                            if (isError.type)
-                              setIsError({
-                                ...isError,
-                                type: "",
-                              });
-                            setState((o) => ({
-                              ...o,
-                              packagePrice,
-                              packageName,
-                              selectorImage,
-                              packageChoice: index as any,
-                            }));
-                          }}
-                          role="tab"
-                        >
-                          {item?.name}
-                        </button>
-                      </li>
-                    )
-                  )
+              {product?.package
+                ? product.package?.map((item: any, index: number) => (
+                    <li role="presentation" key={index}>
+                      <button
+                        // href={"#" + namePackaging[index]}
+                        className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate focus:isolate hover:border-transparent hover:bg-neutral-100   ${
+                          packageSelected?.id === item?.id
+                            ? "border-[#6A5950]"
+                            : ""
+                        } `}
+                        onClick={() => {
+                          const selectorImage = item?.image;
+                          setPackageSelected(item);
+                          if (isError.type)
+                            setIsError({
+                              ...isError,
+                              type: "",
+                            });
+                          setState((o) => ({
+                            ...o,
+                            selectorImage,
+                          }));
+                        }}
+                        role="tab"
+                      >
+                        {item?.name}
+                      </button>
+                    </li>
+                  ))
                 : null}
             </ul>
           </div>

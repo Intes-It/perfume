@@ -31,7 +31,13 @@ instance.interceptors.response.use(
     const originalConfig = err.config;
     const refreshToken = getCookie("refresh_token");
     // Access Token was expired
-    if (err.response.status === 401 && !_retry) {
+    const messageInvalidTk = "Token is invalid or expired";
+
+    if (
+      err?.response?.status === 401 &&
+      !_retry &&
+      err?.response?.data?.message === messageInvalidTk
+    ) {
       _retry = true;
 
       try {
