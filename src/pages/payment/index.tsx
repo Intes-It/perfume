@@ -13,7 +13,6 @@ const Payment = () => {
     const { cart } = useCart();
     const dispatch=useAppDispatch()
     const router=useRouter();
-    console.log(router)
     const {processYourOrder}=useCheckout()
     const handleOder = async () => {
         const res = await processYourOrder({
