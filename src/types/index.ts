@@ -21,7 +21,6 @@ export interface Product {
   capacity?: any;
   color: any;
   packaging: any;
-  thumbnail?: any;
 }
 
 export interface ExProduct {
@@ -38,9 +37,7 @@ export interface ExProduct {
   order_id?: number;
   total_price_item?: string | number;
   image: string;
-  weight?: number;
   order: string | number;
-  evaluate?: number;
 }
 
 export interface MemberComment {

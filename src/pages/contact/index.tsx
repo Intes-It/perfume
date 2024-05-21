@@ -33,7 +33,7 @@ const Contact = () => {
                 {text.contactScreen.naFeerique}
               </h5>
               <p className="text-[16px] text-[#603813] mobile:text-[14px]">
-                {text.contactScreen.address}
+                61 Montée Des Amandiers, 26110 Saint-Maurice Sur Eygues, France
               </p>
             </div>
           </div>
@@ -59,7 +59,7 @@ const Contact = () => {
                 {text.contactScreen.email}
               </h5>
               <p className="text-[16px] text-[#603813] mobile:text-[14px]">
-                {text.contactScreen.contactMail}
+                contact@naturefeerique.fr
               </p>
             </div>
           </div>
@@ -88,7 +88,7 @@ const Contact = () => {
                   className="mr-4 text-sm text-gray-700"
                   icon={faEnvelope}
                 />
-                {text.contactScreen.contactMail}
+                contact@naturefeerique.fr
               </li>
               {/* <li>
                 <FontAwesomeIcon
@@ -102,7 +102,7 @@ const Contact = () => {
                   className="mr-4 text-sm text-gray-700"
                   icon={faClock}
                 />
-                <span>{text.contactScreen.timeOpen}:</span>
+                <span>Lun- Ven:</span>
                 <p className="ml-7">09:00 - 18:00</p>
               </li>
             </ul>
