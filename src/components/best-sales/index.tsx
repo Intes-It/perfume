@@ -16,6 +16,7 @@ export const BestSales: React.FC<BestSalesProps> = ({
 }) => {
   const { width } = useWindowSize();
   const stepProductSlide = useMemo(() => (width > 740 ? 4 : 1), [width]);
+ 
 
   const productLeadGroup = products?.filter(
     (product: Product, index: number) => index % stepProductSlide == 0
@@ -42,7 +43,7 @@ export const BestSales: React.FC<BestSalesProps> = ({
                     return (
                       <div
                         key={index2}
-                        className="duration-300 border border-gray hover:shadow-2xl"
+                        className="border border-gray duration-300 hover:shadow-2xl"
                       >
                         <ProductItem product={item} showButton={showButton} />
                       </div>

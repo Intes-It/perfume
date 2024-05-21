@@ -45,13 +45,12 @@ const Footer = () => {
               {text.homePageScreen.notreLocal}
             </div>
             <div className="text-base font-Light tracking-wide mt-2">
-              {text.homePageScreen.fairyNature}
+              Nature Féerique <br />
+              61 Montée Des Amandiers
               <br />
-              {text.homePageScreen.adress}
+              26110 Saint-Maurice Sur Eygues
               <br />
-              {text.homePageScreen.time}
-              <br />
-              {text.homePageScreen.country}
+              France
               <br />
             </div>
           </div>
