@@ -1,15 +1,18 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 
 import { Countries } from "@definitions/constants";
 // import { useQuery } from "react-query";
 import useUser from "@hooks/useUser";
+import Image from "next/image";
 
 type BillingInfomationProps = {
   onError?: (errors: any) => void;
   onValueChange?: (values: any) => void;
 };
+
+
 const BillingInfomation: React.FC<BillingInfomationProps> = ({
   onError,
   onValueChange,
@@ -61,6 +64,18 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
   useEffect(() => {
     onValueChange?.(values);
   }, [values]);
+//useEffect(()=>{
+//  async function getCountry() {
+//    const res = await fetch(
+//      "https://restcountries.com/v3.1/all?fields=name,flags"
+//    );
+//    return res.json();
+//  }
+//  getCountry().then(data=>setCountrys(data.map((item:any)=>({
+//
+//    name:item.name.common
+//  }))))
+//},[])
 
   return (
     <div className="">
@@ -127,9 +142,9 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                 // }}
               >
                 <option hidden></option>
-                {countrys.map((c, index: number) => (
-                  <option key={index} value={c.value}>
-                    {c.value}
+                {countrys.map((c:any, index: number) => (
+                  <option key={index} value={c.name}>
+                  {c.name}
                   </option>
                 ))}
               </select>
