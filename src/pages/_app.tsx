@@ -1,22 +1,21 @@
-import React, { useState } from "react";
+import store from "@redux/store";
 import { AppProps } from "next/app";
+import { useState } from "react";
 import {
   QueryClient,
   QueryClientProvider,
   type DehydratedState,
 } from "react-query";
-import store from "@redux/store";
-import "tailwindcss/tailwind.css";
 import { Hydrate } from "react-query/hydration";
 import { Provider } from "react-redux";
+import "tailwindcss/tailwind.css";
 
-import "@styles/styles.css";
-import LoadingIndicator from "@components/loading-indicator";
 import { Layout } from "@components";
-import GlobalStyle from "@styles/globalStyles";
+import LoadingIndicator from "@components/loading-indicator";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import { persistStore } from "redux-persist";
+import GlobalStyle from "@styles/globalStyles";
+import "@styles/styles.css";
 
 config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 
@@ -78,7 +77,6 @@ function MyApp({
       setState((pre) => ({ ...pre, queries: queryCount }));
     }
   });
-  persistStore(store);
   return (
     <>
       {/* <Head>
