@@ -21,6 +21,7 @@ import useUser from "@hooks/useUser";
 import { ExProduct } from "@types";
 import { useRouter } from "next/router";
 
+import { showToast } from "@redux/slices/toast/toastSlice";
 import _ from "lodash";
 import { twMerge } from "tailwind-merge";
 
@@ -54,7 +55,7 @@ const ProductDetail: React.FC<
   // redux
   const dispatch = useDispatch();
   const localCart = useSelector(
-    (state: any) => state.persistedReducer?.cart?.products
+    (state: any) => state?.cart?.products
   ) as ExProduct[];
 
   const { isAuthenticated } = useUser();
@@ -76,13 +77,13 @@ const ProductDetail: React.FC<
 
   const [state, setState] = useState({
     isShowImageModal: false,
-    amount: 1,
+    quantity: 1,
     selectorImage: undefined,
   });
 
   const router = useRouter();
 
-  const { isShowImageModal, amount, selectorImage } = state;
+  const { isShowImageModal, quantity, selectorImage } = state;
 
   const breadCrumb = useMemo(() => {
     const listCategories = [];
@@ -158,7 +159,7 @@ const ProductDetail: React.FC<
       return;
     }
 
-    if (amount < 1) {
+    if (quantity < 1) {
       setIsError({
         type: "option",
         message: "Please enter the quantity.",
@@ -176,11 +177,15 @@ const ProductDetail: React.FC<
       if (type === "CHECKOUT") router.push("/checkout");
 
       const payload = {
-        product_id: product?.id,
-        amount: amount,
-        package: packageSelected,
-        color: colorSelected,
-        capacity: contenanceSelected,
+        data: [
+          {
+            product_id: product?.id,
+            quantity: quantity,
+            package: packageSelected?.id,
+            color: colorSelected?.id,
+            capacity: contenanceSelected?.id,
+          },
+        ],
       };
       const res = await addProductToCart(payload);
       if (res?.status === 201 || res?.status === 200) {
@@ -189,6 +194,9 @@ const ProductDetail: React.FC<
             ...res?.data?.data,
           })
         );
+        dispatch(showToast({ message: "Add successfully!", error: false }));
+      } else {
+        dispatch(showToast({ message: "Something went wrong!", error: true }));
       }
     } else {
       router.push("/my-account");
@@ -399,7 +407,7 @@ const ProductDetail: React.FC<
           )}
           <div className="flex items-center gap-3 mt-6">
             <input
-              value={amount}
+              value={quantity}
               onChange={(e: any) => {
                 if (+e.target.value.charAt(0) === 0) {
                   e.target.value = e.target.value.substring(1);
@@ -410,7 +418,7 @@ const ProductDetail: React.FC<
                 if (newValue <= 999) {
                   setState((pre) => ({
                     ...pre,
-                    amount: newValue,
+                    quantity: newValue,
                   }));
                 }
               }}

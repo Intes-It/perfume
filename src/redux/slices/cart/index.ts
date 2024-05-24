@@ -40,7 +40,7 @@ const cartSlice = createSlice({
         if (item.id && +item.id === +product.id) {
           return {
             ...item,
-            amount: product?.amount,
+            quantity: product?.quantity,
           };
         }
 

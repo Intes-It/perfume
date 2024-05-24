@@ -15,7 +15,7 @@ function Navbar() {
   const category = router.query;
   const category_id = category["product-group"];
 
-  const toast = useSelector((state: any) => state?.persistedReducer.toast);
+  const toast = useSelector((state: any) => state?.toast);
   const exCategories = data && [
     Routes.home,
     Routes.about,

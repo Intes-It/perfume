@@ -11,19 +11,22 @@ import Link from "next/link";
 //
 const CartPopover: React.FC = () => {
   const products = useSelector(
-    (state: any) => state.persistedReducer?.cart?.products
+    (state: any) => state?.cart?.products
   ) as ExProduct[];
 
   const { cart } = useCart();
   const dispatch = useDispatch();
 
-  const totalProducts = products?.reduce((pre, curr) => pre + +curr.amount, 0);
+  const totalProducts = products?.reduce(
+    (pre, curr) => pre + +curr.quantity,
+    0
+  );
 
   React.useEffect(() => {
     if (cart?.status === 200) {
       const orderItem = cart?.data?.order_item?.map((item: any) => ({
         ...item,
-        quantity: item?.amount,
+        quantity: item?.quantity,
         packageName: item?.packaging,
       }));
       if (orderItem) {

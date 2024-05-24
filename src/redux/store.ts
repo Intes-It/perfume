@@ -1,39 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { setupListeners } from '@reduxjs/toolkit/query'; 
-import { useDispatch } from 'react-redux'; 
-import storage from 'redux-persist/lib/storage'
+import { configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/query";
+import { useDispatch } from "react-redux";
 
-import { 
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from 'redux-persist'
-
-import rootReducer from './reducers';
-
-const persistConfig = {
-  key: 'root',
-  version: 1,
-  storage,
-}
-
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+import rootReducer from "./reducers";
 
 export const store = configureStore({
-  reducer: {
-    persistedReducer
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-      // serializableCheck: false,
-    })
+  reducer: rootReducer, // Use rootReducer directly
 });
 
 setupListeners(store.dispatch);

@@ -7,7 +7,7 @@ const Favorite = () => {
   const text = useLocale();
   const dispatch = useDispatch();
   const favoriteProducts = useSelector(
-    (state: any) => state.persistedReducer?.favorite?.list
+    (state: any) => state?.favorite?.list
   ) as Product[];
 
   // const favoriteList = favoriteProducts?.map((item: Product) => {

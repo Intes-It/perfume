@@ -51,7 +51,12 @@ const ProductItem: React.FC<ProductProps> = ({
     try {
       //check exist product
       const payload = {
-        product_id: product?.id,
+        data: [
+          {
+            product_id: product?.id,
+            quantity: 1,
+          },
+        ],
       };
 
       const res = await addProductToCart(payload);

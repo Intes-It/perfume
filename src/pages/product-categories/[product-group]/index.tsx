@@ -61,7 +61,7 @@ const ProductGroup = () => {
   } = useQuery("get-category-product", getProductCategory);
 
   const favoriteProducts = useSelector(
-    (state: any) => state.persistedReducer?.favorite?.list
+    (state: any) => state?.favorite?.list
   ) as Product[];
 
   const handleSortByCategoryChange = (value: any, id: number) => {

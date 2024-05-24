@@ -1,17 +1,16 @@
+import useUser from "@hooks/useUser";
+import { clearCart } from "@redux/slices/cart";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { ExProduct } from "@types";
+import { instance } from "@utils/_axios";
+import { api } from "@utils/apiRoute";
+import { GET, POST } from "@utils/fetch";
 import { formatCurrency } from "@utils/formatNumber";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/router";
 import React, { useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/router";
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { clearCart } from "@redux/slices/cart";
-import { api } from "@utils/apiRoute";
-import { instance } from "@utils/_axios";
-import { GET, POST } from "@utils/fetch";
-import { getCookie } from "cookies-next";
-import useUser from "@hooks/useUser";
 import useSWR from "swr";
-import { log } from "console";
 
 type OrderReviewProps = {
   onOderClicked?: () => void;
@@ -56,7 +55,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
   const [voucher, setVoucher] = useState<voucherCost[]>([]);
   const [weight, setWeight] = useState<weightCost[]>([]);
   const products = useSelector(
-    (state: any) => state.persistedReducer?.cart?.products
+    (state: any) => state?.cart?.products
   ) as ExProduct[];
   const voucherRef = useRef<HTMLInputElement | null>(null);
   const totalMoney = useMemo(() => {
@@ -104,7 +103,6 @@ const OrderReview: React.FC<OrderReviewProps> = ({
   const dispatch = useDispatch();
   const router = useRouter();
   const csrfToken = getCookie("csrftoken");
- 
 
   async function handleStripePayment(e: React.FormEvent) {
     try {

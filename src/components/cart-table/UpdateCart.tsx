@@ -25,7 +25,7 @@ function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
     message: "",
   });
   const [state, setState] = useState({
-    amount: 1,
+    quantity: 1,
     packagePrice: 0,
     contenancePrice: 0,
     packageName: "",
@@ -35,7 +35,7 @@ function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
   });
 
   const {
-    amount,
+    quantity,
     packagePrice,
     packageName,
     contenance,
@@ -66,7 +66,7 @@ function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
       color: color,
       packaging: packageName,
       capacity: contenance,
-      amount: amount,
+      quantity: quantity,
     };
 
     try {
@@ -91,7 +91,7 @@ function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
 
       setState({
         ...state,
-        amount: order.amount,
+        quantity: order.quantity,
         contenance: order?.capacity,
         packagePrice: +packageCurr?.price || 0,
         contenancePrice: +capacityCurr?.price || 0,
@@ -361,7 +361,7 @@ function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
                     )}
                     <div className="flex items-center gap-3 mt-6">
                       <input
-                        value={amount}
+                        value={quantity}
                         onChange={(e: any) => {
                           if (+e.target.value.charAt(0) === 0) {
                             e.target.value = e.target.value.substring(1);
@@ -372,7 +372,7 @@ function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
                           if (newValue <= 999) {
                             setState((pre) => ({
                               ...pre,
-                              amount: newValue,
+                              quantity: newValue,
                             }));
                           }
                         }}

@@ -10,7 +10,7 @@ export interface Product {
   shortDescription?: string | undefined;
   description?: string | undefined;
   numberOfReviewers?: number | undefined;
-  amount: number;
+  quantity: number;
   favorite?: boolean;
   check?: boolean;
   name?: string;
@@ -37,7 +37,6 @@ export interface ExProduct {
   orderId: number;
   product: Product;
   quantity: number;
-  amount: number;
   packageName?: string;
   price?: any;
   color?: any;

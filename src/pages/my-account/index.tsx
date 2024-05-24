@@ -20,7 +20,7 @@ const MyAccount = () => {
     color: "",
   });
   const products = useSelector(
-    (state: any) => state.persistedReducer?.cart?.products
+    (state: any) => state?.cart?.products
   ) as ExProduct[];
 
   const { error, message, color } = state;

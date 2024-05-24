@@ -16,7 +16,7 @@ const Favourite = () => {
   const dispatch = useDispatch();
 
   const favoriteProducts = useSelector(
-    (state: any) => state.persistedReducer?.favorite?.list
+    (state: any) => state?.favorite?.list
   ) as Product[];
 
   const handleGetFavorite = async () => {

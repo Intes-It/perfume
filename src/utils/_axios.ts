@@ -1,9 +1,10 @@
 import axios from "axios";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
+import { jwtDecode } from "jwt-decode";
 const pendingRequests: any[] = [];
 const instance = axios.create({
   // baseURL: process.env.NEXT_PUBLIC_BASE_URL,
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: "http://171.244.64.245:8010",
   headers: {
     "Content-Type": "application/json",
   },
@@ -12,10 +13,17 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     const token = getCookie("access_token");
-    if (token) {
-      config.headers["Authorization"] = "Bearer " + token; // for Spring Boot back-end
-      // config.headers['x-access-token'] = token; // for Node.js Express back-end
+    try {
+      const currentTime = Date.now();
+      const decoded = token && jwtDecode(token?.toString());
+      const expiry = decoded && decoded?.exp;
+      if (expiry && expiry < currentTime) {
+        config.headers["Authorization"] = "Bearer " + token;
+      } else config.headers["Authorization"] = "No auth";
+    } catch (error) {
+      config.headers["Authorization"] = "No auth";
     }
+
     return config;
   },
   (error) => {
@@ -56,7 +64,6 @@ instance.interceptors.response.use(
           deleteCookie("refresh_token");
         }
       } catch (_error) {
-        originalConfig._retry = false; // Clear _retry on any error
         return Promise.reject(_error);
       }
     }

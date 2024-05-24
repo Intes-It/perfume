@@ -32,7 +32,7 @@ const CartTable = () => {
 
   const debouncedHandleUpdateQuantity = debounce(
     (exProduct: ExProduct, quantity: number) => {
-      exProduct.amount = quantity;
+      exProduct.quantity = quantity;
       try {
         updateProductToCart({
           order_item_id: exProduct.id,
@@ -40,7 +40,7 @@ const CartTable = () => {
           color: exProduct.color,
           packaging: exProduct.packageName,
           capacity: exProduct.capacity,
-          amount: exProduct.amount,
+          quantity: exProduct.quantity,
         });
       } catch (error) {
         console.log("error", error);
@@ -185,7 +185,7 @@ const CartTable = () => {
                             if (+e.target.value > 1000) return;
                             handleUpdateQuantity(item, +e.target.value);
                           }}
-                          defaultValue={item?.amount}
+                          defaultValue={item?.quantity}
                         />
                       </td>
                       <td className="px-6 py-2 font-medium border">
