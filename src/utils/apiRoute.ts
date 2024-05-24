@@ -27,4 +27,7 @@ export const api = {
   change_password: "/api/auth/change-password/",
   forgotPassword: "/api/auth/forgot-password/",
   update_user: "/api/user/update/",
+  get_favourite: "/api/product/favourite/",
+  add_favourite: "/api/product/favourite/add/",
+  remove_favourite: "/api/product/favourite/remove/",
 };

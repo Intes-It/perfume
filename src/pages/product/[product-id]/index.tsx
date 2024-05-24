@@ -208,7 +208,7 @@ const ProductDetail: React.FC<
             // src={product?.url_image}
             src={
               selectorImage === undefined
-                ? product?.images[0]?.url
+                ? product?.images?.length > 0 && product?.images[0]?.url
                 : selectorImage
             }
             alt={product?.name}
@@ -261,42 +261,37 @@ const ProductDetail: React.FC<
             </div>
           )} */}
           {/* color */}
-          <div className="my-3">
+          <div className="my-3 ">
             {_.isEmpty(product?.color) ? null : (
-              <span className="flex font-semibold text-[#603813] ">
+              <span className="flex font-semibold mb-4 text-[#603813] ">
                 Color :
-                <span className="grid mb-4 font-medium">
-                  {colorSelected?.name}{" "}
-                </span>
+                <span className="grid font-medium">{colorSelected?.name} </span>
               </span>
             )}
             <div className="flex gap-3 mt-4">
-              {product?.color
-                ? Object.values(product.color)?.map(
-                    (item: any, index: number) => (
-                      <button
-                        key={index}
-                        onClick={() => {
-                          setState((o) => ({
-                            ...o,
-                            selectorImage: item.image,
-                          }));
-                          setColorSelected(item);
-                        }}
-                        style={{
-                          background: `${item.color}`,
-                        }}
-                        className={twMerge(
-                          "mb-3 border p-2 text-white outline-none",
-                          colorSelected?.id === item?.id && "border-black"
-                        )}
-                      >
-                        {/* //  className={`mb-3 border p-2 text-white border-black bg-[#50d71e]`}>  */}
-                        {item?.name}
-                      </button>
-                    )
-                  )
-                : null}
+              {!_.isEmpty(product?.color) &&
+                product.color?.map((item: any, index: number) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      setState((o) => ({
+                        ...o,
+                        selectorImage: item.image,
+                      }));
+                      setColorSelected(item);
+                    }}
+                    style={{
+                      background: `${item.color}`,
+                    }}
+                    className={twMerge(
+                      "mb-3 border p-2 text-white outline-none",
+                      colorSelected?.id === item?.id && "border-black"
+                    )}
+                  >
+                    {/* //  className={`mb-3 border p-2 text-white border-black bg-[#50d71e]`}>  */}
+                    {item?.name}
+                  </button>
+                ))}
             </div>
           </div>
           {/* sub product */}
@@ -356,7 +351,7 @@ const ProductDetail: React.FC<
 
           {/* packaging */}
           <div className="flex gap-1 mt-4 mb-3 ">
-            {_.isEmpty(product?.packaging) ? null : (
+            {!_.isEmpty(product?.package) && (
               <div
                 role="tabpanel"
                 className={`mb-4  text-[#603813]    transition-opacity duration-150 ease-linear `}
@@ -371,36 +366,35 @@ const ProductDetail: React.FC<
               id="tabs-tab"
               role="tablist"
             >
-              {product?.package
-                ? product.package?.map((item: any, index: number) => (
-                    <li role="presentation" key={index}>
-                      <button
-                        // href={"#" + namePackaging[index]}
-                        className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate focus:isolate hover:border-transparent hover:bg-neutral-100   ${
-                          packageSelected?.id === item?.id
-                            ? "border-[#6A5950]"
-                            : ""
-                        } `}
-                        onClick={() => {
-                          const selectorImage = item?.image;
-                          setPackageSelected(item);
-                          if (isError.type)
-                            setIsError({
-                              ...isError,
-                              type: "",
-                            });
-                          setState((o) => ({
-                            ...o,
-                            selectorImage,
-                          }));
-                        }}
-                        role="tab"
-                      >
-                        {item?.name}
-                      </button>
-                    </li>
-                  ))
-                : null}
+              {product?.package &&
+                product.package?.map((item: any, index: number) => (
+                  <li role="presentation" key={index}>
+                    <button
+                      // href={"#" + namePackaging[index]}
+                      className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate focus:isolate hover:border-transparent hover:bg-neutral-100   ${
+                        packageSelected?.id === item?.id
+                          ? "border-[#6A5950]"
+                          : ""
+                      } `}
+                      onClick={() => {
+                        const selectorImage = item?.image;
+                        setPackageSelected(item);
+                        if (isError.type)
+                          setIsError({
+                            ...isError,
+                            type: "",
+                          });
+                        setState((o) => ({
+                          ...o,
+                          selectorImage,
+                        }));
+                      }}
+                      role="tab"
+                    >
+                      {item?.name}
+                    </button>
+                  </li>
+                ))}
             </ul>
           </div>
 

@@ -1,8 +1,8 @@
 import ProductItem from "@components/product-item";
+import useLocale from "@hooks/useLocale";
 import { addFavoriteItem, removeFavoriteItem } from "@redux/slices/favorite";
 import { Product } from "@types";
 import { useDispatch, useSelector } from "react-redux";
-import useLocale from "@hooks/useLocale";
 const Favorite = () => {
   const text = useLocale();
   const dispatch = useDispatch();
@@ -20,9 +20,9 @@ const Favorite = () => {
 
   return (
     <div>
-      <div className="flex flex-col items-center space-y-10 mx-5 my-5 ">
+      <div className="flex flex-col items-center mx-5 my-5 space-y-10 ">
         <div className="w-[100%] flex justify-between mobile:flex-wrap-reverse">
-          <div className="flex  space-x-5 mobile:justify-between mobile:mt-5 ">
+          <div className="flex space-x-5 mobile:justify-between mobile:mt-5 ">
             {/* <DropdownCheckbox
             title="Catégories"
             selections={selection}
@@ -36,7 +36,7 @@ const Favorite = () => {
           {/*</div>*/}
         </div>
         {favoriteProducts.length > 0 ? (
-          <div className="grid grid-cols-4 grid-flow-row gap-10 tablet:grid-cols-3 mobile:grid-cols-2">
+          <div className="grid grid-flow-row grid-cols-4 gap-10 tablet:grid-cols-3 mobile:grid-cols-2">
             {favoriteProducts?.map((item: Product, index: number) => (
               <div key={index}>
                 <ProductItem

@@ -1,17 +1,17 @@
-import { MemberComment, Product } from "@types";
+import { MemberComment } from "@types";
 
 export const productPrice = [
-  { name: "0€ — 10€", value: "0-10" },
-  { name: "11€ — 20€", value: "11-20" },
-  { name: "21€ — 50€", value: "21-50" },
+  { name: "0€ — 10€", value: "0,10" },
+  { name: "11€ — 20€", value: "11,20" },
+  { name: "21€ — 50€", value: "21,50" },
 ];
 export const productFilter = [
-  { name: "Trier Par...", value: "" },
-  { name: "Alphabétique (A à Z)", value: "alpha-asc" },
-  { name: "Alphabétique (Z à A)", value: "alpha-desc" },
-  { name: "Prix Croissant", value: "price-asc" },
-  { name: "Prix Décroissant", value: "price-desc" },
-  { name: "Nombres D'avis", value: "evaluate" },
+  { name: "Sort by...", value: "" },
+  { name: "Name (A to Z)", value: "name" },
+  { name: "Name (Z to A)", value: "-name" },
+  { name: "Price (Low to High)", value: "price" },
+  { name: "Price (High to Low)", value: "-price" },
+  { name: "Number of Reviews", value: "evaluate" },
 ];
 export const colourOptions = [
   { value: "orange", label: "Orange" },

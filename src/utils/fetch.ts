@@ -9,8 +9,8 @@ export const POST = async (url: string, data: any) => {
 export const PUT = async (url: string, data: Record<any, unknown>) => {
   return await instance.put(url, data);
 };
-export const DELETE = async (url: string, data: any) => {
-  return await instance.delete(url, { data });
+export const DELETE = async (url: string) => {
+  return await instance.delete(url);
 };
 export const PATCH = async (url: string, data: Record<any, unknown>) => {
   return await instance.patch(url, data);

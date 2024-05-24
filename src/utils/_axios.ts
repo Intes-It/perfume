@@ -1,5 +1,6 @@
 import axios from "axios";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
+const pendingRequests: any[] = [];
 const instance = axios.create({
   // baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -21,7 +22,6 @@ instance.interceptors.request.use(
     return error;
   }
 );
-let _retry = false;
 
 instance.interceptors.response.use(
   (res) => {
@@ -30,15 +30,14 @@ instance.interceptors.response.use(
   async (err) => {
     const originalConfig = err.config;
     const refreshToken = getCookie("refresh_token");
-    // Access Token was expired
     const messageInvalidTk = "Token is invalid or expired";
 
     if (
       err?.response?.status === 401 &&
-      !_retry &&
+      pendingRequests?.length < 1 && // Ensure _retry is initialized
       err?.response?.data?.message === messageInvalidTk
     ) {
-      _retry = true;
+      pendingRequests.push(originalConfig);
 
       try {
         const rs = await instance.post("/api/auth/refresh/", {
@@ -47,25 +46,22 @@ instance.interceptors.response.use(
         if (rs.status === 200) {
           setCookie("access_token", rs.data?.access);
           setCookie("refresh_token", rs.data?.refresh);
-          _retry = false;
-          return instance(originalConfig);
-        }
-        if (rs.status === 401) {
+          while (pendingRequests.length > 0) {
+            const requestConfig = pendingRequests.shift(); // Remove from queue
+            console.log("requestConfig", requestConfig);
+            return instance(requestConfig);
+          }
+        } else {
           deleteCookie("access_token");
           deleteCookie("refresh_token");
-
-          return; // No further retries needed
         }
       } catch (_error) {
-        // Clear _retry flag even on errors during refresh
+        originalConfig._retry = false; // Clear _retry on any error
         return Promise.reject(_error);
       } finally {
-        _retry = false;
       }
     }
-    _retry = false;
     return err.response;
   }
 );
-
 export { instance };

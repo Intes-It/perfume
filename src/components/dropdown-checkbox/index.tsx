@@ -1,3 +1,4 @@
+import useClickOutside from "@hooks/useClickoutside";
 import * as React from "react";
 import { useState } from "react";
 
@@ -16,12 +17,16 @@ const DropdownCheckbox: React.FC<DropdownProps> = ({
 }) => {
   const [isList, setIsList] = useState(false);
 
+  const listRef = React.useRef(null);
+
   const handleCheck = (value: any, id: any) => {
     onChange(value.target.checked, id);
   };
 
+  useClickOutside(listRef, () => setIsList(false));
+
   return (
-    <div className="font-semibold">
+    <div className="font-semibold" ref={listRef}>
       <div
         onClick={() => setIsList(!isList)}
         className="md:w-60 mobile:text-[14px] mobile:w-44 p-4 border rounded bg-white text-[#603813] text-[14.4px] leading-none flex items-center justify-between cursor-pointer"

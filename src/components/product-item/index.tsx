@@ -4,50 +4,45 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useCart from "@hooks/useCart";
 import { addProduct } from "@redux/actions";
-import { ExProduct, Product } from "@types";
+import { Product } from "@types";
 import { formatCurrency } from "@utils/formatNumber";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
+import { addFavoriteItem, removeFavoriteItem } from "@redux/slices/favorite";
 import { showToast } from "@redux/slices/toast/toastSlice";
+import { api } from "@utils/apiRoute";
+import { DELETE, POST } from "@utils/fetch";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+
 type ProductProps = {
   onFavoriteChanged?: (state?: boolean) => void;
   favorite?: boolean;
   showFavorite?: boolean;
-  product?: Product;
+  product: Product;
   showButton?: boolean;
 };
 
 const ProductItem: React.FC<ProductProps> = ({
-  onFavoriteChanged,
-  favorite,
   showFavorite = false,
   product,
   showButton = true,
 }) => {
-  const localCart = useSelector(
-    (state: any) => state.persistedReducer?.cart?.products
-  ) as ExProduct[];
-
   const { mutate } = useSWR("get-server-cart");
   const { addProductToCart } = useCart();
   const dispatch = useDispatch();
-  const totalMoney = localCart?.reduce(
-    (pre, curr) =>
-      pre + curr.amount * Number.parseFloat(curr?.product?.price || "0"),
-    0
-  );
 
+  const [newProduct, setNewProduct] = useState<Product>(product);
   const route = useRouter();
 
   const handleAddProduct = async () => {
     if (
-      (product?.packaging && Object.values(product?.packaging)?.length > 0) ||
-      (product?.color && Object.values(product?.color)?.length > 0) ||
-      (product?.capacity && Object.values(product?.capacity)?.length > 0)
+      (product?.package?.length > 0 ||
+        product?.color?.length > 0 ||
+        product?.capacity?.length > 0) &&
+      product?.id
     ) {
       route.push(`/product/${product.id}`);
       return;
@@ -70,12 +65,59 @@ const ProductItem: React.FC<ProductProps> = ({
         await mutate("get-server-cart");
         dispatch(showToast({ message: "Add successfully!", error: false }));
       } else {
-        route.push("/my-account");
+        dispatch(showToast({ message: "Something went wrong!", error: true }));
       }
     } catch (error) {
       dispatch(showToast({ message: "Something went wrong!", error: true }));
       console.log("error", error);
     }
+  };
+
+  const handleAddFavorite = async () => {
+    try {
+      const res = await POST(api.add_favourite, { product_id: product?.id });
+      if (res.status === 200 || res.status === 201) {
+        dispatch(addFavoriteItem(product));
+        dispatch(
+          showToast({ message: "Add to favorite successfully!", error: false })
+        );
+        setNewProduct({ ...newProduct, is_favourite: true });
+      } else {
+        dispatch(
+          showToast({ message: "Please login to add favorite !", error: true })
+        );
+      }
+    } catch (error) {
+      console.log("error", error);
+      dispatch(showToast({ message: "Something went wrong!", error: true }));
+    }
+  };
+
+  const handleRemoveFavorite = async () => {
+    try {
+      const res = await DELETE(
+        api.remove_favourite + `?product_id=${product.id}`
+      );
+      if (res.status === 200 || res.status === 204) {
+        dispatch(removeFavoriteItem(product));
+        dispatch(showToast({ message: "Remove successfully!", error: false }));
+        setNewProduct({ ...product, is_favourite: false });
+      } else {
+        dispatch(
+          showToast({
+            message: "Please login to remove favorite !",
+            error: true,
+          })
+        );
+      }
+    } catch (error) {
+      console.log("error", error);
+      dispatch(showToast({ message: "Something went wrong!", error: true }));
+    }
+  };
+
+  const handleChangeFavorite = () => {
+    !newProduct.is_favourite ? handleAddFavorite() : handleRemoveFavorite();
   };
 
   return (
@@ -84,10 +126,10 @@ const ProductItem: React.FC<ProductProps> = ({
         <FontAwesomeIcon
           className={`absolute top-[5%] right-[4%] mobile:top-[2%]  mobile:right-[0%] 
                   cursor-pointer hover:text-red-500 ${
-                    favorite ? "text-red-500" : ""
+                    newProduct?.is_favourite ? "text-red-500" : ""
                   } `}
-          icon={favorite ? faCheck : faHeart}
-          onClick={() => onFavoriteChanged?.(favorite)}
+          icon={newProduct?.is_favourite ? faCheck : faHeart}
+          onClick={handleChangeFavorite}
         />
       )}
       <Link href={`/product/${product?.id}`}>

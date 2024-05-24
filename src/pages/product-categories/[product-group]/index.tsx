@@ -3,7 +3,6 @@ import DropdownCheckbox from "@components/dropdown-checkbox";
 import DropdownSelect from "@components/dropdown-select";
 import ProductItem from "@components/product-item";
 import { useAllCategory } from "@hooks/useCategory";
-import { addFavoriteItem, removeFavoriteItem } from "@redux/slices/favorite";
 import { Product } from "@types";
 import { api } from "@utils/apiRoute";
 import { productFilter, productPrice } from "@utils/fakeData";
@@ -43,9 +42,10 @@ const ProductGroup = () => {
     if (!category_id) return;
 
     const queryParams = {
-      category_id: category_id,
+      category_ids: category_id,
+      page_size: 1000,
       ...(selectedSubCate && { subcategory_ids: selectedSubCate }),
-      ...(selectedRangePrice && { range: selectedRangePrice }),
+      ...(selectedRangePrice && { price_range: selectedRangePrice }),
       ...(selectedSort && { order_by: selectedSort }),
     };
 
@@ -125,15 +125,7 @@ const ProductGroup = () => {
           ) : products?.results?.length > 0 ? (
             products?.results?.map((item: Product, index: number) => (
               <div key={index}>
-                <ProductItem
-                  onFavoriteChanged={(state) => {
-                    if (state) dispatch(removeFavoriteItem(item));
-                    else dispatch(addFavoriteItem(item));
-                  }}
-                  favorite={item?.favorite}
-                  showFavorite={true}
-                  product={item}
-                />
+                <ProductItem showFavorite={true} product={item} />
               </div>
             ))
           ) : (

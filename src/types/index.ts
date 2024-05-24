@@ -20,8 +20,9 @@ export interface Product {
   total_price_item?: string | number;
   capacity?: any;
   color: any;
-  packaging: any;
+  package: any;
   thumbnail?: any;
+  is_favourite?: boolean;
   images: {
     id: number;
     name: string;
