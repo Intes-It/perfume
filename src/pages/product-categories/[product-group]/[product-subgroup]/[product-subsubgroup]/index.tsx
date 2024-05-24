@@ -3,82 +3,80 @@ import DropdownCheckbox from "@components/dropdown-checkbox";
 import DropdownSelect from "@components/dropdown-select";
 import ProductItem from "@components/product-item";
 import { Product } from "@types";
+import { api } from "@utils/apiRoute";
+import { productFilter, productPrice } from "@utils/fakeData";
+import { GET } from "@utils/fetch";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { productFilter, productPrice } from "@utils/fakeData";
+import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
-import { addFavoriteItem, removeFavoriteItem } from "@redux/slices/favorite";
-import { useProducts } from "@hooks/useProduct";
-import { useAllCategory } from "@hooks/useCategory";
 
 const ProductSubSubGroup = () => {
-  
   const dispatch = useDispatch();
-  const {  subsubCategories } = useAllCategory();
+
+  const [selectedRangePrice, setSelectedRangePrice] = useState<string | null>(
+    null
+  );
+  const [selectedSort, setSelectedSort] = useState<number | null>(null);
+
   const router = useRouter();
-  const { products, fetchFilterProducts } = useProducts();
-  const [state, setState] = useState({
-    filterProducts: [] as Product[] | undefined,
-    copy: [] as Product[] | undefined,
-    categories: "",
-    price: "",
-    selection: [] as string[],
-    sort: null,
-    priceRange: null,
-  });
-  const { filterProducts, sort, priceRange, } = state;
+
+  const category = router.query;
+
+  const category_id = category["product-group"];
+  const sub_category_id = category["product-subgroup"];
+  const sub_sub_category_id = category["product-subsubgroup"];
+
+  const getProductCategory = async () => {
+    if (!sub_category_id) return;
+
+    const queryParams = {
+      category_ids: category_id,
+      page_size: 1000,
+      subcategory_ids: sub_category_id,
+      sub_subcategory_ids: sub_sub_category_id,
+      ...(selectedRangePrice && { price_range: selectedRangePrice }),
+      ...(selectedSort && { order_by: selectedSort }),
+    };
+    const queryString = new URLSearchParams(queryParams as any).toString();
+
+    return (await GET(api.products + `?${queryString}`)).data;
+  };
+
+  const {
+    data: products,
+    refetch,
+    isLoading,
+  } = useQuery("get-category-product", getProductCategory);
 
   const favoriteProducts = useSelector(
     (state: any) => state.persistedReducer?.favorite?.list
   ) as Product[];
 
-  const fetchProducts = async () => {
-    const subsubCategoryId = subsubCategories?.find((item: any) => item?.slug === router.query["product-subsubgroup"])?.id;
-    if (subsubCategoryId) {
-      await fetchFilterProducts({
-        subsubcategory: subsubCategoryId as any,
-        ...(sort && { sort: sort as any }) as any,
-        ...(priceRange && { price_range: priceRange as any }) as any
-      })
+  const handlePriceRangeChange = (value: any, id: any) => {
+    if (value !== selectedRangePrice && value) {
+      setSelectedRangePrice(id);
+    } else {
+      setSelectedRangePrice(null);
     }
-  }
-
-  useEffect(() => {
-    const filterProducts = products?.map((product: Product) => ({
-      ...product,
-    }));
-    filterProducts?.forEach((item: Product) => {
-      const existItem = favoriteProducts?.find(
-        (itemFavorite) => itemFavorite.id === item.id
-      );
-      if (existItem) item.favorite = true;
-      else item.favorite = false;
-    });
-    setState((pre) => ({ ...pre, filterProducts }));
-  }, [router.query, products, favoriteProducts]);
-
-  useEffect(() => {
-    fetchProducts();
-  }, [subsubCategories, router.query, sort, priceRange])
-
-
-
+  };
   const handleSortChange = (value: any) => {
-    setState((pre) => ({ ...pre, sort: value }))
+    if (value !== selectedSort) setSelectedSort(value);
   };
-  const handlePriceRangeChange = (value: any) => {
-    setState((pre) => ({ ...pre, priceRange: value }))
-  };
+
+  useEffect(() => {
+    if (sub_category_id) refetch();
+  }, [sub_category_id, selectedSort, selectedRangePrice]);
 
   return (
     <Container>
-      <div className="flex flex-col items-center space-y-10 mx-5 my-5 ">
+      <div className="flex flex-col items-center mx-5 my-5 space-y-10 ">
         {/* <p className="text-[17px] text-[#383E42] text-center">
           Des cosmétiques naturels solides fabriqués artisanalement en Provence
           avec des ingrédients majoritairement locaux.
         </p> */}
         <div className="w-[100%] flex justify-between mobile:flex-wrap-reverse">
-          <div className="flex  space-x-5 mobile:justify-between mobile:mt-5 ">
+          <div className="flex space-x-5 mobile:justify-between mobile:mt-5 ">
             {/* <DropdownCheckbox
               title="Catégories"
               selections={filterProducts?.reduce(
@@ -91,29 +89,21 @@ const ProductSubSubGroup = () => {
             <DropdownCheckbox
               title="Prix"
               selections={productPrice}
+              value={selectedRangePrice}
               onChange={handlePriceRangeChange}
             />
           </div>
-          <div className="md:flex justify-end">
-          
+          <div className="justify-end md:flex">
             <DropdownSelect
               selections={productFilter}
               onChange={handleSortChange}
             />
           </div>
         </div>
-        <div className="grid md:grid-cols-4 grid-flow-row gap-10 tablet:grid-cols-3 grid-cols-2">
-          {filterProducts?.map((item: Product, index: number) => (
+        <div className="grid grid-flow-row grid-cols-2 gap-10 md:grid-cols-4 tablet:grid-cols-3">
+          {products?.results?.map((item: Product, index: number) => (
             <div key={index}>
-              <ProductItem
-                onFavoriteChanged={(state) => {
-                  if (state) dispatch(removeFavoriteItem(item));
-                  else dispatch(addFavoriteItem(item));
-                }}
-                favorite={item?.favorite}
-                showFavorite={true}
-                product={item}
-              />
+              <ProductItem showFavorite={true} product={item} />
             </div>
           ))}
         </div>

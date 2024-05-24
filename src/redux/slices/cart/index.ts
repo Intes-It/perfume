@@ -14,22 +14,24 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addProduct: (state, actions) => {
-      const exProduct = actions.payload;
+      const product = actions.payload;
+      const products = state.products;
 
-      // const existExProduct = state.products?.find(
-      //   (item) =>
-      //     item.product.id === exProduct.product.id &&
-      //     item.packageName === exProduct.packageName &&
-      //     item?.color === exProduct.color &&
-      //     item?.capacity === exProduct.capacity
-      // );
+      const existProduct = products?.find((item: any) => {
+        return (
+          item?.product?.id === product?.id &&
+          item?.packaging === product.packaging &&
+          item?.color === product.color &&
+          item?.capacity === product.capacity
+        );
+      });
 
-      // if (existExProduct) {
-      //   existExProduct.quantity += Number.parseInt(exProduct.quantity);
-      // } else {
-      //   state.products = [...state.products, exProduct];
-      // }
-      state.products = [...state.products, exProduct];
+      if (existProduct) {
+        existProduct.quantity += Number.parseInt(product.quantity);
+      } else {
+        state.products = [...state.products, product];
+      }
+      state.products = [...state.products, product];
     },
     updateProduct: (state, actions) => {
       const product = actions.payload;

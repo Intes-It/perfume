@@ -3,127 +3,121 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useCart from "@hooks/useCart";
-import useUser from "@hooks/useUser";
 import { addProduct } from "@redux/actions";
-import { ExProduct, Product } from "@types";
-import { api } from "@utils/apiRoute";
-import { GET } from "@utils/fetch";
+import { Product } from "@types";
 import { formatCurrency } from "@utils/formatNumber";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
-import { updateProduct } from "@redux/slices/cart";
+import { addFavoriteItem, removeFavoriteItem } from "@redux/slices/favorite";
 import { showToast } from "@redux/slices/toast/toastSlice";
+import { api } from "@utils/apiRoute";
+import { DELETE, POST } from "@utils/fetch";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+
 type ProductProps = {
   onFavoriteChanged?: (state?: boolean) => void;
   favorite?: boolean;
   showFavorite?: boolean;
-  product?: Product;
+  product: Product;
   showButton?: boolean;
 };
 
 const ProductItem: React.FC<ProductProps> = ({
-  onFavoriteChanged,
-  favorite,
   showFavorite = false,
   product,
   showButton = true,
 }) => {
-  const localCart = useSelector(
-    (state: any) => state.persistedReducer?.cart?.products
-  ) as ExProduct[];
-  async function getCart() {
-    const res = await GET(api.getCart);
-    return res.data;
-  }
-  const { data, mutate } = useSWR("get-server-cart", getCart);
-  const cart = data?.cart;
-  const { addProductToCart, addExistProductToCart } = useCart();
-  const { isAuthenticated } = useUser();
+  const { mutate } = useSWR("get-server-cart");
+  const { addProductToCart } = useCart();
   const dispatch = useDispatch();
-  const totalMoney = localCart?.reduce(
-    (pre, curr) =>
-      pre + curr.amount * Number.parseFloat(curr?.product?.price || "0"),
-    0
-  );
-  const totalProducts = localCart?.reduce((pre, curr) => pre + curr.amount, 0);
 
+  const [newProduct, setNewProduct] = useState<Product>(product);
   const route = useRouter();
+
   const handleAddProduct = async () => {
     if (
-      product &&
-      (product?.color?.length > 0 ||
-        Object.values(product.packaging)?.length > 0 ||
-        product?.capacity?.length > 0)
+      (product?.package?.length > 0 ||
+        product?.color?.length > 0 ||
+        product?.capacity?.length > 0) &&
+      product?.id
     ) {
       route.push(`/product/${product.id}`);
       return;
     }
-    if (!isAuthenticated) {
-      route.push("/my-account");
-      return;
-    }
-    if (isAuthenticated) {
+
+    try {
       //check exist product
+      const payload = {
+        product_id: product?.id,
+      };
 
-      const existProduct = localCart?.find(
-        (item: any) =>
-          item?.product?.id === product?.id || item?.product?.id === product?.id
-      );
+      const res = await addProductToCart(payload);
 
-      let res;
-      if (existProduct) {
-        const data = {
-          order_item_id: existProduct?.id,
-          order_id: cart?.id || null,
-          amount: existProduct.amount + 1,
-        };
-        res = await addExistProductToCart(data);
-        dispatch(
-          updateProduct({
-            ...res?.data,
-          })
-        );
-        dispatch(showToast({ message: "Add To Cart", error: false }));
-
-        // if (res) {
-        //   return await mutate("get-server-cart");
-        // }
-      } else {
-        const data = {
-          order_id: cart?.id || null,
-          product_id: product?.id,
-          amount: 1,
-          total_amount_cart: totalProducts + 1,
-          price: product?.price,
-          image: product?.url_image,
-          total_price_item: Number.parseFloat(product?.price || "0"),
-          total_price_cart:
-            Number.parseFloat(product?.price || "0") + totalMoney,
-        };
-        res = await addProductToCart(data);
-        if (res) {
-          await mutate("get-server-cart");
-          dispatch(showToast({ message: "Add To Cart", error: false }));
-        }
-      }
       if (res?.status === 201 || res?.status === 200) {
         dispatch(
           addProduct({
-            product,
-            amount: 1,
-            id: res?.data?.data?.id,
-            price: product?.price,
-            image: product?.url_image,
             ...res.data,
           })
         );
-
-        // console.log("res:%o", res?.data?.data);
+        await mutate("get-server-cart");
+        dispatch(showToast({ message: "Add successfully!", error: false }));
+      } else {
+        dispatch(showToast({ message: "Something went wrong!", error: true }));
       }
+    } catch (error) {
+      dispatch(showToast({ message: "Something went wrong!", error: true }));
+      console.log("error", error);
     }
+  };
+
+  const handleAddFavorite = async () => {
+    try {
+      const res = await POST(api.add_favourite, { product_id: product?.id });
+      if (res.status === 200 || res.status === 201) {
+        dispatch(addFavoriteItem(product));
+        dispatch(
+          showToast({ message: "Add to favorite successfully!", error: false })
+        );
+        setNewProduct({ ...newProduct, is_favourite: true });
+      } else {
+        dispatch(
+          showToast({ message: "Please login to add favorite !", error: true })
+        );
+      }
+    } catch (error) {
+      console.log("error", error);
+      dispatch(showToast({ message: "Something went wrong!", error: true }));
+    }
+  };
+
+  const handleRemoveFavorite = async () => {
+    try {
+      const res = await DELETE(
+        api.remove_favourite + `?product_id=${product.id}`
+      );
+      if (res.status === 200 || res.status === 204) {
+        dispatch(removeFavoriteItem(product));
+        dispatch(showToast({ message: "Remove successfully!", error: false }));
+        setNewProduct({ ...product, is_favourite: false });
+      } else {
+        dispatch(
+          showToast({
+            message: "Please login to remove favorite !",
+            error: true,
+          })
+        );
+      }
+    } catch (error) {
+      console.log("error", error);
+      dispatch(showToast({ message: "Something went wrong!", error: true }));
+    }
+  };
+
+  const handleChangeFavorite = () => {
+    !newProduct.is_favourite ? handleAddFavorite() : handleRemoveFavorite();
   };
 
   return (
@@ -132,22 +126,22 @@ const ProductItem: React.FC<ProductProps> = ({
         <FontAwesomeIcon
           className={`absolute top-[5%] right-[4%] mobile:top-[2%]  mobile:right-[0%] 
                   cursor-pointer hover:text-red-500 ${
-                    favorite ? "text-red-500" : ""
+                    newProduct?.is_favourite ? "text-red-500" : ""
                   } `}
-          icon={favorite ? faCheck : faHeart}
-          onClick={() => onFavoriteChanged?.(favorite)}
+          icon={newProduct?.is_favourite ? faCheck : faHeart}
+          onClick={handleChangeFavorite}
         />
       )}
-      <a href={`/product/${product?.id}`}>
+      <Link href={`/product/${product?.id}`}>
         <div>
           <img
             className="object-scale-down md:w-[20vw] md:h-[20vw] w-[80vw] h-[80vw]  cursor-pointer"
             // src={`${server_link}${product?.image}`}
-            src={(product as any)?.url_image}
+            src={product?.thumbnail?.url}
             alt="{title}"
           />
         </div>
-      </a>
+      </Link>
       <h5 className="text-[#603813] text-center">{product?.name}</h5>
       <div className="flex flex-col items-center mt-5 space-y-2">
         <Rating score={product?.evaluate || 0} />

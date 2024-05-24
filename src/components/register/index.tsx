@@ -11,30 +11,16 @@ type RegisterProps = {
 };
 
 const schema = yup.object().shape({
-  name: yup.string().required("Field is required.").trim(),
-  emailRegister: yup
+  username: yup.string().required("Field is required.").trim(),
+  email: yup
     .string()
     .required("Field is required.")
-    .email()
     .matches(
       //eslint-disable-next-line
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       "Invalid email address" // Optional: Customize error message
     ),
-  passwordRegister: yup
-    .string()
-    .required("Field is required")
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z]).+$/,
-      "At least one lower-case letter, one upper-case letter. "
-    )
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).+$/,
-      "At least one special character"
-    )
-    .matches(/.*[0-9].*/, "At least one number (0-9).")
-    .matches(/^.{8,}$/, "At least 8 characters in length.")
-    .trim(),
+  password: yup.string().required("Field is required.").trim(),
 });
 
 const Register: React.FC<RegisterProps> = ({ submit, error }) => {
@@ -61,10 +47,10 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
             Identifiant <span className="text-red-500 text-[20px] ">*</span>
           </label>
           <input
-            {...register("name")}
+            {...register("username")}
             required
             type="text"
-            id="name"
+            id="username"
             className="px-4 py-3 text-black border border-gray-300"
           />
         </div>
@@ -73,17 +59,17 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
             E-mail <span className="text-red-500 text-[20px] ">*</span>
           </label>
           <input
-            {...register("emailRegister")}
+            {...register("email")}
             required
-            id="email-register"
+            id="email"
             className={twMerge(
               "px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
-              errors.emailRegister && "border-[#ed2805]"
+              errors.email && "border-[#ed2805]"
             )}
           />
-          {errors.emailRegister && (
+          {errors.email && (
             <span className="text-sm text-[#ed2805]">
-              {errors.emailRegister?.message}
+              {errors.email?.message}
             </span>
           )}
         </div>
@@ -101,19 +87,19 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
             />
             {/* <FontAwesomeIcon icon={faEyeSlash}/> */}
             <input
-              {...register("passwordRegister")}
+              {...register("password")}
               required
               type={showPass ? "text" : "password"}
-              id="password-register"
+              id="password"
               className={twMerge(
                 "px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
-                errors.passwordRegister && "border-[#ed2805]"
+                errors.password && "border-[#ed2805]"
               )}
             />
           </div>
-          {errors.passwordRegister && (
+          {errors.password && (
             <span className="text-sm text-[#ed2805]">
-              {errors.passwordRegister.message}
+              {errors.password.message}
             </span>
           )}
         </div>

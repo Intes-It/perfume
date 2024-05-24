@@ -1,5 +1,6 @@
 import { api } from "@utils/apiRoute";
 import { GET, POST } from "@utils/fetch";
+import { getCookie } from "cookies-next";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 const useUser = () => {
@@ -8,6 +9,9 @@ const useUser = () => {
   const user = useQuery("get-profile", getProfile);
   //fetch data
   async function getProfile() {
+    const access_token = getCookie("access_token");
+    if (!access_token) return;
+
     try {
       const res = await GET(api.getProfile);
       return res.data;

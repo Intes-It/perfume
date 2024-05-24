@@ -4,8 +4,10 @@ import { updateProduct } from "@redux/slices/cart";
 import { ExProduct } from "@types";
 import debounce from "lodash/debounce";
 import Link from "next/link";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import EmptyCart from "./EmptyCart";
+import UpdateCart from "./UpdateCart";
 
 const CartTable = () => {
   const { cart, removeProductToCart, refresh, updateProductToCart, isLoading } =
@@ -13,13 +15,15 @@ const CartTable = () => {
 
   const dispatch = useDispatch();
 
-  // const [priceVoucher, setPriceVoucher] = useState(0);
+  const [isOpenUpdateProduct, setIsOpenUpdateProduct] = useState(false);
+  const [productSelected, setProductSelected] = useState<ExProduct | null>(
+    null
+  );
+
   const priceVoucher = 0;
 
   const handleRemoveProduct = async (exProduct: ExProduct) => {
-    const res = await removeProductToCart({
-      order_item_id: exProduct.id,
-    });
+    const res = await removeProductToCart(exProduct.id?.toString() || "");
     if (res.status === 200) {
       refresh();
     }
@@ -49,6 +53,13 @@ const CartTable = () => {
 
   const handleUpdateQuantity = (exProduct: ExProduct, quantity: number) => {
     debouncedHandleUpdateQuantity(exProduct, quantity);
+  };
+
+  const handleCloseUpdate = () => {
+    setIsOpenUpdateProduct(false);
+    setTimeout(() => {
+      setProductSelected(null);
+    }, 300);
   };
 
   if (isLoading) {
@@ -127,31 +138,39 @@ const CartTable = () => {
                       </td>
 
                       <td className="px-6 py-2 border">
-                        {item?.image && (
-                          <img
-                            src={item?.image}
-                            alt="thumbnail"
-                            width={60}
-                            height={40}
-                            className="object-cover h-12 rounded-lg w-14"
-                          />
-                        )}
+                        <img
+                          src={
+                            item?.image ||
+                            item?.product?.url_image ||
+                            `http://171.244.64.245:8005${item?.product?.image}`
+                          }
+                          alt="thumbnail"
+                          width={60}
+                          height={40}
+                          className="object-cover h-12 rounded-lg w-14"
+                        />
                       </td>
                       <td className="px-6 py-2 border text-[#CC3366] underline ">
-                        <Link href={`/product/${item?.product.id}`}>
-                          <div className="cursor-pointer w-fit">
-                            {item?.product?.name}{" "}
-                            {(item.capacity || item.packaging || item.color) &&
-                              "-"}{" "}
-                            {item.capacity &&
-                              `${item.capacity} ${
-                                (item.packaging || item.color) && ","
-                              } `}{" "}
-                            {item.packaging &&
-                              `${item.packaging} ${item.color ? "," : ""}`}{" "}
-                            {item.color && `${item.color}`}
-                          </div>
-                        </Link>
+                        <div
+                          className="cursor-pointer w-fit"
+                          onClick={() => {
+                            setProductSelected(item);
+                            setIsOpenUpdateProduct(true);
+                          }}
+                        >
+                          {item?.product?.name}{" "}
+                          {(item.capacity || item.packaging || item.color) &&
+                            "-"}{" "}
+                          {item.color &&
+                            `${item.color} ${
+                              (item.capacity || item.color) && ","
+                            } `}{" "}
+                          {item.capacity &&
+                            `${item.capacity} ${
+                              item.packaging ? "," : ""
+                            }`}{" "}
+                          {item.packaging && `${item.packaging}`}
+                        </div>
                       </td>
                       <td className="px-6 py-2 font-medium border">
                         ${Number(item?.price).toFixed(2)}
@@ -243,7 +262,9 @@ const CartTable = () => {
                   <td className="px-2 py-3">
                     {cart?.data?.cart?.total_price_payment &&
                       `$ ${Number(
-                        +cart?.data?.cart?.total_price_payment - priceVoucher
+                        +cart?.data?.cart?.total_price_payment -
+                          priceVoucher +
+                          5
                       ).toFixed(2)}`}
                   </td>
                 </tr>
@@ -257,6 +278,11 @@ const CartTable = () => {
           </div>
         </>
       )}
+      <UpdateCart
+        isOpen={isOpenUpdateProduct}
+        setIsOpen={handleCloseUpdate}
+        order={productSelected}
+      />
     </div>
   );
 };

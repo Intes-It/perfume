@@ -1,8 +1,8 @@
-import { useQuery, useQueryClient } from "react-query";
 import { api } from "@utils/apiRoute";
 import { GET } from "@utils/fetch";
-import { encode, ParsedUrlQuery } from "querystring";
+import { ParsedUrlQuery, encode } from "querystring";
 import { useState } from "react";
+import { useQuery, useQueryClient } from "react-query";
 
 export const useProducts = () => {
   const queryClient = useQueryClient();
@@ -35,18 +35,18 @@ export const useProducts = () => {
 
 export const useBestSallingProducts = () => {
   async function getBestProducts() {
-    const res = await GET(api.products);
+    const res = await GET(api.products + "?is_best_seller=true");
     return res.data;
   }
   const { data } = useQuery("get-best-products", getBestProducts);
   return {
-    products: data?.data?.results,
+    products: data?.results,
   };
 };
 
 export const useProductDetail = ({ id }: { id: string }) => {
   async function getProductDetail() {
-    const res = await GET(`${api.productDetail}/${id}`);
+    const res = await GET(`${api.productDetail + id}`);
     return res.data;
   }
   const { data, isLoading } = useQuery("get-product-detail", getProductDetail);

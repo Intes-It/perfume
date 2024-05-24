@@ -20,10 +20,18 @@ export interface Product {
   total_price_item?: string | number;
   capacity?: any;
   color: any;
-  packaging: any;
+  package: any;
+  thumbnail?: any;
+  is_favourite?: boolean;
+  images: {
+    id: number;
+    name: string;
+    url: string;
+  }[];
 }
 
 export interface ExProduct {
+  package: any;
   packaging: string;
   id?: number;
   orderId: number;
@@ -37,7 +45,9 @@ export interface ExProduct {
   order_id?: number;
   total_price_item?: string | number;
   image: string;
+  weight?: number;
   order: string | number;
+  evaluate?: number;
 }
 
 export interface MemberComment {

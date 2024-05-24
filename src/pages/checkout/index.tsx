@@ -252,13 +252,14 @@ const Checkout: React.FC = () => {
                 className="w-[90px] rounded-md p-3 border border-black  text-black hover:bg-black hover:text-white "
                 onClick={() => {
                   if (activeTab > 0) {
+                    // if (hasError())
+                    //   showError();
+                    // else
                     setState((pre) => ({
                       ...pre,
                       inValidData: false,
                       activeTab: activeTab - 1,
                     }));
-                  }else{
-                    router.push('/cart')
                   }
                 }}
               >

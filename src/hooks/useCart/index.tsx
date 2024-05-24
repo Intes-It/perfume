@@ -27,8 +27,8 @@ const useCart = () => {
     return await PUT(api.addProduct, data);
   }
 
-  async function removeProduct(data: any) {
-    return await DELETE(api.addProduct, data);
+  async function removeProduct(id: string) {
+    return await DELETE(api.addProduct + id);
   }
 
   async function updateProduct(data: any) {
