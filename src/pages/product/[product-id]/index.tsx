@@ -296,7 +296,7 @@ const ProductDetail: React.FC<
           </div>
           {/* sub product */}
           <div className="flex gap-1 mt-4 mb-3 ">
-            {_.isEmpty(product?.capacity) ? (
+            {!_.isEmpty(product?.capacity) && (
               <div
                 role="tabpanel"
                 className={` text-[#603813] transition-opacity duration-150 ease-linear `}
@@ -308,13 +308,6 @@ const ProductDetail: React.FC<
                     <strong>Contenance</strong> :{contenanceSelected?.weight}g
                   </div>
                 )}
-              </div>
-            ) : (
-              <div
-                role="tabpanel"
-                className={` text-[#603813] font-medium transition-opacity duration-150 ease-linear `}
-              >
-                <strong>Contenance</strong> :{contenanceSelected?.name}
               </div>
             )}
           </div>
