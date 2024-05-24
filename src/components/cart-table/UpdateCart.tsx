@@ -45,8 +45,8 @@ function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
   } = state;
 
   let namePackaging: any = [];
-  if (product?.packaging) {
-    namePackaging = Object?.values(product?.packaging)?.reduce(
+  if (product?.package) {
+    namePackaging = Object?.values(product?.package)?.reduce(
       (a: any[], item: any) => a.concat(item?.name || ""),
       []
     );
@@ -81,8 +81,8 @@ function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
 
   useEffect(() => {
     if (order?.id) {
-      const packageCurr = Object.values(order?.product?.packaging || {})?.find(
-        (item: any) => item.name === order?.packaging
+      const packageCurr = Object.values(order?.product?.package || {})?.find(
+        (item: any) => item.name === order?.package
       ) as any;
 
       const capacityCurr = Object.values(order?.product?.capacity || {})?.find(
@@ -92,7 +92,6 @@ function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
       setState({
         ...state,
         amount: order.amount,
-        packageName: order?.packaging,
         contenance: order?.capacity,
         packagePrice: +packageCurr?.price || 0,
         contenancePrice: +capacityCurr?.price || 0,
@@ -171,7 +170,7 @@ function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
                       <span>( 0 review )</span>
                     </div>
                     <div className="text-xl font-semibold">
-                      {_.isEmpty(product?.packaging) ? (
+                      {_.isEmpty(product?.package) ? (
                         <>{formatCurrency(String(product?.price))} €</>
                       ) : (
                         <>
@@ -298,7 +297,7 @@ function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
 
                     {/* packaging */}
                     <div className="flex gap-1 my-3 ">
-                      {_.isEmpty(product?.packaging) ? null : (
+                      {_.isEmpty(product?.package) ? null : (
                         <div
                           role="tabpanel"
                           className={` text-[#603813] transition-opacity duration-150 ease-linear `}
@@ -313,8 +312,8 @@ function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
                         id="tabs-tab"
                         role="tablist"
                       >
-                        {product?.packaging
-                          ? Object.values(product.packaging)?.map(
+                        {product?.package
+                          ? Object.values(product.package)?.map(
                               (item: any, index: number) => (
                                 <li role="presentation" key={index}>
                                   <button

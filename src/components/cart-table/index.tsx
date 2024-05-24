@@ -23,9 +23,7 @@ const CartTable = () => {
   const priceVoucher = 0;
 
   const handleRemoveProduct = async (exProduct: ExProduct) => {
-    const res = await removeProductToCart({
-      order_item_id: exProduct.id,
-    });
+    const res = await removeProductToCart(exProduct.id?.toString() || "");
     if (res.status === 200) {
       refresh();
     }

@@ -58,7 +58,6 @@ instance.interceptors.response.use(
       } catch (_error) {
         originalConfig._retry = false; // Clear _retry on any error
         return Promise.reject(_error);
-      } finally {
       }
     }
     return err.response;

@@ -33,7 +33,9 @@ const Favourite = () => {
       } else {
         dispatch(setList([]));
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   useEffect(() => {

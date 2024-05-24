@@ -31,6 +31,7 @@ export interface Product {
 }
 
 export interface ExProduct {
+  package: any;
   packaging: string;
   id?: number;
   orderId: number;
