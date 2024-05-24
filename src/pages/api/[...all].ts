@@ -2,12 +2,12 @@
 // import httpProxyMiddleware from "next-http-proxy-middleware";
 // // import cors from 'cors';
 
-// export const config = {
-//   api: {
-//     // Enable `externalResolver` option in Next.js
-//     externalResolver: true,
-//   },
-// };
+export const config = {
+  api: {
+    // Enable `externalResolver` option in Next.js
+    externalResolver: true,
+  },
+};
 
 // export default (req: NextApiRequest, res: NextApiResponse) => {
 //   return httpProxyMiddleware(req, res, {
