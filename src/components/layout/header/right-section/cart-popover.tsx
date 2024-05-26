@@ -1,7 +1,6 @@
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as React from "react";
-import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import useCart from "@hooks/useCart";
@@ -37,26 +36,22 @@ const CartPopover: React.FC = () => {
   }, [cart]);
 
   return (
-    <Fragment>
-      <div>
-        <Link href="/cart" className="cursor-pointer">
-          <span className={"relative inline-flex"}>
-            <FontAwesomeIcon
-              className="hover:opacity-[0.5]  w-8 h-8"
-              icon={faBagShopping}
-              fontSize={"1.5rem"}
-            />
-            <span
-              className={
-                "absolute top-badge mb-3 right-0 px-1 h-3 text-xs font-bold leading-none text-red-100 transform bg-red-500 rounded-full"
-              }
-            >
-              {totalProducts}
-            </span>
-          </span>
-        </Link>
-      </div>
-    </Fragment>
+    <Link href="/cart">
+      <span className={"relative inline-flex cursor-pointer"}>
+        <FontAwesomeIcon
+          className="hover:opacity-[0.5]  w-6 h-6"
+          icon={faBagShopping}
+          fontSize={"1.5rem"}
+        />
+        <span
+          className={
+            "absolute top-badge mb-3 right-0 px-1 h-3 text-xs font-bold leading-none text-red-100 transform bg-red-500 rounded-full"
+          }
+        >
+          {totalProducts}
+        </span>
+      </span>
+    </Link>
   );
 };
 

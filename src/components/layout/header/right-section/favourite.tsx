@@ -45,24 +45,22 @@ const Favourite = () => {
   return (
     <React.Fragment>
       <NextLink href={access_token ? Routes.favorite.route : "/my-account"}>
-        <a>
-          <span className={"relative inline-block"}>
-            <FontAwesomeIcon
-              icon={faHeart}
-              fontSize={"1.5rem"}
-              className={"w-10 h-10"}
-            />
-            {favoriteProducts?.length > 0 && (
-              <span
-                className={
-                  "absolute top-badge  right-0 px-1 text-center h-3 text-xs font-bold leading-none text-red-100 transform bg-red-500 rounded-full"
-                }
-              >
-                {favoriteProducts?.length}
-              </span>
-            )}
-          </span>
-        </a>
+        <span className={"relative inline-block"}>
+          <FontAwesomeIcon
+            icon={faHeart}
+            fontSize={"1.5rem"}
+            className={"h-6"}
+          />
+          {favoriteProducts?.length > 0 && (
+            <span
+              className={
+                "absolute top-badge  right-0 px-1 text-center h-3 text-xs font-bold leading-none text-red-100 transform bg-red-500 rounded-full"
+              }
+            >
+              {favoriteProducts?.length}
+            </span>
+          )}
+        </span>
       </NextLink>
     </React.Fragment>
   );

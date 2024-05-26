@@ -12,16 +12,16 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 // import { Product } from "@types";
 
 import { addProduct } from "@redux/slices/cart";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import ImageModal from "@components/image-modal";
-import useCart from "@hooks/useCart";
 import { useBestSallingProducts, useProductDetail } from "@hooks/useProduct";
 import useUser from "@hooks/useUser";
-import { ExProduct } from "@types";
 import { useRouter } from "next/router";
 
 import { showToast } from "@redux/slices/toast/toastSlice";
+import { api } from "@utils/apiRoute";
+import { POST } from "@utils/fetch";
 import _ from "lodash";
 import { twMerge } from "tailwind-merge";
 
@@ -54,12 +54,8 @@ const ProductDetail: React.FC<
 > = ({ productId }) => {
   // redux
   const dispatch = useDispatch();
-  const localCart = useSelector(
-    (state: any) => state?.cart?.products
-  ) as ExProduct[];
 
   const { isAuthenticated } = useUser();
-  const { addProductToCart } = useCart();
   const [tabs, setTabs] = useState(0);
   const [isError, setIsError] = useState({
     type: "",
@@ -187,11 +183,15 @@ const ProductDetail: React.FC<
           },
         ],
       };
-      const res = await addProductToCart(payload);
+      const res = await POST(api.addProduct, payload);
       if (res?.status === 201 || res?.status === 200) {
         dispatch(
           addProduct({
-            ...res?.data?.data,
+            ...payload.data[0],
+            ...product,
+            package: packageSelected?.id,
+            color: colorSelected?.id,
+            capacity: contenanceSelected?.id,
           })
         );
         dispatch(showToast({ message: "Add successfully!", error: false }));

@@ -19,18 +19,21 @@ const cartSlice = createSlice({
       const existProduct = products?.find((item: any) => {
         return (
           item?.product?.id === product?.id &&
-          item?.packaging === product.packaging &&
-          item?.color === product.color &&
-          item?.capacity === product.capacity
+          (item?.package === product.package || !product.package) &&
+          (item?.color === product.color || !product.color) &&
+          (item?.capacity === product.capacity || !product.capacity)
         );
       });
 
       if (existProduct) {
         existProduct.quantity += Number.parseInt(product.quantity);
+        const newList = state.products?.filter(
+          (item) => item.product?.id !== product?.id
+        );
+        state.products = [...newList, existProduct];
       } else {
         state.products = [...state.products, product];
       }
-      state.products = [...state.products, product];
     },
     updateProduct: (state, actions) => {
       const product = actions.payload;

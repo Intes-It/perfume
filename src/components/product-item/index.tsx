@@ -2,7 +2,6 @@ import Rating from "@components/rating/rating";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import useCart from "@hooks/useCart";
 import { addProduct } from "@redux/actions";
 import { Product } from "@types";
 import { formatCurrency } from "@utils/formatNumber";
@@ -31,7 +30,7 @@ const ProductItem: React.FC<ProductProps> = ({
   showButton = true,
 }) => {
   const { mutate } = useSWR("get-server-cart");
-  const { addProductToCart } = useCart();
+
   const dispatch = useDispatch();
 
   const [newProduct, setNewProduct] = useState<Product>(product);
@@ -59,12 +58,12 @@ const ProductItem: React.FC<ProductProps> = ({
         ],
       };
 
-      const res = await addProductToCart(payload);
+      const res = await POST(api.addProduct, payload);
 
       if (res?.status === 201 || res?.status === 200) {
         dispatch(
           addProduct({
-            ...res.data,
+            ...payload.data[0],
           })
         );
         await mutate("get-server-cart");

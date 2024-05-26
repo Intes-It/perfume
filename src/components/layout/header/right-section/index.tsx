@@ -10,7 +10,7 @@ const RightSection = () => {
         <div className="md:mx-4 mr-16 z-[500] fixed right-[70px]">
           <Account />
         </div>
-        <div className="md:mx-4 mx-2 fixed hidden right-[120px] md:block z-[500]">
+        <div className="md:mx-4 mx-2 fixed hidden right-[120px] md:block z-[500] cursor-pointer">
           <Favourite />
         </div>
         <div className="md:mx-4 mx-2 fixed right-3 z-[500] cursor-pointer">

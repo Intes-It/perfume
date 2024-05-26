@@ -1,7 +1,7 @@
 import axios from "axios";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import { jwtDecode } from "jwt-decode";
-const pendingRequests: any[] = [];
+let isRefreshing = false as boolean;
 const instance = axios.create({
   // baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   baseURL: "http://171.244.64.245:8010",
@@ -11,63 +11,70 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(
-  (config) => {
-    const token = getCookie("access_token");
-    try {
-      const currentTime = Date.now();
-      const decoded = token && jwtDecode(token?.toString());
-      const expiry = decoded && decoded?.exp;
-      if (expiry && expiry < currentTime) {
-        config.headers["Authorization"] = "Bearer " + token;
-      } else config.headers["Authorization"] = "No auth";
-    } catch (error) {
-      config.headers["Authorization"] = "No auth";
-    }
+  async (config) => {
+    let token = getCookie("access_token") || "";
+    const refreshToken = getCookie("refresh_token");
 
-    return config;
+    let decodeToken = null as any;
+    try {
+      decodeToken = jwtDecode(token?.toString());
+    } catch (error) {
+      console.log("error", error);
+    }
+    const isExpired = decodeToken && Date.now() / 1000 >= decodeToken?.exp;
+    //eslint-disable-next-line
+    const refreshPromise = new Promise(async (resolve, reject) => {
+      if ((isExpired || !decodeToken) && refreshToken && !isRefreshing) {
+        isRefreshing = true;
+
+        try {
+          const refreshResponse = await axios.post(
+            "http://171.244.64.245:8010/api/auth/refresh/",
+            {
+              refresh: refreshToken,
+            }
+          );
+
+          if (refreshResponse.status === 200) {
+            setCookie("access_token", refreshResponse.data.access);
+            setCookie("refresh_token", refreshResponse.data.refresh);
+            token = refreshResponse.data.access;
+            config.headers["Authorization"] = "Bearer " + token; // for Spring Boot back-end // config.headers['x-access-token'] = token; // for Node.js Express back-end
+            resolve(config); // Resolve the promise with updated config
+          } else {
+            // Refresh failed, clear tokens and reject the promise
+            deleteCookie("access_token");
+            deleteCookie("refresh_token");
+            reject(new Error("Refresh failed"));
+          }
+        } catch (error: any) {
+          if (error?.response?.status === 401) {
+            deleteCookie("access_token");
+            deleteCookie("refresh_token");
+          }
+          reject(error); // Reject the promise with the caught error
+        } finally {
+          isRefreshing = false;
+        }
+      } else {
+        config.headers["Authorization"] = "Bearer " + token;
+        resolve(config);
+      }
+    });
+
+    // Wait for the refresh promise to complete before returning config
+    return await refreshPromise;
   },
   (error) => {
-    return error;
+    return Promise.reject(error); // Reject with the original error
   }
 );
 
 instance.interceptors.response.use(
-  (res) => {
-    return res;
-  },
+  (res) => res,
   async (err) => {
-    const originalConfig = err.config;
-    const refreshToken = getCookie("refresh_token");
-    const messageInvalidTk = "Token is invalid or expired";
-
-    if (
-      err?.response?.status === 401 &&
-      pendingRequests?.length < 1 && // Ensure _retry is initialized
-      err?.response?.data?.message === messageInvalidTk
-    ) {
-      pendingRequests.push(originalConfig);
-
-      try {
-        const rs = await instance.post("/api/auth/refresh/", {
-          refresh: refreshToken,
-        });
-        if (rs.status === 200) {
-          setCookie("access_token", rs.data?.access);
-          setCookie("refresh_token", rs.data?.refresh);
-          while (pendingRequests.length > 0) {
-            const requestConfig = pendingRequests.shift(); // Remove from queue
-            console.log("requestConfig", requestConfig);
-            return instance(requestConfig);
-          }
-        } else {
-          deleteCookie("access_token");
-          deleteCookie("refresh_token");
-        }
-      } catch (_error) {
-        return Promise.reject(_error);
-      }
-    }
-    return err.response;
+    // Refresh failed or not applicable, return original error
+    return Promise.reject(err?.response);
   }
 );
 export { instance };

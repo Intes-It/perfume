@@ -3,6 +3,7 @@ export const api = {
   products: "/api/product",
   register: "/api/auth/signup/",
   login: "/api/auth/login/",
+  logout: "/api/auth/logout/",
   favouriteList: "/api/favourite/list",
   favouriteAdd: "/api/favourite/add",
   favouriteDelete: "/api/favourite/delete",

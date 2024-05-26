@@ -1,9 +1,11 @@
 import { updateFullCart } from "@redux/slices/cart";
 import { setList } from "@redux/slices/favorite";
 import { instance } from "@utils/_axios";
-import { deleteCookie } from "cookies-next";
+import { api } from "@utils/apiRoute";
+import { deleteCookie, getCookie } from "cookies-next";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { twMerge } from "tailwind-merge";
 import { Container } from "..";
 import Adress from "./adress";
 import Delivery from "./delivery";
@@ -54,13 +56,22 @@ const Profile = () => {
   const [tabs, setTabs] = useState(0);
   const dispatch = useDispatch();
   const logOut = async () => {
-    await instance.post("/api/user/logout").then(() => {
-      dispatch(updateFullCart([]));
-      dispatch(setList([]));
-      deleteCookie("access_token");
-      deleteCookie("refresh_token");
-      window.location.reload();
-    });
+    await instance
+      .post(api.logout, { refresh: getCookie("refresh_token") })
+      .then(() => {
+        dispatch(updateFullCart([]));
+        dispatch(setList([]));
+        deleteCookie("access_token");
+        deleteCookie("refresh_token");
+        window.location.reload();
+      })
+      .catch(() => {
+        dispatch(updateFullCart([]));
+        dispatch(setList([]));
+        deleteCookie("access_token");
+        deleteCookie("refresh_token");
+        window.location.reload();
+      });
   };
   return (
     <Container>
@@ -78,9 +89,12 @@ const Profile = () => {
                       ? () => logOut()
                       : () => setTabs(index)
                   }
-                  className={`my-[1px] min-w-[100px] block border-x-0 font-semibold hover:isolate rounded-md border-t-0 border-b-2 border-transparent px-7 pt-4 pb-3.5 text-sm  uppercase leading-tight text-neutral-500  hover:border-transparent  hover:bg-neutral-100   ${
-                    index === tabs ? "bg-[#603813] text-white" : ""
-                  }`}
+                  className={twMerge(
+                    "my-[1px] min-w-[100px] block w-full border-x-0 font-semibold text-left whitespace-nowrap hover:isolate rounded-md border-t-0 border-b-2 border-transparent px-7 pt-4 pb-3.5 text-sm  uppercase leading-tight text-neutral-500  hover:border-transparent  hover:bg-neutral-100 ",
+                    index === tabs
+                      ? "bg-[#603813] text-white hover:bg-[#603813]"
+                      : ""
+                  )}
                 >
                   <span>{item?.header}</span>
                 </button>

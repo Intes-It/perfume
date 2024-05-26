@@ -1,5 +1,6 @@
 import { api } from "@utils/apiRoute";
 import { DELETE, GET, POST, PUT } from "@utils/fetch";
+import { getCookie } from "cookies-next";
 import { useMutation, useQuery } from "react-query";
 
 const useCart = () => {
@@ -15,6 +16,9 @@ const useCart = () => {
 
   //fetch data
   async function getCart() {
+    if (!getCookie("refresh_token")) {
+      return;
+    }
     return await GET(api.getCart);
   }
 
