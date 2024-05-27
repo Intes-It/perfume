@@ -74,7 +74,8 @@ const OrderReview: React.FC<OrderReviewProps> = ({
   const totalWeight = products?.reduce(
     (pre, curr) =>
       pre +
-      curr.quantity * Number.parseFloat(curr.product.weight?.toString() || "0"),
+      curr.quantity *
+        Number.parseFloat(curr.product?.weight?.toString() || "0"),
     0
   );
   // const totalDiscount = voucherChoose.reduce((p, c) => p + c.discount, 0);
@@ -229,7 +230,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
         {products?.map((item: ExProduct, index: number) => (
           <div key={index} className="grid grid-cols-2">
             <div className="border border-black">
-              {item.product.name} x {item.quantity}
+              {item.product?.name} x {item.quantity}
             </div>
             <div className="border border-black">
               {formatCurrency(String(item.price))} €

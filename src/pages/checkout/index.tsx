@@ -67,18 +67,21 @@ const Checkout: React.FC = () => {
   // const stripePromise = loadStripe(
   //  "pk_live_51Mc4mkLl7R805p8JLhoVvkkN3QPMnPGIRWOEfZVuW6ZEQoL9bUmEiwcusKcVCXPNyzwWdayXXWA8Dc7KwCqiCqX600dz3hbcEv"
   //  );
-  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY as string);
+  const stripePromise = loadStripe(
+    process.env.NEXT_PUBLIC_STRIPE_KEY as string
+  );
   const hasError = () => {
-    switch (activeTab) {
-      case 0:
-        return formErrors.billingInfomation;
-      case 1:
-        return formErrors.additionalInfomation;
-      case 2:
-        return formErrors.orderReview;
-      default:
-        return false;
-    }
+    return formErrors.billingInfomation;
+    // switch (activeTab) {
+    //   case 0:
+    //     return formErrors.billingInfomation;
+    //   case 1:
+    //     return formErrors.additionalInfomation;
+    //   case 2:
+    //     return formErrors.orderReview;
+    //   default:
+    //     return false;
+    // }
   };
 
   const showError = () => {
@@ -90,34 +93,36 @@ const Checkout: React.FC = () => {
   };
 
   const handlNextStep = async () => {
-    if (activeTab < 2) {
-      if (hasError()) showError();
-      else {
-        if (activeTab == 0) {
-          const res = await processBilling({
-            ...formValues.billingInfomation,
-            order_id: cart?.data?.cart?.id || null,
-          });
-          if (res?.status === 200 && res?.data?.created_time)
-            setState((pre) => ({
-              ...pre,
-              inValidData: false,
-              activeTab: activeTab + 1,
-            }));
-        } else if (activeTab == 1) {
-          const res = await processShipping({
-            ...formValues.additionalInfomation,
-            order_id: cart?.data?.cart?.id || null,
-          });
-          if (res?.status === 200 && res?.data?.created_time)
-            setState((pre) => ({
-              ...pre,
-              inValidData: false,
-              activeTab: activeTab + 1,
-            }));
-        }
-      }
-    }
+    console.log(formValues.billingInfomation);
+
+    // if (activeTab < 2) {
+    //   if (hasError()) showError();
+    //   else {
+    //     if (activeTab == 0) {
+    //       const res = await processBilling({
+    //         ...formValues.billingInfomation,
+    //         order_id: cart?.data?.cart?.id || null,
+    //       });
+    //       if (res?.status === 200 && res?.data?.created_time)
+    //         setState((pre) => ({
+    //           ...pre,
+    //           inValidData: false,
+    //           activeTab: activeTab + 1,
+    //         }));
+    //     } else if (activeTab == 1) {
+    //       const res = await processShipping({
+    //         ...formValues.additionalInfomation,
+    //         order_id: cart?.data?.cart?.id || null,
+    //       });
+    //       if (res?.status === 200 && res?.data?.created_time)
+    //         setState((pre) => ({
+    //           ...pre,
+    //           inValidData: false,
+    //           activeTab: activeTab + 1,
+    //         }));
+    //     }
+    //   }
+    // }
   };
 
   const handleOder = async () => {
@@ -147,7 +152,7 @@ const Checkout: React.FC = () => {
 
         {/* tabs */}
         <div className=" items-start mt-7 md:flex">
-          <ul className="mr-4 flex list-none flex-col flex-wrap pl-0 col-span-2">
+          {/* <ul className="mr-4 flex list-none flex-col flex-wrap pl-0 col-span-2">
             {StepTabs?.map((item, index) => (
               <div
                 key={index}
@@ -166,7 +171,7 @@ const Checkout: React.FC = () => {
                 </span>
               </div>
             ))}
-          </ul>
+          </ul> */}
           <div className="my-2 px-5 py-2 w-full col-span-5 bg-[#FBFBFB]">
             {/* error */}
             <div
@@ -189,6 +194,8 @@ const Checkout: React.FC = () => {
             >
               <BillingInfomation
                 onError={(errors) => {
+                  console.log(errors);
+
                   setState((pre) => ({
                     ...pre,
                     formErrors: {
@@ -249,23 +256,34 @@ const Checkout: React.FC = () => {
 
             <div className="flex float-right gap-3 mt-10 ">
               <button
-                className="w-[90px] rounded-md p-3 border border-black  text-black hover:bg-black hover:text-white "
+                className="w-[300px] h-[48px] rounded-md p-3   text-white hover:text-white text-[16px] font-bold bg-[#603813]"
                 onClick={() => {
-                  if (activeTab > 0) {
-                    // if (hasError())
-                    //   showError();
-                    // else
+                  handlNextStep();
+
+                  if (hasError()) {
+                    showError();
+                  } else {
                     setState((pre) => ({
                       ...pre,
                       inValidData: false,
-                      activeTab: activeTab - 1,
                     }));
                   }
+                  // if (activeTab > 0) {
+                  //   // if (hasError())
+                  //   //   showError();
+                  //   // else
+                  //   showError();
+                  //   setState((pre) => ({
+                  //     ...pre,
+                  //     inValidData: false,
+                  //     activeTab: activeTab - 1,
+                  //   }));
+                  // }
                 }}
               >
-                Previous
+                PAYMENT
               </button>
-              {activeTab !== 2 && (
+              {/* {activeTab !== 2 && (
                 <button
                   className="w-[90px] rounded-md p-3 border border-black text-black hover:bg-black hover:text-white "
                   onClick={() => {
@@ -274,7 +292,7 @@ const Checkout: React.FC = () => {
                 >
                   Next
                 </button>
-              )}
+              )} */}
             </div>
           </div>
         </div>

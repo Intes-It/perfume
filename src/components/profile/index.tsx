@@ -17,37 +17,37 @@ import UserProfile from "./user-profile";
 const Tabs = [
   {
     id: "profile-tab",
-    header: "Tableau de bord",
+    header: "Dashboard",
     href: "#profile-tab",
   },
   {
     id: "orders-tab",
-    header: "Commandes",
+    header: "My order",
     href: "#orders-tab",
   },
-  {
-    id: "delivery-tab",
-    header: "Téléchargements",
-    href: "#delivery-tab",
-  },
+  // {
+  //   id: "delivery-tab",
+  //   header: "Téléchargements",
+  //   href: "#delivery-tab",
+  // },
   {
     id: "adress-tab",
     header: "Address",
     href: "#adress-tab",
   },
-  {
-    id: "payment-tab",
-    header: "Moyens de paiment",
-    href: "#payment-tab",
-  },
+  // {
+  //   id: "payment-tab",
+  //   header: "Moyens de paiment",
+  //   href: "#payment-tab",
+  // },
   {
     id: "detail-tab",
-    header: "Détails du compte",
+    header: "Account details",
     href: "#detail-tab",
   },
   {
     id: "logout-tab",
-    header: "Déconnexion",
+    header: "Sign out",
     href: "#logout-tab",
   },
 ];
@@ -85,18 +85,23 @@ const Profile = () => {
               <li key={index} className="flex-grow text-start">
                 <button
                   onClick={
-                    item?.header === "Déconnexion"
+                    item?.header === "Sign out"
                       ? () => logOut()
                       : () => setTabs(index)
                   }
                   className={twMerge(
-                    "my-[1px] min-w-[100px] block w-full border-x-0 font-semibold text-left whitespace-nowrap hover:isolate rounded-md border-t-0 border-b-2 border-transparent px-7 pt-4 pb-3.5 text-sm  uppercase leading-tight text-neutral-500  hover:border-transparent  hover:bg-neutral-100 ",
-                    index === tabs
-                      ? "bg-[#603813] text-white hover:bg-[#603813]"
-                      : ""
+                    "my-[1px] min-w-[100px] block w-full border-x-0 font-semibold text-left whitespace-nowrap hover:isolate rounded-md border-t-0 border-b-2 border-transparent px-7 pt-4 pb-3.5 text-sm   leading-tight text-neutral-500  hover:border-transparent  hover:bg-neutral-100 ",
+                    index === tabs ? "bg-[#603813]  hover:bg-[#603813]" : ""
                   )}
                 >
-                  <span>{item?.header}</span>
+                  <span
+                    className=" text-[18px] font-semibold"
+                    style={{
+                      color: tabs === index ? "#fff" : "#603813",
+                    }}
+                  >
+                    {item?.header}
+                  </span>
                 </button>
               </li>
             ))}
@@ -120,7 +125,7 @@ const Profile = () => {
                 <Order />
               </div>
             )}
-            {tabs === 2 && (
+            {/* {tabs === 2 && (
               <div
                 className="transition-opacity duration-150 ease-linear "
                 id="delivery-tab"
@@ -128,8 +133,8 @@ const Profile = () => {
               >
                 <Delivery />
               </div>
-            )}
-            {tabs === 3 && (
+            )} */}
+            {tabs === 2 && (
               <div
                 className="transition-opacity duration-150 ease-linear "
                 id="adress-tab"
@@ -138,7 +143,7 @@ const Profile = () => {
                 <Adress />
               </div>
             )}
-            {tabs === 4 && (
+            {/* {tabs === 4 && (
               <div
                 className="transition-opacity duration-150 ease-linear "
                 id="payment-tab"
@@ -146,8 +151,8 @@ const Profile = () => {
               >
                 <Payment />
               </div>
-            )}
-            {tabs === 5 && (
+            )} */}
+            {tabs === 3 && (
               <div
                 className=" transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
                 id="detail-tab"

@@ -188,10 +188,10 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                   value={formik.values?.first_name}
                   id="first_name"
                   className={twMerge(
-                    "px-4 py-3 ring-[0.5px]  text-black border-none ",
+                    "px-4 py-3  text-black border-[0.5px] ",
                     formik.errors.first_name && formik.submitCount
-                      ? "ring-red-500"
-                      : "ring-gray-300"
+                      ? "border-red-500"
+                      : "border-gray-300"
                   )}
                 />
                 {formik.errors.first_name && formik.submitCount != 0 ? (
@@ -211,10 +211,10 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                   type="text"
                   id="last_name"
                   className={twMerge(
-                    "px-4 py-3 ring-[0.5px]  text-black border-none ",
+                    "px-4 py-3 border-[0.5px]  text-black  ",
                     formik.errors.last_name && formik.submitCount
-                      ? "ring-red-500"
-                      : "ring-gray-300"
+                      ? "border-red-500"
+                      : "border-gray-300"
                   )}
                 />
                 {formik.errors.last_name && formik.submitCount != 0 ? (
@@ -234,10 +234,10 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 value={formik.values?.company_name}
                 id="company_name"
                 className={twMerge(
-                  "px-4 py-3 ring-[0.5px]  text-black border-none ",
+                  "px-4 py-3 border-[0.5px]  text-black ",
                   formik.errors.company_name && formik.submitCount
-                    ? "ring-red-500"
-                    : "ring-gray-300"
+                    ? "border-red-500"
+                    : "border-gray-300"
                 )}
               />
               {/* {formik.errors.company_name  ? (
@@ -258,10 +258,10 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 value={formik.values?.country}
                 id="country"
                 className={twMerge(
-                  "px-4 py-3 ring-[0.5px]  text-black border-none ",
+                  "px-4 py-3 border-[0.5px]  text-black  ",
                   formik.errors.country && formik.submitCount
-                    ? "ring-red-500"
-                    : "ring-gray-300"
+                    ? "border-red-500"
+                    : "border-gray-300"
                 )}
               >
                 {countries &&
@@ -284,10 +284,10 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 value={formik.values?.wards}
                 id="wards"
                 className={twMerge(
-                  "px-4 py-3 ring-[0.5px]  text-black border-none ",
+                  "px-4 py-3 border-[0.5px]  text-black  ",
                   formik.errors.wards && formik.submitCount
-                    ? "ring-red-500"
-                    : "ring-gray-300"
+                    ? "border-red-500"
+                    : "border-gray-300"
                 )}
               />
               <input
@@ -297,10 +297,10 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 id="district"
                 value={formik.values?.district}
                 className={twMerge(
-                  "px-4 py-3 ring-[0.5px]  text-black  mt-3 border-none",
+                  "px-4 py-3 border-[0.5px]  text-black  mt-3 ",
                   formik.errors.district && formik.submitCount
-                    ? "ring-red-500"
-                    : "ring-gray-300"
+                    ? "border-red-500"
+                    : "border-gray-300"
                 )}
               />
               {(formik.errors.district || formik.errors.wards) &&
@@ -321,10 +321,10 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 value={formik.values?.province}
                 id="province"
                 className={twMerge(
-                  "px-4 py-3 ring-[0.5px]  text-black border-none ",
+                  "px-4 py-3 border-[0.5px]  text-black  ",
                   formik.errors.province && formik.submitCount
-                    ? "ring-red-500"
-                    : "ring-gray-300"
+                    ? "border-red-500"
+                    : "border-gray-300"
                 )}
               />
               {formik.errors.province && formik.submitCount != 0 ? (
@@ -347,10 +347,10 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 id="zip_code"
                 value={formik.values?.zip_code}
                 className={twMerge(
-                  "px-4 py-3 ring-[0.5px]  text-black border-none",
+                  "px-4 py-3 border-[0.5px]  text-black ",
                   formik.errors.zip_code && formik.submitCount
-                    ? "ring-red-500"
-                    : "ring-gray-300"
+                    ? "border-red-500"
+                    : "border-gray-300"
                 )}
               />
               {formik.errors.zip_code && formik.submitCount != 0 ? (
@@ -373,10 +373,10 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                   handleKeyDownPhone(e);
                 }}
                 className={twMerge(
-                  "px-4 py-3 ring-[0.5px]  text-black border-none",
+                  "px-4 py-3 border-[0.5px]  text-black ",
                   formik.errors.phone && formik.submitCount
-                    ? "ring-red-500"
-                    : "ring-gray-300"
+                    ? "border-red-500"
+                    : "border-gray-300"
                 )}
               />
               {formik.errors.phone && formik.submitCount != 0 ? (
@@ -396,7 +396,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 type="email"
                 id="id"
                 className={twMerge(
-                  "px-4 py-3 ring-[0.5px]  text-black ring-gray-300 border-none"
+                  "px-4 py-3 border-[0.5px]  text-black border-gray-300 "
                 )}
               />
             </div>
