@@ -16,23 +16,21 @@ const cartSlice = createSlice({
       const product = actions.payload;
       const products = state.products;
 
-      const existProduct = products?.find((item: any) => {
+      const indexProduct = products?.findIndex((item: any) => {
         return (
-          item?.product?.id === product?.id &&
-          (item?.package === product.package || !product.package) &&
-          (item?.color === product.color || !product.color) &&
-          (item?.capacity === product.capacity || !product.capacity)
+          item?.product_id === product?.product_id &&
+          (item?.package?.id === product.package?.id || !product.package) &&
+          (item?.color?.id === product.color?.id || !product.color) &&
+          (item?.capacity?.id === product.capacity?.id || !product.capacity)
         );
       });
 
-      if (existProduct) {
-        existProduct.quantity += Number.parseInt(product.quantity);
-        const newList = state.products?.filter(
-          (item) => item.product?.id !== product?.id
-        );
-        state.products = [...newList, existProduct];
+      if (indexProduct > -1) {
+        products[indexProduct].quantity += Number.parseInt(product.quantity);
+
+        state.products = [...products];
       } else {
-        state.products = [...state.products, product];
+        state.products = [...products, product];
       }
     },
     updateProduct: (state, actions) => {
@@ -42,7 +40,7 @@ const cartSlice = createSlice({
         if (item.id && +item.id === +product.id) {
           return {
             ...item,
-            quantity: product?.quantity,
+            ...product,
           };
         }
 

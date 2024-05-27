@@ -12,12 +12,8 @@ const useUser = () => {
     const access_token = getCookie("access_token");
     if (!access_token) return;
 
-    try {
-      const res = await GET(api.getProfile);
-      return res.data;
-    } catch (error: any) {
-      console.log("error?.response", error?.response);
-    }
+    const res = await GET(api.getProfile);
+    return res.data;
   }
 
   async function login(data: any) {

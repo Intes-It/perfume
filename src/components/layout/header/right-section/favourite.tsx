@@ -20,7 +20,10 @@ const Favourite = () => {
   ) as Product[];
 
   const handleGetFavorite = async () => {
-    if (!access_token) dispatch(setList([]));
+    if (!access_token) {
+      dispatch(setList([]));
+      return;
+    }
 
     try {
       const res = await GET(api.get_favourite + "?page_size=1000");

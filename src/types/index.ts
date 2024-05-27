@@ -22,7 +22,9 @@ export interface Product {
   color: any;
   package: any;
   thumbnail?: any;
+  product_id: string;
   is_favourite?: boolean;
+
   images: {
     id: number;
     name: string;
@@ -32,12 +34,10 @@ export interface Product {
 
 export interface ExProduct {
   package: any;
-  packaging: string;
   id?: number;
-  orderId: number;
+  product_id: number;
   product: Product;
   quantity: number;
-  packageName?: string;
   price?: any;
   color?: any;
   capacity?: any;
@@ -47,6 +47,13 @@ export interface ExProduct {
   weight?: number;
   order: string | number;
   evaluate?: number;
+  current_price: number | null;
+  product_name: string;
+  thumbnail: {
+    id: number;
+    name: string;
+    url: string;
+  };
 }
 
 export interface MemberComment {

@@ -12,15 +12,16 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   async (config) => {
-    let token = getCookie("access_token") || "";
+    let token = getCookie("access_token") || ("" as null | string);
     const refreshToken = getCookie("refresh_token");
 
     let decodeToken = null as any;
     try {
-      decodeToken = jwtDecode(token?.toString());
+      decodeToken = token && jwtDecode(token?.toString());
     } catch (error) {
       console.log("error", error);
     }
+
     const isExpired = decodeToken && Date.now() / 1000 >= decodeToken?.exp;
     //eslint-disable-next-line
     const refreshPromise = new Promise(async (resolve, reject) => {
@@ -45,6 +46,7 @@ instance.interceptors.request.use(
             // Refresh failed, clear tokens and reject the promise
             deleteCookie("access_token");
             deleteCookie("refresh_token");
+            token = null;
             reject(new Error("Refresh failed"));
           }
         } catch (error: any) {
@@ -57,7 +59,8 @@ instance.interceptors.request.use(
           isRefreshing = false;
         }
       } else {
-        config.headers["Authorization"] = "Bearer " + token;
+        if (token) config.headers["Authorization"] = "Bearer " + token;
+        else delete config.headers["WWW-Authenticate"];
         resolve(config);
       }
     });

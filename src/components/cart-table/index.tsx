@@ -2,6 +2,7 @@ import useCart from "@hooks/useCart";
 import { removeProduct } from "@redux/actions";
 import { updateProduct } from "@redux/slices/cart";
 import { ExProduct } from "@types";
+import { isEmpty } from "lodash-es";
 import debounce from "lodash/debounce";
 import Link from "next/link";
 import { useState } from "react";
@@ -24,10 +25,11 @@ const CartTable = () => {
 
   const handleRemoveProduct = async (exProduct: ExProduct) => {
     const res = await removeProductToCart(exProduct.id?.toString() || "");
+
     if (res.status === 200) {
       refresh();
+      dispatch(removeProduct(exProduct));
     }
-    dispatch(removeProduct(exProduct));
   };
 
   const debouncedHandleUpdateQuantity = debounce(
@@ -35,12 +37,12 @@ const CartTable = () => {
       exProduct.quantity = quantity;
       try {
         updateProductToCart({
-          order_item_id: exProduct.id,
-          order_id: exProduct.order,
-          color: exProduct.color,
-          packaging: exProduct.packageName,
-          capacity: exProduct.capacity,
-          quantity: exProduct.quantity,
+          data: [
+            {
+              id: exProduct.id,
+              quantity: exProduct.quantity,
+            },
+          ],
         });
       } catch (error) {
         console.log("error", error);
@@ -68,7 +70,7 @@ const CartTable = () => {
 
   return (
     <div className="text-[#603813]">
-      {!cart?.data?.order_item ? (
+      {isEmpty(cart?.data?.results) ? (
         <EmptyCart />
       ) : (
         <>
@@ -115,85 +117,78 @@ const CartTable = () => {
                 </tr>
               </thead>
               <tbody className="w-full ">
-                {cart?.data?.order_item?.map(
-                  (item: ExProduct, index: number) => (
-                    <tr key={index} className="bg-[#F6F6F6] border text-base">
-                      <td className="px-6 py-2 border max-w-12 ">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="mx-auto cursor-pointer max-w-12"
-                          onClick={() => handleRemoveProduct(item)}
-                        >
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M7.99995 9.41415L13.6569 15.0711C13.8455 15.2533 14.0982 15.3541 14.3603 15.3518C14.6225 15.3495 14.8734 15.2444 15.0588 15.059C15.2442 14.8736 15.3493 14.6227 15.3516 14.3606C15.3539 14.0984 15.2531 13.8458 15.0709 13.6571L9.41395 8.00015L15.0709 2.34315C15.2531 2.15455 15.3539 1.90194 15.3516 1.63975C15.3493 1.37755 15.2442 1.12674 15.0588 0.941331C14.8734 0.755923 14.6225 0.650754 14.3603 0.648475C14.0982 0.646197 13.8455 0.746991 13.6569 0.929149L7.99995 6.58615L2.34295 0.929149C2.15349 0.751494 1.90236 0.654515 1.64268 0.658732C1.38299 0.662948 1.13514 0.768031 0.951555 0.951743C0.767972 1.13546 0.663065 1.38339 0.659032 1.64307C0.654999 1.90276 0.752156 2.15382 0.929945 2.34315L6.58595 8.00015L0.928945 13.6571C0.833435 13.7494 0.757253 13.8597 0.704844 13.9817C0.652435 14.1037 0.624849 14.235 0.623695 14.3677C0.622541 14.5005 0.647843 14.6322 0.698124 14.7551C0.748404 14.878 0.822658 14.9897 0.91655 15.0835C1.01044 15.1774 1.1221 15.2517 1.24499 15.302C1.36789 15.3523 1.49957 15.3776 1.63235 15.3764C1.76513 15.3752 1.89635 15.3477 2.01835 15.2953C2.14035 15.2428 2.2507 15.1667 2.34295 15.0711L7.99995 9.41415Z"
-                            fill="#FF0000"
-                          />
-                        </svg>
-                      </td>
+                {cart?.data?.results?.map((item: ExProduct, index: number) => (
+                  <tr key={index} className="bg-[#F6F6F6] border text-base">
+                    <td className="px-6 py-2 border max-w-12 ">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="mx-auto cursor-pointer max-w-12"
+                        onClick={() => handleRemoveProduct(item)}
+                      >
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M7.99995 9.41415L13.6569 15.0711C13.8455 15.2533 14.0982 15.3541 14.3603 15.3518C14.6225 15.3495 14.8734 15.2444 15.0588 15.059C15.2442 14.8736 15.3493 14.6227 15.3516 14.3606C15.3539 14.0984 15.2531 13.8458 15.0709 13.6571L9.41395 8.00015L15.0709 2.34315C15.2531 2.15455 15.3539 1.90194 15.3516 1.63975C15.3493 1.37755 15.2442 1.12674 15.0588 0.941331C14.8734 0.755923 14.6225 0.650754 14.3603 0.648475C14.0982 0.646197 13.8455 0.746991 13.6569 0.929149L7.99995 6.58615L2.34295 0.929149C2.15349 0.751494 1.90236 0.654515 1.64268 0.658732C1.38299 0.662948 1.13514 0.768031 0.951555 0.951743C0.767972 1.13546 0.663065 1.38339 0.659032 1.64307C0.654999 1.90276 0.752156 2.15382 0.929945 2.34315L6.58595 8.00015L0.928945 13.6571C0.833435 13.7494 0.757253 13.8597 0.704844 13.9817C0.652435 14.1037 0.624849 14.235 0.623695 14.3677C0.622541 14.5005 0.647843 14.6322 0.698124 14.7551C0.748404 14.878 0.822658 14.9897 0.91655 15.0835C1.01044 15.1774 1.1221 15.2517 1.24499 15.302C1.36789 15.3523 1.49957 15.3776 1.63235 15.3764C1.76513 15.3752 1.89635 15.3477 2.01835 15.2953C2.14035 15.2428 2.2507 15.1667 2.34295 15.0711L7.99995 9.41415Z"
+                          fill="#FF0000"
+                        />
+                      </svg>
+                    </td>
 
-                      <td className="px-6 py-2 border">
-                        <img
-                          src={
-                            item?.image ||
-                            item?.product?.url_image ||
-                            `http://171.244.64.245:8005${item?.product?.image}`
-                          }
-                          alt="thumbnail"
-                          width={60}
-                          height={40}
-                          className="object-cover h-12 rounded-lg w-14"
-                        />
-                      </td>
-                      <td className="px-6 py-2 border text-[#CC3366] underline ">
-                        <div
-                          className="cursor-pointer w-fit"
-                          onClick={() => {
-                            setProductSelected(item);
-                            setIsOpenUpdateProduct(true);
-                          }}
-                        >
-                          {item?.product?.name}{" "}
-                          {(item.capacity || item.packaging || item.color) &&
-                            "-"}{" "}
-                          {item.color &&
-                            `${item.color} ${
-                              (item.capacity || item.color) && ","
-                            } `}{" "}
-                          {item.capacity &&
-                            `${item.capacity} ${
-                              item.packaging ? "," : ""
-                            }`}{" "}
-                          {item.packaging && `${item.packaging}`}
-                        </div>
-                      </td>
-                      <td className="px-6 py-2 font-medium border">
-                        ${Number(item?.price).toFixed(2)}
-                      </td>
-                      <td className="px-6 py-2 border ">
-                        <input
-                          type="number"
-                          className="max-w-20 border-[#BFBFBF]"
-                          min={1}
-                          max={999}
-                          onChange={(e) => {
-                            if (+e.target.value > 1000) return;
-                            handleUpdateQuantity(item, +e.target.value);
-                          }}
-                          defaultValue={item?.quantity}
-                        />
-                      </td>
-                      <td className="px-6 py-2 font-medium border">
-                        ${Number(item?.total_price_item).toFixed(2)}{" "}
-                      </td>
-                    </tr>
-                  )
-                )}
+                    <td className="px-6 py-2 border">
+                      <img
+                        src={item?.thumbnail?.url}
+                        alt="thumbnail"
+                        width={60}
+                        height={40}
+                        className="object-cover h-12 rounded-lg w-14"
+                      />
+                    </td>
+                    <td className="px-6 py-2 border text-[#CC3366] underline ">
+                      <div
+                        className="cursor-pointer w-fit"
+                        onClick={() => {
+                          setProductSelected(item);
+                          setIsOpenUpdateProduct(true);
+                        }}
+                      >
+                        {item?.product_name}{" "}
+                        {(item.capacity || item.package || item.color) && "-"}{" "}
+                        {item.color &&
+                          `${item.color?.name} ${
+                            item.capacity || item.package ? "," : ""
+                          } `}{" "}
+                        {item.capacity &&
+                          `${item.capacity?.name} ${
+                            item.package ? "," : ""
+                          }`}{" "}
+                        {item.package && `${item.package?.name}`}
+                      </div>
+                    </td>
+                    <td className="px-6 py-2 font-medium border">
+                      ${Number(item?.price).toFixed(2)}
+                    </td>
+                    <td className="px-6 py-2 border ">
+                      <input
+                        type="number"
+                        className="max-w-20 border-[#BFBFBF]"
+                        min={1}
+                        max={999}
+                        onChange={(e) => {
+                          if (+e.target.value > 1000) return;
+                          handleUpdateQuantity(item, +e.target.value);
+                        }}
+                        value={item?.quantity}
+                      />
+                    </td>
+                    <td className="px-6 py-2 font-medium border">
+                      ${Number(item?.total_price_item).toFixed(2)}{" "}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
             {/* <div className="flex gap-4 p-4">
@@ -282,6 +277,7 @@ const CartTable = () => {
         isOpen={isOpenUpdateProduct}
         setIsOpen={handleCloseUpdate}
         order={productSelected}
+        refresh={refresh}
       />
     </div>
   );

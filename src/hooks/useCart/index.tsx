@@ -6,10 +6,7 @@ import { useMutation, useQuery } from "react-query";
 const useCart = () => {
   const cart = useQuery("get-cart", getCart);
   const addProductToCart = useMutation("add-product", addProduct);
-  const addExistProductToCart = useMutation(
-    "add-exist-product",
-    addExistProduct
-  );
+
   const removeProductToCart = useMutation("remove-product", removeProduct);
 
   const updateProductToCart = useMutation("update-product", updateProduct);
@@ -27,16 +24,12 @@ const useCart = () => {
     return await POST(api.addProduct, data);
   }
 
-  async function addExistProduct(data: any) {
-    return await PUT(api.addProduct, data);
-  }
-
   async function removeProduct(id: string) {
-    return await DELETE(api.addProduct + id);
+    return await DELETE(api.removeProduct + `?ids=${id}`);
   }
 
   async function updateProduct(data: any) {
-    return await PUT(api.changeProduct, data);
+    return await PUT(api.updateProduct, data);
   }
 
   return {
@@ -44,7 +37,6 @@ const useCart = () => {
     refresh: cart.refetch,
     isLoading: cart.isLoading,
     addProductToCart: addProductToCart.mutateAsync,
-    addExistProductToCart: addExistProductToCart.mutateAsync,
     removeProductToCart: removeProductToCart.mutateAsync,
     updateProductToCart: updateProductToCart.mutateAsync,
   };

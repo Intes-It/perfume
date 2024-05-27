@@ -1,12 +1,20 @@
 import Rating from "@components/rating/rating";
 import { Dialog, Transition } from "@headlessui/react";
+import { useProductDetail } from "@hooks/useProduct";
 import { updateProduct } from "@redux/slices/cart";
+import { showToast } from "@redux/slices/toast/toastSlice";
 import { ExProduct } from "@types";
 import { api } from "@utils/apiRoute";
 import { PUT } from "@utils/fetch";
 import { formatCurrency } from "@utils/formatNumber";
+import { AxiosResponse } from "axios";
 import _ from "lodash";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useMemo, useRef, useState } from "react";
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  RefetchQueryFilters,
+} from "react-query";
 import { useDispatch } from "react-redux";
 import { twMerge } from "tailwind-merge";
 
@@ -14,35 +22,43 @@ type UpdateProductProps = {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
   order: ExProduct | null;
+  refresh?: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+  ) => Promise<QueryObserverResult<AxiosResponse<any> | undefined, unknown>>;
 };
 
-function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
-  const product = order?.product;
+type optionType = {
+  current_price?: number;
+  id: number;
+  name: string;
+  price: number;
+  weight?: number;
+  color?: string;
+};
+
+function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
+  if (!order) return;
+
+  const { product, isLoading } = useProductDetail({
+    id: order.product_id.toString(),
+  });
 
   const cancelButtonRef = useRef(null);
   const [isError, setIsError] = useState({
     type: "",
     message: "",
   });
-  const [state, setState] = useState({
-    quantity: 1,
-    packagePrice: 0,
-    contenancePrice: 0,
-    packageName: "",
-    contenance: "",
-    color: undefined,
-    selectorImage: "",
-  });
-
-  const {
-    quantity,
-    packagePrice,
-    packageName,
-    contenance,
-    contenancePrice,
-    color,
-    selectorImage,
-  } = state;
+  const [packageSelected, setPackageSelected] = useState<optionType | null>(
+    order?.package
+  );
+  const [capacitySelected, setCapacitySelected] = useState<optionType | null>(
+    order?.capacity
+  );
+  const [colorSelected, setColorSelected] = useState<optionType | null>(
+    order?.color
+  );
+  const [quantity, setQuantity] = useState<number>(order?.quantity || 1);
+  const [selectorImage, setSelectorImage] = useState<string | null>(null);
 
   let namePackaging: any = [];
   if (product?.package) {
@@ -61,45 +77,45 @@ function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
     if (!product) return;
 
     const payload = {
-      order_item_id: order.id,
-      order_id: order.order,
-      color: color,
-      packaging: packageName,
-      capacity: contenance,
-      quantity: quantity,
+      data: [
+        {
+          id: order.id,
+          color: colorSelected?.id,
+          package: packageSelected?.id,
+          capacity: capacitySelected?.id,
+          quantity: quantity,
+        },
+      ],
     };
 
     try {
-      const res = await PUT(api.changeProduct, payload);
+      const res = await PUT(api.updateProduct, payload);
 
-      console.log("res", res);
+      if (res.status === 200) {
+        dispatch(updateProduct(payload.data[0]));
+        dispatch(showToast({ message: "Update successfully!", error: false }));
+        setIsOpen(false);
+        if (refresh) refresh();
+      }
     } catch (error) {
+      dispatch(showToast({ message: "Update Fail!", error: true }));
+
       console.log("error", error);
     }
-    dispatch(updateProduct(payload));
   };
 
-  useEffect(() => {
-    if (order?.id) {
-      const packageCurr = Object.values(order?.product?.package || {})?.find(
-        (item: any) => item.name === order?.package
-      ) as any;
+  const sumChoice = useMemo(() => {
+    return (
+      (product?.current_price || product?.price) +
+      (packageSelected?.price || 0) +
+      (capacitySelected?.price || 0) +
+      (colorSelected?.price || 0)
+    );
+  }, [packageSelected, capacitySelected, colorSelected, product]);
 
-      const capacityCurr = Object.values(order?.product?.capacity || {})?.find(
-        (item: any) => item.name === order?.capacity
-      ) as any;
-
-      setState({
-        ...state,
-        quantity: order.quantity,
-        contenance: order?.capacity,
-        packagePrice: +packageCurr?.price || 0,
-        contenancePrice: +capacityCurr?.price || 0,
-        color: order.color,
-        selectorImage: order.image,
-      });
-    }
-  }, [order?.id]);
+  if (isLoading) {
+    return;
+  }
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -154,11 +170,7 @@ function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
                 </div>
                 <div className="flex gap-6 py-6">
                   <img
-                    src={
-                      selectorImage ||
-                      product?.url_image ||
-                      `http://171.244.64.245:8005${product?.image}`
-                    }
+                    src={selectorImage || product?.images[0]?.url}
                     loading="lazy"
                     className="object-contain w-1/2 min-w-[50%] h-[450px]"
                     alt="product"
@@ -170,84 +182,55 @@ function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
                       <span>( 0 review )</span>
                     </div>
                     <div className="text-xl font-semibold">
-                      {_.isEmpty(product?.package) ? (
-                        <>{formatCurrency(String(product?.price))} €</>
-                      ) : (
-                        <>
-                          {packageName === "" && contenancePrice === 0
-                            ? formatCurrency(String(product?.price))
-                            : formatCurrency(
-                                String(
-                                  parseFloat(String(contenancePrice)) +
-                                    parseFloat(String(packagePrice)) +
-                                    parseFloat(String(product?.price))
-                                )
-                              )}{" "}
-                          €{" "}
-                        </>
-                      )}
+                      {formatCurrency(sumChoice.toString())} €{" "}
                     </div>
-                    <div className="my-3">
+                    <div className="my-3 ">
                       {_.isEmpty(product?.color) ? null : (
-                        <span className="flex font-semibold text-[#603813] ">
+                        <span className="flex font-semibold mb-4 text-[#603813] ">
                           Color :
-                          <span className="grid mb-3 font-medium">
-                            {color}{" "}
+                          <span className="grid font-medium">
+                            {colorSelected?.name}{" "}
                           </span>
                         </span>
                       )}
-                      <div className="flex gap-3">
-                        {product?.color
-                          ? Object.values(product.color)?.map(
-                              (item: any, index: number) => (
-                                <button
-                                  key={index}
-                                  onClick={() => {
-                                    const color = item?.name;
-                                    setState((o) => ({
-                                      ...o,
-                                      color,
-                                      selectorImage: item.image,
-                                    }));
-                                  }}
-                                  style={{
-                                    background: `${item.color}`,
-                                  }}
-                                  className={twMerge(
-                                    " border p-2 text-white outline-none",
-                                    color === item?.name &&
-                                      "ring-[1.5px] ring-black"
-                                  )}
-                                >
-                                  {/* //  className={`mb-3 border p-2 text-white border-black bg-[#50d71e]`}>  */}
-                                  {item?.name}
-                                </button>
-                              )
-                            )
-                          : null}
+                      <div className="flex gap-3 mt-4">
+                        {product?.color &&
+                          product.color?.map((item: any, index: number) => (
+                            <button
+                              key={index}
+                              onClick={() => {
+                                if (item.image) setSelectorImage(item.image);
+                                setColorSelected(item);
+                              }}
+                              style={{
+                                background: `${item.color}`,
+                              }}
+                              className={twMerge(
+                                "mb-3 border p-2 text-white outline-none",
+                                colorSelected?.id === item?.id && "border-black"
+                              )}
+                            >
+                              {/* //  className={`mb-3 border p-2 text-white border-black bg-[#50d71e]`}>  */}
+                              {item?.name}
+                            </button>
+                          ))}
                       </div>
                     </div>
                     {/* sub product */}
-                    <div className="flex gap-1 mb-3 ">
-                      {_.isEmpty(product?.capacity) ? (
+                    <div className="flex gap-1 mt-4 mb-3 ">
+                      {!_.isEmpty(product?.capacity) && (
                         <div
                           role="tabpanel"
                           className={` text-[#603813] transition-opacity duration-150 ease-linear `}
                         >
-                          {product?.weight === 0 ? (
+                          {capacitySelected?.weight === 0 ? (
                             ""
                           ) : (
                             <div>
-                              <strong>Contenance</strong> :{product?.weight}g
+                              <strong>Contenance</strong> :
+                              {capacitySelected?.weight}g
                             </div>
                           )}
-                        </div>
-                      ) : (
-                        <div
-                          role="tabpanel"
-                          className={` text-[#603813] font-medium transition-opacity duration-150 ease-linear `}
-                        >
-                          <strong>Contenance</strong> :{contenance}
                         </div>
                       )}
                     </div>
@@ -258,32 +241,22 @@ function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
                         role="tablist"
                       >
                         {product?.capacity
-                          ? Object.values(product.capacity)?.map(
+                          ? product.capacity?.map(
                               (item: any, index: number) => (
                                 <li role="presentation" key={index}>
                                   <button
                                     // href={"#" + capacityName[index]}
                                     className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate ${
-                                      contenance === item?.name &&
+                                      capacitySelected === item?.id &&
                                       "border-[#6A5950]"
-                                    } "
-                          
-                          `}
+                                    } " `}
                                     onClick={() => {
-                                      const contenancePrice = parseFloat(
-                                        item?.price
-                                      );
-                                      const contenance = item?.name;
                                       if (isError.type)
                                         setIsError({
                                           ...isError,
                                           type: "",
                                         });
-                                      setState((o) => ({
-                                        ...o,
-                                        contenancePrice,
-                                        contenance,
-                                      }));
+                                      setCapacitySelected(item);
                                     }}
                                   >
                                     {item?.name}
@@ -296,13 +269,13 @@ function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
                     </div>
 
                     {/* packaging */}
-                    <div className="flex gap-1 my-3 ">
-                      {_.isEmpty(product?.package) ? null : (
+                    <div className="flex gap-1 mt-4 mb-3 ">
+                      {!_.isEmpty(product?.package) && (
                         <div
                           role="tabpanel"
-                          className={` text-[#603813] transition-opacity duration-150 ease-linear `}
+                          className={`mb-4  text-[#603813]    transition-opacity duration-150 ease-linear `}
                         >
-                          <strong>Packaging</strong> : {packageName}
+                          <strong>Packaging</strong> : {packageSelected?.name}
                         </div>
                       )}
                     </div>
@@ -312,44 +285,32 @@ function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
                         id="tabs-tab"
                         role="tablist"
                       >
-                        {product?.package
-                          ? Object.values(product.package)?.map(
-                              (item: any, index: number) => (
-                                <li role="presentation" key={index}>
-                                  <button
-                                    // href={"#" + namePackaging[index]}
-                                    className={`p-3 block border text-[#16px] leading-tight outline-none text-[#515151] font-semibold hover:isolate focus:isolate hover:border-transparent hover:bg-neutral-100   ${
-                                      packageName === item?.name
-                                        ? "border-[#6A5950]"
-                                        : ""
-                                    } `}
-                                    id={namePackaging[index]}
-                                    onClick={() => {
-                                      const packagePrice = parseFloat(
-                                        item?.price
-                                      );
-                                      const packageName = item?.name;
-                                      const selectorImage = item?.image;
-                                      if (isError.type)
-                                        setIsError({
-                                          ...isError,
-                                          type: "",
-                                        });
-                                      setState((o) => ({
-                                        ...o,
-                                        packagePrice,
-                                        packageName,
-                                        selectorImage,
-                                      }));
-                                    }}
-                                    role="tab"
-                                  >
-                                    {item?.name}
-                                  </button>
-                                </li>
-                              )
-                            )
-                          : null}
+                        {product?.package &&
+                          product.package?.map((item: any, index: number) => (
+                            <li role="presentation" key={index}>
+                              <button
+                                // href={"#" + namePackaging[index]}
+                                className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate focus:isolate hover:border-transparent hover:bg-neutral-100   ${
+                                  packageSelected?.id === item?.id
+                                    ? "border-[#6A5950]"
+                                    : ""
+                                } `}
+                                onClick={() => {
+                                  const selectorImage = item?.image;
+                                  setPackageSelected(item);
+                                  if (isError.type)
+                                    setIsError({
+                                      ...isError,
+                                      type: "",
+                                    });
+                                  setSelectorImage(selectorImage);
+                                }}
+                                role="tab"
+                              >
+                                {item?.name}
+                              </button>
+                            </li>
+                          ))}
                       </ul>
                     </div>
 
@@ -370,10 +331,7 @@ function UpdateCart({ isOpen, setIsOpen, order }: UpdateProductProps) {
                           if (newValue > 0 && isError.type)
                             setIsError({ ...isError, type: "" });
                           if (newValue <= 999) {
-                            setState((pre) => ({
-                              ...pre,
-                              quantity: newValue,
-                            }));
+                            setQuantity(newValue);
                           }
                         }}
                         type="number"

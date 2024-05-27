@@ -23,15 +23,8 @@ const CartPopover: React.FC = () => {
 
   React.useEffect(() => {
     if (cart?.status === 200) {
-      const orderItem = cart?.data?.order_item?.map((item: any) => ({
-        ...item,
-        quantity: item?.quantity,
-        packageName: item?.packaging,
-      }));
-      if (orderItem) {
-        //update to localstorage
-        dispatch(updateFullCart(orderItem));
-      }
+      //update to localstorage
+      dispatch(updateFullCart(cart?.data?.results));
     }
   }, [cart]);
 
