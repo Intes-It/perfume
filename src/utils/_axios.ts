@@ -3,8 +3,8 @@ import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import { jwtDecode } from "jwt-decode";
 let isRefreshing = false as boolean;
 const instance = axios.create({
-  // baseURL: process.env.NEXT_PUBLIC_BASE_URL,
-  baseURL: "http://171.244.64.245:8010",
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  // baseURL: "http://171.244.64.245:8010",
   headers: {
     "Content-Type": "application/json",
   },
