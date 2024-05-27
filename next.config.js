@@ -23,6 +23,14 @@ const nextConfig = {
     defaultLocale: "en",
   },
   output: "standalone",
+  rewrites: async () => {
+    return [
+      {
+        source: "/api/:path*",
+        destination: `http://171.244.64.245:8010/api/:path*/`,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

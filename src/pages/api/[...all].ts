@@ -1,34 +1,20 @@
-import httpProxy from "http-proxy";
 import { NextApiRequest, NextApiResponse } from "next";
+import httpProxyMiddleware from "next-http-proxy-middleware";
+// import cors from 'cors';
 
 export const config = {
   api: {
+    // Enable `externalResolver` option in Next.js
     externalResolver: true,
   },
 };
 
-const proxy = httpProxy.createProxyServer({
-  target: "http://171.244.64.245:8010", // Replace with your API's URL
-  changeOrigin: true, // Optional: Preserve host headers (adjust based on needs)
-  followRedirects: true, // Add this option to follow redirects
-});
+export default (req: NextApiRequest, res: NextApiResponse) => {
+  return httpProxyMiddleware(req, res, {
+    // You can use the `http-proxy` option
+    target: "http://171.244.64.245:8010",
+    // In addition, you can use the `pathRewrite` option provided by `next-http-proxy-middleware`
 
-proxy.on("proxyReq", (proxyReq, req, res) => {
-  console.log("Proxying request:", req.url);
-});
-
-proxy.on("proxyRes", (proxyRes, req, res) => {
-  console.log("Received response:", proxyRes.statusCode, req.url);
-});
-
-proxy.on("error", (err, req, res) => {
-  console.error("Proxy error:", err);
-  res.writeHead(500, {
-    "Content-Type": "text/plain",
+    followRedirects: true,
   });
-  res.end("Something went wrong.");
-});
-
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  proxy.web(req, res);
-}
+};
