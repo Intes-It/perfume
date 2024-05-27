@@ -27,19 +27,19 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
     // country: Yup.tuple().required(),
     ward: Yup.string().required(),
     // district: Yup.string().required(),
-    zip_code: Yup.string().required(),
+    zip_code: Yup.string().max(10).required(),
     province: Yup.string().required(),
     phone: Yup.number().required(),
     email: Yup.string().required().email(),
   });
-const {user}=useUser()
+  const { user } = useUser();
 
   const formik = useFormik({
     initialValues: {
       first_name: "",
       last_name: "",
       company_name: "",
-      country: Countries[0].value,
+      country: "United Kingdom",
       ward: "",
 
       province: "",
@@ -64,13 +64,12 @@ const {user}=useUser()
     },
   });
   const { errors, values } = formik;
-const countrys=[
-  {value:'France'},
-  {value:'Viet Nam'},
-  {value:'United Kingdom'},
-  {value:'Dubai'},
-
-]
+  const countrys = [
+    { value: "France" },
+    { value: "Viet Nam" },
+    { value: "United Kingdom" },
+    { value: "Dubai" },
+  ];
   useEffect(() => {
     onError?.(errors);
   }, [errors]);
@@ -84,7 +83,7 @@ const countrys=[
       {/* form */}
       <div>
         <span className="text-[#26222f] text-[32px] font-semibold">
-         Billing Information
+          Billing Information
         </span>
         <form
           onInvalidCapture={() => {
@@ -95,14 +94,17 @@ const countrys=[
             <div className="grid grid-cols-2">
               <div className="flex flex-col mr-6">
                 <label className="font-semibold">
-                  First Name <span className="text-red-500 text-[20px] ">*</span>
+                  First Name{" "}
+                  <span className="text-red-500 text-[20px] ">*</span>
                 </label>
                 <input
                   {...formik.getFieldProps("first_name")}
                   type="text"
                   id="first_name"
                   className={`px-4 py-3 border ${
-                    errors.first_name ? "border-red-700" : "border-gray-300"
+                    formik.dirty && errors.first_name
+                      ? "border-red-700"
+                      : "border-gray-300"
                   } text-black`}
                 />
               </div>
@@ -115,15 +117,15 @@ const countrys=[
                   type="text"
                   id="last_name"
                   className={`px-4 py-3 border ${
-                    errors.last_name ? "border-red-700" : "border-gray-300"
+                    formik.dirty && errors.last_name
+                      ? "border-red-700"
+                      : "border-gray-300"
                   } text-black`}
                 />
               </div>
             </div>
             <div className="flex flex-col">
-              <label className="font-semibold">
-               Company name (optional)
-              </label>
+              <label className="font-semibold">Company name (optional)</label>
               <input
                 {...formik.getFieldProps("company_name")}
                 type="text"
@@ -133,27 +135,27 @@ const countrys=[
             </div>
             <div className="flex flex-col">
               <label className="font-semibold">
-                Region <span className="text-red-500 text-[20px] ">*</span>
+                Country/region{" "}
+                <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <select
-            
                 {...formik.getFieldProps("country")}
                 id="country"
                 className={`px-4 py-3 border ${
-                  errors.country ? "border-red-700" : "border-gray-300"
+                  formik.dirty && errors.country
+                    ? "border-red-700"
+                    : "border-gray-300"
                 } text-black`}
                 onChange={(event) => {
                   formik.setFieldValue("country", event.target.value);
                 }}
               >
-              <option hidden></option>
-                {countrys.map(
-                  (c, index: number) => (
-                    <option key={index} value={c.value}>
-                      {c.value}
-                    </option>
-                  )
-                )}
+                <option hidden></option>
+                {countrys.map((c, index: number) => (
+                  <option key={index} value={c.value}>
+                    {c.value}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="flex flex-col">
@@ -166,7 +168,9 @@ const countrys=[
                 type="text"
                 id="ward"
                 className={`px-4 py-3 border ${
-                  errors.ward ? "border-red-700" : "border-gray-300"
+                  formik.dirty && errors.ward
+                    ? "border-red-700"
+                    : "border-gray-300"
                 } text-black`}
               />
               {/* <input
@@ -174,9 +178,26 @@ const countrys=[
                 type="text"
                 id="district"
                 className={`px-4 py-3 mt-4 border ${
-                  errors.district ? "border-red-700" : "border-gray-300"
+                  formik.dirty && errors.district ? "border-red-700" : "border-gray-300"
                 } text-black`}
               /> */}
+            </div>
+
+            <div className="flex flex-col">
+              <label className="font-semibold">
+                Postal Code<span className="text-red-500 text-[20px] ">*</span>
+              </label>
+              <input
+                {...formik.getFieldProps("zip_code")}
+                type="text"
+                id="zip_code"
+                className={`px-4 py-3 mt-4 border ${
+                  formik.dirty && errors.zip_code
+                    ? "border-red-700"
+                    : "border-gray-300"
+                } text-black`}
+                maxLength={10}
+              />
             </div>
             <div className="flex flex-col">
               <label className="font-semibold">
@@ -187,46 +208,39 @@ const countrys=[
                 type="text"
                 id="province"
                 className={`px-4 py-3 border ${
-                  errors.province ? "border-red-700" : "border-gray-300"
+                  formik.dirty && errors.province
+                    ? "border-red-700"
+                    : "border-gray-300"
                 } text-black`}
               />
             </div>
             <div className="flex flex-col">
               <label className="font-semibold">
-                Postal Code<span className="text-red-500 text-[20px] ">*</span>
-              </label>
-              <input
-                {...formik.getFieldProps("zip_code")}
-                type="text"
-                id="zip_code"
-                className={`px-4 py-3 mt-4 border ${
-                  errors.zip_code ? "border-red-700" : "border-gray-300"
-                } text-black`}
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="font-semibold">
-                Téléphone <span className="text-red-500 text-[20px] ">*</span>
+                Phone <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
                 {...formik.getFieldProps("phone")}
                 type="text"
                 id="phone"
                 className={`px-4 py-3 mt-4 border ${
-                  errors.phone ? "border-red-700" : "border-gray-300"
+                  formik.dirty && errors.phone
+                    ? "border-red-700"
+                    : "border-gray-300"
                 } text-black`}
               />
             </div>
             <div className="flex flex-col">
               <label className="font-semibold">
-                E-mail <span className="text-red-500 text-[20px] ">*</span>
+                Email <span className="text-red-500 text-[20px] ">*</span>
               </label>
               <input
                 {...formik.getFieldProps("email")}
                 type="email"
                 id="id"
                 className={`px-4 py-3 mt-4 border ${
-                  errors.email ? "border-red-700" : "border-gray-300"
+                  formik.dirty && errors.email
+                    ? "border-red-700"
+                    : "border-gray-300"
                 } text-black`}
               />
             </div>
