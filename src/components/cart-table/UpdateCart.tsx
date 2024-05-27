@@ -37,7 +37,7 @@ type optionType = {
 };
 
 function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
-  if (!order) return;
+  if (!order) return null;
 
   const { product, isLoading } = useProductDetail({
     id: order.product_id.toString(),
@@ -114,7 +114,7 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
   }, [packageSelected, capacitySelected, colorSelected, product]);
 
   if (isLoading) {
-    return;
+    return null;
   }
 
   return (
