@@ -64,6 +64,33 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
     },
   });
   const { errors, values } = formik;
+  const handleKeyDownPhone = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    if (
+      isNaN(Number(e.key)) &&
+      e.key !== "Backspace" &&
+      e.key !== "Delete" &&
+      e.key !== "+" &&
+      e.key !== "ArrowLeft" &&
+      e.key !== "ArrowRight"
+    ) {
+      e.preventDefault();
+      return;
+    }
+    if (
+      (value.includes("+") || e.currentTarget.selectionStart !== 0) &&
+      e.key === "+"
+    ) {
+      e.preventDefault();
+    }
+
+    if (value.length >= 20 && e.key !== "Backspace" && e.key !== "Delete") {
+      e.preventDefault();
+    }
+    if (e.key === "e" || e.key === "." || e.key === "-" || e.key === ",") {
+      e.preventDefault();
+    }
+  };
   const countrys = [
     { value: "France" },
     { value: "Viet Nam" },
@@ -227,6 +254,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                     ? "border-red-700"
                     : "border-gray-300"
                 } text-black`}
+                onKeyDown={handleKeyDownPhone}
               />
             </div>
             <div className="flex flex-col">

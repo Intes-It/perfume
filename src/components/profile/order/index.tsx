@@ -10,11 +10,20 @@ import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 const listTab = [
   { title: "All", value: "" },
-  { title: "New order", value: "status=Pending" },
-  { title: "Delivering", value: "status=Processing" },
-  { title: "Completed", value: "status=Completed" },
-  { title: "Canceled", value: "status=Canceled" },
+  { title: "New order", value: "&statuses=3" },
+  { title: "Delivering", value: "&statuses=7" },
+  { title: "Completed", value: "&statuses=8" },
+  { title: "Canceled", value: "&statuses=5" },
 ];
+const listStatus: { [key: string]: string } = {
+  "3": "New",
+  "4": "Accepted",
+  "5": "Canceled",
+  "6": "In progress",
+  "7": "Delivering",
+  "8": "Completed",
+};
+
 const Order = () => {
   const dispatch = useAppDispatch();
   const [state, setState] = useState({
@@ -24,7 +33,9 @@ const Order = () => {
   const { status, page } = state;
   const { data } = useQuery(["get-list-order", status, page], async () => {
     try {
-      const res = await GET(`/api/orders/book/list/?page=${page}&${status}`);
+      const res = await GET(
+        `/api/order/my_order/?page=${page}${status ? status : ""}`
+      );
       return res.data;
     } catch (error) {
       dispatch(() => showToast(String(error)));
@@ -39,19 +50,19 @@ const Order = () => {
 
   const tableBody =
     data &&
-    data?.data.results.map((item: IListOrder) => (
+    data?.results.map((item: IListOrder) => (
       <tr key={item.id} className="bg-white">
         <th
           scope="row"
           className="px-7 py-4 font-medium text-[#374151] whitespace-nowrap"
         >
-          {item.id_order}
+          {item.id}
         </th>
         <td className="px-6 py-4 font-medium text-[#374151]">
-          {dayjs(item.created_time).format("YYYY-MM-DD")}
+          {dayjs(item.update_at).format("YYYY-MM-DD")}
           {"    "}
           <span className="ml-2"></span>
-          {dayjs(item.created_time).format("HH:MM")}
+          {dayjs(item.update_at).format("HH:MM")}
         </td>
         <td className="pl-12 py-4 font-medium text-[#374151]  ">
           {item.total}
@@ -62,12 +73,11 @@ const Order = () => {
         <td
           className={twMerge(
             "px-6 py-4 font-medium",
-            { completed: "text-[#00DD16]", canceled: "text-[#FF2626]" }[
-              item.status.toLowerCase()
-            ] || "text-[#0047FF]"
+            { 8: "text-[#00DD16]", 5: "text-[#FF2626]" }[item.status] ||
+              "text-[#0047FF]"
           )}
         >
-          {item.status}
+          {listStatus[item.status.toString()]}
         </td>
         <td className="px-6 py-4 ">
           <Link href={`my-order/${item.id}`}>
@@ -106,14 +116,16 @@ const Order = () => {
                 : "text-[#374151] font-normal",
               "w-32 py-2 h-10"
             )}
-            onClick={() => setState((p) => ({ ...p, status: item.value,page:1 }))}
+            onClick={() =>
+              setState((p) => ({ ...p, status: item.value, page: 1 }))
+            }
           >
             {item.title}
           </button>
         ))}
       </div>
       <div className="overflow-x-auto">
-        {data && data?.data.results.length <= 0 ? (
+        {data && data?.results.length <= 0 ? (
           <div className="relative" style={{ paddingTop: "10%" }}>
             <div className="text-center">
               <Image
@@ -141,7 +153,7 @@ const Order = () => {
                     className={` flex items-center gap-x-2`}
                   >
                     Data Order{" "}
-                    <svg
+                    {/* <svg
                       width="20"
                       height="20"
                       viewBox="0 0 20 20"
@@ -154,7 +166,7 @@ const Order = () => {
                         d="M10 2.70801C10.1658 2.70801 10.3248 2.77386 10.442 2.89107C10.5592 3.00828 10.625 3.16725 10.625 3.33301V15.158L14.5584 11.2247C14.6156 11.1633 14.6846 11.114 14.7612 11.0799C14.8379 11.0457 14.9207 11.0273 15.0046 11.0258C15.0885 11.0244 15.1719 11.0398 15.2497 11.0712C15.3275 11.1027 15.3982 11.1495 15.4576 11.2088C15.5169 11.2682 15.5637 11.3389 15.5951 11.4167C15.6266 11.4945 15.642 11.5779 15.6405 11.6618C15.639 11.7457 15.6207 11.8285 15.5865 11.9051C15.5524 11.9818 15.5031 12.0508 15.4417 12.108L10.4417 17.108C10.3245 17.225 10.1657 17.2908 10 17.2908C9.8344 17.2908 9.67555 17.225 9.55836 17.108L4.55836 12.108C4.49695 12.0508 4.4477 11.9818 4.41354 11.9051C4.37938 11.8285 4.36101 11.7457 4.35953 11.6618C4.35805 11.5779 4.37349 11.4945 4.40492 11.4167C4.43636 11.3389 4.48315 11.2682 4.54249 11.2088C4.60184 11.1495 4.67254 11.1027 4.75036 11.0712C4.82818 11.0398 4.91154 11.0244 4.99546 11.0258C5.07938 11.0273 5.16214 11.0457 5.23881 11.0799C5.31547 11.114 5.38447 11.1633 5.44169 11.2247L9.37503 15.158V3.33301C9.37503 3.16725 9.44087 3.00828 9.55808 2.89107C9.6753 2.77386 9.83427 2.70801 10 2.70801Z"
                         fill="#603813"
                       />
-                    </svg>
+                    </svg> */}
                   </th>
                   <th style={th} scope="col">
                     {" "}
