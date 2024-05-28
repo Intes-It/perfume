@@ -76,8 +76,8 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
           )}
         </div>
         <div className="flex flex-col gap-2">
-          <label className="font-semibold">
-            Mot de passe actuel (laisser vide pour le conserver)
+          <label>
+            Password <span className="text-red-500 text-[20px] ">*</span>
           </label>
           <div className="relative grid items-center">
             <FontAwesomeIcon

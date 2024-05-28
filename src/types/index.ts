@@ -14,7 +14,7 @@ export interface Product {
   favorite?: boolean;
   check?: boolean;
   name?: string;
-  evaluate?: number | undefined;
+  rating?: number | undefined;
   url_image?: string | undefined;
   weight?: number;
   total_price_item?: string | number;
@@ -46,7 +46,7 @@ export interface ExProduct {
   image: string;
   weight?: number;
   order: string | number;
-  evaluate?: number;
+  rating?: number;
   current_price: number | null;
   product_name: string;
   thumbnail: {

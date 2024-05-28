@@ -9,6 +9,7 @@ import { PUT } from "@utils/fetch";
 import { formatCurrency } from "@utils/formatNumber";
 import { AxiosResponse } from "axios";
 import _ from "lodash";
+import Image from "next/image";
 import { Fragment, useMemo, useRef, useState } from "react";
 import {
   QueryObserverResult,
@@ -96,10 +97,10 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
         dispatch(showToast({ message: "Update successfully!", error: false }));
         setIsOpen(false);
         if (refresh) refresh();
+      } else {
+        dispatch(showToast({ message: "Update Fail!", error: true }));
       }
     } catch (error) {
-      dispatch(showToast({ message: "Update Fail!", error: true }));
-
       console.log("error", error);
     }
   };
@@ -169,16 +170,18 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
                   </svg>
                 </div>
                 <div className="flex gap-6 py-6">
-                  <img
+                  <Image
                     src={selectorImage || product?.images[0]?.url}
                     loading="lazy"
                     className="object-contain w-1/2 min-w-[50%] h-[450px]"
                     alt="product"
+                    width={500}
+                    height={450}
                   />
                   <div className="flex flex-col">
                     <div className="text-2xl font-normal">{product?.name}</div>
                     <div className="flex gap-2 my-2">
-                      <Rating score={product?.evaluate || 0} />
+                      <Rating score={product?.rating || 0} />
                       <span>( 0 review )</span>
                     </div>
                     <div className="text-xl font-semibold">

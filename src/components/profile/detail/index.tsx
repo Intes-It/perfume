@@ -148,7 +148,9 @@ const Detail = () => {
             fontSize={"1.2rem"}
           />
           <span
-            className={twMerge("text-[#06e318]", error && "text-[#ed2805]")}
+            style={{
+              color: color,
+            }}
           >
             {message}
           </span>

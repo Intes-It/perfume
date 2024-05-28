@@ -77,7 +77,7 @@ instance.interceptors.response.use(
   (res) => res,
   async (err) => {
     // Refresh failed or not applicable, return original error
-    return Promise.reject(err?.response);
+    return err?.response;
   }
 );
 export { instance };

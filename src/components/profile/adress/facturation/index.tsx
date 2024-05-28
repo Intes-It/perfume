@@ -157,7 +157,13 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
             className="mr-3"
             fontSize={"1.2rem"}
           />
-          <span className="text-[#ed2805]">{message}</span>
+          <span
+            style={{
+              color: color,
+            }}
+          >
+            {message}
+          </span>
         </div>
       ) : (
         <div></div>

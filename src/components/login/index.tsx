@@ -33,7 +33,7 @@ const Login: React.FC<LoginProps> = ({ submit }) => {
         </div>
         <div className="flex flex-col space-y-1">
           <label>
-            Mot de passe <span className="text-red-500 text-[20px] ">*</span>
+            Password <span className="text-red-500 text-[20px] ">*</span>
           </label>
           <div className="relative grid items-center">
             <FontAwesomeIcon

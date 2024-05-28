@@ -70,10 +70,10 @@ const ProductItem: React.FC<ProductProps> = ({
         await mutate("get-server-cart");
         dispatch(showToast({ message: "Add successfully!", error: false }));
       } else {
-        dispatch(showToast({ message: "Something went wrong!", error: true }));
+        dispatch(showToast({ message: res?.data?.message, error: true }));
       }
     } catch (error: any) {
-      dispatch(showToast({ message: error?.data?.message, error: true }));
+      dispatch(showToast({ message: "Something went wrong!", error: true }));
       console.log("error", error);
     }
   };
@@ -151,7 +151,7 @@ const ProductItem: React.FC<ProductProps> = ({
       </Link>
       <h5 className="text-[#603813] text-center">{product?.name}</h5>
       <div className="flex flex-col items-center mt-5 space-y-2">
-        <Rating score={product?.evaluate || 0} />
+        <Rating score={product?.rating || 0} />
         <p className="font-semibold">
           {formatCurrency(String(product?.price))}€
         </p>

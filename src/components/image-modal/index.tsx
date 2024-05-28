@@ -1,5 +1,5 @@
+import Image from "next/image";
 import * as React from "react";
-
 
 interface ImageModalProps {
   imgUrl: string;
@@ -17,20 +17,25 @@ const ImageModal: React.FunctionComponent<ImageModalProps> = ({
   const handleClose = (e: any) => {
     if (e.target.id === "wrapper") onClose();
   };
-
   return (
     <div
       id="wrapper"
       onClick={handleClose}
-      className="fixed z-50 inset-0 bg-black bg-opacity-75 flex justify-center items-center m-0"
+      className="fixed inset-0 z-50 flex items-center justify-center m-0 bg-black bg-opacity-75"
     >
       <div className="absolute top-2 right-3">
-        <button onClick={() => onClose()} className="text-white text-xl">
+        <button onClick={() => onClose()} className="text-xl text-white">
           X
         </button>
       </div>
 
-      <img src={imgUrl} alt="image" className="max-w-[90%] max-h-[90%]" />
+      <Image
+        src={imgUrl}
+        alt="image"
+        className="max-w-[90%] max-h-[90%]"
+        width={1000}
+        height={1000}
+      />
     </div>
   );
 };

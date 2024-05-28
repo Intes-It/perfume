@@ -198,12 +198,10 @@ const ProductDetail: React.FC<
           );
           dispatch(showToast({ message: "Add successfully!", error: false }));
         } else {
-          dispatch(
-            showToast({ message: "Something went wrong!", error: true })
-          );
+          dispatch(showToast({ message: res?.data?.message, error: true }));
         }
       } catch (error: any) {
-        dispatch(showToast({ message: error?.data?.message, error: true }));
+        dispatch(showToast({ message: "Something went wrong!", error: true }));
       }
     } else {
       router.push("/my-account");
@@ -226,8 +224,8 @@ const ProductDetail: React.FC<
                 ? product?.images?.length > 0 && product?.images[0]?.url
                 : selectorImage
             }
-            width={1000}
-            height={1000}
+            width={700}
+            height={550}
             alt={product?.name}
           />
           <button className="absolute right-0 top-0 bg-white rounded-full w-[2.2rem] h-[2.2rem]">
@@ -263,7 +261,7 @@ const ProductDetail: React.FC<
             <span className="text-[#603913]">{product?.shortDescription}</span>
           </div>
           <div className="flex gap-2 my-2">
-            <Rating score={product?.evaluate || 0} />
+            <Rating score={product?.rating || 0} />
             <span>{`( 0 avis client)`}</span>
           </div>
           <span className="mb-4 text-[#383e42] text-[24px] font-semibold">
@@ -499,7 +497,7 @@ const ProductDetail: React.FC<
         <BestSales products={products} />
       </div>
       <ImageModal
-        imgUrl={product?.url_image}
+        imgUrl={product?.images[0]?.url}
         isShowModel={isShowImageModal}
         onClose={() => setShowModal(false)}
       />

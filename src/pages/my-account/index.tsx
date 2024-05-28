@@ -108,7 +108,13 @@ const MyAccount = () => {
             className="mr-3"
             fontSize={"1.2rem"}
           />
-          <span className="text-[#ed2805]">{message}</span>
+          <span
+            style={{
+              color: color,
+            }}
+          >
+            {message}
+          </span>
         </div>
       ) : (
         <></>
@@ -122,11 +128,11 @@ const MyAccount = () => {
       ) : (
         <div className="flex flex-col items-center justify-around mt-10 md:flex-row md:items-start">
           <div className="w-[95vw] mb-20 md:w-[45vw]">
-            <h3 className="my-4 text-[26px]  text-[#26222f]">Connexion</h3>
+            <h3 className="my-4 text-[26px]  text-[#26222f]">Login</h3>
             <Login submit={onLogin} />
           </div>
           <div className="w-[95vw] mb-20 md:w-[45vw]">
-            <h3 className="my-4 text-[26px]  text-[#26222f]">S’enregistrer</h3>
+            <h3 className="my-4 text-[26px]  text-[#26222f]">Sign up</h3>
             <Register submit={onRegister} error={error} />
           </div>
         </div>

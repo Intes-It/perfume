@@ -1,9 +1,11 @@
 import useCart from "@hooks/useCart";
 import { removeProduct } from "@redux/actions";
 import { updateProduct } from "@redux/slices/cart";
+import { showToast } from "@redux/slices/toast/toastSlice";
 import { ExProduct } from "@types";
 import { isEmpty } from "lodash-es";
 import debounce from "lodash/debounce";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -29,6 +31,8 @@ const CartTable = () => {
     if (res.status === 200) {
       refresh();
       dispatch(removeProduct(exProduct));
+    } else {
+      dispatch(showToast({ message: "Fail to remove product!", error: true }));
     }
   };
 
@@ -139,7 +143,7 @@ const CartTable = () => {
                     </td>
 
                     <td className="px-6 py-2 border">
-                      <img
+                      <Image
                         src={item?.thumbnail?.url}
                         alt="thumbnail"
                         width={60}
