@@ -90,7 +90,7 @@ const Profile = () => {
                       : () => setTabs(index)
                   }
                   className={twMerge(
-                    "my-[1px] min-w-[100px] block w-full border-x-0 font-semibold text-left whitespace-nowrap hover:isolate rounded-md border-t-0 border-b-2 border-transparent px-7 pt-4 pb-3.5 text-sm   leading-tight text-neutral-500  hover:border-transparent  hover:bg-neutral-100 ",
+                    "my-[1px] min-w-[100px] block w-full border-x-0 font-semibold text-left whitespace-nowrap hover:isolate  border-t-0 border-b-2 border-transparent px-7 pt-4 pb-3.5 text-sm   leading-tight text-neutral-500  hover:border-transparent  hover:bg-neutral-100 ",
                     index === tabs ? "bg-[#603813]  hover:bg-[#603813]" : ""
                   )}
                 >

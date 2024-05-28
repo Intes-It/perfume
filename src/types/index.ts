@@ -80,11 +80,10 @@ export interface BlogProps {
 }
 export interface IListOrder {
   id: number;
-  created_time: Date | string;
+  update_at: Date | string;
   modified_time: Date | string;
-  id_order: string;
   payment_id: string;
-  status: string;
+  status: number;
   user_name: string;
   company_name: string;
   dif_company_name: string;
@@ -106,6 +105,7 @@ export interface IListOrder {
   real_price: number;
   fee_ship: number;
   total_weight: number;
+  quantity: number;
   total: number;
   total_price_cart: number;
   total_price_payment: number;
