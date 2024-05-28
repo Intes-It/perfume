@@ -30,11 +30,11 @@ const MyAccount = () => {
     if (res?.status === 200) {
       setCookie("access_token", res.data?.access);
       setCookie("refresh_token", res.data?.refresh);
-
-      window.history.back();
       if (products !== null) {
         dispatch(clearCart());
       }
+      if (window.history.length > 2) window.history.back();
+      else window.location.replace("/");
     } else {
       setState((o) => ({
         ...o,
