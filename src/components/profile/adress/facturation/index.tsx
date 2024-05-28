@@ -340,10 +340,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
               </label>
               <input
                 onChange={formik.handleChange}
-                type="number"
-                onKeyDown={(e) => {
-                  handleKeyDownZCode(e);
-                }}
+                type="text"
                 id="zip_code"
                 value={formik.values?.zip_code}
                 className={twMerge(
@@ -352,6 +349,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                     ? "border-red-500"
                     : "border-gray-300"
                 )}
+                maxLength={10}
               />
               {formik.errors.zip_code && formik.submitCount != 0 ? (
                 <div className="text-[12px] text-red-500">
