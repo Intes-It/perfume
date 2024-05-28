@@ -50,6 +50,7 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
             {...register("username")}
             required
             type="text"
+            autoComplete="off"
             id="username"
             className="px-4 py-3 text-black border border-gray-300"
           />
@@ -62,6 +63,7 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
             {...register("email")}
             required
             id="email"
+            autoComplete="off"
             className={twMerge(
               "px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
               errors.email && "border-[#ed2805]"
@@ -90,6 +92,7 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
               {...register("password")}
               required
               type={showPass ? "text" : "password"}
+              autoComplete="off"
               id="password"
               className={twMerge(
                 "px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",

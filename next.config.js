@@ -3,16 +3,8 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "naturefeerique.fr",
-        port: "",
-        pathname: "/wp-content/uploads/**",
-      },
-      {
-        protocol: "https",
-        hostname: "firebasestorage.googleapis.com",
-        port: "",
-        pathname: "/v0/**",
+        protocol: "http",
+        hostname: "**",
       },
     ],
   },

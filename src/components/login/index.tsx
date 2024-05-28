@@ -64,7 +64,9 @@ const Login: React.FC<LoginProps> = ({ submit }) => {
           </button>
         </div>
         <Link href={Routes.myAccount.children.forgotPassword.route}>
-          <a className="text-base text-brow-300">Mot de passe perdu ?</a>
+          <div className="text-base cursor-pointer text-brow-300 w-fit">
+            Forget password ?
+          </div>
         </Link>
       </form>
     </>

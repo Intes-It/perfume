@@ -29,8 +29,8 @@ instance.interceptors.request.use(
         isRefreshing = true;
 
         try {
-          const refreshResponse = await axios.post(
-            "http://171.244.64.245:8010/api/auth/refresh/",
+          const refreshResponse = await instance.post(
+            process.env.NEXT_PUBLIC_BASE_URL + "/api/auth/refresh/",
             {
               refresh: refreshToken,
             }

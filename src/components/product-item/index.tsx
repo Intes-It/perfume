@@ -12,6 +12,7 @@ import { addFavoriteItem, removeFavoriteItem } from "@redux/slices/favorite";
 import { showToast } from "@redux/slices/toast/toastSlice";
 import { api } from "@utils/apiRoute";
 import { DELETE, POST } from "@utils/fetch";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR from "swr";
@@ -71,8 +72,8 @@ const ProductItem: React.FC<ProductProps> = ({
       } else {
         dispatch(showToast({ message: "Something went wrong!", error: true }));
       }
-    } catch (error) {
-      dispatch(showToast({ message: "Something went wrong!", error: true }));
+    } catch (error: any) {
+      dispatch(showToast({ message: error?.data?.message, error: true }));
       console.log("error", error);
     }
   };
@@ -138,11 +139,13 @@ const ProductItem: React.FC<ProductProps> = ({
       )}
       <Link href={`/product/${product?.id}`}>
         <div>
-          <img
+          <Image
             className="object-scale-down md:w-[20vw] md:h-[20vw] w-[80vw] h-[80vw]  cursor-pointer"
             // src={`${server_link}${product?.image}`}
             src={product?.thumbnail?.url}
             alt="{title}"
+            width={400}
+            height={400}
           />
         </div>
       </Link>

@@ -23,6 +23,7 @@ import { showToast } from "@redux/slices/toast/toastSlice";
 import { api } from "@utils/apiRoute";
 import { POST } from "@utils/fetch";
 import _ from "lodash";
+import Image from "next/image";
 import { twMerge } from "tailwind-merge";
 
 type optionType = {
@@ -183,20 +184,26 @@ const ProductDetail: React.FC<
           },
         ],
       };
-      const res = await POST(api.addProduct, payload);
-      if (res?.status === 201 || res?.status === 200) {
-        dispatch(
-          addProduct({
-            ...payload.data[0],
-            ...product,
-            package: packageSelected?.id,
-            color: colorSelected?.id,
-            capacity: contenanceSelected?.id,
-          })
-        );
-        dispatch(showToast({ message: "Add successfully!", error: false }));
-      } else {
-        dispatch(showToast({ message: "Something went wrong!", error: true }));
+      try {
+        const res = await POST(api.addProduct, payload);
+        if (res?.status === 201 || res?.status === 200) {
+          dispatch(
+            addProduct({
+              ...payload.data[0],
+              ...product,
+              package: packageSelected?.id,
+              color: colorSelected?.id,
+              capacity: contenanceSelected?.id,
+            })
+          );
+          dispatch(showToast({ message: "Add successfully!", error: false }));
+        } else {
+          dispatch(
+            showToast({ message: "Something went wrong!", error: true })
+          );
+        }
+      } catch (error: any) {
+        dispatch(showToast({ message: error?.data?.message, error: true }));
       }
     } else {
       router.push("/my-account");
@@ -211,7 +218,7 @@ const ProductDetail: React.FC<
       <div className="grid grid-cols-1 gap-6 m-8 md:grid-cols-2 md:mx-28 md:my-20">
         {/* product image */}
         <div className="relative overflow-clip">
-          <img
+          <Image
             className="object-fill w-full h-full max-h-[700px] transition duration-100 hover:scale-125 "
             // src={product?.url_image}
             src={
@@ -219,6 +226,8 @@ const ProductDetail: React.FC<
                 ? product?.images?.length > 0 && product?.images[0]?.url
                 : selectorImage
             }
+            width={1000}
+            height={1000}
             alt={product?.name}
           />
           <button className="absolute right-0 top-0 bg-white rounded-full w-[2.2rem] h-[2.2rem]">
