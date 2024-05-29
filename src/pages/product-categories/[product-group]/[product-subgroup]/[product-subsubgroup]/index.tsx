@@ -9,20 +9,16 @@ import { GET } from "@utils/fetch";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const ProductSubSubGroup = () => {
-  const dispatch = useDispatch();
-
   const [selectedRangePrice, setSelectedRangePrice] = useState<string | null>(
     null
   );
   const [selectedSort, setSelectedSort] = useState<number | null>(null);
 
   const router = useRouter();
-
   const category = router.query;
-
   const category_id = category["product-group"];
   const sub_category_id = category["product-subgroup"];
   const sub_sub_category_id = category["product-subsubgroup"];
@@ -101,11 +97,16 @@ const ProductSubSubGroup = () => {
           </div>
         </div>
         <div className="grid grid-flow-row grid-cols-2 gap-10 md:grid-cols-4 tablet:grid-cols-3">
-          {products?.results?.map((item: Product, index: number) => (
-            <div key={index}>
-              <ProductItem showFavorite={true} product={item} />
-            </div>
-          ))}
+          {!isLoading &&
+            (products?.results?.length > 0
+              ? products?.results?.map((item: Product, index: number) => (
+                  <div key={index}>
+                    <ProductItem showFavorite={true} product={item} />
+                  </div>
+                ))
+              : products?.results?.length && (
+                  <div className="ml-20 text-[20px]">Aucun Produit trouvé</div>
+                ))}
         </div>
       </div>
     </Container>

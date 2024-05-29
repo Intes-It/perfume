@@ -1,7 +1,9 @@
+import { updateFullCart } from "@redux/slices/cart";
 import { api } from "@utils/apiRoute";
 import { DELETE, GET, POST, PUT } from "@utils/fetch";
 import { getCookie } from "cookies-next";
 import { useMutation, useQuery } from "react-query";
+import { useDispatch } from "react-redux";
 
 const useCart = () => {
   const cart = useQuery("get-cart", getCart);
@@ -10,13 +12,15 @@ const useCart = () => {
   const removeProductToCart = useMutation("remove-product", removeProduct);
 
   const updateProductToCart = useMutation("update-product", updateProduct);
-
+  const dispatch = useDispatch();
   //fetch data
   async function getCart() {
     if (!getCookie("refresh_token")) {
       return;
     }
-    return await GET(api.getCart);
+    const res = await GET(api.getCart);
+    if (res.status === 200) dispatch(updateFullCart(res.data?.results));
+    return res;
   }
 
   //mutation

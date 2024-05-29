@@ -37,22 +37,27 @@ const CartTable = () => {
   };
 
   const debouncedHandleUpdateQuantity = debounce(
-    (exProduct: ExProduct, quantity: number) => {
-      exProduct.quantity = quantity;
+    async (exProduct: ExProduct, quantity: number) => {
       try {
-        updateProductToCart({
+        const res = await updateProductToCart({
           data: [
             {
+              ...exProduct,
               id: exProduct.id,
-              quantity: exProduct.quantity,
+              quantity: quantity,
+              color: exProduct?.color?.id,
+              capacity: exProduct?.capacity?.id,
+              package: exProduct?.package?.id,
             },
           ],
         });
+        if (res.status === 200) {
+          dispatch(updateProduct({ ...exProduct, quantity: quantity }));
+          refresh();
+        }
       } catch (error) {
         console.log("error", error);
       }
-      dispatch(updateProduct(exProduct));
-      refresh();
     },
     300
   ); // Adjust debounce delay as needed (e.g., 300ms)
@@ -160,16 +165,19 @@ const CartTable = () => {
                         }}
                       >
                         {item?.product_name}{" "}
-                        {(item.capacity || item.package || item.color) && "-"}{" "}
-                        {item.color &&
+                        {(item.capacity?.name ||
+                          item.package?.name ||
+                          item.color?.name) &&
+                          "-"}{" "}
+                        {item.color?.name &&
                           `${item.color?.name} ${
                             item.capacity || item.package ? "," : ""
                           } `}{" "}
-                        {item.capacity &&
+                        {item.capacity?.name &&
                           `${item.capacity?.name} ${
                             item.package ? "," : ""
                           }`}{" "}
-                        {item.package && `${item.package?.name}`}
+                        {item.package?.name && `${item.package?.name}`}
                       </div>
                     </td>
                     <td className="px-6 py-2 font-medium border">
@@ -189,7 +197,7 @@ const CartTable = () => {
                       />
                     </td>
                     <td className="px-6 py-2 font-medium border">
-                      ${Number(item?.total_price_item).toFixed(2)}{" "}
+                      ${Number(item?.sub_total_price).toFixed(2)}{" "}
                     </td>
                   </tr>
                 ))}

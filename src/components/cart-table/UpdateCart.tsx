@@ -61,17 +61,6 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
   const [quantity, setQuantity] = useState<number>(order?.quantity || 1);
   const [selectorImage, setSelectorImage] = useState<string | null>(null);
 
-  let namePackaging: any = [];
-  if (product?.package) {
-    namePackaging = Object?.values(product?.package)?.reduce(
-      (a: any[], item: any) => a.concat(item?.name || ""),
-      []
-    );
-    namePackaging.forEach((item: any, index: number) => {
-      namePackaging[index] = item.replace(/\s/g, "");
-    });
-  }
-
   const dispatch = useDispatch();
 
   const handleUpdateProduct = async () => {
@@ -226,12 +215,12 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
                           role="tabpanel"
                           className={` text-[#603813] transition-opacity duration-150 ease-linear `}
                         >
-                          {capacitySelected?.weight === 0 ? (
-                            ""
-                          ) : (
-                            <div>
-                              <strong>Contenance</strong> :
-                              {capacitySelected?.weight}g
+                          {capacitySelected?.name && (
+                            <div className="flex">
+                              <strong>Contenance :</strong>
+                              <span className="grid font-medium">
+                                {capacitySelected?.name}
+                              </span>
                             </div>
                           )}
                         </div>
@@ -243,31 +232,28 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
                         id="tabs-tab"
                         role="tablist"
                       >
-                        {product?.capacity
-                          ? product.capacity?.map(
-                              (item: any, index: number) => (
-                                <li role="presentation" key={index}>
-                                  <button
-                                    // href={"#" + capacityName[index]}
-                                    className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate ${
-                                      capacitySelected === item?.id &&
-                                      "border-[#6A5950]"
-                                    } " `}
-                                    onClick={() => {
-                                      if (isError.type)
-                                        setIsError({
-                                          ...isError,
-                                          type: "",
-                                        });
-                                      setCapacitySelected(item);
-                                    }}
-                                  >
-                                    {item?.name}
-                                  </button>
-                                </li>
-                              )
-                            )
-                          : null}
+                        {product?.capacity &&
+                          product.capacity?.map((item: any, index: number) => (
+                            <li role="presentation" key={index}>
+                              <button
+                                // href={"#" + capacityName[index]}
+                                className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate ${
+                                  capacitySelected?.id === item?.id &&
+                                  "border-[#6A5950]"
+                                } " `}
+                                onClick={() => {
+                                  if (isError.type)
+                                    setIsError({
+                                      ...isError,
+                                      type: "",
+                                    });
+                                  setCapacitySelected(item);
+                                }}
+                              >
+                                {item?.name}
+                              </button>
+                            </li>
+                          ))}
                       </ul>
                     </div>
 

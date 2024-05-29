@@ -62,11 +62,7 @@ const ProductItem: React.FC<ProductProps> = ({
       const res = await POST(api.addProduct, payload);
 
       if (res?.status === 201 || res?.status === 200) {
-        dispatch(
-          addProduct({
-            ...payload.data[0],
-          })
-        );
+        dispatch(addProduct(res.data));
         await mutate("get-server-cart");
         dispatch(showToast({ message: "Add successfully!", error: false }));
       } else {
@@ -82,7 +78,7 @@ const ProductItem: React.FC<ProductProps> = ({
     try {
       const res = await POST(api.add_favourite, { product_id: product?.id });
       if (res.status === 200 || res.status === 201) {
-        dispatch(addFavoriteItem(product));
+        dispatch(addFavoriteItem({ ...product, is_favourite: true }));
         dispatch(
           showToast({ message: "Add to favorite successfully!", error: false })
         );
@@ -104,7 +100,7 @@ const ProductItem: React.FC<ProductProps> = ({
         api.remove_favourite + `?product_id=${product.id}`
       );
       if (res.status === 200 || res.status === 204) {
-        dispatch(removeFavoriteItem(product));
+        dispatch(removeFavoriteItem({ ...product, is_favourite: false }));
         dispatch(showToast({ message: "Remove successfully!", error: false }));
         setNewProduct({ ...product, is_favourite: false });
       } else {
@@ -129,7 +125,7 @@ const ProductItem: React.FC<ProductProps> = ({
     <div className="relative flex flex-col  items-center text-[16px] mb-2 bg-white">
       {showFavorite && (
         <FontAwesomeIcon
-          className={`absolute top-[5%] right-[4%] mobile:top-[2%]  mobile:right-[0%] 
+          className={`absolute top-[5%] z-50 right-[4%] mobile:top-[2%]  mobile:right-[0%] 
                   cursor-pointer hover:text-red-500 ${
                     newProduct?.is_favourite ? "text-red-500" : ""
                   } `}
@@ -142,7 +138,10 @@ const ProductItem: React.FC<ProductProps> = ({
           <Image
             className="object-scale-down md:w-[20vw] md:h-[20vw] w-[80vw] h-[80vw]  cursor-pointer"
             // src={`${server_link}${product?.image}`}
-            src={product?.thumbnail?.url}
+            src={
+              product?.thumbnail?.url ||
+              (product?.images?.length > 0 && product?.images[0]?.url)
+            }
             alt="{title}"
             width={400}
             height={400}

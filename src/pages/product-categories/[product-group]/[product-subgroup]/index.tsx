@@ -9,10 +9,9 @@ import { GET } from "@utils/fetch";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const ProductSubGroup = () => {
-  const dispatch = useDispatch();
   const { data } = useAllCategory();
 
   const [selectedSecondSubCate, setSelectedSubCate] = useState<number | null>(
@@ -24,9 +23,7 @@ const ProductSubGroup = () => {
   const [selectedSort, setSelectedSort] = useState<number | null>(null);
 
   const router = useRouter();
-
   const category = router.query;
-
   const category_id = category["product-group"];
   const sub_category_id = category["product-subgroup"];
 
@@ -151,7 +148,9 @@ const ProductSubGroup = () => {
               </div>
             ))
           ) : (
-            <div className="ml-20 text-[20px]">Aucun Produit trouvé</div>
+            products?.results?.length === 0 && (
+              <div className="ml-20 text-[20px]">Aucun Produit trouvé</div>
+            )
           )}
         </div>
       </div>

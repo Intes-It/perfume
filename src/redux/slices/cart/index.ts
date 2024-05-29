@@ -19,9 +19,9 @@ const cartSlice = createSlice({
       const indexProduct = products?.findIndex((item: any) => {
         return (
           item?.product_id === product?.product_id &&
-          (item?.package?.id === product.package?.id || !product.package) &&
-          (item?.color?.id === product.color?.id || !product.color) &&
-          (item?.capacity?.id === product.capacity?.id || !product.capacity)
+          (item?.package?.id === product.package?.id || !product.package?.id) &&
+          (item?.color?.id === product.color?.id || !product.color?.id) &&
+          (item?.capacity?.id === product.capacity?.id || !product.capacity?.id)
         );
       });
 

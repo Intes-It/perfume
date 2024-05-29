@@ -10,10 +10,8 @@ import { GET } from "@utils/fetch";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
 
 const ProductGroup = () => {
-  const dispatch = useDispatch();
   const { data } = useAllCategory();
 
   const [selectedSubCate, setSelectedSubCate] = useState<number | null>(null);
@@ -23,9 +21,7 @@ const ProductGroup = () => {
   const [selectedSort, setSelectedSort] = useState<number | null>(null);
 
   const router = useRouter();
-
   const category = router.query;
-
   const category_id = category["product-group"];
 
   const subCategories = useMemo(() => {
@@ -59,10 +55,6 @@ const ProductGroup = () => {
     refetch,
     isLoading,
   } = useQuery("get-category-product", getProductCategory);
-
-  const favoriteProducts = useSelector(
-    (state: any) => state?.favorite?.list
-  ) as Product[];
 
   const handleSortByCategoryChange = (value: any, id: number) => {
     if (id !== selectedSubCate && value) {
@@ -129,7 +121,9 @@ const ProductGroup = () => {
               </div>
             ))
           ) : (
-            <div className="ml-20 text-[20px]">Aucun Produit trouvé</div>
+            products?.results?.length === 0 && (
+              <div className="ml-20 text-[20px]">Aucun Produit trouvé</div>
+            )
           )}
         </div>
       </div>

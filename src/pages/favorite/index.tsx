@@ -1,11 +1,12 @@
 import ProductItem from "@components/product-item";
 import useLocale from "@hooks/useLocale";
-import { addFavoriteItem, removeFavoriteItem } from "@redux/slices/favorite";
 import { Product } from "@types";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+
+type itemType = { product: Product };
+
 const Favorite = () => {
   const text = useLocale();
-  const dispatch = useDispatch();
   const favoriteProducts = useSelector(
     (state: any) => state?.favorite?.list
   ) as Product[];
@@ -37,17 +38,9 @@ const Favorite = () => {
         </div>
         {favoriteProducts.length > 0 ? (
           <div className="grid grid-flow-row grid-cols-4 gap-10 tablet:grid-cols-3 mobile:grid-cols-2">
-            {favoriteProducts?.map((item: Product, index: number) => (
+            {favoriteProducts?.map((item: any, index: number) => (
               <div key={index}>
-                <ProductItem
-                  onFavoriteChanged={(state) => {
-                    if (state) dispatch(removeFavoriteItem(item));
-                    else dispatch(addFavoriteItem(item));
-                  }}
-                  favorite={item?.favorite}
-                  showFavorite={true}
-                  product={item}
-                />
+                <ProductItem showFavorite={true} product={item} />
               </div>
             ))}
           </div>

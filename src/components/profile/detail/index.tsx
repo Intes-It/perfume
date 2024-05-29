@@ -3,7 +3,7 @@ import { faEye, faWindowMaximize } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useUser from "@hooks/useUser";
 import { api } from "@utils/apiRoute";
-import { PATCH, PUT } from "@utils/fetch";
+import { PUT } from "@utils/fetch";
 import { deleteCookie } from "cookies-next";
 import { useFormik } from "formik";
 import { useState } from "react";
@@ -109,27 +109,7 @@ const Detail = () => {
         return;
       }
       if (validate) validate(value);
-      if (value?.password) handleChangePass(value as any);
-
-      if (value.username)
-        PATCH(api.update_user, { username: value.username }).then((res) => {
-          if (res?.status === 200) {
-            setState((o) => ({
-              ...o,
-              error: true,
-              message: "Mise à jour réussie",
-              color: "#06e318",
-            }));
-            formik.resetForm(value as any);
-          } else {
-            setState((o) => ({
-              ...o,
-              error: true,
-              message: "Quelque chose s'est mal passé",
-              color: "#ed2805",
-            }));
-          }
-        });
+      handleChangePass(value as any);
     },
   });
 
@@ -166,8 +146,10 @@ const Detail = () => {
               defaultValue={user?.username}
               type="text"
               id="username"
+              disabled
+              readOnly
               onChange={formik.handleChange}
-              className="px-4 py-3 text-black border border-gray-100 focus:border-transparent focus:outline-none focus:ring-0"
+              className="px-4 py-3 text-black bg-gray-200 border border-gray-100 cursor-not-allowed focus:border-transparent focus:outline-none focus:ring-0"
             />
           </div>
           <div className="flex flex-col">
@@ -175,7 +157,7 @@ const Detail = () => {
             <input
               type="text"
               readOnly
-              defaultValue={user?.email}
+              value={user?.email}
               id="email"
               className="px-4 py-3 text-black bg-gray-200 border border-gray-100 cursor-not-allowed focus:border-transparent focus:outline-none focus:ring-0"
             />
@@ -197,6 +179,7 @@ const Detail = () => {
                 type={showOldPass ? "text" : "password"}
                 id="password"
                 onChange={formik.handleChange}
+                value={formik?.values?.password}
                 className={twMerge(
                   "px-4 py-3 text-black border border-gray-300",
                   formik?.errors?.password && "border-[#FF2626]"
@@ -223,6 +206,7 @@ const Detail = () => {
               />
               <input
                 type={showNewPass ? "text" : "password"}
+                value={formik?.values?.new_password}
                 id="new_password"
                 onChange={formik.handleChange}
                 className="px-4 py-3 text-black border border-gray-300"
@@ -248,6 +232,7 @@ const Detail = () => {
               />
               <input
                 type={showConfPass ? "text" : "password"}
+                value={formik?.values?.confirm_password}
                 id="confirm_password"
                 onChange={formik.handleChange}
                 className="px-4 py-3 mt-4 border"

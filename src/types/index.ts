@@ -42,7 +42,7 @@ export interface ExProduct {
   color?: any;
   capacity?: any;
   order_id?: number;
-  total_price_item?: string | number;
+  sub_total_price?: string | number;
   image: string;
   weight?: number;
   order: string | number;

@@ -32,7 +32,8 @@ const Favourite = () => {
         (res.status === 200 || res.status === 201) &&
         res.data?.results?.length > 0
       ) {
-        dispatch(setList(res.data?.results));
+        const newData = res.data?.results?.map((item: any) => item?.product);
+        dispatch(setList(newData));
       } else {
         dispatch(setList([]));
       }

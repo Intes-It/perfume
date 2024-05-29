@@ -31,7 +31,6 @@ type optionType = {
   id: number;
   name: string;
   price: number;
-  weight?: number;
   color?: string;
 };
 
@@ -187,17 +186,15 @@ const ProductDetail: React.FC<
       try {
         const res = await POST(api.addProduct, payload);
         if (res?.status === 201 || res?.status === 200) {
-          dispatch(
-            addProduct({
-              ...payload.data[0],
-              ...product,
-              package: packageSelected?.id,
-              color: colorSelected?.id,
-              capacity: contenanceSelected?.id,
-            })
-          );
+          dispatch(addProduct(res.data));
           dispatch(showToast({ message: "Add successfully!", error: false }));
         } else {
+          if (res?.data?.message === "Maximum amount is 999") {
+            setIsError({
+              type: "error",
+              message: "Maximum amount is 999.",
+            });
+          }
           dispatch(showToast({ message: res?.data?.message, error: true }));
         }
       } catch (error: any) {
@@ -316,11 +313,12 @@ const ProductDetail: React.FC<
                 role="tabpanel"
                 className={` text-[#603813] transition-opacity duration-150 ease-linear `}
               >
-                {contenanceSelected?.weight === 0 ? (
-                  ""
-                ) : (
-                  <div>
-                    <strong>Contenance</strong> :{contenanceSelected?.weight}g
+                {contenanceSelected?.name && (
+                  <div className="flex">
+                    <strong>Contenance :</strong>
+                    <span className="grid font-medium">
+                      {contenanceSelected?.name}
+                    </span>
                   </div>
                 )}
               </div>
@@ -338,7 +336,8 @@ const ProductDetail: React.FC<
                       <button
                         // href={"#" + capacityName[index]}
                         className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate ${
-                          contenanceSelected === item?.id && "border-[#6A5950]"
+                          contenanceSelected?.id === item?.id &&
+                          "border-[#6A5950]"
                         } " `}
                         onClick={() => {
                           if (isError.type)
@@ -497,7 +496,7 @@ const ProductDetail: React.FC<
         <BestSales products={products} />
       </div>
       <ImageModal
-        imgUrl={product?.images[0]?.url}
+        imgUrl={product?.images?.length > 0 && product?.images[0]?.url}
         isShowModel={isShowImageModal}
         onClose={() => setShowModal(false)}
       />

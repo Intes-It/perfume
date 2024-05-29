@@ -18,7 +18,8 @@ export const fetchFavoriteList = createAsyncThunk(
     try {
       const { data } = await axios.get(api.get_favourite + "?page_size=1000");
 
-      return data?.results || [];
+      const newData = data?.results?.map((item: any) => item?.product);
+      return newData || [];
     } catch (error: any) {
       throw new error();
     }
