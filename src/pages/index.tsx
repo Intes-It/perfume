@@ -14,9 +14,11 @@ import {
   BriefTextNature,
   featuredComments,
 } from "src/utils/fakeData";
+import useLocale from "@hooks/useLocale";
 const Home: React.FC = () => {
   const { products } = useBestSallingProducts();
   const screenWidth = useScreenWidth();
+  const text = useLocale();
   const homeSlideInfo = [
     {
       url: "/images/slide1.webp",
@@ -121,8 +123,7 @@ const Home: React.FC = () => {
 
       <div className="my-16 md:min-h-[15vw] min-h-[12rem] w-full grid content-center bg-[#cec2b9]">
         <span className="text-center md:text-[36px] text-[24px] m-2 text-white font-bold">
-          CHOISISSEZ DES PRODUITS NATURELS QUI FAVORISENT VOTRE BIEN-ÊTRE ET
-          VOUS FONT VOUS SENTIR BIEN
+          {text.homePageScreen.description}
         </span>
       </div>
 
