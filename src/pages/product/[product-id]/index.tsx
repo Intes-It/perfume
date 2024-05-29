@@ -201,7 +201,7 @@ const ProductDetail: React.FC<
         dispatch(showToast({ message: "Something went wrong!", error: true }));
       }
     } else {
-      router.push("/my-account");
+      router.push(`/my-account?before=${router.asPath}`);
     }
   };
 

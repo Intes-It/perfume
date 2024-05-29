@@ -16,20 +16,20 @@ const schema = yup.object().shape({
     is: (val: string | undefined) => val && val.length > 0,
     then: (schema) =>
       schema
-        .required("Field is required")
+        .required("Field is required.")
         .matches(
           /^(?=.*[a-z])(?=.*[A-Z]).+$/,
           "At least one lower-case letter, one upper-case letter. "
         )
         .matches(
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).+$/,
-          "At least one special character"
+          "At least one special character."
         )
         .matches(/.*[0-9].*/, "At least one number (0-9).")
         .matches(/^.{8,}$/, "At least 8 characters in length.")
         .test(
           "passwords-match",
-          "New password is duplicate the current password",
+          "New password is duplicate the current password.",
           function (value) {
             return this.parent.old_password !== value;
           }
@@ -39,10 +39,10 @@ const schema = yup.object().shape({
     is: (val: string | undefined) => val && val.length > 0,
     then: (schema) =>
       schema
-        .required("Field is required")
+        .required("Field is required.")
         .test(
           "passwords-match",
-          "Confirm password is not match",
+          "Confirm password is not match.",
           function (value) {
             return this.parent.new_password === value;
           }

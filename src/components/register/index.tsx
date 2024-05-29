@@ -18,9 +18,22 @@ const schema = yup.object().shape({
     .matches(
       //eslint-disable-next-line
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      "Invalid email address" // Optional: Customize error message
+      "Invalid email address." // Optional: Customize error message
     ),
-  password: yup.string().required("Field is required.").trim(),
+  password: yup
+    .string()
+    .required("Field is required.")
+    .trim()
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z]).+$/,
+      "At least one lower-case letter, one upper-case letter. "
+    )
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).+$/,
+      "At least one special character."
+    )
+    .matches(/.*[0-9].*/, "At least one number (0-9).")
+    .matches(/^.{8,}$/, "At least 8 characters in length."),
 });
 
 const Register: React.FC<RegisterProps> = ({ submit, error }) => {
@@ -50,7 +63,7 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
             {...register("username")}
             required
             type="text"
-            autoComplete="off"
+            autoComplete="new-username"
             id="username"
             className="px-4 py-3 text-black border border-gray-300"
           />
@@ -64,6 +77,7 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
             required
             id="email"
             autoComplete="off"
+            autoCorrect="off"
             className={twMerge(
               "px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
               errors.email && "border-[#ed2805]"
@@ -92,8 +106,8 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
               {...register("password")}
               required
               type={showPass ? "text" : "password"}
-              autoComplete="off"
-              id="password"
+              autoComplete="new-password"
+              id="new-password"
               className={twMerge(
                 "px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
                 errors.password && "border-[#ed2805]"

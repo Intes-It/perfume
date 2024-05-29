@@ -12,6 +12,7 @@ import { addFavoriteItem, removeFavoriteItem } from "@redux/slices/favorite";
 import { showToast } from "@redux/slices/toast/toastSlice";
 import { api } from "@utils/apiRoute";
 import { DELETE, POST } from "@utils/fetch";
+import { getCookie } from "cookies-next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -37,7 +38,14 @@ const ProductItem: React.FC<ProductProps> = ({
   const [newProduct, setNewProduct] = useState<Product>(product);
   const route = useRouter();
 
+  const token = getCookie("access_token");
+
   const handleAddProduct = async () => {
+    if (!token) {
+      route.push(`/my-account?before=${route.asPath}`);
+      return;
+    }
+
     if (
       (product?.package?.length > 0 ||
         product?.color?.length > 0 ||

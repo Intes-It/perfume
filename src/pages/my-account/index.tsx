@@ -8,11 +8,16 @@ import useUser from "@hooks/useUser";
 import { clearCart } from "@redux/slices/cart";
 import { ExProduct } from "@types";
 import { setCookie } from "cookies-next";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 const MyAccount = () => {
   const { loginAccount, registerAccount, isAuthenticated, isUserLoading } =
     useUser();
+
+  const router = useRouter();
+  const previousPath = router.query;
 
   const [state, setState] = useState({
     error: false,
@@ -33,8 +38,9 @@ const MyAccount = () => {
       if (products !== null) {
         dispatch(clearCart());
       }
-      if (window.history.length > 2) window.history.back();
-      else window.location.replace("/");
+      if (previousPath?.before) {
+        router.push(previousPath?.before.toString());
+      } else window.location.replace("/");
     } else {
       setState((o) => ({
         ...o,
@@ -45,6 +51,7 @@ const MyAccount = () => {
     }
   };
 
+  //  getServerSideProps();
   const onRegister = async (data: {
     username: string;
     email: string;

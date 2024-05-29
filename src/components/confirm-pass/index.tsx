@@ -1,7 +1,7 @@
 import Input from "@components/input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { api } from "@utils/apiRoute";
-import { POST, PUT } from "@utils/fetch";
+import { POST } from "@utils/fetch";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -106,13 +106,13 @@ const ConfirmOtp = ({ changeTab, email }: ConfirmOtpProps) => {
     const payload = {
       email: email,
       new_password: data.new_password,
-      auth_code: data.code,
+      code: data.code,
     };
 
     if (isLoading || !isValidSubmit) return;
     setIsLoading(true);
     try {
-      const res = await PUT(api.reset_password, payload);
+      const res = await POST(api.reset_password, payload);
 
       if (res.status === 200) {
         changeTab();
