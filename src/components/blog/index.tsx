@@ -23,7 +23,7 @@ const BlogComponent: React.FC<BlogProps> = ({
             <img src={image} alt="" />
 
             <div className="absolute top-3 right-3 h-[26px] w-[90px]  rounded-[50px]  bg-[#818A91] text-center leading-[26px] text-[#ffffff]">
-              JOURNAL
+              Newspaper
             </div>
             <div className="flex flex-col justify-between h-[80px] mx-9 my-5 ">
               <p className="lg:text-[21px]">
@@ -33,7 +33,7 @@ const BlogComponent: React.FC<BlogProps> = ({
             </div>
             <div className="flex items-center h-[45px] border-t  text-[#adadad]">
               <span style={{ margin: "0px 12px 0px 36px" }}>{date}</span>
-              <li>Aucun commentaire</li>
+              <li>No comments</li>
             </div>
           </div>
         </div>

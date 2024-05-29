@@ -25,6 +25,7 @@ import { POST } from "@utils/fetch";
 import _ from "lodash";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
+import useLocale from "@hooks/useLocale";
 
 type optionType = {
   current_price?: number;
@@ -83,7 +84,7 @@ const ProductDetail: React.FC<
 
   const breadCrumb = useMemo(() => {
     const listCategories = [];
-
+    const text = useLocale();
     const category = product?.category;
     const subCategory = product?.subcategory;
     const sub_subcategory = product?.sub_subcategory;
@@ -115,12 +116,12 @@ const ProductDetail: React.FC<
     },
     {
       id: "tab-features-tab",
-      header: "Caractéristiques",
+      header: "Features",
       content: Parser(product?.note?.Caractéristiques || ""),
     },
     {
       id: "tab-utilisation-tab",
-      header: "Utilisation",
+      header: "Use",
       content: Parser(product?.note?.Utilisation || ""),
     },
     {

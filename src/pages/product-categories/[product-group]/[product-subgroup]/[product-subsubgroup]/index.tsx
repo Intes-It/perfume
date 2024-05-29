@@ -2,6 +2,7 @@ import { Container } from "@components/container";
 import DropdownCheckbox from "@components/dropdown-checkbox";
 import DropdownSelect from "@components/dropdown-select";
 import ProductItem from "@components/product-item";
+import useLocale from "@hooks/useLocale";
 import { Product } from "@types";
 import { api } from "@utils/apiRoute";
 import { productFilter, productPrice } from "@utils/fakeData";
@@ -58,7 +59,7 @@ const ProductSubSubGroup = () => {
   useEffect(() => {
     if (sub_category_id) refetch();
   }, [sub_category_id, selectedSort, selectedRangePrice, sub_sub_category_id]);
-
+  const text = useLocale();
   return (
     <Container>
       <div className="flex flex-col items-center mx-5 my-5 space-y-10 ">
@@ -78,7 +79,7 @@ const ProductSubSubGroup = () => {
             /> */}
 
             <DropdownCheckbox
-              title="Prix"
+              title={text.productScreen.price}
               selections={productPrice}
               value={selectedRangePrice}
               onChange={handlePriceRangeChange}

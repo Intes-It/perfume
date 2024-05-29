@@ -27,6 +27,7 @@
     "seemore": "En Savoir Plus",
     "art": "L’ART DE VOUS SÉDUIRE",
     "fairyNature": "Nature Féerique",
+    "about": "A propos de",
     "adress": "61 Montée Des Amandiers",
     "time": "26110 Saint-Maurice Sur Eygues",
     "country": "France"
@@ -35,7 +36,14 @@
     "mComplet": "Tài khoản của tôi",
     "tDBord": "BẢNG ĐIỀU KHIỂN",
     "bonjour": "Xin chào",
-    "aPartir": "Từ bảng điều khiển tài khoản của mình, bạn có thể xem các đơn đặt hàng gần đây, quản lý địa chỉ giao hàng và thanh toán cũng như thay đổi mật khẩu và chi tiết tài khoản của mình.",
+    "aPartir": [
+      "À partir du tableau de bord de votre compte, vous pouvez visualiser vos",
+      "commandes récentes",
+      ", gérer vos",
+      "adresses de livraison et de facturation",
+      "ainsi que",
+      "changer votre mot de passe et les détails de votre compte."
+    ],
     "commandes": "ĐƠN HÀNG",
     "aCommande": "Chưa có đơn đặt hàng nào được đặt.",
     "telecharge": "TẢI XUỐNG",
@@ -73,9 +81,30 @@
     "miseAJour": "Cập nhật thành công",
     "disconnect": "ĐĂNG XUẤT"
   },
+  "productScreen": {
+    "category": "Thể loại",
+    "price": "giá"
+  },
   "favoriteScreen": {
     "favorite": "Sản phẩm yêu thích",
     "noProduct": "Không có sản phẩm nào được thêm vào mục yêu thích"
+  },
+  "blogScreen": {
+    "lecomptoir": "Le Comptoir D’Alinea",
+    "text1": "Nature Féerique a l’opportunité de participer à la nouvelle expérience de l’enseigne Alinea, qui a ouvert ses portes à la création et à l’artisanat avec son nouveau lieu éphémère d’échanges et de partages : le Comptoir d’Alinea.",
+    "text2": [
+      "Ainsi, le Comptoir offre une vitrine d’exception à tous les artisans, créateurs et entreprises locales qui partagent les mêmes valeurs et convictions qu’Alinea vous permettant de partir à leur rencontre et de vous transporter dans leur univers.",
+      "L’occasion idéale pour Nature Féerique, jeune marque naissante, de promouvoir le lancement de ses trois premiers cosmétiques naturels solides : Déodorant Plume, Démaquillant Cocoon et Soin Précieux.",
+      "Nature Féerique est présente du 15 Septembre au 16 Octobre 2021 au magasin Alinea Avignon-Le Pontet, pour exposer, vous faire découvrir et tester ses cosmétiques solides."
+    ],
+    "commentaire": "Laisser un commentaire",
+    "votre": "Votre adresse e-mail ne sera pas publiée. Les champs obligatoires sont indiqués avec *",
+    "enregistrer": "Enregistrer mon nom, mon e-mail et mon site dans le navigateur pour mon prochain commentaire.",
+    "publier": "Publier un commentaire »",
+    "ecrivez": "Écrivez ici…",
+    "nom": "Nom*",
+    "email": "E-mail*",
+    "Site": "Site Internet"
   },
   "detailProductScreen": {
     "avisClient": "Phản hồi khách hàng",

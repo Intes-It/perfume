@@ -6,64 +6,62 @@ import { useState } from "react";
 
 const InitTextList = [
   {
-    question: "Où sont conçus et fabriqués vos cosmétiques solides ?",
+    question: "Where are your solid cosmetics designed and manufactured?",
     answer: [
-      "Nos formules ont été imaginées et développées par la Créatrice, dans son laboratoire de Recherche & Développement. Nos cosmétiques solides sont ensuite fabriqués artisanalement, dans un atelier situé en Drôme Provençale",
+      "Our formulas were conceived and developed by the Creator in her Research & Development laboratory. Our solid cosmetics are then handcrafted in a workshop located in Drôme Provençale.",
     ],
   },
   {
-    highlight: "“l’origine”",
-    question: "D’où viennent vos ingrédients ?",
+    highlight: "“the origin”",
+    question: "Where do your ingredients come from?",
     answer: [
-      "Nous travaillons majoritairement avec des fournisseurs locaux. Nous avons d’ailleurs sélectionné nos ingrédients suivant un critère important",
-      ". C’est pourquoi la plupart de nos ingrédients sont d’origine France ou fabriqués en France.",
+      "We primarily work with local suppliers. We have selected our ingredients based on an important criterion.",
+      "That is why most of our ingredients are of French origin or made in France.",
+    ],
+  },
+  {
+    question: "What are the most used ingredients in your cosmetics?",
+    answer: [
+      "Our cosmetics have a 100% natural, healthy, and minimalist composition. We have set a limit of 10 ingredients maximum per formula to have flexibility in our textures. Through our solid cosmetics, we wanted to combine innovation, sensory experience, and originality. With fewer than 6-8 ingredients, the perfect texture (application, absorption, finish) is impossible!",
+      "So, we have selected versatile, functional ingredients with a pleasant feel and remarkable properties.",
+      "Our main ingredients are plum oil, olive oil, plum butter, olive butter, castor wax, and olive wax.",
+    ],
+  },
+  {
+    question: "Are your products Vegan and cruelty-free?",
+    answer: [
+      "Yes, all our cosmetics are Vegan and do not contain any animal-derived ingredients. All our ingredients are natural, either plant-based or mineral-based.",
+      "In respect for animals and in accordance with European regulations, none of our products or ingredients are tested on animals.",
     ],
   },
   {
     question:
-      "Quels sont les ingrédients les plus utilisés dans vos cosmétiques ?",
+      "Are your products suitable for babies, children, and pregnant women?",
     answer: [
-      "Nos cosmétiques ont une composition 100% naturelle, saine et minimaliste. Nous nous sommes fixé une limite de 10 ingrédients maximum par formule, afin d’avoir de la flexibilité sur nos textures. A travers nos cosmétiques solides nous souhaitions combiner l’innovation, la sensorialité et l’originalité et avec moins de 6-8 ingrédients la texture parfaite (application, pénétration, fini) est impossible !",
-      "Nous avons donc sélectionné des ingrédients polyvalents, fonctionnels au toucher agréable avec des propriétés remarquables.",
-      "Nos principaux ingrédients sont l’huile de prune, huile d’olive, beurre de prune, beurre d’olive, cire de ricin, cire d’olive.",
+      "Our products were developed for universal and unisex use; they do not contain fragrance or essential oils and thus fit the daily needs of the whole family.",
+      "However, as the cosmetics regulation for baby products is specific, we have not undertaken the necessary steps to claim usage for children under 3 years old, so we cannot guarantee that our products are suitable for babies.",
+      "Our Precious Care, Care Pearls, Cocoon Makeup Remover, and Makeup Remover Pearls are perfectly suitable for children from 3 years old, pregnant, and breastfeeding women.",
+      "Our Feather Deodorant is suitable for children from 12 years old, pregnant, and breastfeeding women.",
     ],
   },
   {
-    question: "Vos produits sont-ils Vegan et non testés sur les animaux ?",
+    question: "Are your products suitable for oily and acne-prone skin?",
     answer: [
-      "Oui, tous nos cosmétiques sont Vegan et ne contiennent aucun ingrédient d’origine animale. Tous nos ingrédients sont naturels, d’origine végétale ou minérale.",
-      "Dans le respect des animaux et conformément à la Réglementation européenne, aucun de nos produits et ingrédients n’est testé sur les animaux.",
+      "We have carefully selected our ingredients to ensure our products are healthy and universal. The vegetable oils (Plum, Olive) and vegetable butters (Plum, Shea, and Olive) used in our products are non-comedogenic or very low comedogenic, so they are perfectly suitable for oily and acne-prone skin.",
     ],
   },
   {
-    question:
-      "Vos produits sont-ils adaptés aux bébés, aux enfants, femmes enceintes ?",
+    question: "What are the delivery times?",
     answer: [
-      "Nos produits ont été développés pour une utilisation universelle et unisexe, ils ne contiennent pas de parfum ni d’huile essentielle et s’adaptent donc au quotidien de toute la famille.",
-      "Cependant, la Réglementation cosmétiques des produits bébés étant particulière, nous n’avons pas réalisé les démarches nécessaires pour prétendre une utilisation sur les enfants de moins de 3 ans, nous ne pouvons donc pas vous garantir si nos produits sont adaptés pour les bébés.",
-      "Nos Soin Précieux, Perles de Soin, Démaquillant Cocoon et Perles Démaquillantes conviennent parfaitement aux enfants à partir de 3 ans, aux femmes enceintes et allaitantes.",
-      "Notre Déodorant Plume est adapté aux enfants à partir de 12 ans, aux femmes enceintes et allaitantes.",
-    ],
-  },
-
-  {
-    question: "Vos produits sont-ils adaptés aux peaux grasses et acnéiques ?",
-    answer: [
-      "Nous avons soigneusement sélectionné nos ingrédients pour que nos produits soient sains et universels. Les huiles végétales (Prune, Olive) et beurres végétaux (Prune, Karité et Olive) utilisés dans nos produits sont non comédogènes ou très peu comédogènes donc ils conviennent tout à fait aux peaux grasses et acnéiques.",
+      "Your orders are prepared and shipped within a maximum of 3 to 4 days.",
+      "Our deliveries are handled by La Poste and the delivery time is about 48 to 72 hours. You have the option to track your package using the tracking number sent by email when your order is confirmed.",
     ],
   },
   {
-    question: "Quels sont les délais de livraison ?",
+    highlight: "the legal withdrawal period is 14 days",
+    question: "What should I do if there is a problem with the order?",
     answer: [
-      "Vos commandes sont préparées et expédiées dans un délai maximum de 3 à 4 jours.",
-      "Nos livraisons sont assurées par La Poste et le délai est d’environ 48 à 72h. Vous avez la possibilité de suivre l’acheminement de votre colis grâce au numéro de suivi envoyé par e-mail lors de la confirmation de votre commande",
-    ],
-  },
-  {
-    highlight: "le délai de rétractation légal est de 14 jours",
-    question: "Que faire en cas de problème avec la commande ?",
-    answer: [
-      "Votre satisfaction étant notre priorité, nous vous offrons la possibilité de nous retourner votre commande en cas de problème avec celle-ci (erreur, produit abîmé, insatisfaction…). Attention, le retour de votre colis doit être effectué dans les 10 jours suivant sa réception et les frais de renvois seront à votre charge.",
+      "Your satisfaction is our priority, so we offer you the possibility to return your order in case of any problem (error, damaged product, dissatisfaction, etc.). Please note that the return of your package must be made within 10 days of receipt and the return shipping costs will be at your expense.",
     ],
   },
 ];
@@ -81,7 +79,7 @@ const FAQ = () => {
     });
     item.isExpansion = !item.isExpansion;
 
-    setState((pre) => ({ ...pre })); 
+    setState((pre) => ({ ...pre }));
   };
 
   return (
