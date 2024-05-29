@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useLocale from "@hooks/useLocale";
 import useUser from "@hooks/useUser";
 import { showToast } from "@redux/slices/toast/toastSlice";
-import { PUT } from "@utils/fetch";
+import { PATCH } from "@utils/fetch";
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
@@ -34,7 +34,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
       district: user?.district ? user?.district : "",
       province: user?.province ? user?.province : "",
       zip_code: user?.zip_code ? user?.zip_code : "",
-      phone: user?.phone ? user?.phone : "",
+      phone_number: user?.phone ? user?.phone : "",
     },
 
     validationSchema: Yup.object().shape({
@@ -44,10 +44,10 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
       wards: Yup.string().required("Wards is required"),
       district: Yup.string().required("District is required"),
       zip_code: Yup.string().required("Postal code is required"),
-      phone: Yup.string().required("Phone is required"),
+      phone_number: Yup.string().required("Phone is required"),
     }),
     onSubmit: (value) => {
-      PUT("/api/user/profile", value)
+      PATCH("/api/user/update/", value)
         .then((res) => {
           if (res?.status === 200) {
             onBack();
@@ -83,23 +83,10 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
         });
     },
   });
+  console.log(formik.submitCount);
 
   const text = useLocale();
-  const handleKeyDownZCode = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.value;
-    if (value.length >= 20 && e.key !== "Backspace" && e.key !== "Delete") {
-      e.preventDefault();
-    }
-    if (
-      e.key === "e" ||
-      e.key === "." ||
-      e.key === "+" ||
-      e.key === "-" ||
-      e.key === ","
-    ) {
-      e.preventDefault();
-    }
-  };
+
   const handleKeyDownPhone = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     if (
@@ -371,21 +358,21 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
               <input
                 onChange={formik.handleChange}
                 type="text"
-                value={formik.values?.phone}
-                id="phone"
+                value={formik.values?.phone_number}
+                id="phone_number"
                 onKeyDown={(e) => {
                   handleKeyDownPhone(e);
                 }}
                 className={twMerge(
                   "px-4 py-3 border-[0.5px]  text-black ",
-                  formik.errors.phone && formik.submitCount
+                  formik.errors.phone_number && formik.submitCount
                     ? "border-red-500"
                     : "border-gray-300"
                 )}
               />
-              {formik.errors.phone && formik.submitCount != 0 ? (
+              {formik.errors.phone_number && formik.submitCount != 0 ? (
                 <div className="text-[12px] text-red-500">
-                  {formik.errors.phone.toString()}
+                  {formik.errors.phone_number.toString()}
                 </div>
               ) : null}
             </div>

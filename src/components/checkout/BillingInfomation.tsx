@@ -1,14 +1,15 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-import { Countries } from "@definitions/constants";
+// import { Countries } from "@definitions/constants";
 // import { useQuery } from "react-query";
 import useUser from "@hooks/useUser";
 
 type BillingInfomationProps = {
   onError?: (errors: any) => void;
   onValueChange?: (values: any) => void;
+  checkerror?: boolean;
 };
 /* async function getCountry() {
   const res = await fetch(
@@ -19,21 +20,21 @@ type BillingInfomationProps = {
 const BillingInfomation: React.FC<BillingInfomationProps> = ({
   onError,
   onValueChange,
+  checkerror,
 }) => {
-  const { isAuthenticated } = useUser();
+  // const { isAuthenticated } = useUser();
   const formSchema = Yup.object().shape({
     first_name: Yup.string().required(),
     last_name: Yup.string().required(),
     // country: Yup.tuple().required(),
     ward: Yup.string().required(),
-    // district: Yup.string().required(),
+    district: Yup.string().required(),
     zip_code: Yup.string().max(10).required(),
     province: Yup.string().required(),
     phone: Yup.number().required(),
     email: Yup.string().required().email(),
   });
   const { user } = useUser();
-
   const formik = useFormik({
     initialValues: {
       first_name: "",
@@ -41,7 +42,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
       company_name: "",
       country: "United Kingdom",
       ward: "",
-
+      district: "",
       province: "",
       zip_code: "",
       phone: "",
@@ -52,7 +53,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
       last_name: "required",
       // country: Yup.tuple().required(),
       ward: "required",
-
+      district: "required",
       zip_code: "required",
       province: "required",
       phone: "required",
@@ -63,6 +64,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
       console.log(value);
     },
   });
+  console.log(checkerror);
   const { errors, values } = formik;
   const handleKeyDownPhone = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
@@ -109,7 +111,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
     <div className="">
       {/* form */}
       <div>
-        <span className="text-[#26222f] text-[32px] font-semibold">
+        <span className="text-[#603813] text-[32px] font-semibold">
           Billing Information
         </span>
         <form
@@ -129,10 +131,11 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                   type="text"
                   id="first_name"
                   className={`px-4 py-3 border ${
-                    formik.dirty && errors.first_name
+                    checkerror && errors.first_name
                       ? "border-red-700"
                       : "border-gray-300"
                   } text-black`}
+                  maxLength={50}
                 />
               </div>
               <div className="flex flex-col ml-6">
@@ -144,20 +147,24 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                   type="text"
                   id="last_name"
                   className={`px-4 py-3 border ${
-                    formik.dirty && errors.last_name
+                    checkerror && errors.last_name
                       ? "border-red-700"
                       : "border-gray-300"
                   } text-black`}
+                  maxLength={50}
                 />
               </div>
             </div>
             <div className="flex flex-col">
-              <label className="font-semibold">Company name (optional)</label>
+              <label className="font-semibold">
+                Name of company (optional)
+              </label>
               <input
                 {...formik.getFieldProps("company_name")}
                 type="text"
                 id="company_name"
                 className="px-4 py-3 border border-gray-300 text-black"
+                maxLength={100}
               />
             </div>
             <div className="flex flex-col">
@@ -169,7 +176,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                 {...formik.getFieldProps("country")}
                 id="country"
                 className={`px-4 py-3 border ${
-                  formik.dirty && errors.country
+                  checkerror && errors.country
                     ? "border-red-700"
                     : "border-gray-300"
                 } text-black`}
@@ -194,20 +201,26 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                 {...formik.getFieldProps("ward")}
                 type="text"
                 id="ward"
+                placeholder="Lane number and street name"
                 className={`px-4 py-3 border ${
-                  formik.dirty && errors.ward
+                  checkerror && errors.ward
                     ? "border-red-700"
                     : "border-gray-300"
                 } text-black`}
+                maxLength={100}
               />
-              {/* <input
+              <input
                 {...formik.getFieldProps("district")}
                 type="text"
                 id="district"
-                className={`px-4 py-3 mt-4 border ${
-                  formik.dirty && errors.district ? "border-red-700" : "border-gray-300"
+                placeholder="Building apartment, lot, etc, (optional)"
+                className={`px-4 py-3 mt-2 border ${
+                  checkerror && errors.district
+                    ? "border-red-700"
+                    : "border-gray-300"
                 } text-black`}
-              /> */}
+                maxLength={100}
+              />
             </div>
 
             <div className="flex flex-col">
@@ -219,7 +232,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                 type="text"
                 id="zip_code"
                 className={`px-4 py-3 mt-4 border ${
-                  formik.dirty && errors.zip_code
+                  checkerror && errors.zip_code
                     ? "border-red-700"
                     : "border-gray-300"
                 } text-black`}
@@ -235,10 +248,11 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                 type="text"
                 id="province"
                 className={`px-4 py-3 border ${
-                  formik.dirty && errors.province
+                  checkerror && errors.province
                     ? "border-red-700"
                     : "border-gray-300"
                 } text-black`}
+                maxLength={100}
               />
             </div>
             <div className="flex flex-col">
@@ -250,7 +264,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                 type="text"
                 id="phone"
                 className={`px-4 py-3 mt-4 border ${
-                  formik.dirty && errors.phone
+                  checkerror && errors.phone
                     ? "border-red-700"
                     : "border-gray-300"
                 } text-black`}
@@ -266,44 +280,44 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                 type="email"
                 id="id"
                 className={`px-4 py-3 mt-4 border ${
-                  formik.dirty && errors.email
+                  checkerror && errors.email
                     ? "border-red-700"
                     : "border-gray-300"
                 } text-black`}
               />
             </div>
-            {!isAuthenticated && (
-              <>
-                <div className="flex justify-between font-semibold">
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      defaultChecked={true}
-                      onChange={(e) => {
-                        console.log(e);
-                      }}
-                      id="subscribe"
-                      className="w-4 h-4 "
-                    />
-                    <label>Subscribe to our newsletter</label>
-                  </div>
+            {/* {!isAuthenticated && ( */}
+            <>
+              <div className="flex justify-between font-semibold">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    defaultChecked={true}
+                    onChange={(e) => {
+                      console.log(e);
+                    }}
+                    id="subscribe"
+                    className="w-4 h-4 "
+                  />
+                  <label>Receive order email</label>
                 </div>
-                <div className="flex justify-between font-semibold">
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      defaultChecked={false}
-                      onChange={(e) => {
-                        console.log(e);
-                      }}
-                      id="remember"
-                      className="w-4 h-4 "
-                    />
-                    <label>Créer un compte ?</label>
-                  </div>
+              </div>
+              {/* <div className="flex justify-between font-semibold">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    defaultChecked={false}
+                    onChange={(e) => {
+                      console.log(e);
+                    }}
+                    id="remember"
+                    className="w-4 h-4 "
+                  />
+                  <label>Créer un compte ?</label>
                 </div>
-              </>
-            )}
+              </div> */}
+            </>
+            {/* )} */}
           </div>
         </form>
       </div>

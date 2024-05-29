@@ -2,7 +2,7 @@ import AdditionalInformation from "@components/checkout/AdditionalInformation";
 import BillingInfomation from "@components/checkout/BillingInfomation";
 import OrderReview from "@components/checkout/OrderReview";
 import { Container } from "@components/container";
-import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
+// import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
 import { faWarning } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useCart from "@hooks/useCart";
@@ -46,7 +46,9 @@ const StepTabs = [
 const Checkout: React.FC = () => {
   const router = useRouter();
   const { cart } = useCart();
-  const { processBilling, processShipping, processYourOrder } = useCheckout();
+  const { processYourOrder } = useCheckout();
+  const [checkerror, setCheckerror] = useState(false);
+
   const [state, setState] = useState({
     activeTab: 0,
     inValidData: false,
@@ -174,7 +176,7 @@ const Checkout: React.FC = () => {
           </ul> */}
           <div className="my-2 px-5 py-2 w-full col-span-5 bg-[#FBFBFB]">
             {/* error */}
-            <div
+            {/* <div
               ref={errorDivRef}
               className={`${
                 !inValidData && "hidden"
@@ -186,13 +188,14 @@ const Checkout: React.FC = () => {
                 className={"w-10 h-10 text-red-700"}
               />
               <span>Invalid or data missing in the required field(s)</span>
-            </div>
+            </div> */}
             <div
               className={`${
                 activeTab !== 0 && "hidden"
               } transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}
             >
               <BillingInfomation
+                checkerror={checkerror}
                 onError={(errors) => {
                   console.log(errors);
 
@@ -259,7 +262,7 @@ const Checkout: React.FC = () => {
                 className="w-[300px] h-[48px] rounded-md p-3   text-white hover:text-white text-[16px] font-bold bg-[#603813]"
                 onClick={() => {
                   handlNextStep();
-
+                  setCheckerror(true);
                   if (hasError()) {
                     showError();
                   } else {
