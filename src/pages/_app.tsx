@@ -59,16 +59,8 @@ function MyApp({
 
   queryClient.getQueryCache().subscribe((event: any) => {
     if (event?.["action"]?.type === "fetch") {
-      if (
-        event.query.queryKey !== "get-profile" &&
-        event.query.queryKey !== "get-cart"
-      ) {
-        queryCount = queryCount + 1;
-        setState((pre) => ({ ...pre, queries: queryCount }));
-      } else if (pathname === "/my-account" || pathname === "/cart") {
-        queryCount = queryCount + 1;
-        setState((pre) => ({ ...pre, queries: queryCount }));
-      }
+      queryCount = queryCount + 1;
+      setState((pre) => ({ ...pre, queries: queryCount }));
     } else if (
       event?.["action"]?.type === "success" ||
       event?.["action"]?.type === "error"

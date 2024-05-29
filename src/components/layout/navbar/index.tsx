@@ -35,7 +35,7 @@ function Navbar() {
   }, [toast, dispatch]);
 
   return (
-    <div className="sticky top-0 z-40 hidden p-1 bg-white md:block">
+    <div className="sticky top-0 z-[60] hidden p-1 bg-white md:block">
       {toast.show && <Toast />}
 
       <nav className="z-10 w-full ">

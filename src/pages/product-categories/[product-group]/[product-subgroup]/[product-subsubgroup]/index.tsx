@@ -9,7 +9,6 @@ import { GET } from "@utils/fetch";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
 
 const ProductSubSubGroup = () => {
   const [selectedRangePrice, setSelectedRangePrice] = useState<string | null>(
@@ -45,10 +44,6 @@ const ProductSubSubGroup = () => {
     isLoading,
   } = useQuery("get-category-product", getProductCategory);
 
-  const favoriteProducts = useSelector(
-    (state: any) => state?.favorite?.list
-  ) as Product[];
-
   const handlePriceRangeChange = (value: any, id: any) => {
     if (value !== selectedRangePrice && value) {
       setSelectedRangePrice(id);
@@ -62,7 +57,7 @@ const ProductSubSubGroup = () => {
 
   useEffect(() => {
     if (sub_category_id) refetch();
-  }, [sub_category_id, selectedSort, selectedRangePrice]);
+  }, [sub_category_id, selectedSort, selectedRangePrice, sub_sub_category_id]);
 
   return (
     <Container>
@@ -104,7 +99,7 @@ const ProductSubSubGroup = () => {
                     <ProductItem showFavorite={true} product={item} />
                   </div>
                 ))
-              : products?.results?.length && (
+              : products?.results?.length === 0 && (
                   <div className="ml-20 text-[20px]">Aucun Produit trouvé</div>
                 ))}
         </div>
