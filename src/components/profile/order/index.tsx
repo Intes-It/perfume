@@ -165,7 +165,7 @@ const Order = () => {
                     style={th}
                     className={` flex items-center gap-x-2`}
                   >
-                    Data Order{" "}
+                    Date Order{" "}
                   </th>
                   <th style={th} scope="col">
                     {" "}

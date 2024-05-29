@@ -1,6 +1,7 @@
 import { faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { faEye, faWindowMaximize } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useLocale from "@hooks/useLocale";
 import useUser from "@hooks/useUser";
 import { api } from "@utils/apiRoute";
 import { PUT } from "@utils/fetch";
@@ -112,7 +113,7 @@ const Detail = () => {
       handleChangePass(value as any);
     },
   });
-
+  const text = useLocale();
   return (
     <div>
       {error ? (
@@ -141,7 +142,9 @@ const Detail = () => {
       <form onSubmit={formik.handleSubmit}>
         <div className="grid gap-3">
           <div className="flex flex-col">
-            <label className="font-semibold">Nom affiché</label>
+            <label className="font-semibold">
+              {text.accountScreen.nAffiche}
+            </label>
             <input
               defaultValue={user?.username}
               type="text"
@@ -153,7 +156,7 @@ const Detail = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label className="font-semibold">E-mail</label>
+            <label className="font-semibold">{text.accountScreen.email}</label>
             <input
               type="text"
               readOnly
@@ -164,7 +167,7 @@ const Detail = () => {
           </div>
           <div className="flex flex-col ">
             <label className="font-semibold">
-              Mot de passe actuel (laisser vide pour le conserver)
+              {text.accountScreen.mDPActuel}
             </label>
             <div className="relative grid items-center">
               <FontAwesomeIcon
@@ -194,7 +197,7 @@ const Detail = () => {
           </div>
           <div className="flex flex-col">
             <label className="font-semibold">
-              Nouveau mot de passe (laisser vide pour conserver l’actuel)
+              {text.accountScreen.nouveauMDPass}
             </label>
             <div className="relative grid items-center">
               <FontAwesomeIcon
@@ -220,7 +223,7 @@ const Detail = () => {
           </div>
           <div className="flex flex-col">
             <label className="font-semibold">
-              Confirmer le nouveau mot de passe
+              {text.accountScreen.confirm}
             </label>
             <div className="relative grid items-center">
               <FontAwesomeIcon
@@ -235,7 +238,7 @@ const Detail = () => {
                 value={formik?.values?.confirm_password}
                 id="confirm_password"
                 onChange={formik.handleChange}
-                className="px-4 py-3 mt-4 border"
+                className="px-4 py-3 border"
               />
             </div>
             {formik.errors?.confirm_password && (
@@ -253,7 +256,7 @@ const Detail = () => {
             disabled={!formik.dirty}
           >
             <div className="text-[15px]  text-white">
-              Enregister les modifications
+              {text.accountScreen.enregister}
             </div>
           </button>
         </div>

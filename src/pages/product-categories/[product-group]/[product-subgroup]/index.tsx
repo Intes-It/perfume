@@ -2,6 +2,7 @@ import DropdownCheckbox from "@components/dropdown-checkbox";
 import DropdownSelect from "@components/dropdown-select";
 import ProductItem from "@components/product-item";
 import { useAllCategory } from "@hooks/useCategory";
+import useLocale from "@hooks/useLocale";
 import { Product } from "@types";
 import { api } from "@utils/apiRoute";
 import { productFilter, productPrice } from "@utils/fakeData";
@@ -103,7 +104,7 @@ const ProductSubGroup = () => {
     selectedSort,
     selectedRangePrice,
   ]);
-
+  const text = useLocale();
   return (
     <div>
       <div className="flex flex-col items-center mx-5 my-5 space-y-10 ">
@@ -114,7 +115,7 @@ const ProductSubGroup = () => {
         <div className="w-[100%] grid md:grid-cols-2 grid-cols-1 gap-2">
           <div className="flex space-x-5 mobile:justify-between mobile:mt-5 ">
             <DropdownCheckbox
-              title="Catégories"
+              title={text.productScreen.category}
               selections={secondSubCategories?.map((item: any) => ({
                 name: item?.name || "",
                 value: item?.id || "",

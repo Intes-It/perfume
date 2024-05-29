@@ -32,7 +32,9 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
     zip_code: Yup.string().max(10).required(),
     province: Yup.string().required(),
     phone: Yup.number().required(),
-    email: Yup.string().required().email(),
+    email: Yup.string()
+      .required("Email is required")
+      .email("Email is not valid"),
   });
   const { user } = useUser();
   const formik = useFormik({
@@ -285,6 +287,11 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                     : "border-gray-300"
                 } text-black`}
               />
+              {formik.errors.email && checkerror ? (
+                <div className="text-[12px] text-red-500">
+                  {formik.errors.email.toString()}
+                </div>
+              ) : null}
             </div>
             {/* {!isAuthenticated && ( */}
             <>

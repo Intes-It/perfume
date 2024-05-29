@@ -1,35 +1,38 @@
+import useLocale from "@hooks/useLocale";
 import useUser from "@hooks/useUser";
 
 const UserProfile = ({ setTabs }: { setTabs: (value: number) => void }) => {
   const { user } = useUser();
+  const text = useLocale();
   return (
     <div>
       <div className="text-[#603813]">
-        Bonjour <span className="font-bold text-black">{user?.username}</span>
+        {text.accountScreen.bonjour}{" "}
+        <span className="font-bold text-black">{user?.username}</span>
       </div>
       <div className="text-[#603813]">
-        À partir du tableau de bord de votre compte, vous pouvez visualiser vos
+        {text.accountScreen.aPartir[0]}
         <span
           className="text-[#da2323] cursor-pointer"
           onClick={() => setTabs(1)}
         >
           {" "}
-          commandes récentes
+          {text.accountScreen.aPartir[1]}
         </span>
-        , gérer vos{" "}
+        {text.accountScreen.aPartir[2]}{" "}
         <span
           className="text-[#da2323] cursor-pointer"
           onClick={() => setTabs(3)}
         >
           {" "}
-          adresses de livraison et de facturation
+          {text.accountScreen.aPartir[3]}
         </span>{" "}
-        ainsi que{" "}
+        {text.accountScreen.aPartir[4]}{" "}
         <span
           className="text-[#da2323] cursor-pointer"
           onClick={() => setTabs(5)}
         >
-          changer votre mot de passe et les détails de votre compte.
+          {text.accountScreen.aPartir[5]}
         </span>
       </div>
     </div>
