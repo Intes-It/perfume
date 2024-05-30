@@ -1,40 +1,37 @@
-import { useFormik } from "formik";
+import { Form, Formik, useFormik } from "formik";
+import React from "react";
 import * as Yup from "yup";
-import React, { useEffect, useState } from "react";
 
-// import { Countries } from "@definitions/constants";
-// import { useQuery } from "react-query";
 import useUser from "@hooks/useUser";
+import { billingInfo } from "src/pages/checkout";
 
 type BillingInfomationProps = {
-  onError?: (errors: any) => void;
-  onValueChange?: (values: any) => void;
-  checkerror?: boolean;
+  handleOpenPaypal: (data: billingInfo) => void;
 };
-/* async function getCountry() {
-  const res = await fetch(
-    "https://restcountries.com/v3.1/all?fields=name,flags"
-  );
-  return res.json();
-} */
+
 const BillingInfomation: React.FC<BillingInfomationProps> = ({
-  onError,
-  onValueChange,
-  checkerror,
+  handleOpenPaypal,
 }) => {
   // const { isAuthenticated } = useUser();
   const formSchema = Yup.object().shape({
-    first_name: Yup.string().required(),
-    last_name: Yup.string().required(),
-    // country: Yup.tuple().required(),
-    ward: Yup.string().required(),
-    district: Yup.string().required(),
-    zip_code: Yup.string().max(10).required(),
-    province: Yup.string().required(),
-    phone: Yup.number().required(),
+    first_name: Yup.string().trim().required("Field is required."),
+    last_name: Yup.string().trim().required("Field is required."),
+    // country: Yup.tuple().required("Field is required."),
+    ward: Yup.string().trim().required("Field is required."),
+    district: Yup.string().trim().required("Field is required."),
+    postal_code: Yup.string().trim().max(10).required("Field is required."),
+    city: Yup.string().trim().required("Field is required."),
+    phone_number: Yup.number().required("Field is required."),
     email: Yup.string()
-      .required("Email is required")
-      .email("Email is not valid"),
+      .trim()
+      .required("Email is required.")
+      .email("Email is not valid.")
+      .matches(
+        //eslint-disable-next-line
+        /^(([^<>()\[\]\\.,;:$#%^&*!\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*)\.[a-zA-Z]{2,}|(\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}]))$/,
+        "Email is not valid." // Optional: Customize error message
+      ),
+    send_mail: Yup.boolean(),
   });
   const { user } = useUser();
   const formik = useFormik({
@@ -45,29 +42,23 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
       country: "United Kingdom",
       ward: "",
       district: "",
-      province: "",
-      zip_code: "",
-      phone: "",
+      city: "",
+      postal_code: "",
+      phone_number: "",
       email: user?.email,
-    },
-    initialErrors: {
-      first_name: "required",
-      last_name: "required",
-      // country: Yup.tuple().required(),
-      ward: "required",
-      district: "required",
-      zip_code: "required",
-      province: "required",
-      phone: "required",
-      email: "required",
+      send_mail: true,
     },
     validationSchema: formSchema,
-    onSubmit: (value) => {
-      console.log(value);
+    validateOnChange: false,
+    validateOnBlur: false,
+    validateOnMount: false,
+    onSubmit: (value, { validate }: any) => {
+      if (validate) validate(value);
+      handleOpenPaypal(value);
     },
   });
-  console.log(checkerror);
-  const { errors, values } = formik;
+
+  const { errors } = formik;
   const handleKeyDownPhone = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     if (
@@ -101,13 +92,6 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
     { value: "United Kingdom" },
     { value: "Dubai" },
   ];
-  useEffect(() => {
-    onError?.(errors);
-  }, [errors]);
-
-  useEffect(() => {
-    onValueChange?.(values);
-  }, [values]);
 
   return (
     <div className="">
@@ -116,200 +100,214 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
         <span className="text-[#603813] text-[32px] font-semibold">
           Billing Information
         </span>
-        <form
-          onInvalidCapture={() => {
-            console.log("re");
-          }}
+        <Formik
+          initialValues={formik.initialValues}
+          onSubmit={formik.submitForm}
         >
-          <div className="grid gap-3">
-            <div className="grid grid-cols-2">
-              <div className="flex flex-col mr-6">
+          <Form>
+            <div className="grid gap-3">
+              <div className="grid grid-cols-2">
+                <div className="flex flex-col mr-6">
+                  <label className="font-semibold">
+                    First Name{" "}
+                    <span className="text-red-500 text-[20px] ">*</span>
+                  </label>
+                  <input
+                    {...formik.getFieldProps("first_name")}
+                    type="text"
+                    id="first_name"
+                    className={`px-4 py-3 border ${
+                      errors.first_name ? "border-red-700" : "border-gray-300"
+                    } text-black`}
+                    maxLength={50}
+                  />
+                  {errors.first_name && (
+                    <span className="text-sm text-[#ed2805]">
+                      {errors.first_name}
+                    </span>
+                  )}
+                </div>
+                <div className="flex flex-col ml-6">
+                  <label className="font-semibold">
+                    Last Name{" "}
+                    <span className="text-red-500 text-[20px] ">*</span>
+                  </label>
+                  <input
+                    {...formik.getFieldProps("last_name")}
+                    type="text"
+                    id="last_name"
+                    className={`px-4 py-3 border ${
+                      errors.last_name ? "border-red-700" : "border-gray-300"
+                    } text-black`}
+                    maxLength={50}
+                  />
+                  {errors.last_name && (
+                    <span className="text-sm text-[#ed2805]">
+                      {errors.last_name}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="flex flex-col">
                 <label className="font-semibold">
-                  First Name{" "}
+                  Name of company (optional)
+                </label>
+                <input
+                  {...formik.getFieldProps("company_name")}
+                  type="text"
+                  id="company_name"
+                  className="px-4 py-3 text-black border border-gray-300"
+                  maxLength={100}
+                />
+              </div>
+              <div className="flex flex-col">
+                <label className="font-semibold">
+                  Country/region{" "}
+                  <span className="text-red-500 text-[20px] ">*</span>
+                </label>
+                <select
+                  {...formik.getFieldProps("country")}
+                  id="country"
+                  className={`px-4 py-3 border ${
+                    errors.country ? "border-red-700" : "border-gray-300"
+                  } text-black`}
+                  onChange={(event) => {
+                    formik.setFieldValue("country", event.target.value);
+                  }}
+                >
+                  <option hidden></option>
+                  {countrys.map((c, index: number) => (
+                    <option key={index} value={c.value}>
+                      {c.value}
+                    </option>
+                  ))}
+                </select>
+                {errors.country && (
+                  <span className="text-sm text-[#ed2805]">
+                    {errors.country}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-col">
+                <label className="font-semibold">
+                  Street number and name{" "}
                   <span className="text-red-500 text-[20px] ">*</span>
                 </label>
                 <input
-                  {...formik.getFieldProps("first_name")}
+                  {...formik.getFieldProps("ward")}
                   type="text"
-                  id="first_name"
+                  id="ward"
+                  placeholder="Lane number and street name"
                   className={`px-4 py-3 border ${
-                    checkerror && errors.first_name
-                      ? "border-red-700"
-                      : "border-gray-300"
+                    errors.ward ? "border-red-700" : "border-gray-300"
                   } text-black`}
-                  maxLength={50}
+                  maxLength={100}
                 />
+                {errors.ward && (
+                  <span className="text-sm text-[#ed2805]">{errors.ward}</span>
+                )}
+                <input
+                  {...formik.getFieldProps("district")}
+                  type="text"
+                  id="district"
+                  placeholder="Building apartment, lot, etc, (optional)"
+                  className={`px-4 py-3 mt-2 border ${
+                    errors.district ? "border-red-700" : "border-gray-300"
+                  } text-black`}
+                  maxLength={100}
+                />
+                {errors.district && (
+                  <span className="text-sm text-[#ed2805]">
+                    {errors.district}
+                  </span>
+                )}
               </div>
-              <div className="flex flex-col ml-6">
+
+              <div className="flex flex-col">
                 <label className="font-semibold">
-                  Last Name <span className="text-red-500 text-[20px] ">*</span>
+                  Postal Code
+                  <span className="text-red-500 text-[20px] ">*</span>
                 </label>
                 <input
-                  {...formik.getFieldProps("last_name")}
+                  {...formik.getFieldProps("postal_code")}
                   type="text"
-                  id="last_name"
-                  className={`px-4 py-3 border ${
-                    checkerror && errors.last_name
-                      ? "border-red-700"
-                      : "border-gray-300"
+                  id="postal_code"
+                  className={`px-4 py-3 mt-4 border ${
+                    errors.postal_code ? "border-red-700" : "border-gray-300"
                   } text-black`}
-                  maxLength={50}
+                  maxLength={10}
+                />
+                {errors.postal_code && (
+                  <span className="text-sm text-[#ed2805]">
+                    {errors.postal_code}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-col">
+                <label className="font-semibold">
+                  City <span className="text-red-500 text-[20px] ">*</span>
+                </label>
+                <input
+                  {...formik.getFieldProps("city")}
+                  type="text"
+                  id="city"
+                  className={`px-4 py-3 border ${
+                    errors.city ? "border-red-700" : "border-gray-300"
+                  } text-black`}
+                  maxLength={100}
                 />
               </div>
-            </div>
-            <div className="flex flex-col">
-              <label className="font-semibold">
-                Name of company (optional)
-              </label>
-              <input
-                {...formik.getFieldProps("company_name")}
-                type="text"
-                id="company_name"
-                className="px-4 py-3 border border-gray-300 text-black"
-                maxLength={100}
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="font-semibold">
-                Country/region{" "}
-                <span className="text-red-500 text-[20px] ">*</span>
-              </label>
-              <select
-                {...formik.getFieldProps("country")}
-                id="country"
-                className={`px-4 py-3 border ${
-                  checkerror && errors.country
-                    ? "border-red-700"
-                    : "border-gray-300"
-                } text-black`}
-                onChange={(event) => {
-                  formik.setFieldValue("country", event.target.value);
-                }}
-              >
-                <option hidden></option>
-                {countrys.map((c, index: number) => (
-                  <option key={index} value={c.value}>
-                    {c.value}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="flex flex-col">
-              <label className="font-semibold">
-                Street number and name{" "}
-                <span className="text-red-500 text-[20px] ">*</span>
-              </label>
-              <input
-                {...formik.getFieldProps("ward")}
-                type="text"
-                id="ward"
-                placeholder="Lane number and street name"
-                className={`px-4 py-3 border ${
-                  checkerror && errors.ward
-                    ? "border-red-700"
-                    : "border-gray-300"
-                } text-black`}
-                maxLength={100}
-              />
-              <input
-                {...formik.getFieldProps("district")}
-                type="text"
-                id="district"
-                placeholder="Building apartment, lot, etc, (optional)"
-                className={`px-4 py-3 mt-2 border ${
-                  checkerror && errors.district
-                    ? "border-red-700"
-                    : "border-gray-300"
-                } text-black`}
-                maxLength={100}
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="font-semibold">
-                Postal Code<span className="text-red-500 text-[20px] ">*</span>
-              </label>
-              <input
-                {...formik.getFieldProps("zip_code")}
-                type="text"
-                id="zip_code"
-                className={`px-4 py-3 mt-4 border ${
-                  checkerror && errors.zip_code
-                    ? "border-red-700"
-                    : "border-gray-300"
-                } text-black`}
-                maxLength={10}
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="font-semibold">
-                City <span className="text-red-500 text-[20px] ">*</span>
-              </label>
-              <input
-                {...formik.getFieldProps("province")}
-                type="text"
-                id="province"
-                className={`px-4 py-3 border ${
-                  checkerror && errors.province
-                    ? "border-red-700"
-                    : "border-gray-300"
-                } text-black`}
-                maxLength={100}
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="font-semibold">
-                Phone <span className="text-red-500 text-[20px] ">*</span>
-              </label>
-              <input
-                {...formik.getFieldProps("phone")}
-                type="text"
-                id="phone"
-                className={`px-4 py-3 mt-4 border ${
-                  checkerror && errors.phone
-                    ? "border-red-700"
-                    : "border-gray-300"
-                } text-black`}
-                onKeyDown={handleKeyDownPhone}
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="font-semibold">
-                Email <span className="text-red-500 text-[20px] ">*</span>
-              </label>
-              <input
-                {...formik.getFieldProps("email")}
-                type="email"
-                id="id"
-                className={`px-4 py-3 mt-4 border ${
-                  checkerror && errors.email
-                    ? "border-red-700"
-                    : "border-gray-300"
-                } text-black`}
-              />
-              {formik.errors.email && checkerror ? (
-                <div className="text-[12px] text-red-500">
-                  {formik.errors.email.toString()}
-                </div>
-              ) : null}
-            </div>
-            {/* {!isAuthenticated && ( */}
-            <>
-              <div className="flex justify-between font-semibold">
-                <div className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    defaultChecked={true}
-                    onChange={(e) => {
-                      console.log(e);
-                    }}
-                    id="subscribe"
-                    className="w-4 h-4 "
-                  />
-                  <label>Receive order email</label>
-                </div>
+              <div className="flex flex-col">
+                <label className="font-semibold">
+                  Phone <span className="text-red-500 text-[20px] ">*</span>
+                </label>
+                <input
+                  {...formik.getFieldProps("phone_number")}
+                  type="text"
+                  id="phone_number"
+                  className={`px-4 py-3 mt-4 border ${
+                    errors.phone_number ? "border-red-700" : "border-gray-300"
+                  } text-black`}
+                  onKeyDown={handleKeyDownPhone}
+                />
+                {errors.phone_number && (
+                  <span className="text-sm text-[#ed2805]">
+                    {errors.phone_number}
+                  </span>
+                )}
               </div>
-              {/* <div className="flex justify-between font-semibold">
+              <div className="flex flex-col">
+                <label className="font-semibold">
+                  Email <span className="text-red-500 text-[20px] ">*</span>
+                </label>
+                <input
+                  {...formik.getFieldProps("email")}
+                  id="id"
+                  className={`px-4 py-3 mt-4 border ${
+                    errors.email ? "border-red-700" : "border-gray-300"
+                  } text-black`}
+                />
+                {errors.email && (
+                  <span className="text-sm text-[#ed2805]">
+                    {errors.email.toString()}
+                  </span>
+                )}
+              </div>
+              {/* {!isAuthenticated && ( */}
+              <>
+                <div className="flex justify-between font-normal">
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      defaultChecked={true}
+                      {...formik.getFieldProps("send_mail")}
+                      id="subscribe"
+                      className="w-4 h-4 "
+                    />
+                    <label>Receive order email</label>
+                  </div>
+                </div>
+                {/* <div className="flex justify-between font-semibold">
                 <div className="flex items-center space-x-2">
                   <input
                     type="checkbox"
@@ -323,10 +321,19 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                   <label>Créer un compte ?</label>
                 </div>
               </div> */}
-            </>
-            {/* )} */}
-          </div>
-        </form>
+              </>
+              {/* )} */}
+            </div>
+            <div className="flex float-right gap-3 mt-10 ">
+              <button
+                className="w-[300px] h-[48px] rounded-md p-3  text-white hover:text-white text-[16px] font-bold bg-[#603813]"
+                type="submit"
+              >
+                PAYMENT
+              </button>
+            </div>
+          </Form>
+        </Formik>
       </div>
     </div>
   );

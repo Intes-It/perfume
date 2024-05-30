@@ -32,4 +32,6 @@ export const api = {
   get_favourite: "/api/product/favourite/",
   add_favourite: "/api/product/favourite/add/",
   remove_favourite: "/api/product/favourite/remove/",
+  create_order: "/api/order/create/",
+  create_capture: "/api/order/capture/",
 };

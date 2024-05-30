@@ -1,29 +1,28 @@
-import AdditionalInformation from "@components/checkout/AdditionalInformation";
 import BillingInfomation from "@components/checkout/BillingInfomation";
-import OrderReview from "@components/checkout/OrderReview";
 import { Container } from "@components/container";
 // import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
-import { faWarning } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useCart from "@hooks/useCart";
 import useCheckout from "@hooks/useCheckout";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import _ from "lodash";
-import { useRouter } from "next/router";
-import { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { clearCart } from "@redux/slices/cart";
-type billingInfo = {
+import { api } from "@utils/apiRoute";
+import { POST } from "@utils/fetch";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+
+export type billingInfo = {
   company_name: string;
   country: string;
   email: string;
   first_name: string;
   last_name: string;
-  phone: string;
-  province: string;
+  phone_number: string;
+  city: string;
   ward: string;
-  zip_code: string;
+  postal_code: string;
+  district: string;
+  send_mail?: boolean;
 };
 const StepTabs = [
   {
@@ -43,89 +42,60 @@ const StepTabs = [
   },
 ];
 
+const paypalOptions = {
+  clientId:
+    "AUiEogAlZVftJG4UY72P5vPndtsbej7W2-THcl9d_fVcwJJTnqVP71ff_4zlwkk_BBWV6YwurfdzRjS5",
+  currency: "USD",
+  debug: true,
+};
+
 const Checkout: React.FC = () => {
   const router = useRouter();
   const { cart } = useCart();
   const { processYourOrder } = useCheckout();
-  const [checkerror, setCheckerror] = useState(false);
+  const [isOpenPaypal, setIsOpenPaypal] = useState(false);
+  const [formValue, setFormValue] = useState<null | billingInfo>(null);
 
-  const [state, setState] = useState({
-    activeTab: 0,
-    inValidData: false,
-    formErrors: {
-      billingInfomation: true,
-      additionalInfomation: true,
-      orderReview: true,
-    },
-    formValues: {
-      billingInfomation: {} as billingInfo,
-      additionalInfomation: {},
-      orderReview: {},
-    },
-  });
   const dispatch = useDispatch();
-  const { activeTab, inValidData, formErrors, formValues } = state;
-  const errorDivRef = useRef<HTMLDivElement>(null);
-  // const stripePromise = loadStripe(
-  //  "pk_live_51Mc4mkLl7R805p8JLhoVvkkN3QPMnPGIRWOEfZVuW6ZEQoL9bUmEiwcusKcVCXPNyzwWdayXXWA8Dc7KwCqiCqX600dz3hbcEv"
-  //  );
-  const stripePromise = loadStripe(
-    process.env.NEXT_PUBLIC_STRIPE_KEY as string
-  );
-  const hasError = () => {
-    return formErrors.billingInfomation;
-    // switch (activeTab) {
-    //   case 0:
-    //     return formErrors.billingInfomation;
-    //   case 1:
-    //     return formErrors.additionalInfomation;
-    //   case 2:
-    //     return formErrors.orderReview;
-    //   default:
-    //     return false;
-    // }
+
+  const handleOpenPaypal = (data: billingInfo) => {
+    setFormValue(data);
+    setIsOpenPaypal(true);
   };
 
-  const showError = () => {
-    setState((pre) => ({ ...pre, inValidData: true }));
-    // Lấy ra vị trí của thẻ div bằng cách sử dụng method getBoundingClientRect()
-    const topPos = errorDivRef.current?.getBoundingClientRect().top;
-    // Scroll đến vị trí của thẻ div bằng cách sử dụng method scrollIntoView()
-    window.scrollTo({ top: topPos, behavior: "smooth" });
-  };
+  async function onApprove(data: { orderID: string }) {
+    try {
+      const res = await POST(api.create_capture, {
+        payment_id: data.orderID,
+        send_mail: formValue?.send_mail,
+      });
 
-  const handlNextStep = async () => {
-    console.log(formValues.billingInfomation);
+      console.log("res :>> ", res);
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  }
+  async function createOrder() {
+    try {
+      const newCart = cart?.data?.results?.map((item: any) => {
+        return {
+          ...item,
+          capacity: item?.capacity?.id,
+          color: item?.color?.id,
+          package: item?.package?.id,
+        };
+      });
 
-    // if (activeTab < 2) {
-    //   if (hasError()) showError();
-    //   else {
-    //     if (activeTab == 0) {
-    //       const res = await processBilling({
-    //         ...formValues.billingInfomation,
-    //         order_id: cart?.data?.cart?.id || null,
-    //       });
-    //       if (res?.status === 200 && res?.data?.created_time)
-    //         setState((pre) => ({
-    //           ...pre,
-    //           inValidData: false,
-    //           activeTab: activeTab + 1,
-    //         }));
-    //     } else if (activeTab == 1) {
-    //       const res = await processShipping({
-    //         ...formValues.additionalInfomation,
-    //         order_id: cart?.data?.cart?.id || null,
-    //       });
-    //       if (res?.status === 200 && res?.data?.created_time)
-    //         setState((pre) => ({
-    //           ...pre,
-    //           inValidData: false,
-    //           activeTab: activeTab + 1,
-    //         }));
-    //     }
-    //   }
-    // }
-  };
+      const payload = {
+        ...formValue,
+        address: formValue && `${formValue.district} ${formValue?.ward}`,
+        items: newCart,
+      };
+      const res = await POST(api.create_order, payload);
+
+      if (res.status === 200) return res.data?.payment_id;
+    } catch (error) {}
+  }
 
   const handleOder = async () => {
     const res = await processYourOrder({
@@ -140,165 +110,47 @@ const Checkout: React.FC = () => {
 
   return (
     <Container>
-      <div className=" mt-2 md:m-20">
-        {/* <div className="border-t-[3px] border-[#603813] bg-[#F7F6F7] p-5">
-          <FontAwesomeIcon
-            className="mr-3"
-            fontSize={"1.2rem"}
-            icon={faWindowMaximize}
-          />
-          <span>
-            Avez-vous un code promo ? Cliquez ici pour saisir votre code
-          </span>
-        </div> */}
-
-        {/* tabs */}
-        <div className=" items-start mt-7 md:flex">
-          {/* <ul className="mr-4 flex list-none flex-col flex-wrap pl-0 col-span-2">
-            {StepTabs?.map((item, index) => (
-              <div
-                key={index}
-                className="flex-grow text-center pointer-events-none"
-              >
-                <span
-                  className={`my-[1px] min-w-[100px] block border-x-0 font-semibold rounded-md border-t-0 border-b-2 border-transparent px-7 pt-4 pb-3.5 text-sm  uppercase leading-tight text-neutral-500
-                          focus:border-transparent 
-                          ${
-                            index === activeTab
-                              ? "bg-[#603813] text-white"
-                              : "bg-[#B2B2B0]"
-                          } `}
-                >
-                  {item?.header}
-                </span>
-              </div>
-            ))}
-          </ul> */}
+      <div className="mt-2 md:m-20">
+        <div className="items-start mt-7 md:flex">
           <div className="my-2 px-5 py-2 w-full col-span-5 bg-[#FBFBFB]">
-            {/* error */}
-            {/* <div
-              ref={errorDivRef}
-              className={`${
-                !inValidData && "hidden"
-              } border-t-[3px] border-t-red-700 p-4 mb-16 bg-[#F7F6F7]`}
-            >
-              <FontAwesomeIcon
-                icon={faWarning}
-                fontSize={"1.0rem"}
-                className={"w-10 h-10 text-red-700"}
-              />
-              <span>Invalid or data missing in the required field(s)</span>
-            </div> */}
             <div
-              className={`${
-                activeTab !== 0 && "hidden"
-              } transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}
+              className={` transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}
             >
-              <BillingInfomation
-                checkerror={checkerror}
-                onError={(errors) => {
-                  console.log(errors);
-
-                  setState((pre) => ({
-                    ...pre,
-                    formErrors: {
-                      ...formErrors,
-                      billingInfomation: !_.isEmpty(errors),
-                    },
-                  }));
-                }}
-                onValueChange={(values) => {
-                  setState((pre) => ({
-                    ...pre,
-                    formValues: { ...formValues, billingInfomation: values },
-                  }));
-                }}
-              />
-            </div>
-            <div
-              className={`${
-                activeTab !== 1 && "hidden"
-              } transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}
-            >
-              <AdditionalInformation
-                onError={(errors) => {
-                  setState((pre) => ({
-                    ...pre,
-                    formErrors: {
-                      ...formErrors,
-                      additionalInfomation: !_.isEmpty(errors),
-                    },
-                  }));
-                }}
-                onValueChange={(values, expanded) => {
-                  setState((pre) => ({
-                    ...pre,
-                    formValues: {
-                      ...formValues,
-                      additionalInfomation: expanded
-                        ? values
-                        : { note: values?.note },
-                    },
-                  }));
-                }}
-              />
-            </div>
-            <div
-              className={`${
-                activeTab !== 2 && "hidden"
-              } transition-opacity duration-150 ease-linear data-[te-tab-active]:block`}
-            >
-              <Elements stripe={stripePromise}>
-                <OrderReview
-                  onOderClicked={handleOder}
-                  orderID={cart?.data?.cart?.id}
-                  email={formValues.billingInfomation.email}
-                />
-              </Elements>
-            </div>
-
-            <div className="flex float-right gap-3 mt-10 ">
-              <button
-                className="w-[300px] h-[48px] rounded-md p-3   text-white hover:text-white text-[16px] font-bold bg-[#603813]"
-                onClick={() => {
-                  handlNextStep();
-                  setCheckerror(true);
-                  if (hasError()) {
-                    showError();
-                  } else {
-                    setState((pre) => ({
-                      ...pre,
-                      inValidData: false,
-                    }));
-                  }
-                  // if (activeTab > 0) {
-                  //   // if (hasError())
-                  //   //   showError();
-                  //   // else
-                  //   showError();
-                  //   setState((pre) => ({
-                  //     ...pre,
-                  //     inValidData: false,
-                  //     activeTab: activeTab - 1,
-                  //   }));
-                  // }
-                }}
-              >
-                PAYMENT
-              </button>
-              {/* {activeTab !== 2 && (
-                <button
-                  className="w-[90px] rounded-md p-3 border border-black text-black hover:bg-black hover:text-white "
-                  onClick={() => {
-                    handlNextStep();
-                  }}
-                >
-                  Next
-                </button>
-              )} */}
+              <BillingInfomation handleOpenPaypal={handleOpenPaypal} />
             </div>
           </div>
         </div>
+        {isOpenPaypal && (
+          <div className="fixed -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+            <div className="shadow w-[21rem] bg-white h-1/4 p-2 modal-box">
+              <div className={"flex justify-between my-2"}>
+                <div className={"w-[5rem]"} />
+                <button
+                  className="btn btn-sm btn-circle btn-ghost"
+                  onClick={() => setIsOpenPaypal(false)}
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="mx-3">
+                <PayPalScriptProvider options={paypalOptions}>
+                  <PayPalButtons
+                    style={{
+                      color: "blue",
+                      shape: "rect",
+                      height: 50,
+                      layout: "vertical",
+                      label: "pay",
+                    }}
+                    createOrder={createOrder}
+                    onApprove={onApprove}
+                    forceReRender={[formValue]}
+                  />
+                </PayPalScriptProvider>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </Container>
   );

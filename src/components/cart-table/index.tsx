@@ -204,16 +204,16 @@ const CartTable = () => {
                 ))}
               </tbody>
             </table>
-            {/* <div className="flex gap-4 p-4">
-          <input
-            type="text"
-            className="rounded-md border-[#BFBFBF] h-9 placeholder:text-[#BFBFBF]"
-            placeholder="Promo Code"
-          />
-          <div className="min-w-[180px] whitespace-nowrap h-9 flex justify-center items-center font-bold cursor-pointer text-white bg-[#603813] rounded-lg">
-            Apply promo code
-          </div>
-        </div> */}
+            <div className="flex gap-4 p-4">
+              <input
+                type="text"
+                className="rounded-md border-[#BFBFBF] h-9 placeholder:text-[#BFBFBF]"
+                placeholder="Promo Code"
+              />
+              <div className="min-w-[180px] whitespace-nowrap h-9 flex justify-center items-center font-bold cursor-pointer text-white bg-[#603813] rounded-lg">
+                Apply promo code
+              </div>
+            </div>
           </div>
           <div className="pt-10 ml-auto md:w-[500px] w-full">
             <div className="text-[#603813] text-[32px] font-bold mb-6">
@@ -261,10 +261,10 @@ const CartTable = () => {
                     </div>
                   </td>
                 </tr>
-                {/* <tr className="border-b border-[#BFBFBF] bg-[#f6f6f6]">
-              <td className="px-2 py-3 font-bold">Voucher</td>
-              <td className="px-2 py-3">0</td>
-            </tr> */}
+                <tr className="border-b border-[#BFBFBF] bg-[#f6f6f6]">
+                  <td className="px-2 py-3 font-bold">Voucher</td>
+                  <td className="px-2 py-3">0</td>
+                </tr>
                 <tr className="border-b border-[#BFBFBF] ">
                   <td className="px-2 py-3 font-bold">Total</td>
                   <td className="px-2 py-3">
