@@ -44,28 +44,28 @@ const Adress = () => {
                 }
                 className="p-2 rounded-md border border-black hover:bg-[#603813] hover:text-white"
               >
-                {!profile?.zip_code && !profile?.first_name
+                {!profile?.postal_code && !profile?.first_name
                   ? "Create"
                   : "Modify"}
               </button>
             </div>
             <div className="mt-3 grid text-[#603813]">
-              {!profile?.zip_code && !profile?.first_name ? (
+              {!profile?.postal_code && !profile?.first_name ? (
                 <div>You have not yet defined this type of address.</div>
               ) : (
                 <div className="flex flex-col">
                   <span>
                     {profile?.first_name} {profile?.last_name}
                   </span>
-                  <span>{profile?.company_name}</span>
+                  <span>{profile?.company}</span>
                   <span>{profile?.country}</span>
                   <span>
                     {" "}
-                    {profile?.wards} {profile?.district}
+                    {profile?.street} {profile?.address}
                   </span>
-                  <span>{profile?.province}</span>
-                  <span>{profile?.zip_code}</span>
-                  <span>{profile?.phone}</span>
+                  <span>{profile?.city}</span>
+                  <span>{profile?.postal_code}</span>
+                  <span>{profile?.phone_number}</span>
                   <span>{profile?.email}</span>
                 </div>
               )}
