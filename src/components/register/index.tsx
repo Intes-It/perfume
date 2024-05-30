@@ -61,12 +61,19 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
           </label>
           <input
             {...register("username")}
-            required
             type="text"
             autoComplete="new-username"
             id="username"
-            className="px-4 py-3 text-black border border-gray-300"
+            className={twMerge(
+              "px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
+              errors.username && "border-[#ed2805]"
+            )}
           />
+          {errors.username && (
+            <span className="text-sm text-[#ed2805]">
+              {errors.username?.message}
+            </span>
+          )}
         </div>
         <div className="flex flex-col space-y-1">
           <label>
@@ -74,7 +81,6 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
           </label>
           <input
             {...register("email")}
-            required
             id="email"
             autoComplete="off"
             autoCorrect="off"
@@ -104,7 +110,6 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
             {/* <FontAwesomeIcon icon={faEyeSlash}/> */}
             <input
               {...register("password")}
-              required
               type={showPass ? "text" : "password"}
               autoComplete="new-password"
               id="new-password"

@@ -9,7 +9,11 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
 const schema = yup.object().shape({
-  email: yup.string().email("Email incorrect!").required("Email is required"),
+  email: yup
+    .string()
+    .email("Email incorrect!")
+    .required("Email is required.")
+    .trim(),
 });
 
 const ForgotPassword = () => {

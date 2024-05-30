@@ -36,17 +36,21 @@ type dataResetPassword = {
   code: string;
 };
 const schema = yup.object().shape({
-  new_password: yup.string().required("New password is required"),
+  new_password: yup.string().required("New password is required."),
   code: yup
     .string()
-    .required("Otp is required")
+    .required("Otp is required.")
     .length(6, "OTP must be a six-digit number."),
   confirm_password: yup
     .string()
-    .required("Confirm Password Required")
-    .test("passwords-match", "Password must matching", function (value) {
-      return this.parent.new_password === value;
-    }),
+    .required("Confirm Password Required.")
+    .test(
+      "passwords-match",
+      "Confirm password does not match.",
+      function (value) {
+        return this.parent.new_password === value;
+      }
+    ),
 });
 
 const ConfirmOtp = ({ changeTab, email }: ConfirmOtpProps) => {
@@ -120,9 +124,14 @@ const ConfirmOtp = ({ changeTab, email }: ConfirmOtpProps) => {
         return;
       }
 
-      setError("code", {
-        message: res.data?.message,
-      });
+      if (res.data?.detail?.code === "This code is invalid.") {
+        setError("code", {
+          message: "Incorrect or Expired OTP code. Please try again.",
+        });
+      } else
+        setError("code", {
+          message: res.data?.message,
+        });
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -137,10 +146,15 @@ const ConfirmOtp = ({ changeTab, email }: ConfirmOtpProps) => {
       const res = await POST(api.forgotPassword, {
         email: email,
       });
-      if (res.data?.message?.includes("sent")) {
+      if (res.status === 200) {
         setMinutes(4);
         setSeconds(59);
       } else {
+        if (res.data?.detail?.code === "This code is invalid.") {
+          setError("code", {
+            message: "Incorrect or Expired OTP code. Please try again.",
+          });
+        }
         if (res.data?.detail) {
           const entriesData = Object.entries(res.data.detail) as any;
           for (const [key, value] of entriesData) {

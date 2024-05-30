@@ -19,13 +19,13 @@ import { useBestSallingProducts, useProductDetail } from "@hooks/useProduct";
 import useUser from "@hooks/useUser";
 import { useRouter } from "next/router";
 
+import useLocale from "@hooks/useLocale";
 import { showToast } from "@redux/slices/toast/toastSlice";
 import { api } from "@utils/apiRoute";
 import { POST } from "@utils/fetch";
 import _ from "lodash";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
-import useLocale from "@hooks/useLocale";
 
 type optionType = {
   current_price?: number;
@@ -314,14 +314,14 @@ const ProductDetail: React.FC<
                 role="tabpanel"
                 className={` text-[#603813] transition-opacity duration-150 ease-linear `}
               >
-                {contenanceSelected?.name && (
-                  <div className="flex">
-                    <strong>Contenance :</strong>
+                <div className="flex">
+                  <strong>Contenance :</strong>
+                  {contenanceSelected?.name && (
                     <span className="grid font-medium">
                       {contenanceSelected?.name}
                     </span>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             )}
           </div>

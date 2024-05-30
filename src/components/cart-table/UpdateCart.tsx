@@ -215,14 +215,14 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
                           role="tabpanel"
                           className={` text-[#603813] transition-opacity duration-150 ease-linear `}
                         >
-                          {capacitySelected?.name && (
-                            <div className="flex">
-                              <strong>Contenance :</strong>
+                          <div className="flex">
+                            <strong>Contenance :</strong>
+                            {capacitySelected?.name && (
                               <span className="grid font-medium">
                                 {capacitySelected?.name}
                               </span>
-                            </div>
-                          )}
+                            )}
+                          </div>
                         </div>
                       )}
                     </div>
