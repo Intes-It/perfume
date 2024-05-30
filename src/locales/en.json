@@ -35,7 +35,7 @@
   "accountScreen": {
     "mComplet": "My account",
     "tDBord": "DASHBOARD",
-    "bonjour": "Good morning",
+    "bonjour": "Welcome",
     "aPartir": [
       "À partir du tableau de bord de votre compte, vous pouvez visualiser vos",
       "commandes récentes",
@@ -73,7 +73,7 @@
     "date": "Expiration date",
     "crypto": "Visual cryptogram",
     "detailCompte": "ACCOUNT DETAILS",
-    "nAffiche": "shown name",
+    "nAffiche": "Name",
     "mDPActuel": "Current password (leave blank to save)",
     "nouveauMDPass": "New password (leave blank to keep the current one)",
     "confirm": "Confirm the new password",

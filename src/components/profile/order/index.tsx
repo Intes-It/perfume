@@ -44,8 +44,16 @@ const Order = () => {
     }
   });
   useEffect(() => {
+    const getOrderById = async () => {
+      try {
+        const res = await GET(`/api/order/${orderId}`);
+        setOrderDetail(res?.data);
+      } catch (error) {
+        dispatch(() => showToast(String(error)));
+      }
+    };
     if (orderId !== -1) {
-      setOrderDetail(data?.results.find((item: any) => item.id === orderId));
+      getOrderById();
     }
   }, [orderId]);
 
@@ -55,7 +63,6 @@ const Order = () => {
     fontWeight: 500,
     fontSize: 14,
   };
-  console.log(orderDetail);
 
   const tableBody =
     data &&
@@ -115,6 +122,7 @@ const Order = () => {
         </td>
       </tr>
     ));
+  console.log(orderDetail);
 
   return tab === 1 ? (
     <div>
@@ -152,6 +160,8 @@ const Order = () => {
               </p>
             </div>
           </div>
+        ) : !data ? (
+          <div></div>
         ) : (
           <div className="relative overflow-x-auto rounded border shadow-lg ">
             <table className="w-full text-sm text-left rtl:text-right ">
@@ -281,6 +291,56 @@ const Order = () => {
               {dayjs(orderDetail.created_at).format("YYYY-MM-DD")}
             </div>
           </div>
+          <div className="flex justify-between mt-3">
+            <div className="text-[16px] text-[#374151] font-medium">Name:</div>
+            <div className="text-[#603813] text-[16px] font-semibold">
+              {orderDetail.first_name + " " + orderDetail.last_name}
+            </div>
+          </div>
+          <div className="flex justify-between mt-3">
+            <div className="text-[16px] text-[#374151] font-medium">
+              Name of company (optional):
+            </div>
+            <div className="text-[#603813] text-[16px] font-semibold">
+              {orderDetail.company_name}
+            </div>
+          </div>
+          <div className="flex justify-between mt-3">
+            <div className="text-[16px] text-[#374151] font-medium">Email:</div>
+            <div className="text-[#603813] text-[16px] font-semibold">
+              {orderDetail.email}
+            </div>
+          </div>
+          <div className="flex justify-between mt-3">
+            <div className="text-[16px] text-[#374151] font-medium">
+              Address:
+            </div>
+            <div className="text-[#603813] text-[16px] font-semibold">
+              {orderDetail.address}
+            </div>
+          </div>
+          <div className="flex justify-between mt-3">
+            <div className="text-[16px] text-[#374151] font-medium">City:</div>
+            <div className="text-[#603813] text-[16px] font-semibold">
+              {orderDetail.city}
+            </div>
+          </div>
+          <div className="flex justify-between mt-3">
+            <div className="text-[16px] text-[#374151] font-medium">
+              Code Post:
+            </div>
+            <div className="text-[#603813] text-[16px] font-semibold">
+              {orderDetail.postal_code}
+            </div>
+          </div>
+          <div className="flex justify-between mt-3">
+            <div className="text-[16px] text-[#374151] font-medium">
+              Phone Number:
+            </div>
+            <div className="text-[#603813] text-[16px] font-semibold">
+              {orderDetail.phone_number}
+            </div>
+          </div>
           {/* <div className="flex justify-between mt-3">
             <div className="text-[16px] text-[#374151] font-medium">
               Estimate time:
@@ -304,7 +364,58 @@ const Order = () => {
           <div className="text-[16px] text-[#374151] font-medium mb-8">
             Orders (4 items)
           </div>
-          <div className="h-7"></div>
+          <div className="">
+            {orderDetail?.items?.map((item: any, index: number) => (
+              <div
+                key={index}
+                className="flex flex-row justify-between pb-5 pt-4"
+                style={{
+                  borderBottom:
+                    index !== orderDetail?.items?.length - 1
+                      ? "1px solid #E9E9E9"
+                      : "none",
+                }}
+              >
+                <div className="flex flex-row">
+                  <img
+                    src={
+                      item.product.thumbnail.url
+                        ? item.product.thumbnail.url
+                        : ""
+                    }
+                    alt="item"
+                    className="w-[60px] h-[60px]"
+                  />
+                  <div className="flex flex-col ml-3">
+                    <div className="flex flex-row gap-5 text-[16px] text-[#374151] font-medium mb-2">
+                      <div>{item.product.name}</div>{" "}
+                      <div>{"x" + item.quantity}</div>
+                    </div>
+                    <div className="text-[#ABABAB] text-[14px] font-medium">
+                      {item.item_product_color.length > 0
+                        ? item.item_product_color[0]?.product_color.name + ", "
+                        : ""}
+                      {item.item_product_package.length > 0
+                        ? item.item_product_package[0]?.product_package.name +
+                          ", "
+                        : ""}
+                      {item.item_product_capacity.length > 0
+                        ? item.item_product_capacity[0]?.product_capacity
+                        : ""}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <div className="text-[#603813] text-[16px] font-bold mb-1">
+                    {item.product_price + " €"}
+                  </div>
+                  <div className="text-[#9A9A9A] text-sm font-bold ml-auto">
+                    {item.product_price + " €"}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
         <div className="w-1/3 border border-[#E9E9E9] p-6 flex flex-col h-fit ">
           <div className="flex justify-between mb-3">
@@ -312,42 +423,50 @@ const Order = () => {
               Sub-total
             </div>
             <div className="text-[#603813] text-[16px] font-semibold">
-              {orderDetail.total} €
+              {orderDetail.sub_total} €
             </div>
           </div>
           <div className="flex justify-between mb-1">
             <div className="text-[16px] text-[#374151] font-medium">
               Default Shipping
             </div>
-            <div className="text-[#603813] text-[16px] font-semibold">10 €</div>
+            <div className="text-[#603813] text-[16px] font-semibold">
+              {orderDetail.shipping_fee} €
+            </div>
           </div>
           <div className="text-[12px] font-normal text-[#ABABAB] mb-6">
             Not included in the price but need to include in the final invoice
             (payment)
           </div>
           <div
-            className="flex justify-between pb-6 mb-6 "
+            className="flex justify-between pb-6 mb-4 "
             style={{ borderBottom: "1px solid #E9E9E9" }}
           >
             <div className="text-[16px] text-[#374151] font-medium">VAT</div>
             <div className="text-[#603813] text-[16px] font-semibold">
               <span className="mr-3 font-semibold">(5%)</span>
-              {parseFloat(((orderDetail.total * 5) / 100).toFixed(2))} €
+              {orderDetail.tax_fee} €
             </div>
           </div>
           <div className="flex justify-between mb-8">
             <div className="text-[16px] text-[#374151] font-bold">Total</div>
-            <div className="text-[#603813] text-[20px] font-bold">
-              {(
-                orderDetail.total +
-                10 +
-                parseFloat(((orderDetail.total * 5) / 100).toFixed(2))
-              ).toFixed(2)}{" "}
-              €
+            <div className="flex flex-row gap-8">
+              {orderDetail?.status === 5 && (
+                <img
+                  src={"/images/refund.png"}
+                  alt="refund"
+                  className="mt-[-16px]"
+                />
+              )}
+              <div className="text-[#603813] text-[20px] font-bold">
+                {orderDetail.total} €
+              </div>
             </div>
           </div>
           <button className="bg-[#603813] w-[184px] h-[48px] text-[16px] text-white font-bold rounded-lg mx-auto">
-            Contact
+            {orderDetail?.status === 5 || orderDetail?.status === 8
+              ? "Order again"
+              : "Contact"}
           </button>
         </div>
       </div>
