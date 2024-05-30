@@ -30,8 +30,8 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
       last_name: user?.last_name ? user?.last_name : "",
       company: user?.company ? user?.company : "",
       country: user?.country ? user?.country : "",
-      wards: user?.wards ? user?.wards : "",
-      district: user?.district ? user?.district : "",
+      street: user?.street ? user?.street : "",
+      address: user?.address ? user?.address : "",
       city: user?.city ? user?.city : "",
       postal_code: user?.postal_code ? user?.postal_code : "",
       phone_number: user?.phone ? user?.phone : "",
@@ -41,8 +41,8 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
       first_name: Yup.string().required("First name is required"),
       last_name: Yup.string().required("Last name is required"),
       city: Yup.string().required("city is required"),
-      wards: Yup.string().required("Wards is required"),
-      district: Yup.string().required("District is required"),
+      street: Yup.string().required("street is required"),
+      address: Yup.string().required("address is required"),
       postal_code: Yup.string().required("Postal code is required"),
       phone_number: Yup.string().required("Phone is required"),
     }),
@@ -274,11 +274,11 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 placeholder={text.accountScreen.numeroDe}
                 onChange={formik.handleChange}
                 type="text"
-                value={formik.values?.wards}
-                id="wards"
+                value={formik.values?.street}
+                id="street"
                 className={twMerge(
                   "px-4 py-3 border-[0.5px]  text-black  ",
-                  formik.errors.wards && formik.submitCount
+                  formik.errors.street && formik.submitCount
                     ? "border-red-500"
                     : "border-gray-300"
                 )}
@@ -287,16 +287,16 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                 onChange={formik.handleChange}
                 placeholder={text.accountScreen.batiAppar}
                 type="text"
-                id="district"
-                value={formik.values?.district}
+                id="address"
+                value={formik.values?.address}
                 className={twMerge(
                   "px-4 py-3 border-[0.5px]  text-black  mt-3 ",
-                  formik.errors.district && formik.submitCount
+                  formik.errors.address && formik.submitCount
                     ? "border-red-500"
                     : "border-gray-300"
                 )}
               />
-              {(formik.errors.district || formik.errors.wards) &&
+              {(formik.errors.address || formik.errors.street) &&
               formik.submitCount != 0 ? (
                 <div className="text-[12px] text-red-500">
                   {"Street number and name is required"}
