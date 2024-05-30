@@ -28,22 +28,22 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
     initialValues: {
       first_name: user?.first_name ? user?.first_name : "",
       last_name: user?.last_name ? user?.last_name : "",
-      company_name: user?.company_name ? user?.company_name : "",
+      company: user?.company ? user?.company : "",
       country: user?.country ? user?.country : "",
       wards: user?.wards ? user?.wards : "",
       district: user?.district ? user?.district : "",
-      province: user?.province ? user?.province : "",
-      zip_code: user?.zip_code ? user?.zip_code : "",
+      city: user?.city ? user?.city : "",
+      postal_code: user?.postal_code ? user?.postal_code : "",
       phone_number: user?.phone ? user?.phone : "",
     },
 
     validationSchema: Yup.object().shape({
       first_name: Yup.string().required("First name is required"),
       last_name: Yup.string().required("Last name is required"),
-      province: Yup.string().required("Province is required"),
+      city: Yup.string().required("city is required"),
       wards: Yup.string().required("Wards is required"),
       district: Yup.string().required("District is required"),
-      zip_code: Yup.string().required("Postal code is required"),
+      postal_code: Yup.string().required("Postal code is required"),
       phone_number: Yup.string().required("Phone is required"),
     }),
     onSubmit: (value) => {
@@ -224,18 +224,18 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
               <input
                 onChange={formik.handleChange}
                 type="text"
-                value={formik.values?.company_name}
-                id="company_name"
+                value={formik.values?.company}
+                id="company"
                 className={twMerge(
                   "px-4 py-3 border-[0.5px]  text-black ",
-                  formik.errors.company_name && formik.submitCount
+                  formik.errors.company && formik.submitCount
                     ? "border-red-500"
                     : "border-gray-300"
                 )}
               />
-              {/* {formik.errors.company_name  ? (
+              {/* {formik.errors.company  ? (
                 <div className="text-[12px] text-red">
-                  {formik.errors.company_name.toString()}
+                  {formik.errors.company.toString()}
                 </div>
               ) : null} */}
             </div>
@@ -311,18 +311,18 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
               <input
                 onChange={formik.handleChange}
                 type="text"
-                value={formik.values?.province}
-                id="province"
+                value={formik.values?.city}
+                id="city"
                 className={twMerge(
                   "px-4 py-3 border-[0.5px]  text-black  ",
-                  formik.errors.province && formik.submitCount
+                  formik.errors.city && formik.submitCount
                     ? "border-red-500"
                     : "border-gray-300"
                 )}
               />
-              {formik.errors.province && formik.submitCount != 0 ? (
+              {formik.errors.city && formik.submitCount != 0 ? (
                 <div className="text-[12px] text-red-500">
-                  {formik.errors.province.toString()}
+                  {formik.errors.city.toString()}
                 </div>
               ) : null}
             </div>
@@ -334,19 +334,19 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
               <input
                 onChange={formik.handleChange}
                 type="text"
-                id="zip_code"
-                value={formik.values?.zip_code}
+                id="postal_code"
+                value={formik.values?.postal_code}
                 className={twMerge(
                   "px-4 py-3 border-[0.5px]  text-black ",
-                  formik.errors.zip_code && formik.submitCount
+                  formik.errors.postal_code && formik.submitCount
                     ? "border-red-500"
                     : "border-gray-300"
                 )}
                 maxLength={10}
               />
-              {formik.errors.zip_code && formik.submitCount != 0 ? (
+              {formik.errors.postal_code && formik.submitCount != 0 ? (
                 <div className="text-[12px] text-red-500">
-                  {formik.errors.zip_code.toString()}
+                  {formik.errors.postal_code.toString()}
                 </div>
               ) : null}
             </div>
