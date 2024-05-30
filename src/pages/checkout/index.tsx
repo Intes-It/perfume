@@ -94,7 +94,9 @@ const Checkout: React.FC = () => {
       const res = await POST(api.create_order, payload);
 
       if (res.status === 200) return res.data?.payment_id;
-    } catch (error) {}
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
   }
 
   const handleOder = async () => {

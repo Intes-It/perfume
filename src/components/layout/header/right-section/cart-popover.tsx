@@ -39,7 +39,7 @@ const CartPopover: React.FC = () => {
             "absolute top-badge mb-3 right-0 px-1 h-3 text-xs font-bold leading-none text-red-100 transform bg-red-500 rounded-full"
           }
         >
-          {totalProducts}
+          {totalProducts > 999 ? "99+" : totalProducts}
         </span>
       </span>
     </Link>

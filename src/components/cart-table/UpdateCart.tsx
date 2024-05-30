@@ -87,6 +87,13 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
         setIsOpen(false);
         if (refresh) refresh();
       } else {
+        if (res?.data?.message === "Maximum amount is 999") {
+          setIsError({
+            type: "error",
+            message: "Maximum amount is 999.",
+          });
+          return;
+        }
         dispatch(showToast({ message: "Update Fail!", error: true }));
       }
     } catch (error) {

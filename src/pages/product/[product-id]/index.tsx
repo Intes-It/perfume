@@ -195,6 +195,7 @@ const ProductDetail: React.FC<
               type: "error",
               message: "Maximum amount is 999.",
             });
+            return;
           }
           dispatch(showToast({ message: res?.data?.message, error: true }));
         }
