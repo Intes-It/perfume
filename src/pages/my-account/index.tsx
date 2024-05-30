@@ -96,7 +96,7 @@ const MyAccount = () => {
         ...o,
         error: true,
         message: "Something went wrong.",
-        color: "#06e318",
+        color: "#ed2805",
       }));
     }
   };

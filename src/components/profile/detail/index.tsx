@@ -86,7 +86,7 @@ const Detail = () => {
           ...o,
           error: true,
           message: res?.data?.message,
-          color: "#ed2805",
+          color: "#06e318",
         }));
       }
     });

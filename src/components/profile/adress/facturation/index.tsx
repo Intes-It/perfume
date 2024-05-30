@@ -68,7 +68,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
               ...o,
               error: true,
               message: "Quelque chose s'est mal passé",
-              color: "#ed2805",
+              color: "#06e318",
             }));
             console.log(dispatch);
           }

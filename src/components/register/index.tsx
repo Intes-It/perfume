@@ -11,7 +11,11 @@ type RegisterProps = {
 };
 
 const schema = yup.object().shape({
-  username: yup.string().required("Field is required.").trim(),
+  username: yup
+    .string()
+    .required("Field is required.")
+    .trim()
+    .max(150, "Ensure this field has no more than 150 characters."),
   email: yup
     .string()
     .required("Field is required.")
@@ -62,6 +66,7 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
           <input
             {...register("username")}
             type="text"
+            maxLength={150}
             autoComplete="new-username"
             id="username"
             className={twMerge(
