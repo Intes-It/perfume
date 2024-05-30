@@ -17,7 +17,7 @@ const schema = yup.object().shape({
     is: (val: string | undefined) => val && val.length > 0,
     then: (schema) =>
       schema
-        .required("Field is required.")
+        .required("New password is required.")
         .matches(
           /^(?=.*[a-z])(?=.*[A-Z]).+$/,
           "At least one lower-case letter, one upper-case letter. "
@@ -40,7 +40,7 @@ const schema = yup.object().shape({
     is: (val: string | undefined) => val && val.length > 0,
     then: (schema) =>
       schema
-        .required("Field is required.")
+        .required("Confirm password is required.")
         .test(
           "passwords-match",
           "Confirm password is not match.",

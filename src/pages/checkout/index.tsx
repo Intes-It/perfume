@@ -19,28 +19,10 @@ export type billingInfo = {
   last_name: string;
   phone_number: string;
   city: string;
-  ward: string;
   postal_code: string;
-  district: string;
+  address: string;
   send_mail?: boolean;
 };
-const StepTabs = [
-  {
-    id: "billing-infomation-tab",
-    header: "Billing Information",
-    href: "#billing-infomation-tab",
-  },
-  {
-    id: "shipping-details-tab",
-    header: "SHIPPING DETAILS",
-    href: "#shipping-details-tab",
-  },
-  {
-    id: "your-order-tab",
-    header: "YOUR ORDER",
-    href: "#your-order-tab",
-  },
-];
 
 const paypalOptions = {
   clientId:
@@ -88,7 +70,6 @@ const Checkout: React.FC = () => {
 
       const payload = {
         ...formValue,
-        address: formValue && `${formValue.district} ${formValue?.ward}`,
         items: newCart,
       };
       const res = await POST(api.create_order, payload);

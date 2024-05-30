@@ -43,7 +43,7 @@ const schema = yup.object().shape({
     .length(6, "OTP must be a six-digit number."),
   confirm_password: yup
     .string()
-    .required("Confirm Password Required.")
+    .required("Confirm password Required.")
     .test(
       "passwords-match",
       "Confirm password does not match.",

@@ -1,9 +1,9 @@
-import { Form, Formik, useFormik } from "formik";
-import React from "react";
-import * as Yup from "yup";
-
 import useUser from "@hooks/useUser";
+import axios from "axios";
+import { Form, Formik, useFormik } from "formik";
+import React, { useEffect, useState } from "react";
 import { billingInfo } from "src/pages/checkout";
+import * as Yup from "yup";
 
 type BillingInfomationProps = {
   handleOpenPaypal: (data: billingInfo) => void;
@@ -14,14 +14,15 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
 }) => {
   // const { isAuthenticated } = useUser();
   const formSchema = Yup.object().shape({
-    first_name: Yup.string().trim().required("Field is required."),
-    last_name: Yup.string().trim().required("Field is required."),
-    // country: Yup.tuple().required("Field is required."),
-    ward: Yup.string().trim().required("Field is required."),
-    district: Yup.string().trim().required("Field is required."),
-    postal_code: Yup.string().trim().max(10).required("Field is required."),
-    city: Yup.string().trim().required("Field is required."),
-    phone_number: Yup.number().required("Field is required."),
+    first_name: Yup.string().trim().required("First Name is required."),
+    last_name: Yup.string().trim().required("Last Name is required."),
+    address: Yup.string().trim().required("Address is required."),
+    postal_code: Yup.string()
+      .trim()
+      .max(10)
+      .required("Postal Code is required."),
+    city: Yup.string().trim().required("City is required."),
+    phone_number: Yup.string().trim().required("Phone is required."),
     email: Yup.string()
       .trim()
       .required("Email is required.")
@@ -36,21 +37,21 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
   const { user } = useUser();
   const formik = useFormik({
     initialValues: {
-      first_name: "",
-      last_name: "",
-      company_name: "",
-      country: "United Kingdom",
-      ward: "",
-      district: "",
-      city: "",
-      postal_code: "",
-      phone_number: "",
-      email: user?.email,
+      first_name: user?.first_name || "",
+      last_name: user?.last_name || "",
+      company_name: user?.company_name || "",
+      country: user?.country || "",
+      address: user?.address || "",
+      city: user?.city || "",
+      postal_code: user?.postal_code || "",
+      phone_number: user?.phone_number || "",
+      email: user?.email || "",
       send_mail: true,
     },
     validationSchema: formSchema,
     validateOnChange: false,
     validateOnBlur: false,
+    enableReinitialize: true,
     validateOnMount: false,
     onSubmit: (value, { validate }: any) => {
       if (validate) validate(value);
@@ -86,12 +87,32 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
       e.preventDefault();
     }
   };
-  const countrys = [
+
+  const [countries, setCountries] = useState<any[]>([]);
+  const defaultCountry = [
     { value: "France" },
     { value: "Viet Nam" },
     { value: "United Kingdom" },
     { value: "Dubai" },
   ];
+  const getCountries = async () => {
+    const url = "https://countriesnow.space/api/v0.1/countries";
+
+    try {
+      const res = await axios.get(url);
+
+      if (res.status === 200) {
+        setCountries(res?.data?.data);
+      } else {
+        setCountries(defaultCountry);
+      }
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  };
+  useEffect(() => {
+    getCountries();
+  }, []);
 
   return (
     <div className="">
@@ -123,7 +144,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                   />
                   {errors.first_name && (
                     <span className="text-sm text-[#ed2805]">
-                      {errors.first_name}
+                      {errors.first_name.toString()}
                     </span>
                   )}
                 </div>
@@ -143,7 +164,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                   />
                   {errors.last_name && (
                     <span className="text-sm text-[#ed2805]">
-                      {errors.last_name}
+                      {errors.last_name.toString()}
                     </span>
                   )}
                 </div>
@@ -174,51 +195,38 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                   onChange={(event) => {
                     formik.setFieldValue("country", event.target.value);
                   }}
+                  value={formik.values.country}
                 >
                   <option hidden></option>
-                  {countrys.map((c, index: number) => (
-                    <option key={index} value={c.value}>
-                      {c.value}
+                  {countries.map((c, index: number) => (
+                    <option key={index} value={c.country}>
+                      {c.country}
                     </option>
                   ))}
                 </select>
                 {errors.country && (
                   <span className="text-sm text-[#ed2805]">
-                    {errors.country}
+                    {errors.country.toString()}
                   </span>
                 )}
               </div>
               <div className="flex flex-col">
                 <label className="font-semibold">
-                  Street number and name{" "}
-                  <span className="text-red-500 text-[20px] ">*</span>
+                  Address <span className="text-red-500 text-[20px] ">*</span>
                 </label>
+
                 <input
-                  {...formik.getFieldProps("ward")}
+                  {...formik.getFieldProps("address")}
                   type="text"
-                  id="ward"
-                  placeholder="Lane number and street name"
+                  id="address"
                   className={`px-4 py-3 border ${
-                    errors.ward ? "border-red-700" : "border-gray-300"
+                    errors.address ? "border-red-700" : "border-gray-300"
                   } text-black`}
                   maxLength={100}
                 />
-                {errors.ward && (
-                  <span className="text-sm text-[#ed2805]">{errors.ward}</span>
-                )}
-                <input
-                  {...formik.getFieldProps("district")}
-                  type="text"
-                  id="district"
-                  placeholder="Building apartment, lot, etc, (optional)"
-                  className={`px-4 py-3 mt-2 border ${
-                    errors.district ? "border-red-700" : "border-gray-300"
-                  } text-black`}
-                  maxLength={100}
-                />
-                {errors.district && (
+                {errors.address && (
                   <span className="text-sm text-[#ed2805]">
-                    {errors.district}
+                    {errors.address.toString()}
                   </span>
                 )}
               </div>
@@ -232,14 +240,14 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                   {...formik.getFieldProps("postal_code")}
                   type="text"
                   id="postal_code"
-                  className={`px-4 py-3 mt-4 border ${
+                  className={`px-4 py-3 border ${
                     errors.postal_code ? "border-red-700" : "border-gray-300"
                   } text-black`}
                   maxLength={10}
                 />
                 {errors.postal_code && (
                   <span className="text-sm text-[#ed2805]">
-                    {errors.postal_code}
+                    {errors.postal_code.toString()}
                   </span>
                 )}
               </div>
@@ -256,6 +264,11 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                   } text-black`}
                   maxLength={100}
                 />
+                {errors.city && (
+                  <span className="text-sm text-[#ed2805]">
+                    {errors.city.toString()}
+                  </span>
+                )}
               </div>
               <div className="flex flex-col">
                 <label className="font-semibold">
@@ -265,14 +278,14 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                   {...formik.getFieldProps("phone_number")}
                   type="text"
                   id="phone_number"
-                  className={`px-4 py-3 mt-4 border ${
+                  className={`px-4 py-3 border ${
                     errors.phone_number ? "border-red-700" : "border-gray-300"
                   } text-black`}
                   onKeyDown={handleKeyDownPhone}
                 />
                 {errors.phone_number && (
                   <span className="text-sm text-[#ed2805]">
-                    {errors.phone_number}
+                    {errors.phone_number.toString()}
                   </span>
                 )}
               </div>
@@ -283,7 +296,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                 <input
                   {...formik.getFieldProps("email")}
                   id="id"
-                  className={`px-4 py-3 mt-4 border ${
+                  className={`px-4 py-3 border ${
                     errors.email ? "border-red-700" : "border-gray-300"
                   } text-black`}
                 />
@@ -302,7 +315,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                       defaultChecked={true}
                       {...formik.getFieldProps("send_mail")}
                       id="subscribe"
-                      className="w-4 h-4 "
+                      className="w-4 h-4 outline-none focus:ring-0"
                     />
                     <label>Receive order email</label>
                   </div>
