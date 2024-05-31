@@ -1,12 +1,8 @@
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import ConfirmOtp from "../../../components/confirm-pass/index";
 
-const DynamicComponentWithNoSSR = dynamic(
-  () => import("../../../components/confirm-pass/index") as any,
-  { ssr: false }
-) as any;
 const ResetPassword = () => {
   const router = useRouter();
   const [tab, setTab] = useState(1);
@@ -21,7 +17,7 @@ const ResetPassword = () => {
         {
           {
             1: (
-              <DynamicComponentWithNoSSR
+              <ConfirmOtp
                 changeTab={() => setTab(2)}
                 email={email?.toString() || ""}
               />

@@ -20,11 +20,10 @@ const CartTable = () => {
 
   const [isOpenUpdateProduct, setIsOpenUpdateProduct] = useState(false);
   const [voucher, setVoucher] = useState<string>("");
+  const [priceVoucher, setPriceVoucher] = useState<number>(0);
   const [productSelected, setProductSelected] = useState<ExProduct | null>(
     null
   );
-
-  const priceVoucher = 0;
 
   const handleRemoveProduct = async (exProduct: ExProduct) => {
     const res = await removeProductToCart(exProduct.id?.toString() || "");
@@ -75,7 +74,7 @@ const CartTable = () => {
   };
 
   if (isLoading) {
-    return;
+    return null;
   }
 
   return (
@@ -210,10 +209,15 @@ const CartTable = () => {
                 type="text"
                 className="rounded-md border-[#BFBFBF] h-9 placeholder:text-[#BFBFBF]"
                 placeholder="Promo Code"
-                // value={voucher}
-                // onChange={(e) => setVoucher(e.target.value)}
+                value={voucher}
+                onChange={(e) => setVoucher(e.target.value)}
               />
-              <div className="min-w-[180px] whitespace-nowrap h-9 flex justify-center items-center font-bold cursor-pointer text-white bg-[#603813] rounded-lg">
+              <div
+                onClick={() => {
+                  setPriceVoucher(10000);
+                }}
+                className="min-w-[180px] whitespace-nowrap h-9 flex justify-center items-center font-bold cursor-pointer text-white bg-[#603813] rounded-lg"
+              >
                 Apply promo code
               </div>
             </div>
@@ -281,7 +285,9 @@ const CartTable = () => {
                 </tr>
               </tbody>
             </table>
-            <Link href={`/checkout${voucher ? `?voucher=${voucher}` : ""}`}>
+            <Link
+              href={`/checkout${priceVoucher > 0 ? `?voucher=${voucher}` : ""}`}
+            >
               <div className="w-full h-16 font-bold bg-[#603813] text-white mt-8 rounded-lg flex justify-center items-center cursor-pointer">
                 Validate the order
               </div>

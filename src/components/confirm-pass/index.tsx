@@ -43,7 +43,7 @@ const schema = yup.object().shape({
     .length(6, "OTP must be a six-digit number."),
   confirm_password: yup
     .string()
-    .required("Confirm password required.")
+    .required("Confirm password is required.")
     .test(
       "passwords-match",
       "Confirm password does not match.",
@@ -192,11 +192,11 @@ const ConfirmOtp = ({ changeTab, email }: ConfirmOtpProps) => {
     return () => clearInterval(interval);
   }, [minutes, seconds]);
 
-  if (!email) {
-    router.push("/");
-
-    return;
-  }
+  useEffect(() => {
+    if (!email) {
+      router.push("/");
+    }
+  }, [email]);
 
   return (
     <form className="font-normal" onSubmit={handleSubmit(onSubmit)}>
