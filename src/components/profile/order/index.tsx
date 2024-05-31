@@ -360,7 +360,7 @@ const Order = () => {
               {dayjs(orderDetail.delivered_at).format("YYYY-MM-DD")}
             </div>
           </div> */}
-          <div className="my-16 flex justify-center text-[20px] text-[#374151] font-bold">
+          <div className="mt-8 mb-4 flex justify-center text-[20px] text-[#374151] font-bold">
             {orderDetail?.status === 5
               ? "The order has been canceled."
               : orderDetail?.status === 7
@@ -369,7 +369,7 @@ const Order = () => {
               ? "The order has been completed."
               : "We are preparing your order."}
           </div>
-          <div className="text-[16px] text-[#374151] font-medium mb-8">
+          <div className="text-[16px] text-[#374151] font-semibold mb-8">
             Orders ({totalOrder})
           </div>
           <div className="">
@@ -402,14 +402,21 @@ const Order = () => {
                     </div>
                     <div className="text-[#ABABAB] text-[14px] font-medium">
                       {item.item_product_color.length > 0
-                        ? item.item_product_color[0]?.product_color.name + ", "
+                        ? item.item_product_color[0]?.product_color.name
                         : ""}
-                      {item.item_product_package.length > 0
-                        ? item.item_product_package[0]?.product_package.name +
-                          ", "
-                        : ""}
+                      {item.item_product_color.length > 0 &&
+                        item.item_product_capacity.length > 0 &&
+                        ", "}
                       {item.item_product_capacity.length > 0
                         ? item.item_product_capacity[0]?.product_capacity
+                        : ""}
+                      {((item.item_product_package.length > 0 &&
+                        item.item_product_capacity.length > 0) ||
+                        (item.item_product_color.length > 0 &&
+                          item.item_product_package.length > 0)) &&
+                        ", "}
+                      {item.item_product_package.length > 0
+                        ? item.item_product_package[0]?.product_package.name
                         : ""}
                     </div>
                   </div>
