@@ -2,7 +2,6 @@ import BillingInfomation from "@components/checkout/BillingInfomation";
 import { Container } from "@components/container";
 // import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
 import useCart from "@hooks/useCart";
-import useCheckout from "@hooks/useCheckout";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { clearCart } from "@redux/slices/cart";
 import { api } from "@utils/apiRoute";
@@ -12,7 +11,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 export type billingInfo = {
-  company_name: string;
+  company: string;
   country: string;
   email: string;
   first_name: string;
@@ -26,7 +25,7 @@ export type billingInfo = {
 
 const paypalOptions = {
   clientId:
-    "AUiEogAlZVftJG4UY72P5vPndtsbej7W2-THcl9d_fVcwJJTnqVP71ff_4zlwkk_BBWV6YwurfdzRjS5",
+    "AawsPqPhcFo1T4fNy5NScaPA0FZYtb6JaP3xTsC9rY58QXZwO0NGWGVnzk3zXr0bMGKEqU2Jxdu_YR0A",
   currency: "USD",
   debug: true,
 };
@@ -34,7 +33,6 @@ const paypalOptions = {
 const Checkout: React.FC = () => {
   const router = useRouter();
   const { cart } = useCart();
-  const { processYourOrder } = useCheckout();
   const [isOpenPaypal, setIsOpenPaypal] = useState(false);
   const [formValue, setFormValue] = useState<null | billingInfo>(null);
 
@@ -52,7 +50,10 @@ const Checkout: React.FC = () => {
         send_mail: formValue?.send_mail,
       });
 
-      console.log("res :>> ", res);
+      if (res.status === 200) {
+        dispatch(clearCart());
+        router.push("/success");
+      }
     } catch (error) {
       console.log("error :>> ", error);
     }
@@ -74,23 +75,16 @@ const Checkout: React.FC = () => {
       };
       const res = await POST(api.create_order, payload);
 
-      if (res.status === 200) return res.data?.payment_id;
+      if (res.status === 201 || res.status === 200) return res.data?.payment_id;
     } catch (error) {
       console.log("error :>> ", error);
     }
   }
 
-  const handleOder = async () => {
-    const res = await processYourOrder({
-      order_id: cart?.data?.cart?.id || null,
-    });
-
-    if (res?.status === 200 && res?.data?.link) {
-      dispatch(clearCart());
-      router.push(res?.data?.link);
-    }
-  };
-
+  if (cart?.data?.results?.length === 0) {
+    router.push("/");
+    return null;
+  }
   return (
     <Container>
       <div className="mt-2 md:m-20">

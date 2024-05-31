@@ -19,6 +19,7 @@ const CartTable = () => {
   const dispatch = useDispatch();
 
   const [isOpenUpdateProduct, setIsOpenUpdateProduct] = useState(false);
+  const [voucher, setVoucher] = useState<string>("");
   const [productSelected, setProductSelected] = useState<ExProduct | null>(
     null
   );
@@ -209,6 +210,8 @@ const CartTable = () => {
                 type="text"
                 className="rounded-md border-[#BFBFBF] h-9 placeholder:text-[#BFBFBF]"
                 placeholder="Promo Code"
+                // value={voucher}
+                // onChange={(e) => setVoucher(e.target.value)}
               />
               <div className="min-w-[180px] whitespace-nowrap h-9 flex justify-center items-center font-bold cursor-pointer text-white bg-[#603813] rounded-lg">
                 Apply promo code
@@ -278,7 +281,7 @@ const CartTable = () => {
                 </tr>
               </tbody>
             </table>
-            <Link href="/checkout">
+            <Link href={`/checkout${voucher ? `?voucher=${voucher}` : ""}`}>
               <div className="w-full h-16 font-bold bg-[#603813] text-white mt-8 rounded-lg flex justify-center items-center cursor-pointer">
                 Validate the order
               </div>

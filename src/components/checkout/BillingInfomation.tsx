@@ -17,6 +17,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
     first_name: Yup.string().trim().required("First Name is required."),
     last_name: Yup.string().trim().required("Last Name is required."),
     address: Yup.string().trim().required("Address is required."),
+    country: Yup.string().trim().required("Address is required."),
     postal_code: Yup.string()
       .trim()
       .max(10)
@@ -39,7 +40,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
     initialValues: {
       first_name: user?.first_name || "",
       last_name: user?.last_name || "",
-      company_name: user?.company_name || "",
+      company: user?.company || "",
       country: user?.country || "",
       address: user?.address || "",
       city: user?.city || "",
@@ -174,7 +175,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                   Name of company (optional)
                 </label>
                 <input
-                  {...formik.getFieldProps("company_name")}
+                  {...formik.getFieldProps("company")}
                   type="text"
                   id="company_name"
                   className="px-4 py-3 text-black border border-gray-300"
