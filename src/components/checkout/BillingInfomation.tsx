@@ -29,8 +29,8 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
       .required("Email is required.")
       .email("Email is not valid.")
       .matches(
-        //eslint-disable-next-line
-        /^(([^<>()\[\]\\.,;:$#%^&*!\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*)\.[a-zA-Z]{2,}|(\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}]))$/,
+        // eslint-disable-next-line
+        /^((?![-_])[a-zA-Z0-9!#$%&'*+/=?^_`{|}~][a-zA-Z0-9!#$%&'*+/=?^_`{|}~.-]*)@(([a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*)\.[a-zA-Z]{2,}|(\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}]))$/,
         "Email is not valid." // Optional: Customize error message
       ),
     send_mail: Yup.boolean(),

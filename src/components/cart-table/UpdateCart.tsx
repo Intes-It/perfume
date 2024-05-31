@@ -90,7 +90,7 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
         if (res?.data?.message === "Maximum amount is 999") {
           setIsError({
             type: "error",
-            message: "Please check your cart, Maximum amount is 999.",
+            message: "Please check your cart, maximum amount is 999.",
           });
           return;
         }

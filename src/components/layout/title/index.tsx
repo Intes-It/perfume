@@ -1,7 +1,6 @@
-import { useRouter } from "next/router";
-import * as React from "react";
-import { useMemo } from "react";
 import { VisibleTitleRoutes } from "@definitions/constants";
+import { useRouter } from "next/router";
+import { useMemo } from "react";
 
 const Title = () => {
   const router = useRouter();
@@ -24,7 +23,7 @@ const Title = () => {
     <div>
       {title && (
         <div className="h-28 grid content-center text-center bg-[#eff7cf]">
-          <h1 className="text-4xl mb-2 font-bold">{title}</h1>
+          <h1 className="mb-2 text-4xl font-bold uppercase">{title}</h1>
         </div>
       )}
     </div>
