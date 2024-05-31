@@ -435,7 +435,7 @@ const Order = () => {
           </div>
           <div className="flex justify-between mb-1">
             <div className="text-[16px] text-[#374151] font-medium">
-              Default Shipping
+              Shipping
             </div>
             <div className="text-[#603813] text-[16px] font-semibold">
               {orderDetail.shipping_fee} €
