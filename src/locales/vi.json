@@ -21,31 +21,31 @@
     "infor": "Thông tin",
     "notreUnivers": "Danh mục",
     "notreLocal": "Địa chỉ",
-    "description": "CHOISISSEZ DES PRODUITS NATURELS QUI FAVORISENT VOTRE BIEN-ÊTRE ET VOUS FONT VOUS SENTIR BIEN",
-    "bestseller": "NOS MEILLEURES VENTES",
-    "place": "AU CŒUR DE NOTRE UNIVERS",
-    "seemore": "En Savoir Plus",
-    "art": "L’ART DE VOUS SÉDUIRE",
-    "fairyNature": "Nature Féerique",
-    "about": "A propos de",
+    "description": "HÃY LỰA CHỌN CÁC SẢN PHẨM TỰ NHIÊN ĐỂ TĂNG CƯỜNG SỨC KHỎE VÀ MANG LẠI CẢM GIÁC THOẢI MÁI CHO BẠN",
+    "bestseller": "CÁC SẢN PHẨM BÁN CHẠY NHẤT CỦA CHÚNG TÔI",
+    "place": "PHẦN CHÍNH CỦA DANH MỤC",
+    "seemore": "Xem thêm",
+    "art": "NGHỆ THUẬT KHIẾN BẠN MÊ MẨN",
+    "fairyNature": "Thiên nhiên cổ tích",
+    "about": "Nói về",
     "adress": "61 Montée Des Amandiers",
     "time": "26110 Saint-Maurice Sur Eygues",
-    "country": "France"
+    "country": "Pháp"
   },
   "accountScreen": {
     "mComplet": "Tài khoản của tôi",
     "tDBord": "BẢNG ĐIỀU KHIỂN",
     "bonjour": "Xin chào",
     "aPartir": [
-      "À partir du tableau de bord de votre compte, vous pouvez visualiser vos",
-      "commandes récentes",
-      ", gérer vos",
-      "adresses de livraison et de facturation",
-      "ainsi que",
-      "changer votre mot de passe et les détails de votre compte."
+      "Từ trang tổng quan tài khoản của bạn, bạn có thể xem",
+      "những đơn hàng gần đây của mình",
+      ", quản lý",
+      "địa chỉ giao hàng và thanh toán",
+      "cũng như",
+      "thay đổi mật khẩu và các thông tin chi tiết của tài khoản."
     ],
     "commandes": "ĐƠN HÀNG",
-    "aCommande": "Chưa có đơn đặt hàng nào được đặt.",
+    "aCommande": "Chưa có đơn hàng nào được đặt.",
     "telecharge": "TẢI XUỐNG",
     "aTelecharge": "Hiện tại không có bản tải xuống nào.",
     "adresses": "ĐỊA CHỈ",
@@ -90,21 +90,21 @@
     "noProduct": "Không có sản phẩm nào được thêm vào mục yêu thích"
   },
   "blogScreen": {
-    "lecomptoir": "Le Comptoir D’Alinea",
-    "text1": "Nature Féerique a l’opportunité de participer à la nouvelle expérience de l’enseigne Alinea, qui a ouvert ses portes à la création et à l’artisanat avec son nouveau lieu éphémère d’échanges et de partages : le Comptoir d’Alinea.",
+    "lecomptoir": "Quầy hàng của Alinea",
+    "text1": "Nature Féerique có cơ hội được tham gia vào trải nghiệm mới của thương hiệu Alinea. Đó là một không gian tạm thời mới để giao lưu và chia sẻ, được gọi là Quầy hàng của Alinea, nơi sự sáng tạo và nghệ thuật thủ công được tôn vinh.",
     "text2": [
-      "Ainsi, le Comptoir offre une vitrine d’exception à tous les artisans, créateurs et entreprises locales qui partagent les mêmes valeurs et convictions qu’Alinea vous permettant de partir à leur rencontre et de vous transporter dans leur univers.",
-      "L’occasion idéale pour Nature Féerique, jeune marque naissante, de promouvoir le lancement de ses trois premiers cosmétiques naturels solides : Déodorant Plume, Démaquillant Cocoon et Soin Précieux.",
-      "Nature Féerique est présente du 15 Septembre au 16 Octobre 2021 au magasin Alinea Avignon-Le Pontet, pour exposer, vous faire découvrir et tester ses cosmétiques solides."
+      "Quầy hàng này tạo nên một không gian trưng bày đặc biệt cho các nghệ nhân, nhà sáng tạo và doanh nghiệp địa phương cùng chia sẻ giá trị và niềm tin với Alinea. Tại đây, bạn có thể gặp gỡ và khám phá thế giới sáng tạo của họ.",
+      "Đây là cơ hội lý tưởng cho Nature Féerique, một thương hiệu trẻ mới nổi, để quảng bá ba sản phẩm mỹ phẩm tự nhiên dạng rắn đầu tiên của mình: Lăn khử mùi Plume, Tẩy trang Cocoon và Dưỡng chất quý.",
+      "Nature Féerique sẽ hiện diện tại cửa hàng Alinea Avignon-Le Pontet từ ngày 15 tháng 9 đến ngày 16 tháng 10 năm 2021, nhằm trưng bày, giới thiệu và cho bạn cơ hội trải nghiệm các sản phẩm mỹ phẩm dạng rắn độc đáo của mình."
     ],
-    "commentaire": "Laisser un commentaire",
-    "votre": "Votre adresse e-mail ne sera pas publiée. Les champs obligatoires sont indiqués avec *",
-    "enregistrer": "Enregistrer mon nom, mon e-mail et mon site dans le navigateur pour mon prochain commentaire.",
-    "publier": "Publier un commentaire »",
-    "ecrivez": "Écrivez ici…",
-    "nom": "Nom*",
+    "commentaire": "Để lại bình luận",
+    "votre": "Email của bạn sẽ không được hiển thị công khai. Các trường bắt buộc được đánh dấu bằng *.",
+    "enregistrer": "Lưu tên, email và trang web của tôi trên trình duyệt cho lần bình luận sau.",
+    "publier": "Đăng bình luận »",
+    "ecrivez": "Viết ở đây…",
+    "nom": "Tên đệm*",
     "email": "E-mail*",
-    "Site": "Site Internet"
+    "Site": "Trang web"
   },
   "detailProductScreen": {
     "avisClient": "Phản hồi khách hàng",
@@ -138,7 +138,7 @@
     "expedier": "Gửi đến một địa chỉ khác?",
     "noteDeCommande": "Ghi chú đặt hàng (tùy chọn)",
     "commentaires": "Nhận xét về đơn đặt hàng của bạn, ví dụ: Hướng dẫn giao hàng",
-    "votreCommande": "ĐẶT HÀNG CỦA BẠN",
+    "votreCommande": "ĐƠN HÀNG CỦA BẠN",
     "orderRe": "Đánh giá đơn hàng",
     "produit": "Sản phẩm",
     "SousTotal": "Tổng phụ",
@@ -158,12 +158,12 @@
     "resEnContact": "Để giữ liên lạc",
     "vousADQues": "Bạn có các câu hỏi?",
     "dontHaveAccount": "Bạn chưa có tài khoản?",
-    "nom": "Tên",
+    "nom": "Tên đệm",
     "message": "Tin nhắn",
     "ecriveIci": "Viết ở đây...",
     "envoyer": "GỬI",
     "address": "61 Montée Des Amandiers, 26110 Saint-Maurice Sur Eygues, France",
     "contactMail": "contact@naturefeerique.fr",
-    "timeOpen": "Lun- Ven"
+    "timeOpen": "Thứ 2- Thứ 6"
   }
 }

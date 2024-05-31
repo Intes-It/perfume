@@ -70,7 +70,7 @@ const Order = () => {
 
   const tableBody =
     data &&
-    data?.results.map((item: IListOrder) => (
+    data?.results?.map((item: IListOrder) => (
       <tr key={item.id} className="bg-white">
         <th
           scope="row"
@@ -87,12 +87,12 @@ const Order = () => {
         <td className="pl-12 py-4 font-medium text-[#374151]  ">
           {item.quantity}
         </td>
-        <td className="px-6 py-4 font-medium text-[#374151] ">
+        <td className="px-6 py-4 font-semibold text-[#374151] ">
           {item.total} €
         </td>
         <td
           className={twMerge(
-            "px-7 py-4 font-medium",
+            "px-7 py-4 font-semibold",
             { 8: "text-[#00DD16]", 5: "text-[#FF2626]" }[item.status] ||
               "text-[#0047FF]"
           )}
@@ -154,7 +154,7 @@ const Order = () => {
         ))}
       </div>
       <div className="overflow-x-auto">
-        {data && data?.results.length <= 0 ? (
+        {data && data?.results?.length <= 0 ? (
           <div className="relative" style={{ paddingTop: "10%" }}>
             <div className="text-center">
               <Image
