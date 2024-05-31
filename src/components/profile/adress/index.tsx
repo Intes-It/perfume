@@ -63,7 +63,6 @@ const Adress = () => {
                     {" "}
                     {profile?.street} {profile?.address}
                   </span>
-                  <span>{profile?.city}</span>
                   <span>{profile?.postal_code}</span>
                   <span>{profile?.phone_number}</span>
                   <span>{profile?.email}</span>

@@ -30,7 +30,6 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
       last_name: user?.last_name ? user?.last_name : "",
       company: user?.company ? user?.company : "",
       country: user?.country ? user?.country : "",
-      street: user?.street ? user?.street : "",
       address: user?.address ? user?.address : "",
       city: user?.city ? user?.city : "",
       postal_code: user?.postal_code ? user?.postal_code : "",
@@ -41,7 +40,6 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
       first_name: Yup.string().required("First name is required"),
       last_name: Yup.string().required("Last name is required"),
       city: Yup.string().required("city is required"),
-      street: Yup.string().required("street is required"),
       address: Yup.string().required("address is required"),
       postal_code: Yup.string().required("Postal code is required"),
       phone_number: Yup.string().required("Phone is required"),
@@ -83,8 +81,6 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
         });
     },
   });
-  console.log(formik.submitCount);
-
   const text = useLocale();
 
   const handleKeyDownPhone = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -267,25 +263,10 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
             </div>
             <div className="flex flex-col">
               <label className="font-semibold">
-                {text.accountScreen.numeroEtNom}
-                <span className="text-red-500 text-[20px] ">*</span>
+                Address <span className="text-red-500 text-[20px] "> *</span>
               </label>
               <input
-                placeholder={text.accountScreen.numeroDe}
                 onChange={formik.handleChange}
-                type="text"
-                value={formik.values?.street}
-                id="street"
-                className={twMerge(
-                  "px-4 py-3 border-[0.5px]  text-black  ",
-                  formik.errors.street && formik.submitCount
-                    ? "border-red-500"
-                    : "border-gray-300"
-                )}
-              />
-              <input
-                onChange={formik.handleChange}
-                placeholder={text.accountScreen.batiAppar}
                 type="text"
                 id="address"
                 value={formik.values?.address}
@@ -296,8 +277,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
                     : "border-gray-300"
                 )}
               />
-              {(formik.errors.address || formik.errors.street) &&
-              formik.submitCount != 0 ? (
+              {formik.errors.address && formik.submitCount != 0 ? (
                 <div className="text-[12px] text-red-500">
                   {"Street number and name is required"}
                 </div>
