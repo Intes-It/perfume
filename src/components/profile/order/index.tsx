@@ -7,6 +7,7 @@ import Image from "next/image";
 import { IListOrder } from "@types";
 import dayjs from "dayjs";
 import { twMerge } from "tailwind-merge";
+import { useRouter } from "next/router";
 const listTab = [
   { title: "All", value: "" },
   { title: "New order", value: "&statuses=3" },
@@ -25,14 +26,17 @@ const listStatus: { [key: string]: string } = {
 
 const Order = () => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const [state, setState] = useState({
     status: "",
     page: 1,
     tab: 1,
     orderId: -1,
+    totalOrder: 0,
   });
   const [orderDetail, setOrderDetail] = useState<any>({});
-  const { status, page, tab, orderId } = state;
+  const [isShowToast, setIsShowToast] = useState(false);
+  const { status, page, tab, orderId, totalOrder } = state;
   const { data } = useQuery(["get-list-order", status, page], async () => {
     try {
       const res = await GET(
@@ -74,7 +78,7 @@ const Order = () => {
         >
           {item.id}
         </th>
-        <td className="px-6 py-4 font-medium text-[#374151]">
+        <td className="px-7 py-4 font-medium text-[#374151]">
           {dayjs(item.update_at).format("YYYY-MM-DD")}
           {"    "}
           <span className="ml-2"></span>
@@ -84,21 +88,26 @@ const Order = () => {
           {item.quantity}
         </td>
         <td className="px-6 py-4 font-medium text-[#374151] ">
-          {item.total} USD
+          {item.total} €
         </td>
         <td
           className={twMerge(
-            "px-6 py-4 font-medium",
+            "px-7 py-4 font-medium",
             { 8: "text-[#00DD16]", 5: "text-[#FF2626]" }[item.status] ||
               "text-[#0047FF]"
           )}
         >
           {listStatus[item.status.toString()]}
         </td>
-        <td className="px-6 py-4 ">
+        <td className="px-7 py-4 ">
           <div
             onClick={() => {
-              setState((pre) => ({ ...pre, tab: 2, orderId: item.id }));
+              setState((pre) => ({
+                ...pre,
+                tab: 2,
+                orderId: item.id,
+                totalOrder: item.quantity,
+              }));
             }}
           >
             <div className="flex items-center gap-x-2 cursor-pointer">
@@ -122,7 +131,6 @@ const Order = () => {
         </td>
       </tr>
     ));
-  console.log(orderDetail);
 
   return tab === 1 ? (
     <div>
@@ -197,21 +205,21 @@ const Order = () => {
                 <button
                   className={twMerge(
                     "text-[#B3B3B3] text-xs font-medium",
-                    data?.previous === null && "cursor-not-allowed"
+                    data?.previous_page === null && "cursor-not-allowed"
                   )}
                   onClick={() =>
                     setState((p) => ({ ...p, page: state.page - 1 }))
                   }
-                  disabled={data?.previous === null}
+                  disabled={data?.previous_page === null}
                 >
                   Previous
                 </button>
                 <div className="flex gap-x-2">
-                  {Array.from({ length: data?.total }, (_, index) => (
+                  {Array.from({ length: data?.num_pages }, (_, index) => (
                     <button
                       className={` ${
                         page === index + 1 && "bg-[#603813] text-white"
-                      }  w-5 h-5 px-1  rounded`}
+                      }  w-5 h-5 px-1  rounded text-sm`}
                       onClick={() => {
                         setState((p) => ({ ...p, page: index + 1 }));
                       }}
@@ -224,12 +232,12 @@ const Order = () => {
                 <button
                   className={twMerge(
                     "text-[#B3B3B3] text-xs font-medium",
-                    data?.next === null && "cursor-not-allowed"
+                    data?.next_page === null && "cursor-not-allowed"
                   )}
                   onClick={() =>
                     setState((p) => ({ ...p, page: state.page + 1 }))
                   }
-                  disabled={data?.next === null}
+                  disabled={data?.next_page === null}
                 >
                   Next
                 </button>
@@ -362,7 +370,7 @@ const Order = () => {
               : "We are preparing your order."}
           </div>
           <div className="text-[16px] text-[#374151] font-medium mb-8">
-            Orders (4 items)
+            Orders ({totalOrder})
           </div>
           <div className="">
             {orderDetail?.items?.map((item: any, index: number) => (
@@ -377,14 +385,15 @@ const Order = () => {
                 }}
               >
                 <div className="flex flex-row">
-                  <img
+                  <Image
                     src={
                       item.product.thumbnail.url
                         ? item.product.thumbnail.url
                         : ""
                     }
                     alt="item"
-                    className="w-[60px] h-[60px]"
+                    width={"60px"}
+                    height={"60px"}
                   />
                   <div className="flex flex-col ml-3">
                     <div className="flex flex-row gap-5 text-[16px] text-[#374151] font-medium mb-2">
@@ -407,10 +416,8 @@ const Order = () => {
                 </div>
                 <div className="flex flex-col">
                   <div className="text-[#603813] text-[16px] font-bold mb-1">
-                    {item.product_price + " €"}
-                  </div>
-                  <div className="text-[#9A9A9A] text-sm font-bold ml-auto">
-                    {item.product_price + " €"}
+                    {item.total}
+                    {" €"}
                   </div>
                 </div>
               </div>
@@ -463,11 +470,59 @@ const Order = () => {
               </div>
             </div>
           </div>
-          <button className="bg-[#603813] w-[184px] h-[48px] text-[16px] text-white font-bold rounded-lg mx-auto">
+          <button
+            className="bg-[#603813] w-[184px] h-[48px] text-[16px] text-white font-bold rounded-lg mx-auto"
+            onClick={() => {
+              if (orderDetail?.status === 5 || orderDetail?.status === 8) {
+                router.push("/");
+              } else {
+                setIsShowToast(true);
+              }
+            }}
+          >
             {orderDetail?.status === 5 || orderDetail?.status === 8
               ? "Order again"
               : "Contact"}
           </button>
+        </div>
+        <div
+          className={twMerge(
+            "fixed inset-0 top-1/2 left-1/2 opacity-0 pointer-events-none scale-0 z-50 bg-white -translate-x-1/2 -translate-y-1/2 right-1/2 transition-all  duration-300 ease-in-out text-sm rounded-md h-fit px-5 py-4 w-[300px] ",
+            isShowToast && "scale-100 opacity-100 pointer-events-auto"
+          )}
+          style={{
+            boxShadow: "0px 2px 16px 0px #00000040",
+            zIndex: 999999,
+          }}
+        >
+          <div
+            className="cursor-pointer float-right"
+            onClick={() => setIsShowToast(false)}
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6.9998 8.40078L2.0998 13.3008C1.91647 13.4841 1.68314 13.5758 1.3998 13.5758C1.11647 13.5758 0.883138 13.4841 0.699804 13.3008C0.516471 13.1174 0.424805 12.8841 0.424805 12.6008C0.424805 12.3174 0.516471 12.0841 0.699804 11.9008L5.5998 7.00078L0.699804 2.10078C0.516471 1.91745 0.424805 1.68411 0.424805 1.40078C0.424805 1.11745 0.516471 0.884114 0.699804 0.700781C0.883138 0.517448 1.11647 0.425781 1.3998 0.425781C1.68314 0.425781 1.91647 0.517448 2.0998 0.700781L6.9998 5.60078L11.8998 0.700781C12.0831 0.517448 12.3165 0.425781 12.5998 0.425781C12.8831 0.425781 13.1165 0.517448 13.2998 0.700781C13.4831 0.884114 13.5748 1.11745 13.5748 1.40078C13.5748 1.68411 13.4831 1.91745 13.2998 2.10078L8.3998 7.00078L13.2998 11.9008C13.4831 12.0841 13.5748 12.3174 13.5748 12.6008C13.5748 12.8841 13.4831 13.1174 13.2998 13.3008C13.1165 13.4841 12.8831 13.5758 12.5998 13.5758C12.3165 13.5758 12.0831 13.4841 11.8998 13.3008L6.9998 8.40078Z"
+                fill="#374151"
+              />
+            </svg>
+          </div>
+          <img
+            src="/images/contact.png"
+            className="mx-auto mt-7 mb-5"
+            width={80}
+            height={80}
+            alt="contact"
+          />
+          <div className="text-center mb-3">
+            <div className="font-medium">Please contact to our number</div>
+            <div className="font-bold">0123456789</div>
+          </div>
         </div>
       </div>
     </div>
