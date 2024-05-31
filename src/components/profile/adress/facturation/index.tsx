@@ -38,8 +38,8 @@ const Facturation: React.FC<FacturationProps> = ({ onBack, user }) => {
     validationSchema: Yup.object().shape({
       first_name: Yup.string().required("First name is required"),
       last_name: Yup.string().required("Last name is required"),
-      city: Yup.string().required("city is required"),
-      address: Yup.string().required("address is required"),
+      city: Yup.string().required("City is required"),
+      address: Yup.string().required("Address is required"),
       postal_code: Yup.string().required("Postal code is required"),
       phone_number: Yup.string().required("Phone is required"),
     }),
@@ -271,7 +271,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack, user }) => {
                 id="address"
                 value={formik.values?.address}
                 className={twMerge(
-                  "px-4 py-3 border-[0.5px]  text-black  mt-3 ",
+                  "px-4 py-3 border-[0.5px]  text-black ",
                   formik.errors.address && formik.submitCount
                     ? "border-red-500"
                     : "border-gray-300"
@@ -279,7 +279,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack, user }) => {
               />
               {formik.errors.address && formik.submitCount != 0 ? (
                 <div className="text-[12px] text-red-500">
-                  {"Street number and name is required"}
+                  {"Address is required"}
                 </div>
               ) : null}
             </div>
