@@ -1,7 +1,6 @@
 import { faWindowMaximize } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useLocale from "@hooks/useLocale";
-import useUser from "@hooks/useUser";
 import { showToast } from "@redux/slices/toast/toastSlice";
 import { PATCH } from "@utils/fetch";
 import axios from "axios";
@@ -12,10 +11,10 @@ import { twMerge } from "tailwind-merge";
 import * as Yup from "yup";
 type FacturationProps = {
   onBack: () => void;
+  user: any;
 };
 
-const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
-  const { user } = useUser();
+const Facturation: React.FC<FacturationProps> = ({ onBack, user }) => {
   const [state, setState] = useState({
     error: false,
     message: "",
@@ -60,13 +59,14 @@ const Facturation: React.FC<FacturationProps> = ({ onBack }) => {
               showToast({
                 message: "System disruption. Please try again",
                 error: true,
+                color: "#ed2805",
               })
             );
             setState((o) => ({
               ...o,
               error: true,
               message: "Quelque chose s'est mal passé",
-              color: "#06e318",
+              color: "#ed2805",
             }));
             console.log(dispatch);
           }

@@ -1,33 +1,24 @@
-import useUser from "@hooks/useUser";
-import { api } from "@utils/apiRoute";
-import { GET } from "@utils/fetch";
-import React, { useEffect, useState } from "react";
-import Facturation from "./facturation";
 import useLocale from "@hooks/useLocale";
+import useUser from "@hooks/useUser";
+import { useState } from "react";
+import Facturation from "./facturation";
 
 const Adress = () => {
+  const { user, refresh } = useUser();
+  const text = useLocale();
+
   const [state, setState] = useState({
     facturation: false,
     livraison: false,
   });
+  const { facturation, livraison } = state;
 
-  async function getProfile() {
-    const res = await GET(api.getProfile);
-    setProfile(res?.data);
-  }
   const backFacturation = () => {
+    refresh();
+    window.scrollTo({ top: 0, behavior: "smooth" });
     setState((pre) => ({ ...pre, facturation: false }));
-    getProfile();
   };
 
-  const { user } = useUser();
-
-  const [profile, setProfile] = useState(user);
-  useEffect(() => {
-    setProfile(user);
-  }, [user]);
-  const { facturation, livraison } = state;
-  const text = useLocale();
   return (
     <div className="">
       {!facturation && !livraison ? (
@@ -44,35 +35,33 @@ const Adress = () => {
                 }
                 className="p-2 rounded-md border border-black hover:bg-[#603813] hover:text-white"
               >
-                {!profile?.postal_code && !profile?.first_name
-                  ? "Create"
-                  : "Modify"}
+                {!user?.postal_code && !user?.first_name ? "Create" : "Modify"}
               </button>
             </div>
             <div className="mt-3 grid text-[#603813]">
-              {!profile?.postal_code && !profile?.first_name ? (
+              {!user?.postal_code && !user?.first_name ? (
                 <div>You have not yet defined this type of address.</div>
               ) : (
                 <div className="flex flex-col">
                   <span>
-                    {profile?.first_name} {profile?.last_name}
+                    {user?.first_name} {user?.last_name}
                   </span>
-                  <span>{profile?.company}</span>
-                  <span>{profile?.country}</span>
+                  <span>{user?.company}</span>
+                  <span>{user?.country}</span>
                   <span>
                     {" "}
-                    {profile?.street} {profile?.address}
+                    {user?.street} {user?.address}
                   </span>
-                  <span>{profile?.postal_code}</span>
-                  <span>{profile?.phone_number}</span>
-                  <span>{profile?.email}</span>
+                  <span>{user?.postal_code}</span>
+                  <span>{user?.phone_number}</span>
+                  <span>{user?.email}</span>
                 </div>
               )}
             </div>
           </div>
         </div>
       ) : facturation ? (
-        <Facturation onBack={backFacturation}></Facturation>
+        <Facturation onBack={backFacturation} user={user} />
       ) : (
         <div></div>
       )}

@@ -19,7 +19,6 @@ import { useBestSallingProducts, useProductDetail } from "@hooks/useProduct";
 import useUser from "@hooks/useUser";
 import { useRouter } from "next/router";
 
-import useLocale from "@hooks/useLocale";
 import { showToast } from "@redux/slices/toast/toastSlice";
 import { api } from "@utils/apiRoute";
 import { POST } from "@utils/fetch";
@@ -84,7 +83,6 @@ const ProductDetail: React.FC<
 
   const breadCrumb = useMemo(() => {
     const listCategories = [];
-    const text = useLocale();
     const category = product?.category;
     const subCategory = product?.subcategory;
     const sub_subcategory = product?.sub_subcategory;
@@ -171,7 +169,6 @@ const ProductDetail: React.FC<
       });
     if (isAuthenticated) {
       //check exist product
-      if (type === "CHECKOUT") router.push("/checkout");
 
       const payload = {
         data: [
@@ -189,11 +186,12 @@ const ProductDetail: React.FC<
         if (res?.status === 201 || res?.status === 200) {
           dispatch(addProduct(res.data));
           dispatch(showToast({ message: "Add successfully!", error: false }));
+          if (type === "CHECKOUT") router.push("/cart");
         } else {
           if (res?.data?.message === "Maximum amount is 999") {
             setIsError({
               type: "error",
-              message: "Maximum amount is 999.",
+              message: "Please check your cart, Maximum amount is 999.",
             });
             return;
           }

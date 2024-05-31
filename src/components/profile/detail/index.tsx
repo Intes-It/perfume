@@ -75,7 +75,7 @@ const Detail = () => {
         setState((o) => ({
           ...o,
           error: true,
-          message: "Mise à jour réussie",
+          message: "Change password successfully!",
           color: "#06e318",
         }));
         deleteCookie("access_token");
@@ -86,7 +86,7 @@ const Detail = () => {
           ...o,
           error: true,
           message: res?.data?.message,
-          color: "#06e318",
+          color: "#ed2805",
         }));
       }
     });
