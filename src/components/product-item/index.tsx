@@ -160,7 +160,7 @@ const ProductItem: React.FC<ProductProps> = ({
       <div className="flex flex-col items-center mt-5 space-y-2">
         <Rating score={product?.rating || 0} />
         <p className="font-semibold">
-          {formatCurrency(String(product?.price))}€
+          {formatCurrency(String(product?.price))}$
         </p>
         <div>
           {showButton && (

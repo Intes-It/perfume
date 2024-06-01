@@ -34,7 +34,7 @@ export interface Product {
 
 export interface ExProduct {
   package: any;
-  id?: number;
+  id: number;
   product_id: number;
   product: Product;
   quantity: number;

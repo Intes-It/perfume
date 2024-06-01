@@ -1,9 +1,9 @@
 import { MemberComment } from "@types";
 
 export const productPrice = [
-  { name: "0€ — 10€", value: "0,10" },
-  { name: "11€ — 20€", value: "11,20" },
-  { name: "21€ — 50€", value: "21,50" },
+  { name: "0$ — 10$", value: "0,10" },
+  { name: "11$ — 20$", value: "11,20" },
+  { name: "21$ — 50$", value: "21,50" },
 ];
 export const productFilter = [
   { name: "Sort by...", value: "" },

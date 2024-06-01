@@ -1,13 +1,13 @@
 import { showToast } from "@redux/slices/toast/toastSlice";
 import { useAppDispatch } from "@redux/store";
-import { GET } from "@utils/fetch";
-import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
-import Image from "next/image";
 import { IListOrder } from "@types";
+import { GET } from "@utils/fetch";
 import dayjs from "dayjs";
-import { twMerge } from "tailwind-merge";
+import Image from "next/image";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { twMerge } from "tailwind-merge";
 const listTab = [
   { title: "All", value: "" },
   { title: "New order", value: "&statuses=3" },
@@ -88,7 +88,7 @@ const Order = () => {
           {item.quantity}
         </td>
         <td className="px-6 py-4 font-semibold text-[#374151] ">
-          {item.total} €
+          {item.total} $
         </td>
         <td
           className={twMerge(
@@ -424,7 +424,7 @@ const Order = () => {
                 <div className="flex flex-col">
                   <div className="text-[#603813] text-[16px] font-bold mb-1">
                     {item.total}
-                    {" €"}
+                    {" $"}
                   </div>
                 </div>
               </div>
@@ -437,7 +437,7 @@ const Order = () => {
               Sub-total
             </div>
             <div className="text-[#603813] text-[16px] font-semibold">
-              {orderDetail.sub_total} €
+              {orderDetail.sub_total} $
             </div>
           </div>
           <div className="flex justify-between mb-1">
@@ -445,7 +445,7 @@ const Order = () => {
               Shipping
             </div>
             <div className="text-[#603813] text-[16px] font-semibold">
-              {orderDetail.shipping_fee} €
+              {orderDetail.shipping_fee} $
             </div>
           </div>
           <div className="text-[12px] font-normal text-[#ABABAB] mb-6">
@@ -459,7 +459,7 @@ const Order = () => {
             <div className="text-[16px] text-[#374151] font-medium">VAT</div>
             <div className="text-[#603813] text-[16px] font-semibold">
               <span className="mr-3 font-semibold">(5%)</span>
-              {orderDetail.tax_fee} €
+              {orderDetail.tax_fee} $
             </div>
           </div>
           <div className="flex justify-between mb-8">
@@ -473,7 +473,7 @@ const Order = () => {
                 />
               )}
               <div className="text-[#603813] text-[20px] font-bold">
-                {orderDetail.total} €
+                {orderDetail.total} $
               </div>
             </div>
           </div>

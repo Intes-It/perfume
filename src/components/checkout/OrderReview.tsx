@@ -233,7 +233,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
               {item.product?.name} x {item.quantity}
             </div>
             <div className="border border-black">
-              {formatCurrency(String(item.price))} €
+              {formatCurrency(String(item.price))} $
             </div>
           </div>
         ))}
@@ -241,7 +241,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
         <div className="grid grid-cols-2">
           <div className="border border-black">Sub-total</div>
           <div className="border border-black">
-            {formatCurrency(String(cart?.total_price_cart))} €
+            {formatCurrency(String(cart?.total_price_cart))} $
           </div>
         </div>
         {/* <div className="grid grid-cols-2">
@@ -265,7 +265,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
             /
             <p>
               Frais de port:
-              <strong>{fee_ship ? fee_ship : cart?.fee_ship}€</strong>
+              <strong>{fee_ship ? fee_ship : cart?.fee_ship}$</strong>
             </p>
             /
             <p>
@@ -276,7 +276,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
                   ? ""
                   : discountType === "percentage"
                   ? "%"
-                  : "€"}
+                  : "$"}
               </strong>
             </p>
           </div>
@@ -288,7 +288,7 @@ const OrderReview: React.FC<OrderReviewProps> = ({
             {formatCurrency(
               String(totalPayment ? totalPayment : cart?.total_price_payment)
             )}
-            €
+            $
           </div>
         </div>
         <div className="flex mt-5 items-center">

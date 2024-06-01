@@ -34,4 +34,5 @@ export const api = {
   remove_favourite: "/api/product/favourite/remove/",
   create_order: "/api/order/create/",
   create_capture: "/api/order/capture/",
+  apply_voucher: "/api/voucher/apply_voucher",
 };

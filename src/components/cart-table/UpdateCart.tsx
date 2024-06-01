@@ -181,7 +181,7 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
                       <span>( 0 review )</span>
                     </div>
                     <div className="text-xl font-semibold">
-                      {formatCurrency(sumChoice.toString())} €{" "}
+                      {formatCurrency(sumChoice.toString())} ${" "}
                     </div>
                     <div className="my-3 ">
                       {_.isEmpty(product?.color) ? null : (

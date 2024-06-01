@@ -262,13 +262,13 @@ const ProductDetail: React.FC<
             <span>{`( 0 avis client)`}</span>
           </div>
           <span className="mb-4 text-[#383e42] text-[24px] font-semibold">
-            {formatCurrency(sumChoice.toString())} €{" "}
+            {formatCurrency(sumChoice.toString())} ${" "}
           </span>
 
           {/* {_.isEmpty(product?.capacity) && (
             <div className="my-2">
               <span className="text-[#383e42] text-[24px] font-semibold">
-                {formatCurrency(String(product?.price))} €
+                {formatCurrency(String(product?.price))} $
               </span>
             </div>
           )} */}
