@@ -72,7 +72,7 @@ const Checkout: React.FC = () => {
       const payload = {
         ...formValue,
         items: newCart,
-        voucher: router.query?.voucher,
+        voucher_code: router.query?.voucher,
       };
       const res = await POST(api.create_order, payload);
 

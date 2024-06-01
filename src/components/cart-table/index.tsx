@@ -70,13 +70,13 @@ const CartTable = () => {
     try {
       const payload = {
         voucher_code: voucher,
-        total_price: cart?.data?.total_price,
+        total_price: cart?.data?.total_price_item,
       };
 
       const res = await POST(api.apply_voucher, payload);
 
       if (res.status === 200) {
-        console.log("res :>> ", res);
+        setPriceVoucher(res.data?.price);
       }
     } catch (error) {
       console.log("error :>> ", error);
@@ -311,10 +311,9 @@ const CartTable = () => {
                 <tr className="border-b border-[#BFBFBF] ">
                   <td className="px-2 py-3 font-bold">Total</td>
                   <td className="px-2 py-3">
-                    {cart?.data?.total_price &&
-                      `$ ${Number(
-                        +cart?.data?.total_price - priceVoucher
-                      ).toFixed(2)}`}
+                    {`$ ${Number(
+                      priceVoucher || +cart?.data?.total_price
+                    ).toFixed(2)}`}
                   </td>
                 </tr>
               </tbody>
