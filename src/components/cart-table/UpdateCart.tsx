@@ -10,7 +10,7 @@ import { formatCurrency } from "@utils/formatNumber";
 import { AxiosResponse } from "axios";
 import _ from "lodash";
 import Image from "next/image";
-import { Fragment, useMemo, useRef, useState } from "react";
+import { Fragment, KeyboardEvent, useMemo, useRef, useState } from "react";
 import {
   QueryObserverResult,
   RefetchOptions,
@@ -109,6 +109,10 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
       (colorSelected?.price || 0)
     );
   }, [packageSelected, capacitySelected, colorSelected, product]);
+
+  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "." || e.key === ",") e.preventDefault();
+  };
 
   if (isLoading) {
     return null;
@@ -330,6 +334,7 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
                             setQuantity(newValue);
                           }
                         }}
+                        onKeyDown={onKeyDown}
                         type="number"
                         className="w-16 h-10 p-1 text-center border outline-none border-gray"
                         min={0}

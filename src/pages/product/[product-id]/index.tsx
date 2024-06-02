@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatCurrency } from "@utils/formatNumber";
 import Parser from "html-react-parser";
 import NextLink from "next/link";
-import React, { useMemo, useState } from "react";
+import React, { KeyboardEvent, useMemo, useState } from "react";
 
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 // import { Product } from "@types";
@@ -203,6 +203,10 @@ const ProductDetail: React.FC<
     } else {
       router.push(`/my-account?before=${router.asPath}`);
     }
+  };
+
+  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "." || e.key === ",") e.preventDefault();
   };
 
   if (isLoading) {
@@ -429,6 +433,7 @@ const ProductDetail: React.FC<
                 }
               }}
               type="number"
+              onKeyDown={onKeyDown}
               className="w-16 h-10 p-1 text-center border outline-none border-gray"
               min={0}
               max={999}

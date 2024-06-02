@@ -9,7 +9,7 @@ import { POST } from "@utils/fetch";
 import { isEmpty } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { KeyboardEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import EmptyCart from "./EmptyCart";
 import UpdateCart from "./UpdateCart";
@@ -26,8 +26,6 @@ const CartTable = () => {
   const [productSelected, setProductSelected] = useState<ExProduct | null>(
     null
   );
-
-  const quantityRef = useRef<any>([]);
 
   const handleRemoveProduct = async (exProduct: ExProduct) => {
     const res = await removeProductToCart(exProduct.id?.toString() || "");
@@ -67,6 +65,15 @@ const CartTable = () => {
   };
 
   const handleAddVoucher = async () => {
+    if (!voucher) {
+      setPriceVoucher(0);
+      return;
+    }
+
+    if (priceVoucher) {
+      setPriceVoucher(0);
+    }
+
     try {
       const payload = {
         voucher_code: voucher,
@@ -77,6 +84,8 @@ const CartTable = () => {
 
       if (res.status === 200) {
         setPriceVoucher(res.data?.price);
+      } else {
+        setPriceVoucher(0);
       }
     } catch (error) {
       console.log("error :>> ", error);
@@ -93,6 +102,10 @@ const CartTable = () => {
     setTimeout(() => {
       setProductSelected(null);
     }, 300);
+  };
+
+  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "." || e.key === ",") e.preventDefault();
   };
 
   if (isLoading) {
@@ -148,8 +161,8 @@ const CartTable = () => {
                 </tr>
               </thead>
               <tbody className="w-full ">
-                {cart?.data?.results?.map((item: ExProduct, index: number) => (
-                  <tr key={index} className="bg-[#F6F6F6] border text-base">
+                {cart?.data?.results?.map((item: ExProduct) => (
+                  <tr key={item.id} className="bg-[#F6F6F6] border text-base">
                     <td className="px-6 py-2 border max-w-12 ">
                       <svg
                         width="16"
@@ -213,15 +226,12 @@ const CartTable = () => {
                         max={999}
                         onFocus={(e) => e.preventDefault()}
                         onFocusCapture={(e) => e.preventDefault()}
-                        ref={(el) => (quantityRef.current[index] = el)}
+                        onKeyDown={onKeyDown}
                         onChange={(e) => {
                           if (+e.target.value > 1000) return;
-                          quantityRef.current[index].value = +e.target.value;
                           debouncedUpdateQuantity(item, +e.target.value);
                         }}
-                        value={
-                          item?.quantity || quantityRef.current[index]?.value
-                        }
+                        defaultValue={item?.quantity}
                       />
                     </td>
                     <td className="px-6 py-2 font-medium border">
