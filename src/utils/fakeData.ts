@@ -26,27 +26,27 @@ export const featuredComments: MemberComment[] = [
   {
     id: "1",
     member: "MARIELLE",
-    text: "Très contente, texture agréable, excellent résultat pour une peau très douce et bien nourrie ! Pratique et très joli, en plus la créatrice est adorable.",
+    text: "Very happy, pleasant texture, excellent result for very soft and well-nourished skin! Practical and very pretty, plus the designer is adorable.",
   },
   {
     id: "2",
     member: "SOPHIE",
-    text: "Étant depuis un certain temps à la recherche de produits efficaces pour ma peau, vous devez imaginer comment je me suis sentie quand je suis tombée sur Nature Féerique qui non seulement m’a donné totale satisfaction, et en plus offre des produits 100% naturels. Je dirais juste deux mots : « J’adore ! ».",
+    text: "Having been looking for effective products for my skin for some time, you must imagine how I felt when I came across Nature Féerique which not only gave me complete satisfaction, but also offers 100% natural products. I would just say two words: “I love it!” ",
   },
   {
     id: "3",
     member: "JULIE",
-    text: "Les produits Nature Féerique sont idéaux pour toute personne ayant la peau sensible comme moi.",
+    text: "Nature Féerique products are ideal for anyone with sensitive skin like me.",
   },
   {
     id: "4",
-    member: "STÉPHANIE",
-    text: "Ça fait déjà quelques temps que j’utilise cette marque de produits. Et je trouve qu’elle offre d'excellents produits qualités/prix et c’est un superbe cadeau à offrir à vos proches. STÉPHANIE",
+    member: "STEPHANIE",
+    text: "I have been using this brand of products for some time now. And I find that it offers excellent quality/price products and it is a superb gift to give to your loved ones. STEPHANIE",
   },
   {
     id: "5",
     member: "LUCCI",
-    text: "Mon mari m’a offert le baume Précieux lèvres et mains et le baume soin précieux. Je peux vous dire que ces produits sont justes magiques. La sensation que vous avez après usage est incroyable.",
+    text: "My husband gave me the Precieux lip and hand balm and the Precious care balm. I can tell you that these products are just magical. The feeling you get after use is incredible.",
   },
 ];
 
@@ -54,18 +54,18 @@ export const homeSlideInfo = [
   {
     url: "https://naturefeerique.fr/wp-content/uploads/2022/03/slide1-1-scaled-1.jpg",
     caption: "",
-    text: "J'ADORE",
+    text: "I LOVE IT",
     href: "https://nature-feerique.sumupstore.com/",
   },
   {
     url: "https://naturefeerique.fr/wp-content/uploads/2022/03/s3-1.png",
-    text: "Je Sucummbe",
+    text: "I SUCCUMB",
     caption: "",
     href: "https://nature-feerique.sumupstore.com/",
   },
   {
     url: "https://naturefeerique.fr/wp-content/uploads/2022/03/mainof.jpg",
-    text: "OUI",
+    text: "YES",
     caption: "",
     href: "https://nature-feerique.sumupstore.com/",
   },
@@ -78,7 +78,7 @@ export const TextCreatrice = [
   "Born in Beaune (Côte d’Or), I grew up among the most beautiful vineyards of Burgundy. It was around the age of 7 that I began to become passionate about beauty products through a collection of perfume miniatures. With a boundless imagination, I experimented with my first mixtures with coarse salt, colored chalks and a few drops of perfume in a glass jar to create bath salts; to which I could add liquid soap. Of a determined character, it was at the end of middle school that I turned to chemistry.",
   "During my high school years, I met the extraordinary man, with whom I share my life today. Together, we left for the South (Toulouse and Montpellier) to complete our university studies.",
   "My targeted training in chemistry, cosmetics and aesthetics has allowed me to acquire dual skills: cosmetic formulation and aesthetic technique. I therefore have perfect mastery in the creation of cosmetic products in line with their use and needs. different skin types.",
-  "During my professional degree in Perfumes, Flavors and Cosmetics, I took great pleasure in carrying out a tutored project presented at the U'Cosmetics national competition for which I proudly obtained 1st prize for Innovative cosmetic concept. C It was the accomplishment of this project that made me want to develop a range of cosmetic products.",
+  "During my professional degree in Perfumes, Flavors and Cosmetics, I took great pleasure in carrying out a tutored project presented at the U'Cosmetics national competition for which I proudly obtained 1st prize for Innovative cosmetic concept. It was the accomplishment of this project that made me want to develop a range of cosmetic products.",
   "Graduated in our respective fields, our first contracts took us to Drôme Provençale, where we live today with our two adorable daughters.",
   "Being fulfilled at home, and having been able to acquire mastered know-how from a professional point of view (7 years of rich experience in a research and development laboratory creating cosmetic formulas for the biggest brands) , I decided to realize this dream as a young graduate that was close to my heart: creating my own brand of 100% natural cosmetics, both effective and healthy for your health while respecting the environment!",
   "Through these few lines, I would first like to tell you my little story, and at the same time express my gratitude for your support since the creation of the “Nature Féerique” brand. Thank you very much for your trust and your loyalty.",

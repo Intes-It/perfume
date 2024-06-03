@@ -35,7 +35,7 @@
   "accountScreen": {
     "mComplet": "My account",
     "tDBord": "DASHBOARD",
-    "bonjour": "Good morning",
+    "bonjour": "Welcome",
     "aPartir": [
       "From your account dashboard, you can view your",
       "recent orders",
@@ -73,9 +73,9 @@
     "date": "Expiration date",
     "crypto": "Visual cryptogram",
     "detailCompte": "ACCOUNT DETAILS",
-    "nAffiche": "shown name",
-    "mDPActuel": "Current password (leave blank to save)",
-    "nouveauMDPass": "New password (leave blank to keep the current one)",
+    "nAffiche": "Name",
+    "mDPActuel": "Current password",
+    "nouveauMDPass": "New password",
     "confirm": "Confirm the new password",
     "enregister": "Save changes",
     "miseAJour": "Successful update",
