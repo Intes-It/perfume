@@ -1,8 +1,6 @@
 import { BestSales } from "@components/best-sales";
 import { Container } from "@components/container";
 import Rating from "@components/rating/rating";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatCurrency } from "@utils/formatNumber";
 import Parser from "html-react-parser";
 import NextLink from "next/link";
@@ -218,7 +216,7 @@ const ProductDetail: React.FC<
         {/* product image */}
         <div className="relative overflow-clip">
           <Image
-            className="object-fill w-full h-full max-h-[700px] transition duration-100 hover:scale-125 "
+            className="object-fill w-full cursor-pointer h-full max-h-[700px] transition duration-300 hover:scale-125 "
             // src={product?.url_image}
             src={
               selectorImage === undefined
@@ -228,14 +226,9 @@ const ProductDetail: React.FC<
             width={700}
             height={550}
             alt={product?.name}
+            onClick={() => setShowModal(true)}
           />
-          <button className="absolute right-0 top-0 bg-white rounded-full w-[2.2rem] h-[2.2rem]">
-            <FontAwesomeIcon
-              onClick={() => setShowModal(true)}
-              icon={faSearch}
-              fontSize={"1.1rem"}
-            />
-          </button>
+          <button className="absolute right-0 top-0 bg-white rounded-full w-[2.2rem] h-[2.2rem]"></button>
         </div>
 
         {/* product info */}

@@ -84,8 +84,12 @@ const CartTable = () => {
 
       if (res.status === 200) {
         setPriceVoucher(res.data?.price);
+        dispatch(
+          showToast({ message: "Add voucher successfully!", error: false })
+        );
       } else {
         setPriceVoucher(0);
+        dispatch(showToast({ message: "Voucher invalid!", error: true }));
       }
     } catch (error) {
       console.log("error :>> ", error);
@@ -273,12 +277,12 @@ const CartTable = () => {
                       `$ ${Number(cart?.data?.total_price_item).toFixed(2)}`}
                   </td>
                 </tr>
-                <tr className="border-b  border-[#BFBFBF] bg-[#f6f6f6]">
-                  <td className="px-2 py-3 font-bold min-w-[100px] md:min-w-[160px]">
-                    VAT
-                  </td>
+                <tr className="border-b border-[#BFBFBF] bg-[#f6f6f6]">
+                  <td className="px-2 py-3 font-bold">Voucher</td>
                   <td className="px-2 py-3">
-                    $ {cart?.data?.tax_fee && cart?.data?.tax_fee}
+                    {+priceVoucher - +cart?.data?.total_price > 0
+                      ? +priceVoucher - +cart?.data?.total_price
+                      : 0}
                   </td>
                 </tr>
                 <tr className="border-b border-[#BFBFBF]">
@@ -314,15 +318,20 @@ const CartTable = () => {
                     </div>
                   </td>
                 </tr>
-                <tr className="border-b border-[#BFBFBF] bg-[#f6f6f6]">
-                  <td className="px-2 py-3 font-bold">Voucher</td>
-                  <td className="px-2 py-3">0</td>
+
+                <tr className="border-b  border-[#BFBFBF] bg-[#f6f6f6]">
+                  <td className="px-2 py-3 font-bold min-w-[100px] md:min-w-[160px]">
+                    VAT
+                  </td>
+                  <td className="px-2 py-3">
+                    $ {cart?.data?.tax_fee && cart?.data?.tax_fee}
+                  </td>
                 </tr>
                 <tr className="border-b border-[#BFBFBF] ">
                   <td className="px-2 py-3 font-bold">Total</td>
                   <td className="px-2 py-3">
                     {`$ ${Number(
-                      priceVoucher || +cart?.data?.total_price
+                      priceVoucher ? priceVoucher : +cart?.data?.total_price
                     ).toFixed(2)}`}
                   </td>
                 </tr>

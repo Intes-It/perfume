@@ -21,7 +21,7 @@ const ImageModal: React.FunctionComponent<ImageModalProps> = ({
     <div
       id="wrapper"
       onClick={handleClose}
-      className="fixed inset-0 z-50 flex items-center justify-center m-0 bg-black bg-opacity-75"
+      className="fixed inset-0 z-[9999] flex items-center justify-center m-0 bg-black bg-opacity-75"
     >
       <div className="absolute top-2 right-3">
         <button onClick={() => onClose()} className="text-xl text-white">
