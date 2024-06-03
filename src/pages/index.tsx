@@ -37,7 +37,9 @@ const Home: React.FC = () => {
               "rounded-full h-12  text-center bg-[#ACD051] min-w-[140px] text-white border-transparent border hover:bg-transparent hover:text-black font-bold hover:border-black "
             }
           >
-            <Link href={"https://nature-feerique.sumupstore.com"}>J'ADORE</Link>
+            <Link href={"https://nature-feerique.sumupstore.com"}>
+              I LOVE IT
+            </Link>
           </button>
         </div>
       ),
@@ -59,7 +61,7 @@ const Home: React.FC = () => {
             }
           >
             <Link href={"https://nature-feerique.sumupstore.com"}>
-              Je Succombe
+              I SUCCUMB
             </Link>
           </button>
         </div>
@@ -81,7 +83,7 @@ const Home: React.FC = () => {
               "rounded-full h-12  text-center bg-amber-950 min-w-[140px] text-white border-transparent border hover:bg-transparent hover:text-white font-bold hover:border-white "
             }
           >
-            <Link href={"https://nature-feerique.sumupstore.com"}>OUI</Link>
+            <Link href={"https://nature-feerique.sumupstore.com"}>YES</Link>
           </button>
         </div>
       ),
@@ -206,8 +208,8 @@ const Home: React.FC = () => {
           <div className=" xl:mx-10 sm:w-[100vw] xl:w-1/2">
             <div className="text-center xl:text-[44.8px] text-[1.6rem] font-bold text-[#383E42]">
               <h2>
-                Rencontre <br />
-                Avec la créatrice
+                Encounter <br />
+                With the creator
               </h2>
             </div>
             <div>

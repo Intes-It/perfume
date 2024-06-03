@@ -148,10 +148,9 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
           }}
         /> */}
         <p className="text-[16px] text-[#603813] font-normal">
-          Vos données personnelles seront utilisées pour vous accompagner au
-          cours de votre visite du site web, gérer l’accès à votre compte, et
-          pour d’autres raisons décrites dans notre politique de
-          confidentialité.
+          Your personal data will be used to assist you during your visit to the
+          website, manage access to your account, and for other reasons
+          described in our privacy policy.
         </p>
         <div>
           <button
@@ -159,7 +158,7 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
             // disabled={_.isEmpty(captchaCode)}
             className="w-[200px] px-4 py-3 text-[16px] uppercase font-semibold text-white  bg-[#603813] rounded-md shadow hover:bg-black disabled:bg-gray-300"
           >
-            S’enregistrer
+            Register
           </button>
         </div>
       </form>
