@@ -1,7 +1,5 @@
 import useCart from "@hooks/useCart";
-import useDebouncedCallback from "@hooks/useDebouncedCallback";
 import { removeProduct } from "@redux/actions";
-import { updateProduct } from "@redux/slices/cart";
 import { showToast } from "@redux/slices/toast/toastSlice";
 import { ExProduct } from "@types";
 import { api } from "@utils/apiRoute";
@@ -9,10 +7,15 @@ import { POST } from "@utils/fetch";
 import { isEmpty } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
-import { KeyboardEvent, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import EmptyCart from "./EmptyCart";
 import UpdateCart from "./UpdateCart";
+
+type VoucherType = {
+  discount: number;
+  price: number;
+};
 
 const CartTable = () => {
   const { cart, removeProductToCart, refresh, updateProductToCart, isLoading } =
@@ -22,7 +25,7 @@ const CartTable = () => {
 
   const [isOpenUpdateProduct, setIsOpenUpdateProduct] = useState(false);
   const [voucher, setVoucher] = useState<string>("");
-  const [priceVoucher, setPriceVoucher] = useState<number>(0);
+  const [priceVoucher, setPriceVoucher] = useState<null | VoucherType>(null);
   const [productSelected, setProductSelected] = useState<ExProduct | null>(
     null
   );
@@ -38,40 +41,14 @@ const CartTable = () => {
     }
   };
 
-  const handleUpdateQuantity = async (
-    exProduct: ExProduct,
-    quantity: number
-  ) => {
-    try {
-      const res = await updateProductToCart({
-        data: [
-          {
-            ...exProduct,
-            id: exProduct.id,
-            quantity: quantity,
-            color: exProduct?.color?.id,
-            capacity: exProduct?.capacity?.id,
-            package: exProduct?.package?.id,
-          },
-        ],
-      });
-      if (res.status === 200) {
-        dispatch(updateProduct({ ...exProduct, quantity: quantity }));
-        refresh();
-      }
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
   const handleAddVoucher = async () => {
     if (!voucher) {
-      setPriceVoucher(0);
+      setPriceVoucher(null);
       return;
     }
 
     if (priceVoucher) {
-      setPriceVoucher(0);
+      setPriceVoucher(null);
     }
 
     try {
@@ -83,12 +60,12 @@ const CartTable = () => {
       const res = await POST(api.apply_voucher, payload);
 
       if (res.status === 200) {
-        setPriceVoucher(res.data?.price);
+        setPriceVoucher(res.data);
         dispatch(
           showToast({ message: "Add voucher successfully!", error: false })
         );
       } else {
-        setPriceVoucher(0);
+        setPriceVoucher(null);
         dispatch(showToast({ message: "Voucher invalid!", error: true }));
       }
     } catch (error) {
@@ -96,20 +73,11 @@ const CartTable = () => {
     }
   };
 
-  const debouncedUpdateQuantity = useDebouncedCallback(
-    handleUpdateQuantity,
-    500
-  );
-
   const handleCloseUpdate = () => {
     setIsOpenUpdateProduct(false);
     setTimeout(() => {
       setProductSelected(null);
     }, 300);
-  };
-
-  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "." || e.key === ",") e.preventDefault();
   };
 
   if (isLoading) {
@@ -210,33 +178,20 @@ const CartTable = () => {
                           "-"}{" "}
                         {item.color?.name &&
                           `${item.color?.name} ${
-                            item.capacity || item.package ? "," : ""
+                            item.capacity?.name || item.package?.name ? "," : ""
                           } `}{" "}
                         {item.capacity?.name &&
                           `${item.capacity?.name} ${
-                            item.package ? "," : ""
+                            item.package?.name ? "," : ""
                           }`}{" "}
                         {item.package?.name && `${item.package?.name}`}
                       </div>
                     </td>
                     <td className="px-6 py-2 font-medium border">
-                      ${Number(item?.price).toFixed(2)}
+                      ${Number(item?.total_price_options).toFixed(2)}
                     </td>
-                    <td className="px-6 py-2 border ">
-                      <input
-                        type="number"
-                        className="max-w-20 border-[#BFBFBF]"
-                        min={1}
-                        max={999}
-                        onFocus={(e) => e.preventDefault()}
-                        onFocusCapture={(e) => e.preventDefault()}
-                        onKeyDown={onKeyDown}
-                        onChange={(e) => {
-                          if (+e.target.value > 1000) return;
-                          debouncedUpdateQuantity(item, +e.target.value);
-                        }}
-                        defaultValue={item?.quantity}
-                      />
+                    <td className="px-6 py-2 text-center border ">
+                      {item?.quantity}
                     </td>
                     <td className="px-6 py-2 font-medium border">
                       ${Number(item?.sub_total_price).toFixed(2)}{" "}
@@ -280,9 +235,10 @@ const CartTable = () => {
                 <tr className="border-b border-[#BFBFBF] bg-[#f6f6f6]">
                   <td className="px-2 py-3 font-bold">Voucher</td>
                   <td className="px-2 py-3">
-                    {+priceVoucher - +cart?.data?.total_price > 0
-                      ? +priceVoucher - +cart?.data?.total_price
-                      : 0}
+                    ${" "}
+                    {(priceVoucher?.discount &&
+                      priceVoucher?.discount.toFixed(2)) ||
+                      0}
                   </td>
                 </tr>
                 <tr className="border-b border-[#BFBFBF]">
@@ -331,14 +287,16 @@ const CartTable = () => {
                   <td className="px-2 py-3 font-bold">Total</td>
                   <td className="px-2 py-3">
                     {`$ ${Number(
-                      priceVoucher ? priceVoucher : +cart?.data?.total_price
+                      priceVoucher?.price || +cart?.data?.total_price
                     ).toFixed(2)}`}
                   </td>
                 </tr>
               </tbody>
             </table>
             <Link
-              href={`/checkout${priceVoucher > 0 ? `?voucher=${voucher}` : ""}`}
+              href={`/checkout${
+                priceVoucher && voucher ? `?voucher=${voucher}` : ""
+              }`}
             >
               <div className="w-full h-16 font-bold bg-[#603813] text-white mt-8 rounded-lg flex justify-center items-center cursor-pointer">
                 Validate the order

@@ -262,22 +262,15 @@ const ProductDetail: React.FC<
             {formatCurrency(sumChoice.toString())} ${" "}
           </span>
 
-          {/* {_.isEmpty(product?.capacity) && (
-            <div className="my-2">
-              <span className="text-[#383e42] text-[24px] font-semibold">
-                {formatCurrency(String(product?.price))} $
-              </span>
-            </div>
-          )} */}
           {/* color */}
-          <div className="my-3 ">
+          <div className="py-4 ">
             {_.isEmpty(product?.color) ? null : (
-              <span className="flex font-semibold mb-4 text-[#603813] ">
+              <span className="flex font-semibold  text-[#603813] ">
                 Color :
                 <span className="grid font-medium">{colorSelected?.name} </span>
               </span>
             )}
-            <div className="flex gap-3 mt-4">
+            <div className="flex gap-3 pt-2">
               {!_.isEmpty(product?.color) &&
                 product.color?.map((item: any, index: number) => (
                   <button
@@ -293,7 +286,7 @@ const ProductDetail: React.FC<
                       background: `${item.color}`,
                     }}
                     className={twMerge(
-                      "mb-3 border p-2 text-white outline-none",
+                      " border p-2 text-white outline-none",
                       colorSelected?.id === item?.id && "border-black"
                     )}
                   >
@@ -304,96 +297,42 @@ const ProductDetail: React.FC<
             </div>
           </div>
           {/* sub product */}
-          <div className="flex gap-1 mt-4 mb-3 ">
-            {!_.isEmpty(product?.capacity) && (
-              <div
-                role="tabpanel"
-                className={` text-[#603813] transition-opacity duration-150 ease-linear `}
-              >
-                <div className="flex">
-                  <strong>Contenance :</strong>
-                  {contenanceSelected?.name && (
-                    <span className="grid font-medium">
-                      {contenanceSelected?.name}
-                    </span>
-                  )}
+          <div className="pb-4">
+            <div className="flex gap-1 ">
+              {!_.isEmpty(product?.capacity) && (
+                <div
+                  role="tabpanel"
+                  className={` text-[#603813] transition-opacity duration-150 ease-linear `}
+                >
+                  <div className="flex">
+                    <strong>Contenance :</strong>
+                    {contenanceSelected?.name && (
+                      <span className="grid font-medium">
+                        {contenanceSelected?.name}
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
-          <div className="">
-            <ul
-              className="flex flex-col flex-wrap gap-2 pl-0 list-none border-b-0 md:flex-row"
-              id="tabs-tab"
-              role="tablist"
-            >
-              {product?.capacity
-                ? product.capacity?.map((item: any, index: number) => (
-                    <li role="presentation" key={index}>
-                      <button
-                        // href={"#" + capacityName[index]}
-                        className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate ${
-                          contenanceSelected?.id === item?.id &&
-                          "border-[#6A5950]"
-                        } " `}
-                        onClick={() => {
-                          if (isError.type)
-                            setIsError({
-                              ...isError,
-                              type: "",
-                            });
-                          setContenanceSelected(item);
-                        }}
-                      >
-                        {item?.name}
-                      </button>
-                    </li>
-                  ))
-                : null}
-            </ul>
-          </div>
-
-          {/* packaging */}
-          <div className="flex gap-1 mt-4 mb-3 ">
-            {!_.isEmpty(product?.package) && (
-              <div
-                role="tabpanel"
-                className={`mb-4  text-[#603813]    transition-opacity duration-150 ease-linear `}
-              >
-                <strong>Packaging</strong> : {packageSelected?.name}
-              </div>
-            )}
-          </div>
-          <div>
-            <ul
-              className="flex flex-col flex-wrap gap-2 pl-0 list-none border-b-0 md:flex-row"
-              id="tabs-tab"
-              role="tablist"
-            >
-              {product?.package &&
-                product.package?.map((item: any, index: number) => (
+              )}
+            </div>
+            <ul className="flex flex-col flex-wrap gap-2 pt-2 pl-0 list-none border-b-0 md:flex-row">
+              {product?.capacity &&
+                product.capacity?.map((item: any, index: number) => (
                   <li role="presentation" key={index}>
                     <button
-                      // href={"#" + namePackaging[index]}
-                      className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate focus:isolate hover:border-transparent hover:bg-neutral-100   ${
-                        packageSelected?.id === item?.id
-                          ? "border-[#6A5950]"
-                          : ""
-                      } `}
+                      // href={"#" + capacityName[index]}
+                      className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate ${
+                        contenanceSelected?.id === item?.id &&
+                        "border-[#6A5950]"
+                      } " `}
                       onClick={() => {
-                        const selectorImage = item?.image;
-                        setPackageSelected(item);
                         if (isError.type)
                           setIsError({
                             ...isError,
                             type: "",
                           });
-                        setState((o) => ({
-                          ...o,
-                          selectorImage,
-                        }));
+                        setContenanceSelected(item);
                       }}
-                      role="tab"
                     >
                       {item?.name}
                     </button>
@@ -401,6 +340,44 @@ const ProductDetail: React.FC<
                 ))}
             </ul>
           </div>
+
+          {/* packaging */}
+          <div className="flex gap-1 ">
+            {!_.isEmpty(product?.package) && (
+              <div className="text-[#603813]    transition-opacity duration-150 ease-linear">
+                <strong>Packaging</strong> : {packageSelected?.name}
+              </div>
+            )}
+          </div>
+          <ul className="flex flex-col flex-wrap gap-2 pt-2 pl-0 list-none border-b-0 md:flex-row">
+            {product?.package &&
+              product.package?.map((item: any, index: number) => (
+                <li role="presentation" key={index}>
+                  <button
+                    // href={"#" + namePackaging[index]}
+                    className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate focus:isolate hover:border-transparent hover:bg-neutral-100   ${
+                      packageSelected?.id === item?.id ? "border-[#6A5950]" : ""
+                    } `}
+                    onClick={() => {
+                      const selectorImage = item?.image;
+                      setPackageSelected(item);
+                      if (isError.type)
+                        setIsError({
+                          ...isError,
+                          type: "",
+                        });
+                      setState((o) => ({
+                        ...o,
+                        selectorImage,
+                      }));
+                    }}
+                    role="tab"
+                  >
+                    {item?.name}
+                  </button>
+                </li>
+              ))}
+          </ul>
 
           {/* add product to cart */}
           {isError.type && (

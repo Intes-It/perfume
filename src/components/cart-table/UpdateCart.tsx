@@ -121,7 +121,7 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog
-        className="relative"
+        className="relative text-black"
         style={{
           zIndex: 9999,
         }}
@@ -187,16 +187,16 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
                     <div className="text-xl font-semibold">
                       {formatCurrency(sumChoice.toString())} ${" "}
                     </div>
-                    <div className="my-3 ">
+                    <div className="py-4">
                       {_.isEmpty(product?.color) ? null : (
-                        <span className="flex font-semibold mb-4 text-[#603813] ">
+                        <span className="flex font-semibold ">
                           Color :
                           <span className="grid font-medium">
                             {colorSelected?.name}{" "}
                           </span>
                         </span>
                       )}
-                      <div className="flex gap-3 mt-4">
+                      <div className="flex gap-3 pt-2">
                         {product?.color &&
                           product.color?.map((item: any, index: number) => (
                             <button
@@ -209,7 +209,7 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
                                 background: `${item.color}`,
                               }}
                               className={twMerge(
-                                "mb-3 border p-2 text-white outline-none",
+                                " border p-2 text-white outline-none",
                                 colorSelected?.id === item?.id && "border-black"
                               )}
                             >
@@ -220,29 +220,22 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
                       </div>
                     </div>
                     {/* sub product */}
-                    <div className="flex gap-1 mt-4 mb-3 ">
-                      {!_.isEmpty(product?.capacity) && (
-                        <div
-                          role="tabpanel"
-                          className={` text-[#603813] transition-opacity duration-150 ease-linear `}
-                        >
-                          <div className="flex">
-                            <strong>Contenance :</strong>
-                            {capacitySelected?.name && (
-                              <span className="grid font-medium">
-                                {capacitySelected?.name}
-                              </span>
-                            )}
+                    <div className="pb-4">
+                      <div className="flex gap-1 ">
+                        {!_.isEmpty(product?.capacity) && (
+                          <div className="transition-opacity duration-150 ease-linear ">
+                            <div className="flex">
+                              <strong>Contenance :</strong>
+                              {capacitySelected?.name && (
+                                <span className="grid font-medium">
+                                  {capacitySelected?.name}
+                                </span>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
-                    <div className="">
-                      <ul
-                        className="flex flex-col flex-wrap gap-2 pl-0 list-none border-b-0 md:flex-row"
-                        id="tabs-tab"
-                        role="tablist"
-                      >
+                        )}
+                      </div>
+                      <ul className="flex flex-col flex-wrap gap-2 pt-2 pl-0 list-none border-b-0 md:flex-row">
                         {product?.capacity &&
                           product.capacity?.map((item: any, index: number) => (
                             <li role="presentation" key={index}>
@@ -269,22 +262,18 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
                     </div>
 
                     {/* packaging */}
-                    <div className="flex gap-1 mt-4 mb-3 ">
+                    <div className="flex gap-1 ">
                       {!_.isEmpty(product?.package) && (
                         <div
                           role="tabpanel"
-                          className={`mb-4  text-[#603813]    transition-opacity duration-150 ease-linear `}
+                          className="transition-opacity duration-150 ease-linear"
                         >
                           <strong>Packaging</strong> : {packageSelected?.name}
                         </div>
                       )}
                     </div>
-                    <div>
-                      <ul
-                        className="flex flex-col flex-wrap gap-2 pl-0 list-none border-b-0 md:flex-row"
-                        id="tabs-tab"
-                        role="tablist"
-                      >
+                    <div className="pb-4">
+                      <ul className="flex flex-col flex-wrap gap-2 pt-2 pl-0 list-none border-b-0 md:flex-row">
                         {product?.package &&
                           product.package?.map((item: any, index: number) => (
                             <li role="presentation" key={index}>

@@ -49,6 +49,7 @@ export interface ExProduct {
   rating?: number;
   current_price: number | null;
   product_name: string;
+  total_price_options: number;
   thumbnail: {
     id: number;
     name: string;
