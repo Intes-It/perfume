@@ -64,13 +64,15 @@ const ImageModal: React.FunctionComponent<ImageModalProps> = ({
                     />
                   </svg>
                 </div>
-                <Image
-                  src={imgUrl}
-                  alt="image"
-                  className="object-contain"
-                  width={800}
-                  height={window.innerHeight - 30}
-                />
+                <div className="px-10">
+                  <Image
+                    src={imgUrl}
+                    alt="image"
+                    className="object-contain"
+                    width={800}
+                    height={window.innerHeight - 100}
+                  />
+                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>

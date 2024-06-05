@@ -228,7 +228,6 @@ const ProductDetail: React.FC<
             alt={product?.name}
             onClick={() => setShowModal(true)}
           />
-          <button className="absolute right-0 top-0 bg-white rounded-full w-[2.2rem] h-[2.2rem]"></button>
         </div>
 
         {/* product info */}

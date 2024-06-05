@@ -67,7 +67,7 @@ const DropdownCheckbox: React.FC<DropdownProps> = ({
         </div>
       </div>
       {isList && (
-        <div className="absolute z-40 w-60 tablet:w-40 mobile:text-[14px] mobile:w-44 mt-2 p-4 space-y-4 bg-white border rounded text-[#603813] text-[16px] ">
+        <div className="absolute z-[51] w-60 tablet:w-40 mobile:text-[14px] mobile:w-44 mt-2 p-4 space-y-4 bg-white border rounded text-[#603813] text-[16px] ">
           {selections?.map((selection: any, index: number) => (
             <label
               htmlFor={`remember-${index}`}
