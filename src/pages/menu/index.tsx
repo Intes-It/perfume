@@ -22,8 +22,6 @@ const Menu = () => {
   const search = pathName?.search;
 
   const handleGetProduct = async () => {
-    if (!search) return;
-
     try {
       const queryParams = {
         page_size: 1000,
@@ -58,7 +56,7 @@ const Menu = () => {
   };
 
   useEffect(() => {
-    if (search) refetch();
+    refetch();
   }, [search, selectedSort, selectedRangePrice]);
 
   const text = useLocale();

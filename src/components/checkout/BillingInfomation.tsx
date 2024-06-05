@@ -297,7 +297,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                 <input
                   {...formik.getFieldProps("email")}
                   id="id"
-                  className={`px-4 py-3 border ${
+                  className={`px-4 py-3 focus:ring-2 ring-[#1c64f2] focus:border-transparent outline-none border ${
                     errors.email ? "border-red-700" : "border-gray-300"
                   } text-black`}
                 />
