@@ -123,7 +123,7 @@ const ProductGroup = () => {
             ))
           ) : (
             products?.results?.length === 0 && (
-              <div className="ml-20 text-[20px]">Aucun Produit trouvé</div>
+              <div className="ml-20 text-[20px]">No Product found</div>
             )
           )}
         </div>
