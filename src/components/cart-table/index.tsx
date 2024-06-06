@@ -9,17 +9,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { twMerge } from "tailwind-merge";
 import EmptyCart from "./EmptyCart";
 import UpdateCart from "./UpdateCart";
 
 type VoucherType = {
   discount: number;
   price: number;
+  tax_fee: string | number;
 };
 
 const CartTable = () => {
-  const { cart, removeProductToCart, refresh, updateProductToCart, isLoading } =
-    useCart();
+  const { cart, removeProductToCart, refresh, isLoading } = useCart();
 
   const dispatch = useDispatch();
 
@@ -210,7 +211,10 @@ const CartTable = () => {
               />
               <div
                 onClick={handleAddVoucher}
-                className="min-w-[180px] whitespace-nowrap h-9 flex justify-center items-center font-bold cursor-pointer text-white bg-[#603813] rounded-lg"
+                className={twMerge(
+                  "min-w-[180px] whitespace-nowrap h-9 transition-all duration-300 ease-in-out flex justify-center items-center font-bold cursor-pointer text-white bg-[#603813] rounded-lg",
+                  voucher === "" && "bg-gray-400 opacity-55"
+                )}
               >
                 Apply promo code
               </div>
@@ -280,7 +284,10 @@ const CartTable = () => {
                     VAT
                   </td>
                   <td className="px-2 py-3">
-                    $ {cart?.data?.tax_fee && cart?.data?.tax_fee}
+                    ${" "}
+                    {priceVoucher?.tax_fee || priceVoucher?.tax_fee === 0
+                      ? priceVoucher?.tax_fee
+                      : cart?.data?.tax_fee}
                   </td>
                 </tr>
                 <tr className="border-b border-[#BFBFBF] ">

@@ -7,6 +7,7 @@ const nextConfig = {
         hostname: "**",
       },
     ],
+    domains: ["mldn3w3pos1n.i.optimole.com"],
   },
   reactStrictMode: false,
   swcMinify: true,

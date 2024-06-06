@@ -9,6 +9,7 @@ import useLocale from "@hooks/useLocale";
 import { useBestSallingProducts } from "@hooks/useProduct";
 import useScreenWidth from "@hooks/useScreen";
 import { Carousel } from "flowbite-react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   BriefTextCreatrice,
@@ -153,12 +154,14 @@ const Home: React.FC = () => {
         <div className="grid grid-cols-2 gap-5 text-center">
           {OurUniverse?.map((item: any, index: number) => (
             <div className="relative" key={index}>
-              <img
+              <Image
                 className="h-[31vw] block w-full object-cover"
                 src={
-                  item?.image ||
+                  item?.image?.url ||
                   "https://mldn3w3pos1n.i.optimole.com/cb:453S~5a2d9/w:auto/h:auto/q:mauto/id:bc473c5bdb3bd5a52d20679306c31fd7/https://naturefeerique.fr/Presentation-Gamme-Amour1-scaled.jpg"
                 }
+                width={1000}
+                height={600}
                 alt={item?.title}
               />
               <div className="absolute top-0 left-0 w-full h-full bg-black opacity-30" />
