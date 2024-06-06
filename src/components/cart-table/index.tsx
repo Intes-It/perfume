@@ -157,7 +157,7 @@ const CartTable = () => {
 
                     <td className="px-6 py-2 border">
                       <Image
-                        src={item?.thumbnail?.url}
+                        src={item?.image || item?.thumbnail?.url}
                         alt="thumbnail"
                         width={60}
                         height={40}

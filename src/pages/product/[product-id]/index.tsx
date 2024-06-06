@@ -174,6 +174,7 @@ const ProductDetail: React.FC<
             package: currOptions?.package?.id,
             color: currOptions?.color?.id,
             capacity: currOptions?.capacity?.id,
+            image: selectorImage,
           },
         ],
       };
