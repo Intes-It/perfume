@@ -4,7 +4,8 @@ import React from "react";
 
 import { BestSales } from "@components/best-sales";
 import { FeaturedComments } from "@components/featured-comment";
-import { OurUniverse } from "@definitions/constants";
+import { useAllCategory } from "@hooks/useCategory";
+import useLocale from "@hooks/useLocale";
 import { useBestSallingProducts } from "@hooks/useProduct";
 import useScreenWidth from "@hooks/useScreen";
 import { Carousel } from "flowbite-react";
@@ -14,9 +15,12 @@ import {
   BriefTextNature,
   featuredComments,
 } from "src/utils/fakeData";
-import useLocale from "@hooks/useLocale";
 const Home: React.FC = () => {
   const { products } = useBestSallingProducts();
+  const { data } = useAllCategory();
+
+  const OurUniverse = data?.[0]?.id ? data?.slice(0, 4) : null;
+
   const screenWidth = useScreenWidth();
   const text = useLocale();
   const homeSlideInfo = [
@@ -147,30 +151,34 @@ const Home: React.FC = () => {
           </span>
         </div>
         <div className="grid grid-cols-2 gap-5 text-center">
-          {OurUniverse?.map((item: any, index: number) => {
-            return (
-              <div className="relative" key={index}>
-                <img
-                  className="h-[31vw] block w-full object-cover"
-                  src={item?.image}
-                  alt={item?.title}
-                />
-                <div className="absolute top-0 left-0 w-full h-full bg-black opacity-30" />
-                <div className="absolute z-0 top-1/2 left-1/2 -translate-y-2/4 -translate-x-2/4 w-[100%] text-center">
-                  <div className="my-1 md:my-20">
-                    <span className="text-xl md:text-[38.8px] text-white">
-                      {(item?.title as string)?.toUpperCase()}
-                    </span>
-                  </div>
-                  <NextLink href={item?.route} key={item?.title} passHref>
-                    <button className="px-5 py-2 text-lg text-white bg-transparent border border-white rounded-md hover:bg-white hover:text-black">
-                      EXPLORER
-                    </button>
-                  </NextLink>
+          {OurUniverse?.map((item: any, index: number) => (
+            <div className="relative" key={index}>
+              <img
+                className="h-[31vw] block w-full object-cover"
+                src={
+                  item?.image ||
+                  "https://mldn3w3pos1n.i.optimole.com/cb:453S~5a2d9/w:auto/h:auto/q:mauto/id:bc473c5bdb3bd5a52d20679306c31fd7/https://naturefeerique.fr/Presentation-Gamme-Amour1-scaled.jpg"
+                }
+                alt={item?.title}
+              />
+              <div className="absolute top-0 left-0 w-full h-full bg-black opacity-30" />
+              <div className="absolute z-0 top-1/2 left-1/2 -translate-y-2/4 -translate-x-2/4 w-[100%] text-center">
+                <div className="my-1 md:my-20">
+                  <span className="text-xl md:text-[38.8px] text-white">
+                    {(item?.name as string)?.toUpperCase()}
+                  </span>
                 </div>
+                <NextLink
+                  href={`/product-categories/${item?.id}`}
+                  key={item?.id}
+                >
+                  <button className="px-5 py-2 text-lg text-white bg-transparent border border-white rounded-md hover:bg-white hover:text-black">
+                    EXPLORE
+                  </button>
+                </NextLink>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       </div>
 

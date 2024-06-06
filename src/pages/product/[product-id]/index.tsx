@@ -4,7 +4,7 @@ import Rating from "@components/rating/rating";
 import { formatCurrency } from "@utils/formatNumber";
 import Parser from "html-react-parser";
 import NextLink from "next/link";
-import React, { KeyboardEvent, useMemo, useState } from "react";
+import React, { KeyboardEvent, useEffect, useMemo, useState } from "react";
 
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 // import { Product } from "@types";
@@ -59,7 +59,7 @@ const ProductDetail: React.FC<
     type: "",
     message: "",
   });
-  const { product, isLoading } = useProductDetail({ id: productId });
+  const { product, isLoading, refetch } = useProductDetail({ id: productId });
   const { products } = useBestSallingProducts();
 
   const [packageSelected, setPackageSelected] = useState<optionType | null>(
@@ -206,6 +206,10 @@ const ProductDetail: React.FC<
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "." || e.key === ",") e.preventDefault();
   };
+
+  useEffect(() => {
+    if (productId) refetch();
+  }, [productId]);
 
   if (isLoading) {
     return <div className="min-h-[80vh]" />;

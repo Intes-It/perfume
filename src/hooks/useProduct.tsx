@@ -49,9 +49,13 @@ export const useProductDetail = ({ id }: { id: string }) => {
     const res = await GET(`${api.productDetail + id}`);
     return res.data;
   }
-  const { data, isLoading } = useQuery("get-product-detail", getProductDetail);
+  const { data, isLoading, refetch } = useQuery(
+    "get-product-detail",
+    getProductDetail
+  );
   return {
     product: data,
     isLoading: isLoading,
+    refetch: refetch,
   };
 };

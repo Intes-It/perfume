@@ -3,7 +3,7 @@ import { Container } from "@components/container";
 // import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
 import useCart from "@hooks/useCart";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
-import { clearCart } from "@redux/slices/cart";
+import { clearCart, updateFullCart } from "@redux/slices/cart";
 import { api } from "@utils/apiRoute";
 import { POST } from "@utils/fetch";
 import { useRouter } from "next/router";
@@ -76,7 +76,10 @@ const Checkout: React.FC = () => {
       };
       const res = await POST(api.create_order, payload);
 
-      if (res.status === 201 || res.status === 200) return res.data?.payment_id;
+      if (res.status === 201 || res.status === 200) {
+        dispatch(updateFullCart([]));
+        return res.data?.payment_id;
+      }
     } catch (error) {
       console.log("error :>> ", error);
     }
