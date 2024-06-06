@@ -36,7 +36,7 @@ const Home: React.FC = () => {
             top: `${screenWidth > 400 ? "75%" : "85%"}`,
           }}
         >
-          <button
+          {/* <button
             style={{ padding: "10px 50px 10px 50px" }}
             className={
               "rounded-full h-12  text-center bg-[#ACD051] min-w-[140px] text-white border-transparent border hover:bg-transparent hover:text-black font-bold hover:border-black "
@@ -45,7 +45,7 @@ const Home: React.FC = () => {
             <Link href={"https://nature-feerique.sumupstore.com"}>
               I LOVE IT
             </Link>
-          </button>
+          </button> */}
         </div>
       ),
       mobile_img: "/images/8.webp",
@@ -60,7 +60,7 @@ const Home: React.FC = () => {
             top: `${screenWidth > 400 ? "75%" : "85%"}`,
           }}
         >
-          <button
+          {/* <button
             className={
               "rounded-full h-12  text-center bg-black min-w-[140px] text-white border-transparent border hover:bg-transparent hover:text-black font-bold hover:border-black "
             }
@@ -68,7 +68,7 @@ const Home: React.FC = () => {
             <Link href={"https://nature-feerique.sumupstore.com"}>
               I SUCCUMB
             </Link>
-          </button>
+          </button> */}
         </div>
       ),
       mobile_img: "/images/9.webp",
@@ -83,13 +83,13 @@ const Home: React.FC = () => {
             top: `${screenWidth > 400 ? "75%" : "85%"}`,
           }}
         >
-          <button
+          {/* <button
             className={
               "rounded-full h-12  text-center bg-amber-950 min-w-[140px] text-white border-transparent border hover:bg-transparent hover:text-white font-bold hover:border-white "
             }
           >
             <Link href={"https://nature-feerique.sumupstore.com"}>YES</Link>
-          </button>
+          </button> */}
         </div>
       ),
       mobile_img: "/images/10.webp",

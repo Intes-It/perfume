@@ -40,7 +40,7 @@ const Order = () => {
   const { data } = useQuery(["get-list-order", status, page], async () => {
     try {
       const res = await GET(
-        `/api/order/my_order/?page=${page}${status ? status : ""}`
+        `/api/order/my_order/?page=${page}${status ? status : ""}${"&page_size=10"}`
       );
       return res.data;
     } catch (error) {
@@ -74,25 +74,25 @@ const Order = () => {
       <tr key={item.id} className="bg-white">
         <th
           scope="row"
-          className="px-7 py-4 font-medium text-[#374151] whitespace-nowrap"
+          className="px-7 py-4 font-normal text-[#374151] whitespace-nowrap"
         >
           {item.id}
         </th>
-        <td className="px-7 py-4 font-medium text-[#374151]">
+        <td className="px-7 py-4 font-normal text-[#374151]">
           {dayjs(item.updated_at).format("YYYY-MM-DD")}
           {"    "}
           <span className="ml-2"></span>
           {dayjs(item.updated_at).format("HH:mm")}
         </td>
-        <td className="pl-12 py-4 font-medium text-[#374151]  ">
+        <td className="pl-12 py-4 font-normal text-[#374151]  ">
           {item.quantity}
         </td>
-        <td className="px-6 py-4 font-semibold text-[#374151] ">
+        <td className="px-6 py-4 font-medium text-[#374151] ">
           {item.total} $
         </td>
         <td
           className={twMerge(
-            "px-7 py-4 font-semibold",
+            "px-7 py-4 font-medium",
             { 8: "text-[#00DD16]", 5: "text-[#FF2626]" }[item.status] ||
             "text-[#0047FF]"
           )}
@@ -204,8 +204,8 @@ const Order = () => {
               <div className="flex gap-x-5">
                 <button
                   className={twMerge(
-                    "text-[#B3B3B3] text-xs font-medium",
-                    data?.previous_page === null && "cursor-not-allowed"
+                    " text-xs font-medium",
+                    data?.previous_page === null ? "cursor-not-allowed text-[#B3B3B3]" : "text-[#000]"
                   )}
                   onClick={() =>
                     setState((p) => ({ ...p, page: state.page - 1 }))
@@ -230,8 +230,8 @@ const Order = () => {
 
                 <button
                   className={twMerge(
-                    "text-[#B3B3B3] text-xs font-medium",
-                    data?.next_page === null && "cursor-not-allowed"
+                    " text-xs font-medium",
+                    data?.next_page === null ? "cursor-not-allowed text-[#B3B3B3]" : "text-[#000]"
                   )}
                   onClick={() =>
                     setState((p) => ({ ...p, page: state.page + 1 }))
