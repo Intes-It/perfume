@@ -15,6 +15,9 @@ const nextConfig = {
     locales: ["en", "vn"],
     defaultLocale: "en",
   },
+  experimental: {
+    scrollRestoration: true,
+  },
   output: "standalone",
   rewrites: async () => {
     return [

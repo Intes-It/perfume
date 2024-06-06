@@ -5,12 +5,11 @@ import Register from "@components/register";
 import { faWindowMaximize } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useUser from "@hooks/useUser";
-import { clearCart } from "@redux/slices/cart";
-import { ExProduct } from "@types";
+import { saveOptions } from "@redux/slices/optionProduct";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const MyAccount = () => {
   const { loginAccount, registerAccount, isAuthenticated, isUserLoading } =
@@ -24,23 +23,20 @@ const MyAccount = () => {
     message: "",
     color: "",
   });
-  const products = useSelector(
-    (state: any) => state?.cart?.products
-  ) as ExProduct[];
+
+  const dispatch = useDispatch();
 
   const { error, message, color } = state;
-  const dispatch = useDispatch();
   const onLogin = async (data: any) => {
     const res = await loginAccount(data);
     if (res?.status === 200) {
       setCookie("access_token", res.data?.access);
       setCookie("refresh_token", res.data?.refresh);
-      if (products !== null) {
-        dispatch(clearCart());
-      }
+
       if (previousPath?.before) {
         router.push(previousPath?.before.toString());
-      } else window.location.replace("/");
+        dispatch(saveOptions());
+      } else router.push("/");
     } else {
       setState((o) => ({
         ...o,

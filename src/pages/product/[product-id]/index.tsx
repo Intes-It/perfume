@@ -10,27 +10,24 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 // import { Product } from "@types";
 
 import { addProduct } from "@redux/slices/cart";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import ImageModal from "@components/image-modal";
 import { useBestSallingProducts, useProductDetail } from "@hooks/useProduct";
 import useUser from "@hooks/useUser";
 import { useRouter } from "next/router";
 
+import {
+  addOptions,
+  optionsType,
+  removeOptions,
+} from "@redux/slices/optionProduct";
 import { showToast } from "@redux/slices/toast/toastSlice";
 import { api } from "@utils/apiRoute";
 import { POST } from "@utils/fetch";
 import _ from "lodash";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
-
-type optionType = {
-  current_price?: number;
-  id: number;
-  name: string;
-  price: number;
-  color?: string;
-};
 
 export const getServerSideProps: GetServerSideProps<{
   productId: string;
@@ -52,6 +49,11 @@ const ProductDetail: React.FC<
 > = ({ productId }) => {
   // redux
   const dispatch = useDispatch();
+  const router = useRouter();
+
+  const currOptions = useSelector(
+    (state: any) => state?.options
+  ) as optionsType;
 
   const { isAuthenticated } = useUser();
   const [tabs, setTabs] = useState(0);
@@ -62,20 +64,11 @@ const ProductDetail: React.FC<
   const { product, isLoading, refetch } = useProductDetail({ id: productId });
   const { products } = useBestSallingProducts();
 
-  const [packageSelected, setPackageSelected] = useState<optionType | null>(
-    null
-  );
-  const [contenanceSelected, setContenanceSelected] =
-    useState<optionType | null>(null);
-  const [colorSelected, setColorSelected] = useState<optionType | null>(null);
-
   const [state, setState] = useState({
     isShowImageModal: false,
     quantity: 1,
-    selectorImage: undefined,
+    selectorImage: currOptions?.image || undefined,
   });
-
-  const router = useRouter();
 
   const { isShowImageModal, quantity, selectorImage } = state;
 
@@ -133,17 +126,22 @@ const ProductDetail: React.FC<
   const sumChoice = useMemo(() => {
     return (
       (product?.current_price || product?.price) +
-      (packageSelected?.price || 0) +
-      (contenanceSelected?.price || 0) +
-      (colorSelected?.price || 0)
+      (currOptions?.package?.price || 0) +
+      (currOptions?.capacity?.price || 0) +
+      (currOptions?.color?.price || 0)
     );
-  }, [packageSelected, contenanceSelected, colorSelected, product]);
+  }, [
+    currOptions?.package,
+    currOptions?.capacity,
+    currOptions?.color,
+    product,
+  ]);
 
   const handleAddProduct = async (type?: string) => {
     if (
-      (!packageSelected && product.package?.length > 0) ||
-      (!contenanceSelected && product?.capacity?.length > 0) ||
-      (!colorSelected && product?.color?.length > 0)
+      (!currOptions?.package && product.package?.length > 0) ||
+      (!currOptions?.capacity && product?.capacity?.length > 0) ||
+      (!currOptions?.color && product?.color?.length > 0)
     ) {
       setIsError({
         type: "option",
@@ -173,9 +171,9 @@ const ProductDetail: React.FC<
           {
             product_id: product?.id,
             quantity: quantity,
-            package: packageSelected?.id,
-            color: colorSelected?.id,
-            capacity: contenanceSelected?.id,
+            package: currOptions?.package?.id,
+            color: currOptions?.color?.id,
+            capacity: currOptions?.capacity?.id,
           },
         ],
       };
@@ -207,8 +205,27 @@ const ProductDetail: React.FC<
     if (e.key === "." || e.key === ",") e.preventDefault();
   };
 
+  const handleAddOption = (value: any) => {
+    dispatch(
+      addOptions({
+        ...currOptions,
+        ...value,
+        currId: productId,
+        image: value?.image?.url,
+      })
+    );
+  };
+
   useEffect(() => {
-    if (productId) refetch();
+    if (productId) {
+      refetch();
+      if (
+        (!router.asPath.includes(currOptions?.currId) ||
+          !currOptions?.isSave) &&
+        currOptions
+      )
+        dispatch(removeOptions());
+    }
   }, [productId]);
 
   if (isLoading) {
@@ -270,7 +287,9 @@ const ProductDetail: React.FC<
             {_.isEmpty(product?.color) ? null : (
               <span className="flex font-semibold  text-[#603813] ">
                 Color :
-                <span className="grid font-medium">{colorSelected?.name} </span>
+                <span className="grid font-medium">
+                  {currOptions?.color?.name}{" "}
+                </span>
               </span>
             )}
             <div className="flex gap-3 pt-2">
@@ -281,16 +300,16 @@ const ProductDetail: React.FC<
                     onClick={() => {
                       setState((o) => ({
                         ...o,
-                        selectorImage: item.image,
+                        selectorImage: item.image?.url,
                       }));
-                      setColorSelected(item);
+                      handleAddOption({ color: item });
                     }}
                     style={{
                       background: `${item.color}`,
                     }}
                     className={twMerge(
                       " border p-2 text-white outline-none",
-                      colorSelected?.id === item?.id && "border-black"
+                      currOptions?.color?.id === item?.id && "border-black"
                     )}
                   >
                     {/* //  className={`mb-3 border p-2 text-white border-black bg-[#50d71e]`}>  */}
@@ -309,9 +328,9 @@ const ProductDetail: React.FC<
                 >
                   <div className="flex">
                     <strong>Contenance :</strong>
-                    {contenanceSelected?.name && (
+                    {currOptions?.capacity?.name && (
                       <span className="grid font-medium">
-                        {contenanceSelected?.name}
+                        {currOptions?.capacity?.name}
                       </span>
                     )}
                   </div>
@@ -325,7 +344,7 @@ const ProductDetail: React.FC<
                     <button
                       // href={"#" + capacityName[index]}
                       className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate ${
-                        contenanceSelected?.id === item?.id &&
+                        currOptions?.capacity?.id === item?.id &&
                         "border-[#6A5950]"
                       } " `}
                       onClick={() => {
@@ -334,7 +353,11 @@ const ProductDetail: React.FC<
                             ...isError,
                             type: "",
                           });
-                        setContenanceSelected(item);
+                        setState((o) => ({
+                          ...o,
+                          selectorImage: item.image?.url,
+                        }));
+                        handleAddOption({ capacity: item });
                       }}
                     >
                       {item?.name}
@@ -348,7 +371,7 @@ const ProductDetail: React.FC<
           <div className="flex gap-1 ">
             {!_.isEmpty(product?.package) && (
               <div className="text-[#603813]    transition-opacity duration-150 ease-linear">
-                <strong>Packaging</strong> : {packageSelected?.name}
+                <strong>Packaging</strong> : {currOptions?.package?.name}
               </div>
             )}
           </div>
@@ -359,11 +382,12 @@ const ProductDetail: React.FC<
                   <button
                     // href={"#" + namePackaging[index]}
                     className={`p-3 block border text-[#16px] leading-tight text-[#515151] font-semibold hover:isolate focus:isolate hover:border-transparent hover:bg-neutral-100   ${
-                      packageSelected?.id === item?.id ? "border-[#6A5950]" : ""
+                      currOptions?.package?.id === item?.id
+                        ? "border-[#6A5950]"
+                        : ""
                     } `}
                     onClick={() => {
-                      const selectorImage = item?.image;
-                      setPackageSelected(item);
+                      handleAddOption({ package: item });
                       if (isError.type)
                         setIsError({
                           ...isError,
@@ -371,7 +395,7 @@ const ProductDetail: React.FC<
                         });
                       setState((o) => ({
                         ...o,
-                        selectorImage,
+                        selectorImage: item.image?.url,
                       }));
                     }}
                     role="tab"
