@@ -79,10 +79,10 @@ const Order = () => {
           {item.id}
         </th>
         <td className="px-7 py-4 font-medium text-[#374151]">
-          {dayjs(item.update_at).format("YYYY-MM-DD")}
+          {dayjs(item.updated_at).format("YYYY-MM-DD")}
           {"    "}
           <span className="ml-2"></span>
-          {dayjs(item.update_at).format("HH:MM")}
+          {dayjs(item.updated_at).format("HH:mm")}
         </td>
         <td className="pl-12 py-4 font-medium text-[#374151]  ">
           {item.quantity}
@@ -94,7 +94,7 @@ const Order = () => {
           className={twMerge(
             "px-7 py-4 font-semibold",
             { 8: "text-[#00DD16]", 5: "text-[#FF2626]" }[item.status] ||
-              "text-[#0047FF]"
+            "text-[#0047FF]"
           )}
         >
           {listStatus[item.status.toString()]}
@@ -217,9 +217,8 @@ const Order = () => {
                 <div className="flex gap-x-2">
                   {Array.from({ length: data?.num_pages }, (_, index) => (
                     <button
-                      className={` ${
-                        page === index + 1 && "bg-[#603813] text-white"
-                      }  w-5 h-5 px-1  rounded text-sm`}
+                      className={` ${page === index + 1 && "bg-[#603813] text-white"
+                        }  w-5 h-5 px-1  rounded text-sm`}
                       onClick={() => {
                         setState((p) => ({ ...p, page: index + 1 }));
                       }}
@@ -364,10 +363,10 @@ const Order = () => {
             {orderDetail?.status === 5
               ? "The order has been canceled."
               : orderDetail?.status === 7
-              ? "The order is on the way."
-              : orderDetail?.status === 8
-              ? "The order has been completed."
-              : "We are preparing your order."}
+                ? "The order is on the way."
+                : orderDetail?.status === 8
+                  ? "The order has been completed."
+                  : "We are preparing your order."}
           </div>
           <div className="text-[16px] text-[#374151] font-semibold mb-8">
             Orders ({totalOrder})
