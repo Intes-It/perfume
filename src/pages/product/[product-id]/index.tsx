@@ -299,10 +299,11 @@ const ProductDetail: React.FC<
                   <button
                     key={index}
                     onClick={() => {
-                      setState((o) => ({
-                        ...o,
-                        selectorImage: item.image?.url,
-                      }));
+                      item.image?.url &&
+                        setState((o) => ({
+                          ...o,
+                          selectorImage: item.image?.url,
+                        }));
                       handleAddOption({ color: item });
                     }}
                     style={{
@@ -354,10 +355,11 @@ const ProductDetail: React.FC<
                             ...isError,
                             type: "",
                           });
-                        setState((o) => ({
-                          ...o,
-                          selectorImage: item.image?.url,
-                        }));
+                        item.image?.url &&
+                          setState((o) => ({
+                            ...o,
+                            selectorImage: item.image?.url,
+                          }));
                         handleAddOption({ capacity: item });
                       }}
                     >
@@ -394,10 +396,11 @@ const ProductDetail: React.FC<
                           ...isError,
                           type: "",
                         });
-                      setState((o) => ({
-                        ...o,
-                        selectorImage: item.image?.url,
-                      }));
+                      item.image?.url &&
+                        setState((o) => ({
+                          ...o,
+                          selectorImage: item.image?.url,
+                        }));
                     }}
                     role="tab"
                   >

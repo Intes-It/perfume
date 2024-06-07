@@ -37,7 +37,7 @@ const ProductSubGroup = () => {
       return category?.subcategories || [];
     }
     return [];
-  }, [data, category_id]) as any;
+  }, [data, category_id, sub_category_id]) as any;
 
   const secondSubCategories = useMemo(() => {
     if (data?.length > 0) {
@@ -48,7 +48,7 @@ const ProductSubGroup = () => {
       return category?.sub_subcategories || [];
     }
     return [];
-  }, [subCategories]) as any;
+  }, [subCategories, sub_category_id]) as any;
 
   const getProductCategory = async () => {
     if (!sub_category_id) return;
@@ -125,7 +125,7 @@ const ProductSubGroup = () => {
             />
 
             <DropdownCheckbox
-              title="Prix"
+              title="Price"
               selections={productPrice}
               value={selectedRangePrice}
               onChange={handlePriceRangeChange}
@@ -136,6 +136,7 @@ const ProductSubGroup = () => {
             <DropdownSelect
               selections={productFilter}
               onChange={handleSortChange}
+              className="py-2 max-h-12"
             />
           </div>
         </div>

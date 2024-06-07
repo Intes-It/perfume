@@ -76,6 +76,9 @@ const CartTable = () => {
 
   const handleCloseUpdate = () => {
     setIsOpenUpdateProduct(false);
+    if (priceVoucher) setPriceVoucher(null);
+    if (voucher) setVoucher("");
+
     setTimeout(() => {
       setProductSelected(null);
     }, 300);

@@ -89,6 +89,7 @@ const ProductSubSubGroup = () => {
             <DropdownSelect
               selections={productFilter}
               onChange={handleSortChange}
+              className="py-2 max-h-12"
             />
           </div>
         </div>

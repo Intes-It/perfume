@@ -40,8 +40,10 @@ export const Layout = ({ children }: Props) => {
             : "Nature Féerique - Créateur de cosmétiques naturels solides"}
         </title>
       </Head>
-      <Header />
-      <Navbar />
+      <div className="sticky top-0 z-[60] bg-white">
+        <Header />
+        <Navbar />
+      </div>
       <Title />
 
       <div className="flex-1">{children}</div>
