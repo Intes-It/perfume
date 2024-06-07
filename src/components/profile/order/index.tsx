@@ -407,7 +407,7 @@ const Order = () => {
                         item.item_product_capacity.length > 0 &&
                         ", "}
                       {item.item_product_capacity.length > 0
-                        ? item.item_product_capacity[0]?.product_capacity
+                        ? item.item_product_capacity[0]?.product_capacity?.name
                         : ""}
                       {((item.item_product_package.length > 0 &&
                         item.item_product_capacity.length > 0) ||
