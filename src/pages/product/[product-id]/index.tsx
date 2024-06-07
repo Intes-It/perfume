@@ -502,7 +502,10 @@ const ProductDetail: React.FC<
         <BestSales products={products} />
       </div>
       <ImageModal
-        imgUrl={product?.images?.length > 0 && product?.images[0]?.url}
+        imgUrl={
+          selectorImage ||
+          (product?.images?.length > 0 && product?.images[0]?.url)
+        }
         isShowModel={isShowImageModal}
         onClose={() => setShowModal(false)}
       />
