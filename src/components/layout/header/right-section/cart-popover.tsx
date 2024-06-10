@@ -13,6 +13,8 @@ const CartPopover: React.FC = () => {
     (state: any) => state?.cart?.products
   ) as ExProduct[];
 
+  console.log("products :>> ", products);
+
   const access = getCookie("access_token");
 
   const { refresh } = useCart();

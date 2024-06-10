@@ -19,7 +19,7 @@ const DropdownSelect: React.FC<DropdownProps> = ({
     <select
       id="s"
       className={twMerge(
-        "md:w-44 w-30 p-4 border rounded bg-white text-[#603813] text-[14.4px] mobile:text-[12.6px] mobile:w-28 cursor-pointer",
+        "md:w-44 w-30 p-4 border rounded border-[#E5E7EB] bg-white text-[#603813] text-[14.4px] mobile:text-[12.6px] mobile:w-28 cursor-pointer",
         className
       )}
       onChange={handleChange}

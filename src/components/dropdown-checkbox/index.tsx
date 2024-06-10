@@ -1,6 +1,7 @@
 import useClickOutside from "@hooks/useClickoutside";
 import * as React from "react";
 import { useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 type DropdownProps = {
   title: string;
@@ -29,7 +30,10 @@ const DropdownCheckbox: React.FC<DropdownProps> = ({
     <div className="font-semibold" ref={listRef}>
       <div
         onClick={() => setIsList(!isList)}
-        className="md:w-60 mobile:text-[14px] mobile:w-44 p-4 border rounded bg-white text-[#603813] text-[14.4px] leading-none flex items-center justify-between cursor-pointer"
+        className={twMerge(
+          "md:w-60 mobile:text-[14px] mobile:w-44 p-4 border rounded bg-white text-[#603813] text-[14.4px] leading-none flex items-center justify-between cursor-pointer",
+          isList && "ring-2 ring-[#1C64F2]"
+        )}
       >
         {title}
         <div>

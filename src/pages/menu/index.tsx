@@ -94,7 +94,9 @@ const Menu = () => {
             ))
           ) : (
             products?.results?.length === 0 && (
-              <div className="ml-20 text-[20px]">No Product</div>
+              <div className=" text-[20px] mt-10 col-span-2 md:col-span-4 tablet:col-span-3">
+                No Product
+              </div>
             )
           )}
         </div>

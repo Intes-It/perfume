@@ -2,7 +2,6 @@ import useClickOutside from "@hooks/useClickoutside";
 import { Product } from "@types";
 import { api } from "@utils/apiRoute";
 import { GET } from "@utils/fetch";
-import { debounce } from "lodash-es";
 import {
   DetailedHTMLProps,
   Fragment,
@@ -25,18 +24,18 @@ const SearchPopover = (
 
   useClickOutside(searchRef, () => setIsOpen(false));
 
-  const onInputChange = debounce(function (value: string) {
-    setIsOpen(true);
+  const onInputChange = (value: string) => {
+    if (value === "") setIsOpen(false);
+    setValue(value);
+  };
+
+  const handleSearch = async () => {
     if (value === "") {
-      setProduct(null);
-      setIsOpen(false);
       return;
     }
-    handleSearch(value);
-  }, 500);
-
-  const handleSearch = async (value: string) => {
+    setIsOpen(true);
     setIsLoading(true);
+
     try {
       const res = await GET(api.products + "/?search=" + value);
 
@@ -50,6 +49,10 @@ const SearchPopover = (
     }
   };
 
+  const handleKeyDown = (value: string) => {
+    if (value === "Enter") handleSearch();
+  };
+
   return (
     <Fragment>
       <div {...props}>
@@ -57,9 +60,10 @@ const SearchPopover = (
           <div className="relative">
             <input
               type="text"
-              className="border-[#D9D9D9] rounded pr-8 h-9 pl-3 w-60 placeholder:text-xs text-xs"
+              className="border-[#D9D9D9] focus:ring-0 focus:border-black text-[#374151] rounded font-medium pr-8 h-9 pl-3 w-60 placeholder:text-xs text-xs"
               placeholder="Search"
               onChange={(e) => onInputChange(e.target.value)}
+              onKeyDown={(e) => handleKeyDown(e.key)}
               onFocus={() => {
                 if (product && product?.length > 0) {
                   setIsOpen(true);
@@ -72,6 +76,7 @@ const SearchPopover = (
               viewBox="0 0 16 16"
               className="absolute -translate-y-1/2 cursor-pointer right-3 top-1/2"
               fill="none"
+              onClick={handleSearch}
               xmlns="http://www.w3.org/2000/svg"
             >
               <path

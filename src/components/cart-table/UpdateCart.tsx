@@ -59,7 +59,9 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
     order?.color
   );
   const [quantity, setQuantity] = useState<number>(order?.quantity || 1);
-  const [selectorImage, setSelectorImage] = useState<string | null>(null);
+  const [selectorImage, setSelectorImage] = useState<string | null>(
+    order?.image || null
+  );
 
   const dispatch = useDispatch();
 
@@ -202,7 +204,8 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
                             <button
                               key={index}
                               onClick={() => {
-                                if (item.image) setSelectorImage(item.image);
+                                if (item.image)
+                                  setSelectorImage(item.image?.url);
                                 setColorSelected(item);
                               }}
                               style={{
@@ -252,6 +255,8 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
                                       type: "",
                                     });
                                   setCapacitySelected(item);
+                                  if (item.image)
+                                    setSelectorImage(item.image?.url);
                                 }}
                               >
                                 {item?.name}
@@ -285,14 +290,14 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
                                     : ""
                                 } `}
                                 onClick={() => {
-                                  const selectorImage = item?.image;
                                   setPackageSelected(item);
                                   if (isError.type)
                                     setIsError({
                                       ...isError,
                                       type: "",
                                     });
-                                  setSelectorImage(selectorImage);
+                                  if (item.image)
+                                    setSelectorImage(item.image?.url);
                                 }}
                                 role="tab"
                               >
