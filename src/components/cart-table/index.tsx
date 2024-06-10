@@ -240,12 +240,12 @@ const CartTable = () => {
                   </td>
                 </tr>
                 <tr className="border-b border-[#BFBFBF] bg-[#f6f6f6]">
-                  <td className="px-2 py-3 font-bold">Voucher</td>
+                  <td className="px-2 py-3 font-bold">Discount</td>
                   <td className="px-2 py-3">
                     ${" "}
                     {(priceVoucher?.discount &&
                       priceVoucher?.discount.toFixed(2)) ||
-                      0}
+                      "0.00"}
                   </td>
                 </tr>
                 <tr className="border-b border-[#BFBFBF]">

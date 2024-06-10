@@ -3,15 +3,14 @@ import { setList } from "@redux/slices/favorite";
 import { instance } from "@utils/_axios";
 import { api } from "@utils/apiRoute";
 import { deleteCookie, getCookie } from "cookies-next";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { twMerge } from "tailwind-merge";
 import { Container } from "..";
 import Adress from "./adress";
-import Delivery from "./delivery";
 import Detail from "./detail";
 import Order from "./order";
-import Payment from "./payment";
 import UserProfile from "./user-profile";
 
 const Tabs = [
@@ -53,7 +52,11 @@ const Tabs = [
 ];
 
 const Profile = () => {
-  const [tabs, setTabs] = useState(0);
+  const router = useRouter();
+
+  const page = router.query?.page ? +router.query?.page : 0;
+
+  const [tabs, setTabs] = useState(page);
   const dispatch = useDispatch();
   const logOut = async () => {
     await instance
