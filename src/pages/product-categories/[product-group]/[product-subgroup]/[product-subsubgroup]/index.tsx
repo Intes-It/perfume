@@ -97,13 +97,13 @@ const ProductSubSubGroup = () => {
           {!isLoading &&
             (products?.results?.length > 0
               ? products?.results?.map((item: Product, index: number) => (
-                <div key={index}>
-                  <ProductItem showFavorite={true} product={item} />
-                </div>
-              ))
+                  <div key={index}>
+                    <ProductItem showFavorite={true} product={item} />
+                  </div>
+                ))
               : products?.results?.length === 0 && (
-                <div className="ml-20 text-[20px]">No Product found</div>
-              ))}
+                  <div className="ml-20 text-[20px]">No Product</div>
+                ))}
         </div>
       </div>
     </Container>
