@@ -90,7 +90,7 @@ const Order = () => {
           {item.quantity}
         </td>
         <td className="px-6 py-4 font-medium text-[#374151] ">
-          {item.total} $
+          $ {item.total}
         </td>
         <td
           className={twMerge(
@@ -403,34 +403,34 @@ const Order = () => {
                   />
                   <div className="flex flex-col ml-3">
                     <div className="flex flex-row gap-5 text-[16px] text-[#374151] font-medium mb-2">
-                      <div>{item.product.name}</div>{" "}
+                      <div>{item.product?.name}</div>{" "}
                       <div>{"x" + item.quantity}</div>
                     </div>
                     <div className="text-[#ABABAB] text-[14px] font-medium">
-                      {item.item_product_color.length > 0
-                        ? item.item_product_color[0]?.product_color.name
+                      {item.item_product_color?.length > 0
+                        ? item.item_product_color[0]?.product_color?.name
                         : ""}
-                      {item.item_product_color.length > 0 &&
-                        item.item_product_capacity.length > 0 &&
+                      {item.item_product_color?.length > 0 &&
+                        item.item_product_capacity?.length > 0 &&
                         ", "}
-                      {item.item_product_capacity.length > 0
+                      {item.item_product_capacity?.length > 0
                         ? item.item_product_capacity[0]?.product_capacity?.name
                         : ""}
-                      {((item.item_product_package.length > 0 &&
-                        item.item_product_capacity.length > 0) ||
-                        (item.item_product_color.length > 0 &&
-                          item.item_product_package.length > 0)) &&
+                      {((item.item_product_package?.length > 0 &&
+                        item.item_product_capacity?.length > 0) ||
+                        (item.item_product_color?.length > 0 &&
+                          item.item_product_package?.length > 0)) &&
                         ", "}
-                      {item.item_product_package.length > 0
-                        ? item.item_product_package[0]?.product_package.name
+                      {item.item_product_package?.length > 0
+                        ? item.item_product_package[0]?.product_package?.name
                         : ""}
                     </div>
                   </div>
                 </div>
                 <div className="flex flex-col">
                   <div className="text-[#603813] text-[16px] font-bold mb-1">
+                    {"$ "}
                     {item.total}
-                    {" $"}
                   </div>
                 </div>
               </div>
@@ -443,7 +443,7 @@ const Order = () => {
               Sub-total
             </div>
             <div className="text-[#603813] text-[16px] font-semibold">
-              {orderDetail.sub_total} $
+              $ {orderDetail?.order_total_price_before_voucher}
             </div>
           </div>
           <div className="flex justify-between mb-1">
@@ -451,7 +451,7 @@ const Order = () => {
               Shipping
             </div>
             <div className="text-[#603813] text-[16px] font-semibold">
-              {orderDetail.shipping_fee} $
+              $ {orderDetail.shipping_fee}
             </div>
           </div>
           <div className="text-[12px] font-normal text-[#ABABAB] mb-6">
@@ -462,10 +462,23 @@ const Order = () => {
             className="flex justify-between pb-6 mb-4 "
             style={{ borderBottom: "1px solid #E9E9E9" }}
           >
+            <div className="text-[16px] text-[#374151] font-medium">
+              Discount
+            </div>
+            <div className="text-[#603813] text-[16px] font-semibold">
+              ${" "}
+              {orderDetail?.order_total_price_before_voucher -
+                orderDetail?.total}
+            </div>
+          </div>
+          <div
+            className="flex justify-between pb-6 mb-4 "
+            style={{ borderBottom: "1px solid #E9E9E9" }}
+          >
             <div className="text-[16px] text-[#374151] font-medium">VAT</div>
             <div className="text-[#603813] text-[16px] font-semibold">
-              <span className="mr-3 font-semibold">(5%)</span>
-              {orderDetail.tax_fee} $
+              <span className="mr-3 font-semibold">(5%)</span>${" "}
+              {orderDetail?.tax_fee}
             </div>
           </div>
           <div className="flex justify-between mb-8">
@@ -479,7 +492,7 @@ const Order = () => {
                 />
               )}
               <div className="text-[#603813] text-[20px] font-bold">
-                {orderDetail.total} $
+                $ {orderDetail?.total}
               </div>
             </div>
           </div>
