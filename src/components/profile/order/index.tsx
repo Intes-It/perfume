@@ -40,7 +40,9 @@ const Order = () => {
   const { data } = useQuery(["get-list-order", status, page], async () => {
     try {
       const res = await GET(
-        `/api/order/my_order/?page=${page}${status ? status : ""}${"&page_size=10"}`
+        `/api/order/my_order/?page=${page}${
+          status ? status : ""
+        }${"&page_size=10"}`
       );
       return res.data;
     } catch (error) {
@@ -64,7 +66,7 @@ const Order = () => {
   const th = {
     color: "#603813",
     padding: ".75rem 1.75rem",
-    fontWeight: 500,
+    fontWeight: 600,
     fontSize: 14,
   };
 
@@ -94,7 +96,7 @@ const Order = () => {
           className={twMerge(
             "px-7 py-4 font-medium",
             { 8: "text-[#00DD16]", 5: "text-[#FF2626]" }[item.status] ||
-            "text-[#0047FF]"
+              "text-[#0047FF]"
           )}
         >
           {listStatus[item.status.toString()]}
@@ -205,7 +207,9 @@ const Order = () => {
                 <button
                   className={twMerge(
                     " text-xs font-medium",
-                    data?.previous_page === null ? "cursor-not-allowed text-[#B3B3B3]" : "text-[#000]"
+                    data?.previous_page === null
+                      ? "cursor-not-allowed text-[#B3B3B3]"
+                      : "text-[#000]"
                   )}
                   onClick={() =>
                     setState((p) => ({ ...p, page: state.page - 1 }))
@@ -217,8 +221,9 @@ const Order = () => {
                 <div className="flex gap-x-2">
                   {Array.from({ length: data?.num_pages }, (_, index) => (
                     <button
-                      className={` ${page === index + 1 && "bg-[#603813] text-white"
-                        }  w-5 h-5 px-1  rounded text-sm`}
+                      className={` ${
+                        page === index + 1 && "bg-[#603813] text-white"
+                      }  w-5 h-5 px-1  rounded text-sm`}
                       onClick={() => {
                         setState((p) => ({ ...p, page: index + 1 }));
                       }}
@@ -231,7 +236,9 @@ const Order = () => {
                 <button
                   className={twMerge(
                     " text-xs font-medium",
-                    data?.next_page === null ? "cursor-not-allowed text-[#B3B3B3]" : "text-[#000]"
+                    data?.next_page === null
+                      ? "cursor-not-allowed text-[#B3B3B3]"
+                      : "text-[#000]"
                   )}
                   onClick={() =>
                     setState((p) => ({ ...p, page: state.page + 1 }))
@@ -363,10 +370,10 @@ const Order = () => {
             {orderDetail?.status === 5
               ? "The order has been canceled."
               : orderDetail?.status === 7
-                ? "The order is on the way."
-                : orderDetail?.status === 8
-                  ? "The order has been completed."
-                  : "We are preparing your order."}
+              ? "The order is on the way."
+              : orderDetail?.status === 8
+              ? "The order has been completed."
+              : "We are preparing your order."}
           </div>
           <div className="text-[16px] text-[#374151] font-semibold mb-8">
             Orders ({totalOrder})
