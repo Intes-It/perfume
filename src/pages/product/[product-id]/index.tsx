@@ -212,7 +212,7 @@ const ProductDetail: React.FC<
         ...currOptions,
         ...value,
         currId: productId,
-        image: value?.image?.url,
+        image: value?.image,
       })
     );
   };
@@ -304,7 +304,10 @@ const ProductDetail: React.FC<
                           ...o,
                           selectorImage: item.image?.url,
                         }));
-                      handleAddOption({ color: item });
+                      handleAddOption({
+                        color: item,
+                        image: item.image?.url || currOptions.image,
+                      });
                     }}
                     style={{
                       background: `${item.color}`,
@@ -360,7 +363,10 @@ const ProductDetail: React.FC<
                             ...o,
                             selectorImage: item.image?.url,
                           }));
-                        handleAddOption({ capacity: item });
+                        handleAddOption({
+                          capacity: item,
+                          image: item.image?.url || currOptions.image,
+                        });
                       }}
                     >
                       {item?.name}
@@ -390,7 +396,10 @@ const ProductDetail: React.FC<
                         : ""
                     } `}
                     onClick={() => {
-                      handleAddOption({ package: item });
+                      handleAddOption({
+                        package: item,
+                        image: item.image?.url || currOptions.image,
+                      });
                       if (isError.type)
                         setIsError({
                           ...isError,

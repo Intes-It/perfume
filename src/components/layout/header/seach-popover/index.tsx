@@ -3,10 +3,12 @@ import { Product } from "@types";
 import { api } from "@utils/apiRoute";
 import { GET } from "@utils/fetch";
 import { debounce } from "lodash-es";
+import { useRouter } from "next/router";
 import {
   DetailedHTMLProps,
   Fragment,
   HTMLAttributes,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -20,6 +22,8 @@ const SearchPopover = (
   const [isOpen, setIsOpen] = useState(false);
 
   const searchRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const router = useRouter();
 
   useClickOutside(searchRef, () => setIsOpen(false));
 
@@ -53,6 +57,11 @@ const SearchPopover = (
     }
   };
 
+  useEffect(() => {
+    if (inputRef.current?.value) inputRef.current.value = "";
+    if (isOpen) setIsOpen(false);
+  }, [router.asPath]);
+
   return (
     <Fragment>
       <div {...props}>
@@ -62,6 +71,7 @@ const SearchPopover = (
               type="text"
               className="border-[#D9D9D9] focus:ring-0 focus:border-black text-[#374151] rounded font-medium pr-8 h-9 pl-3 w-60 placeholder:text-xs text-xs"
               placeholder="Search"
+              ref={inputRef}
               onChange={(e) => onInputChange(e.target.value)}
               onFocus={() => {
                 if (product && product?.length > 0) {
