@@ -76,6 +76,7 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
           package: packageSelected?.id,
           capacity: capacitySelected?.id,
           quantity: quantity,
+          image: selectorImage,
         },
       ],
     };
