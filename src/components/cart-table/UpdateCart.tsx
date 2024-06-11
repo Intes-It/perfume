@@ -65,6 +65,15 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
 
   const dispatch = useDispatch();
 
+  const isDirty = useMemo(() => {
+    return (
+      order?.capacity?.id !== capacitySelected?.id ||
+      order?.color?.id !== colorSelected?.id ||
+      order?.package?.id !== packageSelected?.id ||
+      order.quantity !== quantity
+    );
+  }, [capacitySelected, colorSelected, packageSelected, quantity]);
+
   const handleUpdateProduct = async () => {
     if (!product) return;
 
@@ -318,6 +327,7 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
                     <div className="flex items-center gap-3 mt-6">
                       <input
                         value={quantity}
+                        min={1}
                         onChange={(e: any) => {
                           if (+e.target.value.charAt(0) === 0) {
                             e.target.value = e.target.value.substring(1);
@@ -332,14 +342,18 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
                         onKeyDown={onKeyDown}
                         type="number"
                         className="w-16 h-10 p-1 text-center border outline-none border-gray"
-                        min={0}
                         max={999}
                         placeholder={"1"}
                       />
                       <div className="flex gap-3">
                         <button
-                          className="rounded-md bg-[#603813] p-5 py-3  hover:bg-black text-white font-semibold"
+                          className={twMerge(
+                            "rounded-md bg-[#603813] p-5 py-3  hover:bg-black text-white font-semibold",
+                            !isDirty &&
+                              "opacity-60 hover:bg-[#603813] cursor-not-allowed"
+                          )}
                           onClick={handleUpdateProduct}
+                          disabled={!isDirty}
                         >
                           UPDATE PRODUCT
                         </button>
