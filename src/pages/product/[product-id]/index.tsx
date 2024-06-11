@@ -67,10 +67,9 @@ const ProductDetail: React.FC<
   const [state, setState] = useState({
     isShowImageModal: false,
     quantity: 1,
-    selectorImage: currOptions?.image || undefined,
   });
 
-  const { isShowImageModal, quantity, selectorImage } = state;
+  const { isShowImageModal, quantity } = state;
 
   const breadCrumb = useMemo(() => {
     const listCategories = [];
@@ -174,7 +173,7 @@ const ProductDetail: React.FC<
             package: currOptions?.package?.id,
             color: currOptions?.color?.id,
             capacity: currOptions?.capacity?.id,
-            image: selectorImage,
+            image: currOptions?.image,
           },
         ],
       };
@@ -241,9 +240,9 @@ const ProductDetail: React.FC<
             className="object-fill w-full cursor-pointer h-full max-h-[700px] transition duration-300 hover:scale-125 "
             // src={product?.url_image}
             src={
-              selectorImage === undefined
+              currOptions?.image === undefined
                 ? product?.images?.length > 0 && product?.images[0]?.url
-                : selectorImage
+                : currOptions?.image
             }
             width={700}
             height={550}
@@ -299,11 +298,6 @@ const ProductDetail: React.FC<
                   <button
                     key={index}
                     onClick={() => {
-                      item.image?.url &&
-                        setState((o) => ({
-                          ...o,
-                          selectorImage: item.image?.url,
-                        }));
                       handleAddOption({
                         color: item,
                         image: item.image?.url || currOptions.image,
@@ -358,11 +352,7 @@ const ProductDetail: React.FC<
                             ...isError,
                             type: "",
                           });
-                        item.image?.url &&
-                          setState((o) => ({
-                            ...o,
-                            selectorImage: item.image?.url,
-                          }));
+
                         handleAddOption({
                           capacity: item,
                           image: item.image?.url || currOptions.image,
@@ -405,11 +395,6 @@ const ProductDetail: React.FC<
                           ...isError,
                           type: "",
                         });
-                      item.image?.url &&
-                        setState((o) => ({
-                          ...o,
-                          selectorImage: item.image?.url,
-                        }));
                     }}
                     role="tab"
                   >
@@ -512,7 +497,7 @@ const ProductDetail: React.FC<
       </div>
       <ImageModal
         imgUrl={
-          selectorImage ||
+          currOptions?.image ||
           (product?.images?.length > 0 && product?.images[0]?.url)
         }
         isShowModel={isShowImageModal}
