@@ -89,7 +89,7 @@ const ProductGroup = () => {
         <div className="w-[100%] grid md:grid-cols-2 grid-cols-1 gap-2">
           <div className="flex space-x-5 mobile:justify-between mobile:mt-5 ">
             <DropdownCheckbox
-              title={text.productScreen.category}
+              title={"Sub Categories"}
               selections={subCategories?.map((item: any) => ({
                 name: item?.name || "",
                 value: item?.id || "",

@@ -443,7 +443,7 @@ const Order = () => {
               Sub-total
             </div>
             <div className="text-[#603813] text-[16px] font-semibold">
-              $ {orderDetail?.order_total_price_before_voucher}
+              $ {orderDetail?.total_price_items}
             </div>
           </div>
           <div className="flex justify-between mb-1">
@@ -466,9 +466,7 @@ const Order = () => {
               Discount
             </div>
             <div className="text-[#603813] text-[16px] font-semibold">
-              ${" "}
-              {orderDetail?.order_total_price_before_voucher -
-                orderDetail?.total}
+              $ {orderDetail.discount}
             </div>
           </div>
           <div
