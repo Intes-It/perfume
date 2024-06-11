@@ -408,11 +408,7 @@ const Order = () => {
               >
                 <div className="flex flex-row">
                   <Image
-                    src={
-                      item.product.thumbnail.url
-                        ? item.product.thumbnail.url
-                        : ""
-                    }
+                    src={item.image ? item.image : ""}
                     alt="item"
                     width={"60px"}
                     height={"60px"}
