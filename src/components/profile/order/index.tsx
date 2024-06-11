@@ -49,19 +49,35 @@ const Order = () => {
       dispatch(() => showToast(String(error)));
     }
   });
-  useEffect(() => {
-    const getOrderById = async () => {
+  // useEffect(() => {
+  //   const getOrderById = async () => {
+  //     try {
+  //       const res = await GET(`/api/order/${orderId}`);
+  //       setOrderDetail(res?.data);
+  //     } catch (error) {
+  //       dispatch(() => showToast(String(error)));
+  //     }
+  //   };
+  //   if (orderId !== -1) {
+  //     getOrderById();
+  //   }
+  // }, [orderId]);
+  const { data: any } = useQuery(
+    ["get-order", orderId],
+    async () => {
       try {
         const res = await GET(`/api/order/${orderId}`);
         setOrderDetail(res?.data);
+        return res?.data;
       } catch (error) {
-        dispatch(() => showToast(String(error)));
+        dispatch(showToast(String(error)));
+        throw error; // Rất quan trọng để throw error để useQuery biết rằng có lỗi xảy ra
       }
-    };
-    if (orderId !== -1) {
-      getOrderById();
+    },
+    {
+      enabled: orderId !== -1, // Chỉ thực hiện query khi orderId khác -1
     }
-  }, [orderId]);
+  );
 
   const th = {
     color: "#603813",
@@ -466,7 +482,7 @@ const Order = () => {
               Discount
             </div>
             <div className="text-[#603813] text-[16px] font-semibold">
-              $ {orderDetail.discount}
+              $ {orderDetail.discount !== null ? orderDetail.discount : 0}
             </div>
           </div>
           <div
