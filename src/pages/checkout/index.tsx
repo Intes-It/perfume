@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 export type billingInfo = {
-  company: string;
+  company_name: string;
   country: string;
   email: string;
   first_name: string;
