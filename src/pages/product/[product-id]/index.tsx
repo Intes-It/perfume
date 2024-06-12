@@ -300,7 +300,7 @@ const ProductDetail: React.FC<
                     onClick={() => {
                       handleAddOption({
                         color: item,
-                        image: item.image?.url || currOptions.image,
+                        image: item.image?.url || currOptions?.image,
                       });
                     }}
                     style={{
@@ -355,7 +355,7 @@ const ProductDetail: React.FC<
 
                         handleAddOption({
                           capacity: item,
-                          image: item.image?.url || currOptions.image,
+                          image: item.image?.url || currOptions?.image,
                         });
                       }}
                     >
@@ -388,7 +388,7 @@ const ProductDetail: React.FC<
                     onClick={() => {
                       handleAddOption({
                         package: item,
-                        image: item.image?.url || currOptions.image,
+                        image: item.image?.url || currOptions?.image,
                       });
                       if (isError.type)
                         setIsError({

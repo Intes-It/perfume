@@ -4,6 +4,7 @@ import Profile from "@components/profile";
 import Register from "@components/register";
 import { faWindowMaximize } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useCart from "@hooks/useCart";
 import useUser from "@hooks/useUser";
 import { saveOptions } from "@redux/slices/optionProduct";
 import { setCookie } from "cookies-next";
@@ -14,6 +15,8 @@ import { useDispatch } from "react-redux";
 const MyAccount = () => {
   const { loginAccount, registerAccount, isAuthenticated, isUserLoading } =
     useUser();
+
+  const { refresh } = useCart();
 
   const router = useRouter();
   const previousPath = router.query;
@@ -32,7 +35,7 @@ const MyAccount = () => {
     if (res?.status === 200) {
       setCookie("access_token", res.data?.access);
       setCookie("refresh_token", res.data?.refresh);
-
+      refresh();
       if (previousPath?.before) {
         router.push(previousPath?.before.toString());
         dispatch(saveOptions());

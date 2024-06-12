@@ -3,9 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import { useSelector } from "react-redux";
 
-import useCart from "@hooks/useCart";
 import { ExProduct } from "@types";
-import { getCookie } from "cookies-next";
 import Link from "next/link";
 //
 const CartPopover: React.FC = () => {
@@ -13,20 +11,10 @@ const CartPopover: React.FC = () => {
     (state: any) => state?.cart?.products
   ) as ExProduct[];
 
-  console.log("products :>> ", products);
-
-  const access = getCookie("access_token");
-
-  const { refresh } = useCart();
-
   const totalProducts = products?.reduce(
     (pre, curr) => pre + +curr.quantity,
     0
   );
-
-  React.useEffect(() => {
-    if (access) refresh();
-  }, [access]);
 
   return (
     <Link href="/cart">

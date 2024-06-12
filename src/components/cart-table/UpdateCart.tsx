@@ -348,9 +348,9 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
                       <div className="flex gap-3">
                         <button
                           className={twMerge(
-                            "rounded-md bg-[#603813] p-5 py-3  hover:bg-black text-white font-semibold",
+                            "rounded-md bg-[#603813] p-5 py-3  hover:bg-black text-white font-semibold  transition-all duration-300 ease-in-out",
                             !isDirty &&
-                              "opacity-60 hover:bg-[#603813] cursor-not-allowed"
+                              " hover:bg-gray-400 bg-gray-400 cursor-not-allowed opacity-55"
                           )}
                           onClick={handleUpdateProduct}
                           disabled={!isDirty}
