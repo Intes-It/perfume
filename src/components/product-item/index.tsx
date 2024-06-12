@@ -41,11 +41,6 @@ const ProductItem: React.FC<ProductProps> = ({
   const token = getCookie("access_token");
 
   const handleAddProduct = async () => {
-    if (!token) {
-      route.push(`/my-account?before=${route.asPath}`);
-      return;
-    }
-
     if (
       (product?.package?.length > 0 ||
         product?.color?.length > 0 ||
@@ -53,6 +48,11 @@ const ProductItem: React.FC<ProductProps> = ({
       product?.id
     ) {
       route.push(`/product/${product.id}`);
+      return;
+    }
+
+    if (!token) {
+      route.push(`/my-account?before=${route.asPath}`);
       return;
     }
 
