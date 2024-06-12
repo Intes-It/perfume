@@ -310,34 +310,34 @@ const Order = () => {
               #{orderDetail.id}
             </div>
           </div>
-          <div className="flex justify-between mt-3">
+          <div className="flex justify-between mt-3 gap-2">
             <div className="text-[16px] text-[#374151] font-medium">
               Date order:
             </div>
-            <div className="text-[#603813] text-[16px] font-semibold">
+            <div className="text-[#603813] text-[16px] font-semibold text-right">
               <span className="mr-2">
                 {dayjs(orderDetail?.updated_at).format("HH:mm")}
               </span>
               {dayjs(orderDetail?.updated_at).format("YYYY-MM-DD")}
             </div>
           </div>
-          <div className="flex justify-between mt-3">
+          <div className="flex justify-between mt-3 gap-2">
             <div className="text-[16px] text-[#374151] font-medium">Name:</div>
-            <div className="text-[#603813] text-[16px] font-semibold">
+            <div className="text-[#603813] text-[16px] font-semibold text-right">
               {orderDetail.first_name + " " + orderDetail.last_name}
             </div>
           </div>
-          <div className="flex justify-between mt-3">
+          <div className="flex justify-between mt-3 gap-2">
             <div className="text-[16px] text-[#374151] font-medium">
               Name of company (optional):
             </div>
-            <div className="text-[#603813] text-[16px] font-semibold">
+            <div className="text-[#603813] text-[16px] font-semibold text-right">
               {orderDetail.company_name}
             </div>
           </div>
-          <div className="flex justify-between mt-3">
+          <div className="flex justify-between mt-3 gap-2">
             <div className="text-[16px] text-[#374151] font-medium">Email:</div>
-            <div className="text-[#603813] text-[16px] font-semibold">
+            <div className="text-[#603813] text-[16px] font-semibold text-right">
               {orderDetail.email}
             </div>
           </div>
@@ -345,29 +345,29 @@ const Order = () => {
             <div className="text-[16px] text-[#374151] font-medium">
               Address:
             </div>
-            <div className="text-[#603813] text-[16px] font-semibold">
+            <div className="text-[#603813] text-[16px] font-semibold text-right">
               {orderDetail.address}
             </div>
           </div>
-          <div className="flex justify-between mt-3">
+          <div className="flex justify-between mt-3 gap-2">
             <div className="text-[16px] text-[#374151] font-medium">City:</div>
-            <div className="text-[#603813] text-[16px] font-semibold">
+            <div className="text-[#603813] text-[16px] font-semibold text-right">
               {orderDetail.city}
             </div>
           </div>
-          <div className="flex justify-between mt-3">
+          <div className="flex justify-between mt-3 gap-2">
             <div className="text-[16px] text-[#374151] font-medium">
               Code Post:
             </div>
-            <div className="text-[#603813] text-[16px] font-semibold">
+            <div className="text-[#603813] text-[16px] font-semibold text-right">
               {orderDetail.postal_code}
             </div>
           </div>
-          <div className="flex justify-between mt-3">
+          <div className="flex justify-between mt-3 gap-2">
             <div className="text-[16px] text-[#374151] font-medium">
               Phone Number:
             </div>
-            <div className="text-[#603813] text-[16px] font-semibold">
+            <div className="text-[#603813] text-[16px] font-semibold text-right">
               {orderDetail.phone_number}
             </div>
           </div>
