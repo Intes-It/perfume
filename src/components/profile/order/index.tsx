@@ -316,9 +316,9 @@ const Order = () => {
             </div>
             <div className="text-[#603813] text-[16px] font-semibold">
               <span className="mr-2">
-                {dayjs(orderDetail.created_at).format("HH:MM")}
+                {dayjs(orderDetail?.updated_at).format("HH:mm")}
               </span>
-              {dayjs(orderDetail.created_at).format("YYYY-MM-DD")}
+              {dayjs(orderDetail?.updated_at).format("YYYY-MM-DD")}
             </div>
           </div>
           <div className="flex justify-between mt-3">
@@ -341,7 +341,7 @@ const Order = () => {
               {orderDetail.email}
             </div>
           </div>
-          <div className="flex justify-between mt-3">
+          <div className="flex justify-between mt-3 gap-2">
             <div className="text-[16px] text-[#374151] font-medium">
               Address:
             </div>
@@ -408,7 +408,7 @@ const Order = () => {
               >
                 <div className="flex flex-row">
                   <Image
-                    src={item.image ? item.image : ""}
+                    src={item.image ? item.image : item.product.thumbnail.url}
                     alt="item"
                     width={"60px"}
                     height={"60px"}
