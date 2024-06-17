@@ -458,6 +458,14 @@ const Order = () => {
               $ {orderDetail?.total_price_items}
             </div>
           </div>
+          <div className="flex justify-between pb-4 ">
+            <div className="text-[16px] text-[#374151] font-medium">
+              Discount
+            </div>
+            <div className="text-[#603813] text-[16px] font-semibold">
+              $ {orderDetail.discount !== null ? orderDetail.discount : 0}
+            </div>
+          </div>
           <div className="flex justify-between mb-1">
             <div className="text-[16px] text-[#374151] font-medium">
               Shipping
@@ -470,17 +478,7 @@ const Order = () => {
             Not included in the price but need to include in the final invoice
             (payment)
           </div>
-          <div
-            className="flex justify-between pb-6 mb-4 "
-            style={{ borderBottom: "1px solid #E9E9E9" }}
-          >
-            <div className="text-[16px] text-[#374151] font-medium">
-              Discount
-            </div>
-            <div className="text-[#603813] text-[16px] font-semibold">
-              $ {orderDetail.discount !== null ? orderDetail.discount : 0}
-            </div>
-          </div>
+
           <div
             className="flex justify-between pb-6 mb-4 "
             style={{ borderBottom: "1px solid #E9E9E9" }}
