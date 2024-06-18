@@ -76,7 +76,7 @@ const Contact = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:w-[1200px] w-[80vw] my-[40px]  mobile:divide-x-0 mobile:divide-y mobile:space-y-8 ">
           <div className="">
-            <h3 className="text-[32px] text-[#603813] mobile:text-[24px] font-bold">
+            <h3 className="text-[32px] text-[#603813] mobile:text-[24px] font-medium">
               {text.contactScreen.resEnContact}
             </h3>
             <h5 className="py-2 text-[20px] mobile:text-[16px] text-[#383E42]">
@@ -118,45 +118,51 @@ const Contact = () => {
               className="flex flex-col space-y-5 mobile:ml-0 font-semibold mobile:mt-4 "
             >
               <div className="flex flex-col space-y-1">
-                <label>
+                <label className="font-semibold">
                   {text.contactScreen.nom}{" "}
-                  <span className="text-red-500 text-[20px] ">*</span>
+                  <span className="text-red-500 text-[20px] font-semibold ">
+                    *
+                  </span>
                 </label>
                 <input
                   required
                   type="nom"
                   id="nom"
-                  className="px-4 py-3 border border-gray-300 text-black bg-[#FAFAFA] focus:outline-none focus:border-[#1C64F2] focus:rounded focus:border-2 "
+                  className="px-4 py-3 border border-gray-300 text-black bg-[#FAFAFA] focus:outline-none focus:border-[#1C64F2] font-medium focus:rounded focus:border-2 "
                 />
               </div>
               <div className="flex flex-col space-y-1">
-                <label>
+                <label className="font-semibold">
                   {text.accountScreen.email}{" "}
-                  <span className="text-red-500 text-[20px] ">*</span>
+                  <span className="text-red-500 text-[20px] font-semibold ">
+                    *
+                  </span>
                 </label>
                 <input
                   required
                   type="mail"
                   id="mail"
-                  className="px-4 py-3 border border-gray-300 text-black bg-[#FAFAFA] focus:outline-none focus:border-[#1C64F2] focus:rounded focus:border-2 "
+                  className="px-4 py-3 border border-gray-300 text-black bg-[#FAFAFA] font-medium focus:outline-none focus:border-[#1C64F2] focus:rounded focus:border-2 "
                 />
               </div>
-              <div className="flex flex-col space-y-1">
-                <label>
+              <div className="flex flex-col space-y-1 ">
+                <label className="font-semibold">
                   {text.contactScreen.message}{" "}
-                  <span className="text-red-500 text-[20px] ">*</span>
+                  <span className="text-red-500 text-[20px] font-semibold ">
+                    *
+                  </span>
                 </label>
                 <textarea
                   placeholder={text.contactScreen.ecriveIci}
                   required
                   id="id"
-                  className="px-4 py-2 h-[150px] border border-gray-300 text-black bg-[#FAFAFA] focus:rounded outline-none"
+                  className="px-4 py-2 h-[150px] border font-medium border-gray-300 text-black bg-[#FAFAFA] focus:rounded outline-none"
                 />
               </div>
               <div>
                 <button
                   type="submit"
-                  className="w-[120px] px-4 py-3 text-[13px] text-[#26222F] font-semibold uppercase border border-black  rounded-md hover:bg-black hover:text-white"
+                  className="w-[120px] px-4 py-3 text-[13px] text-[#FFF] font-semibold uppercase border border-black  rounded-md bg-[#603813]"
                 >
                   {text.contactScreen.envoyer}
                 </button>

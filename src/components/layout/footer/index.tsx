@@ -2,8 +2,13 @@ import { TwitterIcon, FacebookIcon, InstagramIcon } from "@components/icons";
 import * as React from "react";
 import { FooterRoutes } from "@definitions/constants";
 import LogoSection from "../header/logo-section";
+import { useAllCategory } from "@hooks/useCategory";
 import useLocale from "@hooks/useLocale";
 const Footer = () => {
+  const { data } = useAllCategory();
+
+  const OurUniverse = data?.[0]?.id ? data?.slice(0, 4) : null;
+
   const text = useLocale();
   return (
     <div className="h-fit bg-[#eff7cf]">
@@ -31,7 +36,7 @@ const Footer = () => {
                     className="mx-10 text-base font-light tracking-wide mt-2 
                   transition duration-500 hover:scale-110
                   border-b-2 border-transparent hover:border-white"
-                    href={item?.route}
+                    href={`/product-categories/${index + 1}`}
                     key={index}
                   >
                     {item?.title}
@@ -40,6 +45,24 @@ const Footer = () => {
               </div>
             </div>
           ))}
+          <div className="text-center md:text-left">
+            <div className="mx-10 text-lg font-bold tracking-wide">
+              {"Notre Univers"}
+            </div>
+            <div className="grid">
+              {OurUniverse?.map((item: any, index: number) => (
+                <a
+                  className="mx-10 text-base font-light tracking-wide mt-2 
+                  transition duration-500 hover:scale-110
+                  border-b-2 border-transparent hover:border-white"
+                  href={`/product-categories/${item.id}`}
+                  key={index}
+                >
+                  {(item?.name as string)?.toUpperCase()}
+                </a>
+              ))}
+            </div>
+          </div>
           <div className="text-center md:text-left">
             <div className="text-lg font-bold tracking-wide">
               {text.homePageScreen.notreLocal}

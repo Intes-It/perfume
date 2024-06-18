@@ -229,11 +229,7 @@ export const OurUniverse = [
 export const FooterRoutes = [
   {
     categoryName: "Information",
-    items: [Routes.about, Routes.faq],
-  },
-  {
-    categoryName: "Notre Univers",
-    items: OurUniverse,
+    items: [Routes.about, Routes.faq, Routes.blog],
   },
 ] as const;
 
