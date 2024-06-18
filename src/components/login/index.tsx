@@ -28,7 +28,7 @@ const Login: React.FC<LoginProps> = ({ submit }) => {
             required
             type="text"
             id="id"
-            className="px-4 py-3 text-black border border-gray-300"
+            className="px-4 py-3 text-black border border-gray-300 font-medium"
           />
         </div>
         <div className="flex flex-col space-y-1">
@@ -49,7 +49,7 @@ const Login: React.FC<LoginProps> = ({ submit }) => {
               type={showPass ? "text" : "password"}
               required
               id="password"
-              className="px-4 py-3 text-black border border-gray-300"
+              className="px-4 py-3 text-black border border-gray-300 font-medium"
             />
           </div>
         </div>
