@@ -47,7 +47,7 @@ const Footer = () => {
           ))}
           <div className="text-center md:text-left">
             <div className="mx-10 text-lg font-bold tracking-wide">
-              {"Notre Univers"}
+              {"Categories"}
             </div>
             <div className="grid">
               {OurUniverse?.map((item: any, index: number) => (
