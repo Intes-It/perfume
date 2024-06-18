@@ -70,7 +70,7 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
             autoComplete="new-username"
             id="username"
             className={twMerge(
-              "px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
+              " font-medium px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
               errors.username && "border-[#ed2805]"
             )}
           />
@@ -90,7 +90,7 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
             autoComplete="off"
             autoCorrect="off"
             className={twMerge(
-              "px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
+              " font-medium px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
               errors.email && "border-[#ed2805]"
             )}
           />
@@ -119,7 +119,7 @@ const Register: React.FC<RegisterProps> = ({ submit, error }) => {
               autoComplete="new-password"
               id="new-password"
               className={twMerge(
-                "px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
+                "font-medium px-4 py-3 text-black border border-gray-300 focus:border-transparent focus:ring-2 ring-[#1C64F2]  outline-none",
                 errors.password && "border-[#ed2805]"
               )}
             />

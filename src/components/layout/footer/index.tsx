@@ -36,7 +36,7 @@ const Footer = () => {
                     className="mx-10 text-base font-light tracking-wide mt-2 
                   transition duration-500 hover:scale-110
                   border-b-2 border-transparent hover:border-white"
-                    href={`/product-categories/${index + 1}`}
+                    href={`${item.route}`}
                     key={index}
                   >
                     {item?.title}
