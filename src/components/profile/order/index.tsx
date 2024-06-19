@@ -442,7 +442,7 @@ const Order = () => {
                 <div className="flex flex-col">
                   <div className="text-[#603813] text-[16px] font-bold mb-1">
                     {"$ "}
-                    {item.total}
+                    {Number(item.total).toFixed(2)}
                   </div>
                 </div>
               </div>
@@ -455,7 +455,7 @@ const Order = () => {
               Sub-total
             </div>
             <div className="text-[#603813] text-[16px] font-semibold">
-              $ {orderDetail?.total_price_items}
+              $ {Number(orderDetail?.total_price_items).toFixed(2)}
             </div>
           </div>
           <div className="flex justify-between pb-4 ">
@@ -463,7 +463,10 @@ const Order = () => {
               Discount
             </div>
             <div className="text-[#603813] text-[16px] font-semibold">
-              $ {orderDetail.discount !== null ? orderDetail.discount : 0}
+              ${" "}
+              {orderDetail.discount !== null
+                ? Number(orderDetail?.discount).toFixed(2)
+                : "0.00"}
             </div>
           </div>
           <div className="flex justify-between mb-1">
@@ -471,7 +474,7 @@ const Order = () => {
               Shipping
             </div>
             <div className="text-[#603813] text-[16px] font-semibold">
-              $ {orderDetail.shipping_fee}
+              $ {Number(orderDetail?.shipping_fee).toFixed(2)}
             </div>
           </div>
           <div className="text-[12px] font-normal text-[#ABABAB] mb-6">
@@ -486,7 +489,7 @@ const Order = () => {
             <div className="text-[16px] text-[#374151] font-medium">VAT</div>
             <div className="text-[#603813] text-[16px] font-semibold">
               <span className="mr-3 font-semibold">(5%)</span>${" "}
-              {orderDetail?.tax_fee}
+              {Number(orderDetail?.tax_fee).toFixed(2)}
             </div>
           </div>
           <div className="flex justify-between mb-8">
@@ -500,7 +503,7 @@ const Order = () => {
                 />
               )}
               <div className="text-[#603813] text-[20px] font-bold">
-                $ {orderDetail?.total}
+                $ {Number(orderDetail?.total).toFixed(2)}
               </div>
             </div>
           </div>
