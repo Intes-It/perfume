@@ -10,13 +10,13 @@ import { useQuery } from "react-query";
 import { twMerge } from "tailwind-merge";
 const listTab = [
   { title: "All", value: "" },
-  { title: "New order", value: "&statuses=3" },
+  { title: "New order", value: "&statuses=3,4" },
   { title: "Delivering", value: "&statuses=7" },
   { title: "Completed", value: "&statuses=8" },
   { title: "Canceled", value: "&statuses=5" },
 ];
 const listStatus: { [key: string]: string } = {
-  "3": "New",
+  "3": "New order",
   "4": "Accepted",
   "5": "Canceled",
   "6": "In progress",
