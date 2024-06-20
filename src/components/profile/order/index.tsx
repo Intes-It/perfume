@@ -16,7 +16,7 @@ const listTab = [
   { title: "Canceled", value: "&statuses=5" },
 ];
 const listStatus: { [key: string]: string } = {
-  "3": "New",
+  "3": "New order",
   "4": "Accepted",
   "5": "Canceled",
   "6": "In progress",
