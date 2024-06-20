@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,11 +8,10 @@
   src: url("../../public/fonts/Trial_objektiv-1/ObjektivMk2_Trial_Lt.ttf");
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Manrope');
 
 html,
 body {
-  font-family: '__Manrope_da1155', '__Manrope_Fallback_da1155', sans-serif;
+  font-family: 'Manrope', sans-serif;
 }
 
 .top-badge {
