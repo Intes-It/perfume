@@ -81,7 +81,8 @@ export interface BlogProps {
 }
 export interface IListOrder {
   id: number;
-  updated_at: Date | string;
+  paid_at: Date | string;
+  created_at: Date | string;
   modified_time: Date | string;
   payment_id: string;
   status: number;
