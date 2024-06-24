@@ -63,9 +63,9 @@ const Checkout: React.FC = () => {
       const newCart = cart?.data?.results?.map((item: any) => {
         return {
           ...item,
-          capacity: item?.capacity?.id,
-          color: item?.color?.id,
-          package: item?.package?.id,
+          capacity_id: item?.capacity?.id,
+          color_id: item?.color?.id,
+          package_id: item?.package?.id,
         };
       });
 
