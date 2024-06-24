@@ -97,16 +97,18 @@ const Order = () => {
           {item.id}
         </th>
         <td className="px-7 py-4 font-normal text-[#374151]">
-          {dayjs(item.updated_at).format("YYYY-MM-DD")}
+          {dayjs(item.paid_at ? item.paid_at : item.created_at).format(
+            "YYYY-MM-DD"
+          )}
           {"    "}
           <span className="ml-2"></span>
-          {dayjs(item.updated_at).format("HH:mm")}
+          {dayjs(item.paid_at ? item.paid_at : item.created_at).format("HH:mm")}
         </td>
         <td className="pl-12 py-4 font-normal text-[#374151]  ">
           {item.quantity}
         </td>
         <td className="px-6 py-4 font-medium text-[#374151] ">
-          $ {item.total}
+          $ {Number(item.total).toFixed(2)}
         </td>
         <td
           className={twMerge(
@@ -316,9 +318,17 @@ const Order = () => {
             </div>
             <div className="text-[#603813] text-[16px] font-semibold text-right">
               <span className="mr-2">
-                {dayjs(orderDetail?.updated_at).format("HH:mm")}
+                {dayjs(
+                  orderDetail.paid_at
+                    ? orderDetail.paid_at
+                    : orderDetail.created_at
+                ).format("HH:mm")}
               </span>
-              {dayjs(orderDetail?.updated_at).format("YYYY-MM-DD")}
+              {dayjs(
+                orderDetail.paid_at
+                  ? orderDetail.paid_at
+                  : orderDetail.created_at
+              ).format("YYYY-MM-DD")}
             </div>
           </div>
           <div className="flex justify-between mt-3 gap-2">
@@ -419,23 +429,13 @@ const Order = () => {
                       <div>{"x" + item.quantity}</div>
                     </div>
                     <div className="text-[#ABABAB] text-[14px] font-medium">
-                      {item.item_product_color?.length > 0
-                        ? item.item_product_color[0]?.product_color?.name
-                        : ""}
-                      {item.item_product_color?.length > 0 &&
-                        item.item_product_capacity?.length > 0 &&
+                      {item.color !== null ? item.color?.name : ""}
+                      {item.color !== null && item.capacity !== null && ", "}
+                      {item.capacity !== null ? item.capacity?.name : ""}
+                      {((item.package !== null && item.capacity !== null) ||
+                        (item.color !== null && item.package !== null)) &&
                         ", "}
-                      {item.item_product_capacity?.length > 0
-                        ? item.item_product_capacity[0]?.product_capacity?.name
-                        : ""}
-                      {((item.item_product_package?.length > 0 &&
-                        item.item_product_capacity?.length > 0) ||
-                        (item.item_product_color?.length > 0 &&
-                          item.item_product_package?.length > 0)) &&
-                        ", "}
-                      {item.item_product_package?.length > 0
-                        ? item.item_product_package[0]?.product_package?.name
-                        : ""}
+                      {item.package !== null ? item.package?.name : ""}
                     </div>
                   </div>
                 </div>
