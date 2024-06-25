@@ -182,6 +182,7 @@ const ProductDetail: React.FC<
         if (res?.status === 201 || res?.status === 200) {
           dispatch(addProduct(res.data));
           dispatch(showToast({ message: "Add successfully!", error: false }));
+          dispatch(removeOptions());
           if (type === "CHECKOUT") router.push("/cart");
         } else {
           if (res?.data?.message === "Maximum amount is 999") {
