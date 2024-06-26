@@ -1,9 +1,9 @@
 import useUser from "@hooks/useUser";
-import axios from "axios";
 import { Form, Formik, useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { billingInfo } from "src/pages/checkout";
 import * as Yup from "yup";
+import defaultCountry from "../../utils/country.json";
 
 type BillingInfomationProps = {
   handleOpenPaypal: (data: billingInfo) => void;
@@ -12,7 +12,6 @@ type BillingInfomationProps = {
 const BillingInfomation: React.FC<BillingInfomationProps> = ({
   handleOpenPaypal,
 }) => {
-  // const { isAuthenticated } = useUser();
   const formSchema = Yup.object().shape({
     first_name: Yup.string().trim().required("First Name is required."),
     last_name: Yup.string().trim().required("Last Name is required."),
@@ -61,6 +60,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
   });
 
   const { errors } = formik;
+
   const handleKeyDownPhone = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     if (
@@ -88,34 +88,6 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
       e.preventDefault();
     }
   };
-
-  const [countries, setCountries] = useState<any[]>([]);
-  const defaultCountry = [
-    { value: "France" },
-    { value: "Viet Nam" },
-    { value: "United Kingdom" },
-    { value: "Dubai" },
-  ];
-  const getCountries = async () => {
-    const url = "https://countriesnow.space/api/v0.1/countries";
-
-    try {
-      const res = await axios.get(url);
-
-      if (res.status === 200) {
-        setCountries(res?.data?.data);
-      } else {
-        setCountries(defaultCountry);
-      }
-    } catch (error) {
-      console.log("error :>> ", error);
-    }
-  };
-  useEffect(() => {
-    getCountries();
-  }, []);
-
-  console.log("formik :>> ", formik.values);
 
   return (
     <div className="">
@@ -201,7 +173,7 @@ const BillingInfomation: React.FC<BillingInfomationProps> = ({
                   value={formik.values.country}
                 >
                   <option hidden></option>
-                  {countries.map((c, index: number) => (
+                  {defaultCountry.data.map((c: any, index: number) => (
                     <option key={index} value={c.country}>
                       {c.country}
                     </option>

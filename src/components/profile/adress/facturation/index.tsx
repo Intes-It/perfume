@@ -3,12 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useLocale from "@hooks/useLocale";
 import { showToast } from "@redux/slices/toast/toastSlice";
 import { PATCH } from "@utils/fetch";
-import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { twMerge } from "tailwind-merge";
 import * as Yup from "yup";
+import countries from "../../../../utils/country.json";
 type FacturationProps = {
   onBack: () => void;
   user: any;
@@ -20,7 +20,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack, user }) => {
     message: "",
     color: "",
   });
-  const [countries, setCountries] = useState<any[]>([]);
+
   const { error, message, color } = state;
   const dispatch = useDispatch();
   const formik = useFormik({
@@ -110,19 +110,8 @@ const Facturation: React.FC<FacturationProps> = ({ onBack, user }) => {
       e.preventDefault();
     }
   };
-  const getCountries = async () => {
-    const url = "https://countriesnow.space/api/v0.1/countries";
-    let result: any;
-    try {
-      result = await axios.get(url);
-      setCountries(result?.data?.data);
-    } catch (error) {
-      result = error;
-    }
-  };
 
   useEffect(() => {
-    getCountries();
     formik.resetForm({ values: user });
   }, [user]);
 
@@ -254,7 +243,7 @@ const Facturation: React.FC<FacturationProps> = ({ onBack, user }) => {
                 )}
               >
                 {countries &&
-                  countries?.map((item: any, index: number) => (
+                  countries.data?.map((item: any, index: number) => (
                     <option key={index} value={item?.country}>
                       {item?.country}
                     </option>
