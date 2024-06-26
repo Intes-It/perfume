@@ -59,6 +59,7 @@ const SearchPopover = (
 
   useEffect(() => {
     if (inputRef.current?.value) inputRef.current.value = "";
+    if (product) setProduct([]);
     if (isOpen) setIsOpen(false);
   }, [router.asPath]);
 
