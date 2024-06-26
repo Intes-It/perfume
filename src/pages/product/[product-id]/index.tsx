@@ -100,7 +100,7 @@ const ProductDetail: React.FC<
     {
       id: "tab-descriptions-tab",
       header: "Description",
-      content: Parser(product?.note?.description || ""),
+      content: Parser(product?.description || ""),
     },
     {
       id: "tab-features-tab",
