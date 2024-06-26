@@ -1,7 +1,6 @@
 import { BestSales } from "@components/best-sales";
 import { Container } from "@components/container";
 import Rating from "@components/rating/rating";
-import { formatCurrency } from "@utils/formatNumber";
 import Parser from "html-react-parser";
 import NextLink from "next/link";
 import React, { KeyboardEvent, useEffect, useMemo, useState } from "react";
@@ -280,7 +279,7 @@ const ProductDetail: React.FC<
             <span>{`( 0 avis client)`}</span>
           </div>
           <span className="mb-4 text-[#383e42] text-[24px] font-semibold">
-            {formatCurrency(sumChoice.toString())} ${" "}
+            {Number(sumChoice).toFixed(2)} ${" "}
           </span>
 
           {/* color */}

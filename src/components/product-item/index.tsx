@@ -4,7 +4,6 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { addProduct } from "@redux/actions";
 import { Product } from "@types";
-import { formatCurrency } from "@utils/formatNumber";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -159,9 +158,7 @@ const ProductItem: React.FC<ProductProps> = ({
       <h5 className="text-[#603813] text-center">{product?.name}</h5>
       <div className="flex flex-col items-center mt-5 space-y-2">
         <Rating score={product?.rating || 0} />
-        <p className="font-semibold">
-          {formatCurrency(String(product?.price))}$
-        </p>
+        <p className="font-semibold">{Number(product?.price).toFixed(2)}$</p>
         <div>
           {showButton && (
             <button

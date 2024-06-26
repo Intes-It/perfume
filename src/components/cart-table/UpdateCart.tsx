@@ -6,7 +6,6 @@ import { showToast } from "@redux/slices/toast/toastSlice";
 import { ExProduct } from "@types";
 import { api } from "@utils/apiRoute";
 import { PUT } from "@utils/fetch";
-import { formatCurrency } from "@utils/formatNumber";
 import { AxiosResponse } from "axios";
 import _ from "lodash";
 import Image from "next/image";
@@ -197,7 +196,7 @@ function UpdateCart({ isOpen, setIsOpen, order, refresh }: UpdateProductProps) {
                       <span>( 0 review )</span>
                     </div>
                     <div className="text-xl font-semibold">
-                      {formatCurrency(sumChoice.toString())} ${" "}
+                      {Number(sumChoice).toFixed(2)} ${" "}
                     </div>
                     <div className="py-4">
                       {_.isEmpty(product?.color) ? null : (
