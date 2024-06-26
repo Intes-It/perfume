@@ -100,22 +100,22 @@ const ProductDetail: React.FC<
     {
       id: "tab-descriptions-tab",
       header: "Description",
-      content: Parser(product?.note?.Description || ""),
+      content: Parser(product?.note?.description || ""),
     },
     {
       id: "tab-features-tab",
-      header: "Features",
-      content: Parser(product?.note?.Caractéristiques || ""),
+      header: "Characteristics",
+      content: Parser(product?.characteristics || ""),
     },
     {
       id: "tab-utilisation-tab",
       header: "Use",
-      content: Parser(product?.note?.Utilisation || ""),
+      content: Parser(product?.use || ""),
     },
     {
       id: "tab-composition-tab",
       header: "Composition",
-      content: Parser(product?.note?.Composition || ""),
+      content: Parser(product?.composition || ""),
     },
   ];
   const setShowModal = (isOpen: boolean) => {
