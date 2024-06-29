@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import { useSelector } from "react-redux";
 
+import useCart from "@hooks/useCart";
 import { ExProduct } from "@types";
 import Link from "next/link";
 //
@@ -10,6 +11,9 @@ const CartPopover: React.FC = () => {
   const products = useSelector(
     (state: any) => state?.cart?.products
   ) as ExProduct[];
+
+  //eslint-disable-next-line
+  const {} = useCart();
 
   const totalProducts = products?.reduce(
     (pre, curr) => pre + +curr.quantity,
