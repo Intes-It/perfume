@@ -289,9 +289,11 @@ const CartTable = () => {
                   </td>
                   <td className="px-2 py-3">
                     ${" "}
-                    {priceVoucher?.tax_fee || priceVoucher?.tax_fee === 0
-                      ? priceVoucher?.tax_fee
-                      : cart?.data?.tax_fee}
+                    {Number(
+                      priceVoucher?.tax_fee || priceVoucher?.tax_fee === 0
+                        ? priceVoucher?.tax_fee
+                        : cart?.data?.tax_fee
+                    ).toFixed(2)}
                   </td>
                 </tr>
                 <tr className="border-b border-[#BFBFBF] ">
