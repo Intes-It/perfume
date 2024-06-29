@@ -45,12 +45,7 @@ const CartTable = () => {
 
   const handleAddVoucher = async () => {
     if (!voucher) {
-      setPriceVoucher(null);
       return;
-    }
-
-    if (priceVoucher) {
-      setPriceVoucher(null);
     }
 
     try {
@@ -71,6 +66,9 @@ const CartTable = () => {
         dispatch(showToast({ message: "Voucher invalid!", error: true }));
       }
     } catch (error) {
+      if (priceVoucher) {
+        setPriceVoucher(null);
+      }
       console.log("error :>> ", error);
     }
   };
