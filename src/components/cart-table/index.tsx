@@ -17,6 +17,7 @@ type VoucherType = {
   discount: number;
   price: number;
   tax_fee: string | number;
+  total_price_cart: string | number;
 };
 
 const CartTable = () => {
@@ -297,7 +298,7 @@ const CartTable = () => {
                   <td className="px-2 py-3 font-bold">Total</td>
                   <td className="px-2 py-3">
                     {`$ ${Number(
-                      priceVoucher?.price || +cart?.data?.total_price
+                      priceVoucher?.total_price_cart || +cart?.data?.total_price
                     ).toFixed(2)}`}
                   </td>
                 </tr>
